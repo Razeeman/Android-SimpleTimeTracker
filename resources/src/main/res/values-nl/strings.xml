@@ -439,8 +439,13 @@ Om dit gedrag mogelijk te maken, moeten deze toepassingen het verzenden van \"in
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen over gestarte of gestopte activiteit naar applicaties van derden voor automatische tracking.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Query\'s beantwoorden</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Als de instelling <b>\"%s\"</b> is ingeschakeld, reageert de app met gegevens op query-broadcasts die door apps van derden worden verzonden voor geautomatiseerde tracking.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Beschikbare acties:</string>
     <string name="settings_automated_tracking_available_events">Beschikbare evenementen:</string>
+    <string name="settings_automated_tracking_available_queries">Beschikbare query\'s:</string>
     <string name="settings_automated_tracking_extras_description">Beschrijving:</string>
     <string name="settings_automated_tracking_extra_name">met de naam van de activiteit die moet worden gestart of gestopt.</string>
     <string name="settings_automated_tracking_extra_tag">met de naam van een recordtag. Of een lijst met tagnamen, gescheiden door een komma.</string>
@@ -450,6 +455,12 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, stuurt de app gebeurtenissen ov
     <string name="settings_automated_tracking_find_with_activity">selecteert bovendien records op basis van de activiteitsnaam, als er meerdere huidige of laatste records zijn.</string>
     <string name="settings_automated_tracking_goal_type">Doeltype.</string>
     <string name="settings_automated_tracking_goal_value">Doelwaarde, duur in seconden of aantal records.</string>
+    <string name="settings_automated_tracking_extra_answer_type">selecteert de indeling van de antwoordgegevens die samen met de antwoordactie worden verzonden.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+antwoordgegevens.<br/>
+Als de waarde \"simple\" is: een door komma\'s gescheiden lijst met \"name:value\"-paren, bijvoorbeeld \"work:ff00ff,reading:aabbcc\" (activiteitsnaam en kleur) voor activiteiten, of \"work:1772789225,reading:1772789225\" (activiteitsnaam en starttijd als UTC-tijdstempel in seconden) voor actieve activiteiten. Activiteitsnamen zijn procentgecodeerd.<br/>
+Als de waarde \"json\" is: een json-gecodeerde lijst met aanvullende gegevens, dezelfde als voor communicatie met de Wear OS-app wordt gebruikt.
+    ]]></string>
 
     <string name="settings_save_backup">Back-up opslaan</string>
     <string name="settings_save_description">Zorg ervoor dat je de nieuwste versie van de app hebt geïnstalleerd voordat je opslaat om conflicten te voorkomen.</string>

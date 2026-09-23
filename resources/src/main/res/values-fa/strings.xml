@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 اگر تنظیم <b>\"%s\"</b> فعال باشد، برنامه رویدادهای مربوط به فعالیت شروع شده یا متوقف شده را برای ردیابی خودکار به برنامه های شخص ثالث ارسال می کند.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">پاسخ به پرس‌وجوها</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+اگر تنظیم <b>\"%s\"</b> فعال باشد، برنامه با داده‌ها به پخش‌های پرس‌وجوی ارسال‌شده توسط برنامه‌های شخص ثالث برای ردیابی خودکار پاسخ می‌دهد.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">اقدامات موجود:</string>
     <string name="settings_automated_tracking_available_events">رویدادهای موجود:</string>
+    <string name="settings_automated_tracking_available_queries">پرس‌وجوهای موجود:</string>
     <string name="settings_automated_tracking_extras_description">توضیحات:</string>
     <string name="settings_automated_tracking_extra_name">با نام فعالیتی که باید شروع یا متوقف شود.</string>
     <string name="settings_automated_tracking_extra_tag">با نام یک برچسب رکورد. یا لیستی از نام برچسب ها که با کاما از هم جدا شده اند.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">علاوه بر این، رکورد را با نام فعالیت انتخاب می کند، اگر چندین رکورد فعلی یا آخرین وجود داشته باشد.</string>
     <string name="settings_automated_tracking_goal_type">نوع هدف.</string>
     <string name="settings_automated_tracking_goal_value">مقدار هدف، مدت زمان به ثانیه یا تعداد رکوردها.</string>
+    <string name="settings_automated_tracking_extra_answer_type">قالب داده‌های پاسخ ارسال‌شده همراه با کنش پاسخ را انتخاب می‌کند.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+داده‌های پاسخ.<br/>
+اگر \"simple\" باشد، فهرستی جداشده با ویرگول از جفت‌های \"name:value\"، برای نمونه \"work:ff00ff,reading:aabbcc\" (نام و رنگ فعالیت) برای فعالیت‌ها، یا \"work:1772789225,reading:1772789225\" (نام فعالیت و زمان شروع به‌صورت برچسب زمانی UTC بر حسب ثانیه) برای فعالیت‌های در حال اجرا. نام فعالیت‌ها با درصد کدگذاری می‌شوند.<br/>
+اگر \"json\" باشد، فهرستی کدگذاری‌شده با json همراه با داده‌های اضافی، همانند فهرست مورد استفاده در ارتباط با برنامه Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">ذخیره نسخه پشتیبان</string>
     <string name="settings_save_description">قبل از ذخیره کردن، از اینکه آخرین نسخه برنامه را نصب کرده اید مطمئن شوید تا از ناسازگاری جلوگیری شود.</string>

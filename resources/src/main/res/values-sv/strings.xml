@@ -439,8 +439,13 @@ För att aktivera detta beteende behöver tredjepartsapplikationen stödja \"int
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelser vid påbörjad eller stoppad aktivitet till tredjepartsprogram för automatisk spårning.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Besvara frågor</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Om inställningen <b>\"%s\"</b> är aktiverad svarar appen med data på frågesändningar som skickas av tredjepartsappar för automatisk spårning.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Tillgängliga åtgärder:</string>
     <string name="settings_automated_tracking_available_events">Tillgängliga evenemang:</string>
+    <string name="settings_automated_tracking_available_queries">Tillgängliga frågor:</string>
     <string name="settings_automated_tracking_extras_description">Beskrivning:</string>
     <string name="settings_automated_tracking_extra_name">med namnet på aktiviteten som ska startas eller stoppas.</string>
     <string name="settings_automated_tracking_extra_tag">med namnet på en händelsetagg. Eller lista över taggnamn separerade med kommatecken.</string>
@@ -450,6 +455,12 @@ Om inställningen <b>\"%s\"</b> är aktiverad, kommer appen att skicka händelse
     <string name="settings_automated_tracking_find_with_activity">väljer dessutom post efter aktivitetsnamn, om det finns flera aktuella eller senaste poster.</string>
     <string name="settings_automated_tracking_goal_type">Typ av mål.</string>
     <string name="settings_automated_tracking_goal_value">Målvärde, varaktighet i sekunder eller antal poster.</string>
+    <string name="settings_automated_tracking_extra_answer_type">väljer formatet för svarsdata som skickas tillsammans med svarsåtgärden.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+svarsdata.<br/>
+Om värdet är \"simple\": en kommaseparerad lista med \"name:value\"-par, till exempel \"work:ff00ff,reading:aabbcc\" (aktivitetsnamn och färg) för aktiviteter, eller \"work:1772789225,reading:1772789225\" (aktivitetsnamn och starttid som UTC-tidsstämpel i sekunder) för pågående aktiviteter. Aktivitetsnamn är procentkodade.<br/>
+Om värdet är \"json\": en json-kodad lista med ytterligare data, samma som används i kommunikationen med Wear OS-appen.
+    ]]></string>
 
     <string name="settings_save_backup">Spara säkerhetskopia</string>
     <string name="settings_save_description">Innan du sparar, se till att du har den senaste versionen av appen för att förhindra datakonflikter.</string>

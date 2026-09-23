@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 <b>\"%s\"</b> 設定が有効になっている場合、アプリはアクティビティの開始または停止に関するイベントをサードパーティのアプリケーションに送信し、自動追跡を行います。<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">クエリに応答</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+<b>\"%s\"</b> 設定を有効にすると、自動追跡のためにサードパーティ製アプリから送信されたクエリブロードキャストにデータで応答します。<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">利用可能なアクション:</string>
     <string name="settings_automated_tracking_available_events">利用可能なイベント:</string>
+    <string name="settings_automated_tracking_available_queries">利用可能なクエリ:</string>
     <string name="settings_automated_tracking_extras_description">説明：</string>
     <string name="settings_automated_tracking_extra_name">を開始または停止する必要があるアクティビティ名で指定します。</string>
     <string name="settings_automated_tracking_extra_tag">にレコード タグの名前を付けます。または、カンマで区切られたタグ名のリスト。</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">現在のレコードまたは最後のレコードが複数ある場合は、アクティビティ名でレコードをさらに選択します。</string>
     <string name="settings_automated_tracking_goal_type">目標の種類。</string>
     <string name="settings_automated_tracking_goal_value">目標値（秒単位の時間または記録数）。</string>
+    <string name="settings_automated_tracking_extra_answer_type">応答アクションとともに送信される応答データの形式を選択します。</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+応答データ。<br/>
+\"simple\" の場合、\"name:value\" ペアのカンマ区切りリストです。たとえば、アクティビティでは \"work:ff00ff,reading:aabbcc\"（アクティビティ名と色）、実行中のアクティビティでは \"work:1772789225,reading:1772789225\"（アクティビティ名と開始時刻を秒単位の UTC タイムスタンプで表したもの）です。アクティビティ名はパーセントエンコードされます。<br/>
+\"json\" の場合、追加データを含む json エンコードされたリストで、Wear OS アプリとの通信で使用されるものと同じです。
+    ]]></string>
 
     <string name="settings_save_backup">バックアップの保存</string>
     <string name="settings_save_description">保存する前に競合を避けるため、最新バージョンのアプリがインストールされていることを確認してください。</string>

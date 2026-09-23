@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Если параметр <b>\"%s\"</b> включен, приложение будет отправлять события о начале или остановке активности сторонним приложениям для автоматического отслеживания.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Отвечать на запросы</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Если параметр <b>\"%s\"</b> включен, приложение будет отвечать данными на широковещательные запросы, отправленные сторонними приложениями для автоматического отслеживания.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Доступные действия:</string>
     <string name="settings_automated_tracking_available_events">Доступные события:</string>
+    <string name="settings_automated_tracking_available_queries">Доступные запросы:</string>
     <string name="settings_automated_tracking_extras_description">Описание:</string>
     <string name="settings_automated_tracking_extra_name">с именем действия, которое следует запустить или остановить.</string>
     <string name="settings_automated_tracking_extra_tag">с названием тега записи. Или список названий тегов, разделенных запятой.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">дополнительно выбирает запись по названию действия, если есть несколько текущих или последних записей.</string>
     <string name="settings_automated_tracking_goal_type">Тип цели.</string>
     <string name="settings_automated_tracking_goal_value">Значение цели, продолжительность в секундах или количество записей.</string>
+    <string name="settings_automated_tracking_extra_answer_type">выбирает формат данных ответа, отправляемых вместе с действием ответа.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+данные ответа.<br/>
+Если указано \"simple\", это разделённый запятыми список пар \"name:value\", например \"work:ff00ff,reading:aabbcc\" (название и цвет действия) для действий или \"work:1772789225,reading:1772789225\" (название действия и время начала в виде метки времени UTC в секундах) для выполняемых действий. Названия действий кодируются с помощью процентного кодирования.<br/>
+Если указано \"json\", это закодированный в json список с дополнительными данными, такой же, как используемый для связи с приложением Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Сохранить резервную копию</string>
     <string name="settings_save_description">Перед сохранением убедитесь, что у вас установлена последняя версия приложения, чтобы избежать конфликтов.</string>

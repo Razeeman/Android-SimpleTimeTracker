@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 <b>\"%s\"</b> அமைப்பு இயக்கப்பட்டால், தானியங்கி கண்காணிப்புக்காக செயல்பாடு தொடங்கியது அல்லது நிறுத்தப்பட்டது குறித்த நிகழ்வுகளை செயலி மூன்றாம் தரப்பு செயலிகளுக்கு அனுப்பும்.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">வினவல்களுக்குப் பதிலளி</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+<b>\"%s\"</b> அமைப்பு இயக்கப்பட்டிருந்தால், தானியங்கு கண்காணிப்பிற்காக மூன்றாம் தரப்புப் பயன்பாடுகள் அனுப்பும் வினவல் ஒலிபரப்புகளுக்குப் பயன்பாடு தரவுடன் பதிலளிக்கும்.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">கிடைக்கும் செயல்கள்:</string>
     <string name="settings_automated_tracking_available_events">கிடைக்கும் நிகழ்வுகள்:</string>
+    <string name="settings_automated_tracking_available_queries">கிடைக்கும் வினவல்கள்:</string>
     <string name="settings_automated_tracking_extras_description">விளக்கம்:</string>
     <string name="settings_automated_tracking_extra_name">தொடங்கப்பட வேண்டிய அல்லது நிறுத்தப்பட வேண்டிய செயல்பாட்டின் பெயருடன்.</string>
     <string name="settings_automated_tracking_extra_tag">ஒரு பதிவுக் குறிச்சொல்லின் பெயருடன். அல்லது கமாவால் பிரிக்கப்பட்ட குறிச்சொல் பெயர்களின் பட்டியல்.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">பல தற்போதைய அல்லது கடைசிப் பதிவுகள் இருந்தால், செயல்பாட்டுப் பெயரால் பதிவைக் கூடுதலாகத் தேர்ந்தெடுக்கிறது.</string>
     <string name="settings_automated_tracking_goal_type">இலக்கின் வகை.</string>
     <string name="settings_automated_tracking_goal_value">இலக்கு மதிப்பு, வினாடிகளில் கால அளவு அல்லது பதிவுகளின் எண்ணிக்கை.</string>
+    <string name="settings_automated_tracking_extra_answer_type">பதில் செயலுடன் அனுப்பப்படும் பதில் தரவின் வடிவமைப்பைத் தேர்ந்தெடுக்கிறது.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+பதில் தரவு.<br/>
+\"simple\" எனில், காற்புள்ளியால் பிரிக்கப்பட்ட \"name:value\" இணைகளின் பட்டியல்; எடுத்துக்காட்டாக, செயல்பாடுகளுக்கு \"work:ff00ff,reading:aabbcc\" (செயல்பாட்டின் பெயரும் நிறமும்), அல்லது இயங்கும் செயல்பாடுகளுக்கு \"work:1772789225,reading:1772789225\" (செயல்பாட்டின் பெயரும் தொடக்க நேரமும் வினாடிகளில் UTC நேர முத்திரையாக). செயல்பாட்டுப் பெயர்கள் சதவீதக் குறியாக்கம் செய்யப்பட்டவை.<br/>
+\"json\" எனில், கூடுதல் தரவுடன் json குறியாக்கம் செய்யப்பட்ட பட்டியல்; Wear OS பயன்பாட்டுத் தொடர்பில் பயன்படுத்தப்படுவதும் இதுவே.
+    ]]></string>
 
     <string name="settings_save_backup">காப்புப்பிரதியைச் சேமி</string>
     <string name="settings_save_description">முரண்பாடுகளைத் தவிர்க்க, சேமிப்பதற்கு முன், செயலியின் சமீபத்திய பதிப்பை நிறுவியுள்ளீர்கள் என்பதை உறுதிசெய்யுங்கள்.</string>

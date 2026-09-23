@@ -439,8 +439,13 @@ Pour fonctionner, ces applications doivent être en mesure d\'envoyer des messag
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker enverra automatiquement des événements au démarrage ou à l\'arrêt d\'une activité à des applications tierces.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Répondre aux requêtes</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Si le paramètre <b>\"%s\"</b> est activé, l\'application répondra avec des données aux diffusions de requêtes envoyées par des applications tierces pour le suivi automatisé.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Actions disponibles</string>
     <string name="settings_automated_tracking_available_events">Événements disponibles</string>
+    <string name="settings_automated_tracking_available_queries">Requêtes disponibles</string>
     <string name="settings_automated_tracking_extras_description">Description</string>
     <string name="settings_automated_tracking_extra_name">le nom de l\'activité à démarrer ou arrêter.</string>
     <string name="settings_automated_tracking_extra_tag">le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\'étiquettes séparés par des virgules.</string>
@@ -450,6 +455,12 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application SimpleTimeTracker env
     <string name="settings_automated_tracking_find_with_activity">précise l\'enregistrement par nom d\'activité, s\'il existe plusieurs enregistrements.</string>
     <string name="settings_automated_tracking_goal_type">Type d\'objectif.</string>
     <string name="settings_automated_tracking_goal_value">Valeur de l\'objectif, durée en secondes ou nombre d\'enregistrements.</string>
+    <string name="settings_automated_tracking_extra_answer_type">sélectionne le format des données de réponse envoyées avec l’action de réponse.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+données de réponse.<br/>
+Si la valeur est \"simple\", une liste de paires \"name:value\" séparées par des virgules, par exemple \"work:ff00ff,reading:aabbcc\" (nom et couleur de l’activité) pour les activités, ou \"work:1772789225,reading:1772789225\" (nom de l’activité et heure de début sous forme d’horodatage UTC en secondes) pour les activités en cours. Les noms d’activités sont encodés en pourcentage.<br/>
+Si la valeur est \"json\", une liste encodée en json avec des données supplémentaires, identique à celle utilisée pour la communication avec l’application Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Effectuer une sauvegarde</string>
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>

@@ -441,12 +441,11 @@ If <b>\"%s\"</b> setting is enabled, app will send events on activity started or
     ]]></string>
     <string name="settings_automated_tracking_receive_queries">Answer queries</string>
     <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
-If <b>\"%s\"</b> setting is enabled, app will respond with the list of activities or the list of currently running activities to query broadcasts sent by third-party applications for automated tracking.<br/>
+If <b>\"%s\"</b> setting is enabled, app will respond with data to query broadcasts sent by third-party applications for automated tracking.<br/>
     ]]></string>
     <string name="settings_automated_tracking_available_actions">Available actions:</string>
     <string name="settings_automated_tracking_available_events">Available events:</string>
     <string name="settings_automated_tracking_available_queries">Available queries:</string>
-    <string name="settings_automated_tracking_available_query_responses">Available query responses:</string>
     <string name="settings_automated_tracking_extras_description">Description:</string>
     <string name="settings_automated_tracking_extra_name">with activity name that should be started or stopped.</string>
     <string name="settings_automated_tracking_extra_tag">with the name of a record tag. Or list of tag names separated by comma.</string>
@@ -456,10 +455,10 @@ If <b>\"%s\"</b> setting is enabled, app will respond with the list of activitie
     <string name="settings_automated_tracking_find_with_activity">additionally selects record by activity name, if there are several current or last records.</string>
     <string name="settings_automated_tracking_goal_type">type of goal.</string>
     <string name="settings_automated_tracking_goal_value">goal value, duration in seconds or number of records.</string>
-    <string name="settings_automated_tracking_extra_answer_type">selects the format of the response data, sent along with the response action. If not present, \"simple\" is used.</string>
+    <string name="settings_automated_tracking_extra_answer_type">selects the format of the response data, sent along with the response action.</string>
     <string name="settings_automated_tracking_extra_data"><![CDATA[
 response data.<br/>
-If \"simple\" - comma separated list of \"name:value\" pairs, for example \"work:ff00ff,reading:aabbcc\" (activity name and color) for activities, or \"work:1772789225,reading:1772789225\" (activity name and start time UTC timestamp in seconds) for running activities.<br/>
+If \"simple\" - comma separated list of \"name:value\" pairs, for example \"work:ff00ff,reading:aabbcc\" (activity name and color) for activities, or \"work:1772789225,reading:1772789225\" (activity name and start time UTC timestamp in seconds) for running activities. Activity names are percent-encoded.<br/>
 If \"json\" - a json encoded list with additional data, same as used in the Wear OS app communication.
     ]]></string>
 

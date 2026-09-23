@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_notification.external
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_ACTIVITIES
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RUNNING
 import com.example.util.simpletimetracker.core.utils.EXTRA_DATA
@@ -50,7 +51,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
             }
             ExternalAnswerType.SIMPLE -> {
                 types.joinToString(separator = ",") { type ->
-                    "${type.name}:${mapColorHex(type)}"
+                    "${encodeSimpleName(type.name)}:${mapColorHex(type)}"
                 }
             }
         }
@@ -75,7 +76,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
                 runningRecords
                     .mapNotNull { record ->
                         val name = typeNames[record.id] ?: return@mapNotNull null
-                        "$name:${record.timeStarted / 1000}"
+                        "${encodeSimpleName(name)}:${record.timeStarted / 1000}"
                     }
                     .joinToString(separator = ",")
             }
@@ -121,6 +122,11 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
     private fun mapColorHex(recordType: RecordType): String {
         val colorInt = appColorMapper.mapToColorInt(recordType.color)
         return String.format("%06x", colorInt and 0xFFFFFF)
+    }
+
+    private fun encodeSimpleName(name: String): String {
+        // Names are URI-encoded so commas and colons don't conflict with the simple format delimiters.
+        return Uri.encode(name)
     }
 
     private fun sendResponse(action: String, data: String) {

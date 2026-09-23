@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 <b>\"%s\"</b> 설정이 활성화된 경우, 앱은 활동이 시작되거나 중지될 때 이벤트를 타사 애플리케이션으로 전송하여 자동 추적을 수행합니다.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">쿼리에 응답</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+<b>\"%s\"</b> 설정이 활성화되면 앱이 자동 추적을 위해 타사 앱에서 보낸 쿼리 브로드캐스트에 데이터로 응답합니다.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">사용 가능한 작업:</string>
     <string name="settings_automated_tracking_available_events">사용 가능한 이벤트:</string>
+    <string name="settings_automated_tracking_available_queries">사용 가능한 쿼리:</string>
     <string name="settings_automated_tracking_extras_description">설명:</string>
     <string name="settings_automated_tracking_extra_name">시작 또는 정지할 앱의 이름.</string>
     <string name="settings_automated_tracking_extra_tag">기록 태그. 또는 쉼표로 구분된 태그 이름 목록입니다.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">현재 또는 마지막 레코드가 여러 개 있는 경우, 활동 이름으로 레코드를 추가로 선택합니다.</string>
     <string name="settings_automated_tracking_goal_type">목표 유형.</string>
     <string name="settings_automated_tracking_goal_value">목표 값, 초 단위 시간 또는 기록 수.</string>
+    <string name="settings_automated_tracking_extra_answer_type">응답 작업과 함께 전송되는 응답 데이터의 형식을 선택합니다.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+응답 데이터.<br/>
+\"simple\"인 경우 쉼표로 구분된 \"name:value\" 쌍의 목록입니다. 예를 들어 활동에는 \"work:ff00ff,reading:aabbcc\"(활동 이름 및 색상), 실행 중인 활동에는 \"work:1772789225,reading:1772789225\"(활동 이름 및 시작 시간을 초 단위 UTC 타임스탬프로 표시)을 사용합니다. 활동 이름은 퍼센트 인코딩됩니다.<br/>
+\"json\"인 경우 추가 데이터가 포함된 json 인코딩 목록이며 Wear OS 앱 통신에 사용되는 것과 같습니다.
+    ]]></string>
 
     <string name="settings_save_backup">백업 저장</string>
     <string name="settings_save_description">저장 전, 충돌을 방지하기 위해 앱이 최신 버전인지 확인하세요.</string>

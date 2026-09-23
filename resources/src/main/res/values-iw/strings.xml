@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 אם ההגדרה <b>\"%s\"</b> מופעלת, האפליקציה תשלח אירועים על פעילות שהתחילה או הופסקה ליישומי צד שלישי למעקב אוטומטי.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">מענה לשאילתות</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+אם ההגדרה <b>\"%s\"</b> מופעלת, האפליקציה תגיב עם נתונים לשידורי שאילתות שנשלחו על ידי אפליקציות צד שלישי לצורך מעקב אוטומטי.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">פעולות זמינות:</string>
     <string name="settings_automated_tracking_available_events">אירועים זמינים:</string>
+    <string name="settings_automated_tracking_available_queries">שאילתות זמינות:</string>
     <string name="settings_automated_tracking_extras_description">תֵאוּר:</string>
     <string name="settings_automated_tracking_extra_name">עם שם פעילות שיש להתחיל או לעצור.</string>
     <string name="settings_automated_tracking_extra_tag">עם השם של תג רשומה. או רשימה של שמות תגים מופרדים בפסיק.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">בוחר בנוסף רשומה לפי שם פעילות, אם יש כמה רשומות נוכחיות או אחרונות.</string>
     <string name="settings_automated_tracking_goal_type">סוג יעד.</string>
     <string name="settings_automated_tracking_goal_value">ערך היעד, משך בשניות או מספר רשומות.</string>
+    <string name="settings_automated_tracking_extra_answer_type">בוחר את תבנית נתוני התגובה הנשלחים יחד עם פעולת התגובה.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+נתוני תגובה.<br/>
+אם הערך הוא \"simple\" – רשימה מופרדת בפסיקים של זוגות \"name:value\", לדוגמה \"work:ff00ff,reading:aabbcc\" (שם הפעילות והצבע) עבור פעילויות, או \"work:1772789225,reading:1772789225\" (שם הפעילות וזמן ההתחלה כחותמת זמן UTC בשניות) עבור פעילויות פועלות. שמות הפעילויות מקודדים באחוזים.<br/>
+אם הערך הוא \"json\" – רשימה מקודדת ב-json עם נתונים נוספים, זהה לזו המשמשת בתקשורת עם אפליקציית Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">שמור גיבוי</string>
     <string name="settings_save_description">לפני השמירה, יש לוודא שהגרסה העדכנית ביותר של היישום מותקנת כדי להימנע מקונפליקטים.</string>

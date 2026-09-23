@@ -439,8 +439,13 @@ Untuk mengaktifkan perilaku ini, aplikasi ini harus mendukung pengiriman \"inten
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada aktivitas yang dimulai atau dihentikan ke aplikasi pihak ketiga untuk pelacakan otomatis.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Jawab kueri</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Jika pengaturan <b>\"%s\"</b> diaktifkan, aplikasi akan merespons dengan data terhadap siaran kueri yang dikirim oleh aplikasi pihak ketiga untuk pelacakan otomatis.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Tindakan yang tersedia:</string>
     <string name="settings_automated_tracking_available_events">Acara yang tersedia:</string>
+    <string name="settings_automated_tracking_available_queries">Kueri yang tersedia:</string>
     <string name="settings_automated_tracking_extras_description">Keterangan:</string>
     <string name="settings_automated_tracking_extra_name">dengan nama aktivitas yang harus dimulai atau dihentikan.</string>
     <string name="settings_automated_tracking_extra_tag">dengan nama tag rekaman. Atau daftar nama tag dipisahkan dengan koma.</string>
@@ -450,6 +455,12 @@ Jika setelan <b>\"%s\"</b> diaktifkan, aplikasi akan mengirimkan peristiwa pada 
     <string name="settings_automated_tracking_find_with_activity">selain itu memilih rekaman berdasarkan nama aktivitas, jika ada beberapa rekaman saat ini atau terakhir.</string>
     <string name="settings_automated_tracking_goal_type">Jenis tujuan.</string>
     <string name="settings_automated_tracking_goal_value">Nilai tujuan, durasi dalam detik atau jumlah catatan.</string>
+    <string name="settings_automated_tracking_extra_answer_type">memilih format data respons yang dikirim bersama tindakan respons.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+data respons.<br/>
+Jika \"simple\", daftar pasangan \"name:value\" yang dipisahkan koma, misalnya \"work:ff00ff,reading:aabbcc\" (nama dan warna aktivitas) untuk aktivitas, atau \"work:1772789225,reading:1772789225\" (nama aktivitas dan waktu mulai sebagai stempel waktu UTC dalam detik) untuk aktivitas yang sedang berjalan. Nama aktivitas dikodekan dengan persen.<br/>
+Jika \"json\", daftar yang dikodekan dalam json dengan data tambahan, sama seperti yang digunakan dalam komunikasi aplikasi Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Simpan cadangan</string>
     <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>

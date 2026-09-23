@@ -31,6 +31,8 @@
     <string name="settings_automated_tracking_extra" translatable="false">Extras</string>
     <string name="settings_automated_tracking_extra_values" translatable="false">Values</string>
     <string name="settings_automated_tracking_optional" translatable="false">Optional</string>
+    <string name="settings_automated_tracking_response" translatable="false">Response</string>
+    <string name="settings_automated_tracking_response_extra" translatable="false">Response extras</string>
     <string name="settings_automated_tracking_template" translatable="false"><![CDATA[%s]]></string>
     <string name="settings_automated_tracking_data_template" translatable="false">&lt;b>%s&lt;/b> - %s</string>
 

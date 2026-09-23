@@ -169,6 +169,8 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
             ACTION_EXTERNAL_CREATE_RECORD_TAG,
             ACTION_EXTERNAL_AUTOMATIC_BACKUP,
             ACTION_EXTERNAL_AUTOMATIC_EXPORT,
+            ACTION_EXTERNAL_QUERY_ACTIVITIES,
+            ACTION_EXTERNAL_QUERY_RUNNING,
         )
     }
 }

@@ -190,6 +190,7 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 subtitle = "",
                 isChecked = prefsInteractor.getAutomatedTrackingSendEvents(),
                 topSpaceIsVisible = false,
+                dividerIsVisible = false,
             )
             result += SettingsCheckboxViewData(
                 block = SettingsBlock.AdditionalReceiveQueries,

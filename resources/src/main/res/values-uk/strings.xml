@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Якщо параметр <b>\"%s\"</b> увімкнено, програма надсилатиме події про початок або зупинку активності стороннім програмам для автоматичного відстеження.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Відповідати на запити</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Якщо параметр <b>\"%s\"</b> увімкнено, застосунок відповідатиме даними на широкомовні запити, надіслані сторонніми застосунками для автоматичного відстеження.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Доступні дії:</string>
     <string name="settings_automated_tracking_available_events">Доступні події:</string>
+    <string name="settings_automated_tracking_available_queries">Доступні запити:</string>
     <string name="settings_automated_tracking_extras_description">Опис:</string>
     <string name="settings_automated_tracking_extra_name">із назвою дії, яку потрібно розпочати або зупинити.</string>
     <string name="settings_automated_tracking_extra_tag">з назвою тегу запису. Або список імен тегів, розділених комами.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">додатково вибирає запис за назвою дії, якщо поточних або останніх записів декілька.</string>
     <string name="settings_automated_tracking_goal_type">Тип цілі.</string>
     <string name="settings_automated_tracking_goal_value">Значення цілі, тривалість у секундах або кількість записів.</string>
+    <string name="settings_automated_tracking_extra_answer_type">вибирає формат даних відповіді, які надсилаються разом із дією відповіді.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+дані відповіді.<br/>
+Якщо вказано \"simple\", це розділений комами список пар \"name:value\", наприклад \"work:ff00ff,reading:aabbcc\" (назва й колір дії) для дій або \"work:1772789225,reading:1772789225\" (назва дії та час початку як позначка часу UTC у секундах) для поточних дій. Назви дій кодуються за допомогою відсоткового кодування.<br/>
+Якщо вказано \"json\", це закодований у json список із додатковими даними, такий самий, як у зв’язку із застосунком Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Зберегти резервну копію</string>
     <string name="settings_save_description">Перед збереженням переконайтесь, що у вас встановлена остання версія додатку, щоб уникнути конфліктів.</string>

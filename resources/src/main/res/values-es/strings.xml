@@ -439,8 +439,13 @@ Para habilitar este comportamiento, estas aplicaciones deben admitir el envío d
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eventos sobre la actividad iniciada o detenida a aplicaciones de terceros para un seguimiento automático.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Responder consultas</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Si la configuración <b>\"%s\"</b> está habilitada, la aplicación responderá con datos a las difusiones de consulta enviadas por aplicaciones de terceros para el seguimiento automático.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Acciones disponibles:</string>
     <string name="settings_automated_tracking_available_events">Eventos disponibles:</string>
+    <string name="settings_automated_tracking_available_queries">Consultas disponibles:</string>
     <string name="settings_automated_tracking_extras_description">Descripción:</string>
     <string name="settings_automated_tracking_extra_name">con el nombre de la actividad que debe iniciarse o detenerse.</string>
     <string name="settings_automated_tracking_extra_tag">con el nombre de una etiqueta de registro. O lista de nombres de etiquetas separados por coma.</string>
@@ -450,6 +455,12 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación enviará eve
     <string name="settings_automated_tracking_find_with_activity">además, selecciona el registro por nombre de actividad, si hay varios registros actuales o últimos.</string>
     <string name="settings_automated_tracking_goal_type">Tipo de objetivo.</string>
     <string name="settings_automated_tracking_goal_value">Valor del objetivo, duración en segundos o número de registros.</string>
+    <string name="settings_automated_tracking_extra_answer_type">selecciona el formato de los datos de respuesta enviados junto con la acción de respuesta.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+datos de respuesta.<br/>
+Si es \"simple\", una lista separada por comas de pares \"name:value\", por ejemplo \"work:ff00ff,reading:aabbcc\" (nombre y color de la actividad) para las actividades, o \"work:1772789225,reading:1772789225\" (nombre de la actividad y hora de inicio como marca de tiempo UTC en segundos) para las actividades en curso. Los nombres de las actividades están codificados mediante porcentaje.<br/>
+Si es \"json\", una lista codificada en json con datos adicionales, igual que la utilizada en la comunicación con la aplicación Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Guardar copia de seguridad</string>
     <string name="settings_save_description">Antes de guardar, asegúrese de que tiene la última versión de la aplicación instalada para evitar conflictos.</string>

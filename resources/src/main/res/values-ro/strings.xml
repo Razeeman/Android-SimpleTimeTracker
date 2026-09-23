@@ -439,8 +439,13 @@ Pentru a activa aceste aspecte, aplicațiile trebuie sa permită trimiterea de \
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Dacă opțiunea <b>\"%s\"</b> este activă, aplicația va trimite evenimente la pornirea sau oprirea unei activități către o aplicație terță parte pentru urmărirea automată.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Răspunde la interogări</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Dacă setarea <b>\"%s\"</b> este activată, aplicația va răspunde cu date la difuzările de interogări trimise de aplicații terțe pentru urmărirea automată.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Acțiuni disponibile:</string>
     <string name="settings_automated_tracking_available_events">Evenimente disponibile:</string>
+    <string name="settings_automated_tracking_available_queries">Interogări disponibile:</string>
     <string name="settings_automated_tracking_extras_description">Descriere:</string>
     <string name="settings_automated_tracking_extra_name">cu numele activității care trebuie începută sau oprită.</string>
     <string name="settings_automated_tracking_extra_tag">cu numele etichetei înregistrării. Sau o listă de nume de etichete separate prin virgulă.</string>
@@ -450,6 +455,12 @@ Dacă opțiunea <b>\"%s\"</b> este activă, aplicația va trimite evenimente la 
     <string name="settings_automated_tracking_find_with_activity">selectează suplimentar înregistrarea după numele activității, dacă există mai multe înregistrări curente sau ultime.</string>
     <string name="settings_automated_tracking_goal_type">Tipul obiectivului.</string>
     <string name="settings_automated_tracking_goal_value">Valoarea obiectivului, durată în secunde sau număr de înregistrări.</string>
+    <string name="settings_automated_tracking_extra_answer_type">selectează formatul datelor de răspuns trimise împreună cu acțiunea de răspuns.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+date de răspuns.<br/>
+Dacă este \"simple\", o listă separată prin virgule de perechi \"name:value\", de exemplu \"work:ff00ff,reading:aabbcc\" (numele și culoarea activității) pentru activități sau \"work:1772789225,reading:1772789225\" (numele activității și ora de început ca marcaj temporal UTC în secunde) pentru activitățile în desfășurare. Numele activităților sunt codificate procentual.<br/>
+Dacă este \"json\", o listă codificată în json cu date suplimentare, aceeași cu cea utilizată în comunicarea cu aplicația Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Salvează backup</string>
     <string name="settings_save_description">Înainte de a salva, asigură-te ca ai ultima versiune a aplicației pentru a evita conflictele.</string>

@@ -439,8 +439,13 @@ Ukuvumela le ndlela, izinhlelo zokusebenza kufanele zikwazi ukuthumela \"intent\
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Uma isethingi <b>\"%s\"</b> ivuliwe, uhlelo luzothumela izehlakalo uma umsebenzi uqale noma uyeke ukuze lusetshenziswe ukuzenzakalelayo kwezinye izinhlelo.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Phendula imibuzo</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Uma isilungiselelo esithi <b>\"%s\"</b> sivuliwe, uhlelo lokusebenza luzophendula ngedatha ekusakazweni kwemibuzo ethunyelwe izinhlelo zokusebenza zezinkampani zangaphandle ukuze kulandelelwe ngokuzenzakalela.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Izenzo ezitholakalayo:</string>
     <string name="settings_automated_tracking_available_events">Izehlakalo ezitholakalayo:</string>
+    <string name="settings_automated_tracking_available_queries">Imibuzo etholakalayo:</string>
     <string name="settings_automated_tracking_extras_description">Incazelo:</string>
     <string name="settings_automated_tracking_extra_name">negama lomsebenzi okufanele uqale noma uyeke.</string>
     <string name="settings_automated_tracking_extra_tag">negama lethegi noma uhlu lwamagama lwahlukaniswe ngama-comma.</string>
@@ -450,6 +455,12 @@ Uma isethingi <b>\"%s\"</b> ivuliwe, uhlelo luzothumela izehlakalo uma umsebenzi
     <string name="settings_automated_tracking_find_with_activity">ukhetha futhi irekhodi ngegama lomsebenzi uma kunezirekhodi eziningi ezisebenzayo noma zakamuva.</string>
     <string name="settings_automated_tracking_goal_type">Uhlobo lwenhloso.</string>
     <string name="settings_automated_tracking_goal_value">Inani lenhloso, isikhathi ngemizuzwana noma inani lamarekhodi.</string>
+    <string name="settings_automated_tracking_extra_answer_type">ikhetha ifomethi yedatha yempendulo ethunyelwa kanye nesenzo sempendulo.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+idatha yempendulo.<br/>
+Uma kungu-\"simple\", uhlu lwamapheya e-\"name:value\" ahlukaniswe ngokhefana, isibonelo \"work:ff00ff,reading:aabbcc\" (igama nombala womsebenzi) emisebenzini, noma \"work:1772789225,reading:1772789225\" (igama lomsebenzi nesikhathi sokuqala njengesitembu sesikhathi se-UTC ngemizuzwana) emisebenzini eqhubekayo. Amagama emisebenzi abhalwe ngekhodi yamaphesenti.<br/>
+Uma kungu-\"json\", uhlu olubhalwe ngekhodi ye-json olunedatha eyengeziwe, olufana nolusetshenziswa ekuxhumaneni nohlelo lokusebenza lwe-Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Londoloza i-backup</string>
     <string name="settings_save_description">Ngaphambi kokulondoloza, qinisekisa ukuthi unayo inguqulo yakamuva yohlelo lokusebenza ukuvimbela ukungqubuzana.</string>

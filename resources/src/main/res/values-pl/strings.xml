@@ -439,8 +439,13 @@ Aby włączyć to zachowanie, te aplikacje powinny móc wysyłać tzw. \"intent\
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Jeśli <b>\"%s\"</b> jest włączone, aplikacja będzie wysyłać zdarzenia dotyczące rozpoczęcia lub zatrzymania aktywności do innych aplikacji w celu automatycznego śledzenia.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Odpowiadaj na zapytania</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Jeśli ustawienie <b>\"%s\"</b> jest włączone, aplikacja odpowie danymi na transmisje zapytań wysyłane przez aplikacje innych firm w celu automatycznego śledzenia.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Dostępne akcje:</string>
     <string name="settings_automated_tracking_available_events">Dostępne wydarzenia:</string>
+    <string name="settings_automated_tracking_available_queries">Dostępne zapytania:</string>
     <string name="settings_automated_tracking_extras_description">Opis:</string>
     <string name="settings_automated_tracking_extra_name">z nazwą działania, które należy rozpocząć lub zatrzymać.</string>
     <string name="settings_automated_tracking_extra_tag">z nazwą taga dla rekordu. Lub lista nazw znaczników oddzielonych przecinkami.</string>
@@ -450,6 +455,12 @@ Jeśli <b>\"%s\"</b> jest włączone, aplikacja będzie wysyłać zdarzenia doty
     <string name="settings_automated_tracking_find_with_activity">dodatkowo wybiera rekord według nazwy aktywności, jeśli istnieje kilka bieżących lub ostatnich rekordów.</string>
     <string name="settings_automated_tracking_goal_type">Typ celu.</string>
     <string name="settings_automated_tracking_goal_value">Wartość celu, czas trwania w sekundach lub liczba rekordów.</string>
+    <string name="settings_automated_tracking_extra_answer_type">wybiera format danych odpowiedzi wysyłanych wraz z akcją odpowiedzi.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+dane odpowiedzi.<br/>
+Jeśli wartość to \"simple\" — rozdzielona przecinkami lista par \"name:value\", na przykład \"work:ff00ff,reading:aabbcc\" (nazwa aktywności i kolor) dla aktywności lub \"work:1772789225,reading:1772789225\" (nazwa aktywności i czas rozpoczęcia jako znacznik czasu UTC w sekundach) dla trwających aktywności. Nazwy aktywności są kodowane procentowo.<br/>
+Jeśli wartość to \"json\" — zakodowana w json lista z dodatkowymi danymi, taka sama jak używana w komunikacji z aplikacją Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Zapisz kopię zapasową</string>
     <string name="settings_save_description">Przed zapisaniem upewnij się, że masz zainstalowaną najnowszą wersję aplikacji, aby uniknąć błędów.</string>

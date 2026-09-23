@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 إذا تم تمكين الإعداد <b>\"%s\"</b>، فسيقوم التطبيق بإرسال الأحداث المتعلقة بالنشاط الذي بدأ أو توقف إلى تطبيقات الطرف الثالث للتتبع التلقائي.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">الرد على الاستعلامات</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+إذا تم تمكين الإعداد <b>\"%s\"</b>، فسيستجيب التطبيق بالبيانات لعمليات بث الاستعلامات المرسلة من تطبيقات الطرف الثالث للتتبع التلقائي.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">الإجراءات المتاحة:</string>
     <string name="settings_automated_tracking_available_events">الأحداث المتاحة:</string>
+    <string name="settings_automated_tracking_available_queries">الاستعلامات المتاحة:</string>
     <string name="settings_automated_tracking_extras_description">وصف:</string>
     <string name="settings_automated_tracking_extra_name">مع اسم النشاط الذي ينبغي أن يبدأ أو يتوقف.</string>
     <string name="settings_automated_tracking_extra_tag">باسم علامة السجل. أو قائمة بأسماء العلامات مفصولة بفاصلة.</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">بالإضافة إلى ذلك، يقوم بتحديد السجل حسب اسم النشاط، إذا كان هناك العديد من السجلات الحالية أو الأخيرة.</string>
     <string name="settings_automated_tracking_goal_type">نوع الهدف.</string>
     <string name="settings_automated_tracking_goal_value">قيمة الهدف، المدة بالثواني أو عدد السجلات.</string>
+    <string name="settings_automated_tracking_extra_answer_type">يحدد تنسيق بيانات الاستجابة، المرسلة مع إجراء الاستجابة.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+بيانات الاستجابة.<br/>
+إذا كانت \"simple\" - قائمة مفصولة بفواصل من أزواج \"name:value\"، على سبيل المثال \"work:ff00ff,reading:aabbcc\" (اسم النشاط واللون) للأنشطة، أو \"work:1772789225,reading:1772789225\" (اسم النشاط ووقت البدء كطابع زمني UTC بالثواني) للأنشطة الجارية. أسماء الأنشطة مرمّزة بنسبة مئوية.<br/>
+إذا كانت \"json\" - قائمة مرمّزة بتنسيق json تحتوي على بيانات إضافية، وهي نفسها المستخدمة في اتصال تطبيق Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">حفظ نسخة احتياطية</string>
     <string name="settings_save_description">قبل الحفظ، تأكد من تثبيت أحدث إصدار من التطبيق لتجنب التعارضات.</string>

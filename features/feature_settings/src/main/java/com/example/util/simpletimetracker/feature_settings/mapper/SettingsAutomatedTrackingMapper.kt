@@ -44,6 +44,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_NOTE
 import com.example.util.simpletimetracker.domain.extension.indexesOf
+import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionCommentMode
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionFindRecordMode
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalAnswerType
@@ -222,27 +223,15 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     action = ACTION_EXTERNAL_QUERY_ACTIVITIES,
                     extras = emptyList(),
                     optional = listOf(EXTRA_ANSWER_TYPE),
+                    response = ACTION_EXTERNAL_RESPONSE_ACTIVITIES,
+                    responseExtras = listOf(EXTRA_DATA),
                 ),
                 AvailableAction(
                     action = ACTION_EXTERNAL_QUERY_RUNNING,
                     extras = emptyList(),
                     optional = listOf(EXTRA_ANSWER_TYPE),
-                ),
-            ),
-            isDarkTheme = isDarkTheme,
-        )
-
-        val availableQueryResponses = getAvailableActionsText(
-            actions = listOf(
-                AvailableAction(
-                    action = ACTION_EXTERNAL_RESPONSE_ACTIVITIES,
-                    extras = listOf(EXTRA_DATA),
-                    optional = emptyList(),
-                ),
-                AvailableAction(
-                    action = ACTION_EXTERNAL_RESPONSE_RUNNING,
-                    extras = listOf(EXTRA_DATA),
-                    optional = emptyList(),
+                    response = ACTION_EXTERNAL_RESPONSE_RUNNING,
+                    responseExtras = listOf(EXTRA_DATA),
                 ),
             ),
             isDarkTheme = isDarkTheme,
@@ -320,10 +309,6 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
             R.string.settings_automated_tracking_available_queries,
         ).uppercase()
             .let { setHintSpans(it, isDarkTheme) }
-        val availableQueryResponsesHint = resourceRepo.getString(
-            R.string.settings_automated_tracking_available_query_responses,
-        ).uppercase()
-            .let { setHintSpans(it, isDarkTheme) }
         val extrasDescriptionsHint = resourceRepo.getString(
             R.string.settings_automated_tracking_extras_description,
         ).uppercase()
@@ -339,8 +324,6 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
             .append(availableEvents)
             .append(availableQueriesHint).append("\n\n")
             .append(availableQueries)
-            .append(availableQueryResponsesHint).append("\n\n")
-            .append(availableQueryResponses)
             .append(extrasDescriptionsHint).append("\n\n")
             .append(extrasDescription)
 
@@ -360,6 +343,8 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
             helpTexts += HelpText(action.action, canCopy = true)
             helpTexts += action.extras.map { HelpText(it, canCopy = true) }
             helpTexts += action.optional.map { HelpText(it, canCopy = true) }
+            helpTexts += action.response.takeIf { it.isNotEmpty() }?.let { HelpText(it, canCopy = true) }
+            helpTexts += action.responseExtras.map { HelpText(it, canCopy = true) }
         }
 
         val templateText = StringBuilder()
@@ -388,6 +373,26 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                         R.string.settings_automated_tracking_data_template,
                         resourceRepo.getString(R.string.settings_automated_tracking_optional),
                         it.optional.joinToString(separator = ", ") { "%s".wrapInQuotes() },
+                    ),
+                )
+                templateText.append("<br/>")
+            }
+            if (it.response.isNotEmpty()) {
+                templateText.append(
+                    resourceRepo.getString(
+                        R.string.settings_automated_tracking_data_template,
+                        resourceRepo.getString(R.string.settings_automated_tracking_response),
+                        "%s".wrapInQuotes(),
+                    ),
+                )
+                templateText.append("<br/>")
+            }
+            if (it.responseExtras.isNotEmpty()) {
+                templateText.append(
+                    resourceRepo.getString(
+                        R.string.settings_automated_tracking_data_template,
+                        resourceRepo.getString(R.string.settings_automated_tracking_response_extra),
+                        it.responseExtras.joinToString(separator = ", ") { "%s".wrapInQuotes() },
                     ),
                 )
                 templateText.append("<br/>")
@@ -548,6 +553,8 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
         val action: String,
         val extras: List<String>,
         val optional: List<String>,
+        val response: String = "",
+        val responseExtras: List<String> = emptyList(),
     )
 
     private data class ExtraDescription(

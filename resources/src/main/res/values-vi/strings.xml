@@ -439,8 +439,13 @@ Một số ví dụ về sự kiện:<br/>
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 Nếu cài đặt <b>\"%s\"</b> được bật, ứng dụng sẽ gửi các sự kiện về hoạt động đã bắt đầu hoặc đã dừng đến các ứng dụng của bên thứ ba để theo dõi tự động.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Trả lời truy vấn</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Nếu cài đặt <b>\"%s\"</b> được bật, ứng dụng sẽ phản hồi bằng dữ liệu đối với các bản tin truy vấn do ứng dụng bên thứ ba gửi để theo dõi tự động.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Các hành động có sẵn:</string>
     <string name="settings_automated_tracking_available_events">Các sự kiện có sẵn:</string>
+    <string name="settings_automated_tracking_available_queries">Các truy vấn có sẵn:</string>
     <string name="settings_automated_tracking_extras_description">Sự miêu tả:</string>
     <string name="settings_automated_tracking_extra_name">với tên hoạt động sẽ được bắt đầu hoặc dừng.</string>
     <string name="settings_automated_tracking_extra_tag">với tên của thẻ bản ghi. Hoặc danh sách tên thẻ cách nhau bằng dấu phẩy.</string>
@@ -450,6 +455,12 @@ Nếu cài đặt <b>\"%s\"</b> được bật, ứng dụng sẽ gửi các s�
     <string name="settings_automated_tracking_find_with_activity">ngoài ra còn chọn bản ghi theo tên hoạt động, nếu có nhiều bản ghi hiện tại hoặc bản ghi cuối cùng.</string>
     <string name="settings_automated_tracking_goal_type">Loại mục tiêu.</string>
     <string name="settings_automated_tracking_goal_value">Giá trị mục tiêu, thời lượng tính bằng giây hoặc số bản ghi.</string>
+    <string name="settings_automated_tracking_extra_answer_type">chọn định dạng của dữ liệu phản hồi được gửi cùng với hành động phản hồi.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+dữ liệu phản hồi.<br/>
+Nếu là \"simple\", danh sách các cặp \"name:value\" được phân tách bằng dấu phẩy, ví dụ \"work:ff00ff,reading:aabbcc\" (tên và màu của hoạt động) cho các hoạt động, hoặc \"work:1772789225,reading:1772789225\" (tên hoạt động và thời gian bắt đầu dưới dạng dấu thời gian UTC tính bằng giây) cho các hoạt động đang diễn ra. Tên hoạt động được mã hóa phần trăm.<br/>
+Nếu là \"json\", danh sách được mã hóa json có dữ liệu bổ sung, giống như danh sách dùng trong giao tiếp với ứng dụng Wear OS.
+    ]]></string>
 
     <string name="settings_save_backup">Lưu bản sao lưu</string>
     <string name="settings_save_description">Trước khi lưu, hãy đảm bảo rằng bạn đã cài đặt phiên bản mới nhất của ứng dụng để tránh xung đột.</string>

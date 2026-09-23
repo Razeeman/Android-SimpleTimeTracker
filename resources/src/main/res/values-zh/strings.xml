@@ -439,8 +439,13 @@
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 如果启用<b>\"%s\"</b>设置，应用程序将在活动开始或停止时发送事件给第三方应用程序进行自动追踪<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">响应查询</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+如果启用<b>\"%s\"</b>设置，应用将使用数据响应第三方应用为自动追踪而发送的查询广播。<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">可用的操作：</string>
     <string name="settings_automated_tracking_available_events">可用活动：</string>
+    <string name="settings_automated_tracking_available_queries">可用查询：</string>
     <string name="settings_automated_tracking_extras_description">描述：</string>
     <string name="settings_automated_tracking_extra_name">带有应启动或停止的活动名称的</string>
     <string name="settings_automated_tracking_extra_tag">带有记录标签名称的或以逗号分隔的标签名称列表</string>
@@ -450,6 +455,12 @@
     <string name="settings_automated_tracking_find_with_activity">如果存在多个当前记录或最后记录，则还可以按活动名称选择记录</string>
     <string name="settings_automated_tracking_goal_type">目标类型。</string>
     <string name="settings_automated_tracking_goal_value">目标值，持续时间（秒）或记录数。</string>
+    <string name="settings_automated_tracking_extra_answer_type">选择随响应操作一起发送的响应数据格式。</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+响应数据。<br/>
+如果为 \"simple\"，则是以逗号分隔的 \"name:value\" 对列表。例如，活动使用 \"work:ff00ff,reading:aabbcc\"（活动名称和颜色），正在进行的活动使用 \"work:1772789225,reading:1772789225\"（活动名称和以秒为单位的 UTC 时间戳形式的开始时间）。活动名称采用百分号编码。<br/>
+如果为 \"json\"，则是包含附加数据的 json 编码列表，与 Wear OS 应用通信中使用的列表相同。
+    ]]></string>
 
     <string name="settings_save_backup">备份</string>
     <string name="settings_save_description">保存前，请确保已安装最新版本的应用程序，以避免冲突</string>

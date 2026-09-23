@@ -439,8 +439,13 @@ Bu davranışı etkinleştirmek için bu uygulamaların şu parametrelerle \"int
     <string name="settings_automated_tracking_send_events_text"><![CDATA[
 <b>\"%s\"</b> ayarı etkinleştirilirse, uygulama, etkinlik başlatıldığında veya durdurulduğunda otomatik izleme için olayları üçüncü taraf uygulamalarına gönderir.<br/>
     ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Sorguları yanıtla</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+<b>\"%s\"</b> ayarı etkinse uygulama, otomatik takip için üçüncü taraf uygulamalar tarafından gönderilen sorgu yayınlarına verilerle yanıt verir.<br/>
+    ]]></string>
     <string name="settings_automated_tracking_available_actions">Mevcut eylemler:</string>
     <string name="settings_automated_tracking_available_events">Mevcut etkinlikler:</string>
+    <string name="settings_automated_tracking_available_queries">Mevcut sorgular:</string>
     <string name="settings_automated_tracking_extras_description">Tanım:</string>
     <string name="settings_automated_tracking_extra_name">başlatılması veya durdurulması gereken etkinlik adıyla.</string>
     <string name="settings_automated_tracking_extra_tag">bir kayıt etiketi adıyla. Veya virgülle ayrılmış etiket adlarının listesi.</string>
@@ -450,6 +455,12 @@ Bu davranışı etkinleştirmek için bu uygulamaların şu parametrelerle \"int
     <string name="settings_automated_tracking_find_with_activity">ayrica, birden fazla geçerli veya son kayıt varsa, aktivite adına göre kaydı seçer.</string>
     <string name="settings_automated_tracking_goal_type">Hedef türü.</string>
     <string name="settings_automated_tracking_goal_value">Hedef değeri, saniye cinsinden süre veya kayıt sayısı.</string>
+    <string name="settings_automated_tracking_extra_answer_type">yanıt eylemiyle birlikte gönderilen yanıt verilerinin biçimini seçer.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+yanıt verileri.<br/>
+\"simple\" ise virgülle ayrılmış \"name:value\" çiftleri listesi; örneğin etkinlikler için \"work:ff00ff,reading:aabbcc\" (etkinlik adı ve rengi) veya devam eden etkinlikler için \"work:1772789225,reading:1772789225\" (etkinlik adı ve saniye cinsinden UTC zaman damgası olarak başlangıç zamanı). Etkinlik adları yüzde kodludur.<br/>
+\"json\" ise ek veriler içeren json kodlu bir liste; Wear OS uygulaması iletişiminde kullanılanla aynıdır.
+    ]]></string>
 
     <string name="settings_save_backup">Yedekleme kaydet</string>
     <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>
