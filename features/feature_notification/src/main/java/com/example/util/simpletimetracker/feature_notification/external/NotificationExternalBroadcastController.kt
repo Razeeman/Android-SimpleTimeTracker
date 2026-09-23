@@ -8,6 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class NotificationExternalBroadcastController @Inject constructor(
     private val externalBroadcastInteractor: ExternalBroadcastInteractor,
+    private val externalQueryBroadcastInteractor: ExternalQueryBroadcastInteractor,
 ) {
 
     private val mutex = Mutex()
@@ -117,6 +118,18 @@ class NotificationExternalBroadcastController @Inject constructor(
                 name = name,
                 icon = icon,
             )
+        }
+    }
+
+    suspend fun onActionExternalQueryActivities(answerType: String?) {
+        mutex.withLock {
+            externalQueryBroadcastInteractor.onActionQueryActivities(answerType)
+        }
+    }
+
+    suspend fun onActionExternalQueryRunning(answerType: String?) {
+        mutex.withLock {
+            externalQueryBroadcastInteractor.onActionQueryRunning(answerType)
         }
     }
 }

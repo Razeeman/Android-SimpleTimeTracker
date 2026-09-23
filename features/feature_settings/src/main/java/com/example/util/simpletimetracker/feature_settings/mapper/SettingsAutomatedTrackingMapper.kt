@@ -15,6 +15,10 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_B
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_EXPORT
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CHANGE_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CREATE_RECORD_TAG
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RUNNING
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RUNNING
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESTART_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ACTIVITY
@@ -25,7 +29,9 @@ import com.example.util.simpletimetracker.core.utils.EVENT_COMPLETED_GOAL
 import com.example.util.simpletimetracker.core.utils.EVENT_STARTED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EVENT_STOPPED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_CATEGORY_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_DATA
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_MODE
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_GOAL_TYPE
@@ -40,6 +46,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_NOTE
 import com.example.util.simpletimetracker.domain.extension.indexesOf
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionCommentMode
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionFindRecordMode
+import com.example.util.simpletimetracker.domain.notifications.model.ExternalAnswerType
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalEventGoalType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_views.TextViewRoundedSpans
@@ -76,6 +83,11 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
         val sendEventsText = resourceRepo.getString(
             R.string.settings_automated_tracking_send_events_text,
             resourceRepo.getString(R.string.settings_automated_tracking_send_events),
+        ).fromHtml()
+
+        val receiveQueriesText = resourceRepo.getString(
+            R.string.settings_automated_tracking_receive_queries_text,
+            resourceRepo.getString(R.string.settings_automated_tracking_receive_queries),
         ).fromHtml()
 
         val availableActionsText = getAvailableActionsText(
@@ -204,6 +216,38 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
             isDarkTheme = isDarkTheme,
         )
 
+        val availableQueries = getAvailableActionsText(
+            actions = listOf(
+                AvailableAction(
+                    action = ACTION_EXTERNAL_QUERY_ACTIVITIES,
+                    extras = emptyList(),
+                    optional = listOf(EXTRA_ANSWER_TYPE),
+                ),
+                AvailableAction(
+                    action = ACTION_EXTERNAL_QUERY_RUNNING,
+                    extras = emptyList(),
+                    optional = listOf(EXTRA_ANSWER_TYPE),
+                ),
+            ),
+            isDarkTheme = isDarkTheme,
+        )
+
+        val availableQueryResponses = getAvailableActionsText(
+            actions = listOf(
+                AvailableAction(
+                    action = ACTION_EXTERNAL_RESPONSE_ACTIVITIES,
+                    extras = listOf(EXTRA_DATA),
+                    optional = emptyList(),
+                ),
+                AvailableAction(
+                    action = ACTION_EXTERNAL_RESPONSE_RUNNING,
+                    extras = listOf(EXTRA_DATA),
+                    optional = emptyList(),
+                ),
+            ),
+            isDarkTheme = isDarkTheme,
+        )
+
         val extrasDescription = getExtrasDescriptions(
             extras = listOf(
                 ExtraDescription(
@@ -251,6 +295,16 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     description = resourceRepo.getString(R.string.settings_automated_tracking_goal_value),
                     values = emptyList(),
                 ),
+                ExtraDescription(
+                    extra = EXTRA_ANSWER_TYPE,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_answer_type),
+                    values = ExternalAnswerType.entries.map { it.dataValue },
+                ),
+                ExtraDescription(
+                    extra = EXTRA_DATA,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_data),
+                    values = emptyList(),
+                ),
             ),
         )
 
@@ -262,6 +316,14 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
             R.string.settings_automated_tracking_available_events,
         ).uppercase()
             .let { setHintSpans(it, isDarkTheme) }
+        val availableQueriesHint = resourceRepo.getString(
+            R.string.settings_automated_tracking_available_queries,
+        ).uppercase()
+            .let { setHintSpans(it, isDarkTheme) }
+        val availableQueryResponsesHint = resourceRepo.getString(
+            R.string.settings_automated_tracking_available_query_responses,
+        ).uppercase()
+            .let { setHintSpans(it, isDarkTheme) }
         val extrasDescriptionsHint = resourceRepo.getString(
             R.string.settings_automated_tracking_extras_description,
         ).uppercase()
@@ -270,10 +332,15 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
         val finalText = SpannableStringBuilder()
             .append(mainText).append("\n")
             .append(sendEventsText).append("\n")
+            .append(receiveQueriesText).append("\n")
             .append(availableActionsHint).append("\n\n")
             .append(availableActionsText)
             .append(availableEventsHint).append("\n\n")
             .append(availableEvents)
+            .append(availableQueriesHint).append("\n\n")
+            .append(availableQueries)
+            .append(availableQueryResponsesHint).append("\n\n")
+            .append(availableQueryResponses)
             .append(extrasDescriptionsHint).append("\n\n")
             .append(extrasDescription)
 

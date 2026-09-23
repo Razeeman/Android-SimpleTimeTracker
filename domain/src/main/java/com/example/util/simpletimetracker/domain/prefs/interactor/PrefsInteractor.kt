@@ -851,6 +851,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.automatedTrackingSendEvents = value
     }
 
+    suspend fun getAutomatedTrackingReceiveQueries(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.automatedTrackingReceiveQueries
+    }
+
+    suspend fun setAutomatedTrackingReceiveQueries(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.automatedTrackingReceiveQueries = value
+    }
+
     suspend fun setWidget(widgetId: Int, recordType: Long) = withContext(Dispatchers.IO) {
         prefsRepo.setWidget(widgetId, recordType)
     }

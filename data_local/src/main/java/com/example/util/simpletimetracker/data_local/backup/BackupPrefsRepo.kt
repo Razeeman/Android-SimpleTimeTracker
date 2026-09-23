@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_RECURRENT
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ALLOW_MULTITASKING
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOMATED_TRACKING_SEND_EVENTS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOSTART_POMODORO_ACTIVITIES
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CARD_ORDER
@@ -248,6 +249,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_SHOW_COMMENT_INPUT_EXCLUDE_ACTIVITIES, ::commentInputExcludeActivities),
             PrefsProcessor(KEY_AUTOSTART_POMODORO_ACTIVITIES, ::autostartPomodoroActivities),
             PrefsProcessor(KEY_AUTOMATED_TRACKING_SEND_EVENTS, ::automatedTrackingSendEvents),
+            PrefsProcessor(KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES, ::automatedTrackingReceiveQueries),
             PrefsProcessor(KEY_REPEAT_BUTTON_TYPE, ::repeatButtonType),
             PrefsProcessor(KEY_WIDGET_TRANSPARENCY_PERCENT, ::widgetBackgroundTransparencyPercent),
             PrefsProcessor(KEY_DEFAULT_TYPES_HIDDEN, ::defaultTypesHidden),
