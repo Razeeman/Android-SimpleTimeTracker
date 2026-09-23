@@ -694,22 +694,39 @@ class BackupPartialRepoImpl @Inject constructor(
         val currentDataClean: Map<T, Long> = currentData.associate {
             it.replaceId(0).clean() to it.id()
         }
+
+        // Existing items use their local ids. New items need temporary ids that
+        // cannot collide with either local ids or ids from the backup. These ids
+        // are replaced with database-generated ids during partial restore.
+        val usedIds = mutableSetOf<Long>()
+        currentData.mapTo(usedIds) { it.id() }
+        dataFromFile.mapTo(usedIds) { it.id() }
+        var nextTemporaryId = 1L
+        fun allocateTemporaryId(): Long {
+            // Lookup in a hash set is approximately O(1)
+            while (nextTemporaryId in usedIds) nextTemporaryId++
+            return nextTemporaryId.also {
+                usedIds += it
+                nextTemporaryId++
+            }
+        }
+
         val originalIdsToExistingId = mutableMapOf<Long, Long>()
         val list = dataFromFile.map { item ->
             val cleanItem = item.replaceId(0).clean()
             val existingId = currentDataClean[cleanItem]
             val itemId = item.id()
-            if (itemId != 0L) {
-                originalIdsToExistingId[itemId] = existingId ?: itemId
+            val mappedId = when {
+                existingId != null -> existingId
+                itemId != 0L -> allocateTemporaryId()
+                else -> 0L // Relation objects without their own ID.
             }
-            val newItem = if (existingId != null) {
-                item.replaceId(existingId)
-            } else {
-                item
+            if (itemId != 0L) {
+                originalIdsToExistingId[itemId] = mappedId
             }
             PartialBackupRestoreData.Holder(
                 exist = existingId != null,
-                data = newItem,
+                data = item.replaceId(mappedId),
             )
         }
         return ReadData(list, originalIdsToExistingId)
