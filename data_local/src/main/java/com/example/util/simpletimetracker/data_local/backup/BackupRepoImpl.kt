@@ -131,10 +131,11 @@ class BackupRepoImpl @Inject constructor(
             fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
             fileOutputStream = fileDescriptor?.fileDescriptor
                 ?.let(::FileOutputStream)?.buffered()
+                ?: throw IOException("Failed to open backup file descriptor")
 
             // Write file identification
             val identificationBackupRow: String = BACKUP_IDENTIFICATION + "\n"
-            fileOutputStream?.write(identificationBackupRow.toByteArray())
+            fileOutputStream.write(identificationBackupRow.toByteArray())
 
             // Options
             val saveRecords: Boolean = when (params) {
@@ -144,84 +145,84 @@ class BackupRepoImpl @Inject constructor(
 
             // Write data
             recordTypeRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             if (saveRecords) {
                 recordRepo.getAll().forEach {
-                    fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                    fileOutputStream.write(it.let(::toBackupString).toByteArray())
                 }
             }
             recordShortcutRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             categoryRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeCategoryRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             if (saveRecords) {
                 recordToRecordTagRepo.getAll().forEach {
-                    fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                    fileOutputStream.write(it.let(::toBackupString).toByteArray())
                 }
             }
             recordShortcutToRecordTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToDefaultTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             activityFilterRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteCommentRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToFavouriteCommentRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteColorRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteIconRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeGoalRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             complexRuleRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             activitySuggestionRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteRecordsFilterDao.getAll().forEach {
-                fileOutputStream?.write(it.main.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.main.let(::toBackupString).toByteArray())
                 it.filters.forEach { filter ->
-                    fileOutputStream?.write(filter.let(::toBackupString).toByteArray())
+                    fileOutputStream.write(filter.let(::toBackupString).toByteArray())
                 }
             }
             scheduledReminderRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             backupPrefsRepo.saveToBackupString().let {
-                fileOutputStream?.write(it.toByteArray())
+                fileOutputStream.write(it.toByteArray())
             }
             activityReminderOverrideRepo.getAll().forEach { data ->
-                fileOutputStream?.write(data.let(::toBackupString).toByteArray())
+                fileOutputStream.write(data.let(::toBackupString).toByteArray())
                 (data.mode as? ActivityReminderOverride.Mode.Custom)?.rule?.let { rule ->
-                    fileOutputStream?.write(toBackupString(data.activityId, rule).toByteArray())
+                    fileOutputStream.write(toBackupString(data.activityId, rule).toByteArray())
                 }
             }
 
-            fileOutputStream?.close()
-            fileDescriptor?.close()
+            fileOutputStream.close()
+            fileDescriptor.close()
             ResultCode.Success(resourceRepo.getString(R.string.message_backup_saved))
         } catch (e: Exception) {
             Timber.e(e)

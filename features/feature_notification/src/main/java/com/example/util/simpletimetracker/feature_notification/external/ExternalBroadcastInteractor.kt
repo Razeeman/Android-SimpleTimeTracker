@@ -178,7 +178,7 @@ class ExternalBroadcastInteractor @Inject constructor(
 
         suspend fun changeLast() {
             recordInteractor.getAllPrev(System.currentTimeMillis()).let { allRecords ->
-                if (typeId != null) allRecords.filter { it.id == typeId } else allRecords
+                if (typeId != null) allRecords.filter { it.typeId == typeId } else allRecords
             }.forEach { record ->
                 record.copy(
                     comment = processComment(

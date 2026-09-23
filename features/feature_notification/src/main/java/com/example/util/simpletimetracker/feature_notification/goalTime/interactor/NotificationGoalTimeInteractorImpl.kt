@@ -254,12 +254,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             getCurrentRecordsDurationInteractor.getAllCurrents(
                 typeIds = allTypeIdsFromTheseCategories,
                 runningRecords = runningRecords,
-                rangeLength = when (goalRange) {
-                    is Range.Session -> return
-                    is Range.Daily -> RangeLength.Day
-                    is Range.Weekly -> RangeLength.Week
-                    is Range.Monthly -> RangeLength.Month
-                },
+                rangeLength = goalRange.toRangeLength() ?: return,
             ).mapValues {
                 it.value.duration
             }
@@ -308,12 +303,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             getCurrentRecordsDurationInteractor.getAllTagCurrents(
                 tagIds = tagIds,
                 runningRecords = runningRecords,
-                rangeLength = when (goalRange) {
-                    is Range.Session -> return
-                    is Range.Daily -> RangeLength.Day
-                    is Range.Weekly -> RangeLength.Week
-                    is Range.Monthly -> RangeLength.Month
-                },
+                rangeLength = goalRange.toRangeLength() ?: return,
             ).mapValues {
                 it.value.duration
             }
