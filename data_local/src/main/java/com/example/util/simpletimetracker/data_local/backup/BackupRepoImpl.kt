@@ -1251,7 +1251,9 @@ class BackupRepoImpl @Inject constructor(
         replace("\n", " ")
 
     private fun String.replaceNewline() =
-        replace("\n", "␤")
+        replace("\r\n", "␤")
+            .replace("\n", "␤")
+            .replace("\r", "␤")
 
     private fun String.restoreNewline() =
         replace("␤", "\n")
