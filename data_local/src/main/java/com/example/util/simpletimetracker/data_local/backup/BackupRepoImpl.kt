@@ -985,7 +985,7 @@ class BackupRepoImpl @Inject constructor(
         return RecordToRecordTag(
             recordId = parts.getOrNull(1)?.toLongOrNull().orZero(),
             recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
-            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull(),
+            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull()?.takeIf { it.isFinite() },
         )
     }
 
@@ -993,7 +993,7 @@ class BackupRepoImpl @Inject constructor(
         return RecordShortcutToRecordTag(
             shortcutId = parts.getOrNull(1)?.toLongOrNull().orZero(),
             recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
-            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull(),
+            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull()?.takeIf { it.isFinite() },
         )
     }
 

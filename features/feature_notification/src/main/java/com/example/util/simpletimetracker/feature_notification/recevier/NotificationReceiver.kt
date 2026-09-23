@@ -330,6 +330,7 @@ class NotificationReceiver : BroadcastReceiver() {
             val numericValue = parts.getOrNull(1)
                 ?.takeIf(String::isNotBlank)
                 ?.toDoubleOrNull()
+                ?.takeIf { it.isFinite() }
             RecordBase.Tag(
                 tagId = tagId,
                 numericValue = numericValue,
