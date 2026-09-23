@@ -57,6 +57,7 @@ class StatisticsViewModel @Inject constructor(
     private var isChartFilterOpened: Boolean = false
     private var isOptionsListOpened: Boolean = false
     private var timerJob: Job? = null
+    private var updateJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
 
     init {
@@ -209,9 +210,12 @@ class StatisticsViewModel @Inject constructor(
         animateChartParticles.set(shouldAnimate)
     }
 
-    private fun updateStatistics() = viewModelScope.launch {
-        val data = loadStatisticsViewData()
-        statistics.set(data)
+    private fun updateStatistics() {
+        updateJob?.cancel()
+        updateJob = viewModelScope.launch {
+            val data = loadStatisticsViewData()
+            statistics.set(data)
+        }
     }
 
     private suspend fun loadStatisticsViewData(forSharing: Boolean = false): List<ViewHolderType> {
@@ -223,13 +227,15 @@ class StatisticsViewModel @Inject constructor(
 
     private fun startUpdate() {
         timerJob?.cancel()
-        if (shift != 0) {
-            updateStatistics()
-            return
-        }
         timerJob = viewModelScope.launch {
-            while (isActive) {
+            if (shift != 0) {
                 updateStatistics()
+                return@launch
+            }
+            while (isActive) {
+                // Just in case update takes longer than timer period,
+                // otherwise will be canceled every tick.
+                if (updateJob?.isCompleted != false) updateStatistics()
                 delay(TIMER_UPDATE)
             }
         }
@@ -237,6 +243,7 @@ class StatisticsViewModel @Inject constructor(
 
     private fun stopUpdate() {
         timerJob?.cancel()
+        updateJob?.cancel()
     }
 
     companion object {
