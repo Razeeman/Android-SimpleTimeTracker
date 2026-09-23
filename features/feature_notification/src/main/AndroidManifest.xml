@@ -31,6 +31,8 @@
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_CREATE_TAG" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_BACKUP" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_EXPORT" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_QUERY_ACTIVITIES" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_QUERY_RUNNING" />
             </intent-filter>
         </receiver>
 

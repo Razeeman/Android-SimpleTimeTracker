@@ -191,6 +191,13 @@ class SettingsAdditionalViewDataInteractor @Inject constructor(
                 isChecked = prefsInteractor.getAutomatedTrackingSendEvents(),
                 topSpaceIsVisible = false,
             )
+            result += SettingsCheckboxViewData(
+                block = SettingsBlock.AdditionalReceiveQueries,
+                title = resourceRepo.getString(R.string.settings_automated_tracking_receive_queries),
+                subtitle = "",
+                isChecked = prefsInteractor.getAutomatedTrackingReceiveQueries(),
+                topSpaceIsVisible = false,
+            )
             result += SettingsTextViewData(
                 block = SettingsBlock.AdditionalDataEdit,
                 title = resourceRepo.getString(R.string.settings_data_edit),

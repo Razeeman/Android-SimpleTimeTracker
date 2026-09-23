@@ -72,6 +72,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             SettingsBlock.AdditionalKeepStatisticsRange -> onKeepStatisticsRangeClicked()
             SettingsBlock.AdditionalRetroactiveTrackingMode -> onRetroactiveTrackingModeClicked()
             SettingsBlock.AdditionalSendEvents -> onAutomatedTrackingSendEventsClicked()
+            SettingsBlock.AdditionalReceiveQueries -> onAutomatedTrackingReceiveQueriesClicked()
             SettingsBlock.AdditionalKeepScreenOn -> onKeepScreenOnClicked()
             SettingsBlock.AdditionalStartTimerByLongClick -> onStartTimerByLongClickClicked()
             SettingsBlock.AdditionalDataEdit -> onDataEditClick()
@@ -272,6 +273,14 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
         delegateScope.launch {
             val newValue = !prefsInteractor.getAutomatedTrackingSendEvents()
             prefsInteractor.setAutomatedTrackingSendEvents(newValue)
+            parent?.updateContent()
+        }
+    }
+
+    private fun onAutomatedTrackingReceiveQueriesClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getAutomatedTrackingReceiveQueries()
+            prefsInteractor.setAutomatedTrackingReceiveQueries(newValue)
             parent?.updateContent()
         }
     }

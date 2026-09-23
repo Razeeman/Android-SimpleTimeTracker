@@ -16,6 +16,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":wear_api"))
+    implementation(libs.google.gson)
     implementation(libs.google.dagger)
     ksp(libs.kapt.dagger)
 }
