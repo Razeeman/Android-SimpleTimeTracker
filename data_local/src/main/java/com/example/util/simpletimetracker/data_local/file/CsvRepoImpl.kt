@@ -149,7 +149,7 @@ class CsvRepoImpl @Inject constructor(
                                 name = typeName,
                                 icon = "",
                                 color = AppColor(
-                                    colorId = (0..ColorMapper.colorsNumber).random(),
+                                    colorId = ColorMapper.getAvailableColors().indices.random(),
                                     colorInt = "",
                                 ),
                                 hidden = false,

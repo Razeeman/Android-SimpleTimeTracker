@@ -124,7 +124,5 @@ class ColorMapper @Inject constructor(
             R.color.palette_brown,
             R.color.palette_blue_grey, // after blue by color order.
         )
-
-        val colorsNumber = availableColors.size
     }
 }
