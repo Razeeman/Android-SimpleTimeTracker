@@ -5,29 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.util.simpletimetracker.core.extension.goAsync
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_ADD_RECORD
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_BACKUP
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_EXPORT
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CHANGE_RECORD
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CREATE_RECORD_TAG
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_ACTIVITIES
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RUNNING
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESTART_ACTIVITY
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_START_ACTIVITY
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ACTIVITY
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ALL_ACTIVITIES
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_LONGEST_ACTIVITY
-import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_SHORTEST_ACTIVITY
-import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
-import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
-import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_MODE
-import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME
-import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
-import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT_MODE
-import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
-import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
-import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
-import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
 import com.example.util.simpletimetracker.domain.record.interactor.RecordsContainerUpdateInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordsUpdateInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.StatisticsUpdateInteractor
@@ -48,13 +25,8 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPES_NEXT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPES_PREV
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CLICKED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CONTROLS_FROM
-import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
-import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
-import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
-import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
-import com.example.util.simpletimetracker.feature_notification.pomodoro.controller.NotificationPomodoroBroadcastController
-import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_EDITING_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_EDITING_TAG_VALUE_INPUT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_MULTIPLE_TAG_AVAILABLE
@@ -62,9 +34,14 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TAGS
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TYPE_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAGS_SHIFT
-import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CLICKED_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
+import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
+import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
+import com.example.util.simpletimetracker.feature_notification.goalTime.controller.NotificationGoalTimeBroadcastController
+import com.example.util.simpletimetracker.feature_notification.inactivity.controller.NotificationInactivityBroadcastController
+import com.example.util.simpletimetracker.feature_notification.pomodoro.controller.NotificationPomodoroBroadcastController
+import com.example.util.simpletimetracker.feature_notification.recordType.controller.NotificationTypeBroadcastController
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_CANCEL
 import com.example.util.simpletimetracker.feature_notification.recordType.manager.NotificationTypeManager.Companion.ACTION_NOTIFICATION_TYPE_STOP
 import com.example.util.simpletimetracker.feature_notification.scheduledReminder.controller.ScheduledReminderController
@@ -164,14 +141,6 @@ class NotificationReceiver : BroadcastReceiver() {
                 } finally {
                     automaticExportController.onFinished()
                 }
-            }
-            ACTION_EXTERNAL_QUERY_ACTIVITIES -> {
-                val answerType = intent.getStringExtra(EXTRA_ANSWER_TYPE)
-                externalController.onActionExternalQueryActivities(answerType)
-            }
-            ACTION_EXTERNAL_QUERY_RUNNING -> {
-                val answerType = intent.getStringExtra(EXTRA_ANSWER_TYPE)
-                externalController.onActionExternalQueryRunning(answerType)
             }
             ACTION_NOTIFICATION_TYPE_STOP -> {
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)

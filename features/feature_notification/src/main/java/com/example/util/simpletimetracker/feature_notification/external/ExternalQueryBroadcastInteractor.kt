@@ -34,6 +34,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
     private val appColorMapper: AppColorMapper,
 ) {
 
+    // TODO get from DI
     private val gson = Gson()
 
     suspend fun onActionQueryActivities(answerTypeData: String?) {
