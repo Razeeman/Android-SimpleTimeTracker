@@ -61,7 +61,8 @@
                 android:layout_height="@dimen/input_field_height"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toStartOf="@id/btnChangeRecordTypeGoalDelete"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -105,18 +106,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <com.example.util.simpletimetracker.feature_views.ButtonIconView
-                android:id="@+id/btnChangeRecordTypeGoalDelete"
-                android:layout_width="@dimen/input_field_height"
-                android:layout_height="@dimen/input_field_height"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="@dimen/edit_screen_button_margin_horizontal"
-                app:itemButtonIconContentDescription="@string/archive_dialog_delete"
-                app:itemButtonIconRes="@drawable/delete"
-                app:itemButtonIconText=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerChangeRecordTypeGoal"
@@ -253,7 +242,7 @@
                 android:id="@+id/rvChangeRecordTypeGoalDays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="2dp"
                 android:overScrollMode="never"
                 app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeGoal"
@@ -264,8 +253,21 @@
                 android:id="@+id/btnChangeRecordTypeGoalSubtype"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="4dp"
                 app:layout_constraintTop_toBottomOf="@id/rvChangeRecordTypeGoalDays" />
+
+            <com.example.util.simpletimetracker.feature_views.ButtonIconView
+                android:id="@+id/btnChangeRecordTypeGoalDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_button_margin_horizontal"
+                app:itemButtonIconContentDescription="@string/archive_dialog_delete"
+                app:itemButtonIconRes="@drawable/delete"
+                app:itemButtonIconText="@string/archive_dialog_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnChangeRecordTypeGoalSubtype" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

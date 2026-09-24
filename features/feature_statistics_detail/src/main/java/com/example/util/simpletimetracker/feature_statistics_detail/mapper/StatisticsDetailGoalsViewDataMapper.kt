@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
+import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
@@ -31,6 +32,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
+    private val goalViewDataMapper: GoalViewDataMapper,
 ) {
 
     fun mapGoalStatsViewData(
@@ -64,10 +66,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         )
 
         if (goalStats.isNotEmpty()) {
-            val title = when (goalSubtype) {
-                is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
-                is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
-            }.let(resourceRepo::getString)
+            val title = goalViewDataMapper.mapSubtype(goalSubtype)
             items += StatisticsDetailCardViewData(
                 block = StatisticsDetailBlock.GoalStats,
                 title = title,
@@ -181,7 +180,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         }
 
         if (chartLengthViewData.isNotEmpty()) {
-            // Update margin top depending if has buttons before.
+            // Update margin top depending on if it has buttons before.
             val hasButtonsBefore = items.lastOrNull() is ButtonsRowItemViewData
             val marginTopDp = if (hasButtonsBefore) -10 else 4
             items += ButtonsRowItemViewData(

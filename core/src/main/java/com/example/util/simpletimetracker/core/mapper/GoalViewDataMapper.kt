@@ -27,6 +27,22 @@ class GoalViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
+    fun mapType(goalRange: RecordTypeGoal.Range): String {
+        return when (goalRange) {
+            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
+            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
+            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
+            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
+        }.let(resourceRepo::getString)
+    }
+
+    fun mapSubtype(goalSubtype: RecordTypeGoal.Subtype): String {
+        return when (goalSubtype) {
+            is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
+            is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
+        }.let(resourceRepo::getString)
+    }
+
     fun mapForTimer(
         goal: RecordTypeGoal?,
         currentDuration: Long,
@@ -42,12 +58,7 @@ class GoalViewDataMapper @Inject constructor(
             return noGoal
         }
 
-        val typeString = when (goal.range) {
-            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
-            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
-            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
-            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
-        }.let(resourceRepo::getString).lowercase()
+        val typeString = mapType(goal.range).lowercase()
         val goalValue = when (goal.type) {
             is RecordTypeGoal.Type.Duration -> goal.value * 1000
             is RecordTypeGoal.Type.Count -> goal.value
@@ -220,10 +231,7 @@ class GoalViewDataMapper @Inject constructor(
                 mapCount(current) to mapCount(goalValue)
             }
         }
-        val goalHint = when (goalSubtype) {
-            is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
-            is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
-        }.let(resourceRepo::getString).lowercase()
+        val goalHint = mapSubtype(goalSubtype).lowercase()
         val goalString = "$goalHint - $goalValueString"
         val goalPercent = if (goalValue == 0L) {
             0
