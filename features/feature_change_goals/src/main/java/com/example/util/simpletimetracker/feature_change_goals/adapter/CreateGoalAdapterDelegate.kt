@@ -31,6 +31,10 @@ fun createGoalAdapterDelegate(
     holderState.key = item.key
     holderState.isBinding = true
 
+    binding.tvChangeRecordTypeGoalSummary.text = item.summary
+    binding.containerChangeRecordTypeGoalEditor.isVisible = item.isExpanded
+    binding.arrowChangeRecordTypeGoalSummary.rotation = if (item.isExpanded) 180f else 0f
+
     binding.spinnerRecordTypeGoalRange.setData(
         items = item.rangeItems,
         selectedPosition = item.rangeSelectedPosition,
@@ -82,6 +86,7 @@ fun createGoalAdapterDelegate(
     binding.fieldChangeRecordTypeGoalDuration.setOnClick { viewModel.onGoalTimeClick(item.key) }
     binding.btnChangeRecordTypeGoalSubtype.listener = { viewModel.onGoalSubTypeSelected(item.key, it) }
     binding.btnChangeRecordTypeGoalDelete.setOnClick { viewModel.onGoalRemove(item.key) }
+    binding.containerChangeRecordTypeGoalSummary.setOnClick { viewModel.onGoalToggle(item.key) }
 
     holderState.isBinding = false
 

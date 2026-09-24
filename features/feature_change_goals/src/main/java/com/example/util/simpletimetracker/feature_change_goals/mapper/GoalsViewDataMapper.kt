@@ -61,6 +61,7 @@ class GoalsViewDataMapper @Inject constructor(
         viewData += goalsState.data.map {
             mapGoalViewData(
                 state = it,
+                isExpanded = it.key == goalsState.expandedGoalKey,
                 isDarkTheme = isDarkTheme,
                 firstDayOfWeek = firstDayOfWeek,
             )
@@ -74,7 +75,10 @@ class GoalsViewDataMapper @Inject constructor(
     }
 
     fun getDefaultGoalState(): ChangeRecordTypeGoalsState {
-        return ChangeRecordTypeGoalsState(data = emptyList())
+        return ChangeRecordTypeGoalsState(
+            data = emptyList(),
+            expandedGoalKey = null,
+        )
     }
 
     fun getDefaultGoal(key: Long): ChangeRecordTypeGoalsState.GoalState {
@@ -91,6 +95,7 @@ class GoalsViewDataMapper @Inject constructor(
 
     private fun mapGoalViewData(
         state: ChangeRecordTypeGoalsState.GoalState,
+        isExpanded: Boolean,
         isDarkTheme: Boolean,
         firstDayOfWeek: DayOfWeek,
     ): ChangeRecordTypeGoalsViewData.GoalViewData {
@@ -176,8 +181,56 @@ class GoalsViewDataMapper @Inject constructor(
             subtypeItems = subtypeItems,
             value = value,
             daysOfWeek = daysOfWeek,
+            summary = mapSummary(state, firstDayOfWeek),
+            isExpanded = isExpanded,
             requestScroll = state.requestScroll,
         )
+    }
+
+    private fun mapSummary(
+        state: ChangeRecordTypeGoalsState.GoalState,
+        firstDayOfWeek: DayOfWeek,
+    ): String {
+        val subtype = when (state.subtype) {
+            is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
+            is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
+        }.let(resourceRepo::getString)
+        val range = when (state.range) {
+            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
+            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
+            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
+            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
+        }.let(resourceRepo::getString)
+        val value = when {
+            state.type.value <= 0L -> {
+                resourceRepo.getString(R.string.change_record_type_goal_time_disabled)
+            }
+            state.type is RecordTypeGoal.Type.Duration -> {
+                timeMapper.formatDuration(state.type.value)
+            }
+            else -> {
+                val count = state.type.value
+                "$count " + resourceRepo.getQuantityString(
+                    stringResId = R.plurals.statistics_detail_times_tracked,
+                    quantity = count.coerceAtMost(Int.MAX_VALUE.toLong()).toInt(),
+                )
+            }
+        }
+        val days = if (state.range is RecordTypeGoal.Range.Daily && state.type.value > 0L) {
+            timeMapper.formatDays(
+                firstDayOfWeek = firstDayOfWeek,
+                selectedDaysOfWeek = state.daysOfWeek,
+            ).takeIf(String::isNotEmpty)
+        } else {
+            null
+        }
+
+        return listOfNotNull(
+            subtype,
+            range,
+            value,
+            days,
+        ).joinToString(separator = " · ")
     }
 
     private fun toDurationGoalText(duration: Long): String {

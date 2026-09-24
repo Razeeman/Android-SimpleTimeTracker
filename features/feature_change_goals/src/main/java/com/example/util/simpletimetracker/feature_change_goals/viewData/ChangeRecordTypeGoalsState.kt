@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 
 data class ChangeRecordTypeGoalsState(
     val data: List<GoalState>,
+    val expandedGoalKey: Long?,
 ) {
 
     data class GoalState(

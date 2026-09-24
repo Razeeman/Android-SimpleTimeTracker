@@ -14,6 +14,7 @@ interface GoalsViewModelDelegate {
     fun onGoalDurationSet(tag: String?, duration: Long, anchor: Any)
     fun onGoalDurationDisabled(tag: String?)
     fun onGoalAdd()
+    fun onGoalToggle(key: Long)
     fun onGoalScrollHandled(key: Long)
     fun onGoalRemove(key: Long)
     fun onGoalRangeSelected(key: Long, position: Int)

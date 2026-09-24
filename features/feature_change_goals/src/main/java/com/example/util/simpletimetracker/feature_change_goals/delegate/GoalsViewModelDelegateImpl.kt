@@ -64,7 +64,18 @@ class GoalsViewModelDelegateImpl @Inject constructor(
         val key = nextNewGoalKey
         nextNewGoalKey -= 1
         val newGoal = goalsViewDataMapper.getDefaultGoal(key)
-        newGoalsState = newGoalsState.copy(data = newGoalsState.data + newGoal)
+        newGoalsState = newGoalsState.copy(
+            data = newGoalsState.data + newGoal,
+            expandedGoalKey = key,
+        )
+        updateGoalsViewData()
+    }
+
+    override fun onGoalToggle(key: Long) {
+        if (newGoalsState.data.none { it.key == key }) return
+        newGoalsState = newGoalsState.copy(
+            expandedGoalKey = key.takeUnless { it == newGoalsState.expandedGoalKey },
+        )
         updateGoalsViewData()
     }
 
@@ -77,7 +88,10 @@ class GoalsViewModelDelegateImpl @Inject constructor(
     override fun onGoalRemove(key: Long) {
         if (newGoalsState.data.none { it.key == key }) return
         val newGoals = newGoalsState.data.filterNot { it.key == key }
-        newGoalsState = newGoalsState.copy(data = newGoals)
+        newGoalsState = newGoalsState.copy(
+            data = newGoals,
+            expandedGoalKey = newGoalsState.expandedGoalKey.takeUnless { it == key },
+        )
         updateGoalsViewData()
     }
 
@@ -194,7 +208,10 @@ class GoalsViewModelDelegateImpl @Inject constructor(
                 requestScroll = false,
             )
         }
-        newGoalsState = ChangeRecordTypeGoalsState(goals)
+        newGoalsState = ChangeRecordTypeGoalsState(
+            data = goals,
+            expandedGoalKey = null,
+        )
         nextNewGoalKey = -1L
         updateGoalsViewData()
     }
