@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
 import com.example.util.simpletimetracker.domain.recordType.extension.getMonthly
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeekly
+import com.example.util.simpletimetracker.domain.recordType.extension.getYearly
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
@@ -175,7 +176,7 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
             ChartGrouping.DAILY -> RangeLength.Day
             ChartGrouping.WEEKLY -> RangeLength.Week
             ChartGrouping.MONTHLY -> RangeLength.Month
-            ChartGrouping.YEARLY -> null
+            ChartGrouping.YEARLY -> RangeLength.Year
         }
     }
 
@@ -189,6 +190,7 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
             is RangeLength.Day -> goals.getDaily()
             is RangeLength.Week -> goals.getWeekly()
             is RangeLength.Month -> goals.getMonthly()
+            is RangeLength.Year -> goals.getYearly()
             else -> null
         }?.getLongest()
     }

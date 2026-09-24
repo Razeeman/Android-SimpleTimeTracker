@@ -13,6 +13,7 @@ fun Range.toRangeLength(): RangeLength? {
         is Range.Daily -> RangeLength.Day
         is Range.Weekly -> RangeLength.Week
         is Range.Monthly -> RangeLength.Month
+        is Range.Yearly -> RangeLength.Year
     }
 }
 
@@ -42,6 +43,10 @@ fun List<RecordTypeGoal>.getWeekly(): List<RecordTypeGoal> {
 
 fun List<RecordTypeGoal>.getMonthly(): List<RecordTypeGoal> {
     return filter { it.range is Range.Monthly }
+}
+
+fun List<RecordTypeGoal>.getYearly(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Yearly }
 }
 
 fun List<RecordTypeGoal>.filterDaysOfWeek(dayOfWeek: DayOfWeek): List<RecordTypeGoal> {

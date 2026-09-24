@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.recordType.extension.getDuratio
 import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.extension.getMonthly
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeekly
+import com.example.util.simpletimetracker.domain.recordType.extension.getYearly
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
@@ -634,8 +635,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
             ChartGrouping.DAILY -> goals.getDaily()
             ChartGrouping.WEEKLY -> goals.getWeekly()
             ChartGrouping.MONTHLY -> goals.getMonthly()
-            ChartGrouping.YEARLY -> null
-        }?.getLongest()
+            ChartGrouping.YEARLY -> goals.getYearly()
+        }.getLongest()
     }
 
     data class CompositeChartData(

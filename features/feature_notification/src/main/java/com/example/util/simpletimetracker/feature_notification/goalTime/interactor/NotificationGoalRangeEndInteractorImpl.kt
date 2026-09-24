@@ -33,6 +33,11 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
         if (hasMonthlyGoals) {
             schedule(RecordTypeGoal.Range.Monthly)
         }
+
+        val hasYearlyGoals = goals.any { it.range is RecordTypeGoal.Range.Yearly }
+        if (hasYearlyGoals) {
+            schedule(RecordTypeGoal.Range.Yearly)
+        }
     }
 
     override fun cancel() {
@@ -40,6 +45,7 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
             RecordTypeGoal.Range.Daily,
             RecordTypeGoal.Range.Weekly,
             RecordTypeGoal.Range.Monthly,
+            RecordTypeGoal.Range.Yearly,
         ).forEach {
             rangeEndScheduler.cancelSchedule(it)
         }
@@ -51,6 +57,7 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
             is RecordTypeGoal.Range.Daily -> RangeLength.Day
             is RecordTypeGoal.Range.Weekly -> RangeLength.Week
             is RecordTypeGoal.Range.Monthly -> RangeLength.Month
+            is RecordTypeGoal.Range.Yearly -> RangeLength.Year
         }.let { getRangeInteractor.getRange(it) }
 
         rangeEndScheduler.schedule(

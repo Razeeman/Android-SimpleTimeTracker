@@ -343,6 +343,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             is Range.Daily -> this.range is Range.Daily
             is Range.Weekly -> this.range is Range.Weekly
             is Range.Monthly -> this.range is Range.Monthly
+            is Range.Yearly -> this.range is Range.Yearly
         }
     }
 
@@ -363,6 +364,6 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     }
 
     private fun getAvailableRanges(): List<Range> {
-        return listOf(Range.Session, Range.Daily, Range.Weekly, Range.Monthly)
+        return listOf(Range.Session, Range.Daily, Range.Weekly, Range.Monthly, Range.Yearly)
     }
 }

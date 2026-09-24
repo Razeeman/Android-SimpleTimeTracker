@@ -35,6 +35,7 @@ class NotificationRangeEndScheduler @Inject constructor(
                 is Range.Daily -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_DAY_END
                 is Range.Weekly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_WEEK_END
                 is Range.Monthly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_MONTH_END
+                is Range.Yearly -> NotificationReceiver.ACTION_GOAL_TIME_REMINDER_YEAR_END
             }
         }
 

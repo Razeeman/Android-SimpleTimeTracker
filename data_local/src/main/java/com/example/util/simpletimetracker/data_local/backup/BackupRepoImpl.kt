@@ -674,6 +674,7 @@ class BackupRepoImpl @Inject constructor(
             is RecordTypeGoal.Range.Daily -> 1L
             is RecordTypeGoal.Range.Weekly -> 2L
             is RecordTypeGoal.Range.Monthly -> 3L
+            is RecordTypeGoal.Range.Yearly -> 4L
         }.toString()
         val typeString = when (recordTypeGoal.type) {
             is RecordTypeGoal.Type.Duration -> 0L
@@ -1077,6 +1078,7 @@ class BackupRepoImpl @Inject constructor(
                 1L -> RecordTypeGoal.Range.Daily
                 2L -> RecordTypeGoal.Range.Weekly
                 3L -> RecordTypeGoal.Range.Monthly
+                4L -> RecordTypeGoal.Range.Yearly
                 else -> RecordTypeGoal.Range.Session
             },
             type = run {

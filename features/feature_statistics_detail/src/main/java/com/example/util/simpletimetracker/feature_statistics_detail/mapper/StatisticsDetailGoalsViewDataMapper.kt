@@ -370,6 +370,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
             is RecordTypeGoal.Range.Daily -> R.string.range_day
             is RecordTypeGoal.Range.Weekly -> R.string.range_week
             is RecordTypeGoal.Range.Monthly -> R.string.range_month
+            is RecordTypeGoal.Range.Yearly -> R.string.range_year
         }.let(resourceRepo::getString)
 
         return listOf(

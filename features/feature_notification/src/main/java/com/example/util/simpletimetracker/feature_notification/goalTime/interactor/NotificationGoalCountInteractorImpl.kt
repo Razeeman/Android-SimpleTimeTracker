@@ -207,6 +207,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
             is Range.Daily -> this.range is Range.Daily
             is Range.Weekly -> this.range is Range.Weekly
             is Range.Monthly -> this.range is Range.Monthly
+            is Range.Yearly -> this.range is Range.Yearly
         }
     }
 
@@ -222,7 +223,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     }
 
     private fun getAllGoalRanges(): List<Range> {
-        return listOf(Range.Daily, Range.Weekly, Range.Monthly)
+        return listOf(Range.Daily, Range.Weekly, Range.Monthly, Range.Yearly)
     }
 
     private fun shouldNotifyOnCountValue(

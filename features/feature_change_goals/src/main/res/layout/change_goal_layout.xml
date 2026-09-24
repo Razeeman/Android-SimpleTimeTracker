@@ -32,11 +32,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Goal · Day · 60m · Mon-Fri" />
 
+            <!-- Margin is to align with range chooser arrow -->
             <ImageView
                 android:id="@+id/arrowChangeRecordTypeGoalSummary"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="15dp"
                 android:src="?appArrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

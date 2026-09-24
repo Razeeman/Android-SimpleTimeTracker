@@ -102,7 +102,7 @@ class DurationPickerViewModel @Inject constructor(
     }
 
     private fun onNumberPressed(number: Int) {
-        if (reformattedValue <= 999_99_99) {
+        if (reformattedValue <= 9999_99_99) {
             reformattedValue = if (extra.showSeconds) {
                 reformattedValue * 10 + number
             } else {

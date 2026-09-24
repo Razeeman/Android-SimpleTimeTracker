@@ -24,6 +24,7 @@ data class RecordTypeGoal(
         data object Daily : Range
         data object Weekly : Range
         data object Monthly : Range
+        data object Yearly : Range
     }
 
     sealed interface Type {

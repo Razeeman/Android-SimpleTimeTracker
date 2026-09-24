@@ -125,6 +125,7 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_GOAL_TIME_REMINDER_DAY_END,
             ACTION_GOAL_TIME_REMINDER_WEEK_END,
             ACTION_GOAL_TIME_REMINDER_MONTH_END,
+            ACTION_GOAL_TIME_REMINDER_YEAR_END,
             -> {
                 goalTimeController.onRangeEndReminder()
             }
@@ -363,6 +364,8 @@ class NotificationReceiver : BroadcastReceiver() {
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_WEEK_END"
         const val ACTION_GOAL_TIME_REMINDER_MONTH_END =
             "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_MONTH_END"
+        const val ACTION_GOAL_TIME_REMINDER_YEAR_END =
+            "com.razeeman.util.simpletimetracker.ACTION_GOAL_TIME_REMINDER_YEAR_END"
         const val ACTION_POMODORO_REMINDER =
             "com.razeeman.util.simpletimetracker.ACTION_POMODORO_REMINDER"
         const val ACTION_GOAL_TIME_REMINDER =

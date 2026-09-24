@@ -51,6 +51,7 @@ class GoalsViewDataInteractor @Inject constructor(
             is RecordTypeGoal.Range.Daily -> dayShift
             is RecordTypeGoal.Range.Weekly,
             is RecordTypeGoal.Range.Monthly,
+            is RecordTypeGoal.Range.Yearly,
             -> {
                 val startOfDayShift = prefsInteractor.getStartOfDayShift()
                 val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
@@ -101,6 +102,7 @@ class GoalsViewDataInteractor @Inject constructor(
                     is RecordTypeGoal.Range.Daily -> 1
                     is RecordTypeGoal.Range.Weekly -> 2
                     is RecordTypeGoal.Range.Monthly -> 3
+                    is RecordTypeGoal.Range.Yearly -> 4
                 }
             }
             .filter {
