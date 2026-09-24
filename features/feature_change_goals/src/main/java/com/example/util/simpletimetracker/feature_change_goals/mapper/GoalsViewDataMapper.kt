@@ -1,5 +1,7 @@
 package com.example.util.simpletimetracker.feature_change_goals.mapper
 
+import android.graphics.Typeface.BOLD
+import android.text.style.StyleSpan
 import com.example.util.simpletimetracker.core.mapper.DayOfWeekViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -16,6 +18,9 @@ import com.example.util.simpletimetracker.feature_change_goals.adapter.GoalsHead
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.viewData.ChangeRecordTypeGoalSubtypeViewData
 import com.example.util.simpletimetracker.feature_change_goals.viewData.ChangeRecordTypeGoalsState
+import com.example.util.simpletimetracker.feature_views.extension.joinToSpannable
+import com.example.util.simpletimetracker.feature_views.extension.setSpan
+import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
 import javax.inject.Inject
 
@@ -184,7 +189,7 @@ class GoalsViewDataMapper @Inject constructor(
     private fun mapSummary(
         state: ChangeRecordTypeGoalsState.GoalState,
         firstDayOfWeek: DayOfWeek,
-    ): String {
+    ): CharSequence {
         val subtype = goalViewDataMapper.mapSubtype(state.subtype)
         val range = goalViewDataMapper.mapType(state.range)
         val value = when {
@@ -201,7 +206,7 @@ class GoalsViewDataMapper @Inject constructor(
                     quantity = count.toInt(),
                 )
             }
-        }
+        }.toSpannableString().setSpan(span = StyleSpan(BOLD))
         val days = if (state.range is RecordTypeGoal.Range.Daily && state.type.value > 0L) {
             timeMapper.formatDays(
                 firstDayOfWeek = firstDayOfWeek,
@@ -216,7 +221,7 @@ class GoalsViewDataMapper @Inject constructor(
             range,
             value,
             days,
-        ).joinToString(separator = " · ")
+        ).joinToSpannable(separator = " · ")
     }
 
     private fun toDurationGoalText(duration: Long): String {
