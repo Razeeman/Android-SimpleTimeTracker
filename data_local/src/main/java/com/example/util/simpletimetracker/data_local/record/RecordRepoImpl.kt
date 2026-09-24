@@ -43,6 +43,11 @@ class RecordRepoImpl @Inject constructor(
         recordDao.getAll().map(::mapItem)
     }
 
+    override suspend fun getAfterId(id: Long, limit: Int): List<Record> = withContext(Dispatchers.IO) {
+        logDataAccess("getAfterId")
+        recordDao.getAfterId(id, limit).map(::mapItem)
+    }
+
     override suspend fun getByType(typeIds: Set<Long>): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getByType")
         recordDao.getByType(typeIds).map(::mapItem)

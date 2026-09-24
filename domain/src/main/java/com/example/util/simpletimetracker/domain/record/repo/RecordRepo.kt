@@ -10,6 +10,8 @@ interface RecordRepo {
 
     suspend fun getAll(): List<Record>
 
+    suspend fun getAfterId(id: Long, limit: Int): List<Record>
+
     suspend fun getByType(typeIds: Set<Long>): List<Record>
 
     suspend fun getByTypeWithAnyComment(typeIds: Set<Long>): List<Record>

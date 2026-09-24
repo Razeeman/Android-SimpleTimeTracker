@@ -19,6 +19,10 @@ abstract class RecordDao {
     abstract suspend fun getAll(): List<RecordWithRecordTagsDBO>
 
     @Transaction
+    @Query("SELECT * FROM records WHERE id > :id ORDER BY id LIMIT :limit")
+    abstract suspend fun getAfterId(id: Long, limit: Int): List<RecordWithRecordTagsDBO>
+
+    @Transaction
     @Query("SELECT * FROM records WHERE type_id IN (:typesIds)")
     abstract suspend fun getByType(typesIds: Set<Long>): List<RecordWithRecordTagsDBO>
 

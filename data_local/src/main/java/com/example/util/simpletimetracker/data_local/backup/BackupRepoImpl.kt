@@ -148,9 +148,7 @@ class BackupRepoImpl @Inject constructor(
                 fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             if (saveRecords) {
-                recordRepo.getAll().forEach {
-                    fileOutputStream.write(it.let(::toBackupString).toByteArray())
-                }
+                writeRecordsInBatches(fileOutputStream)
             }
             recordShortcutRepo.getAll().forEach {
                 fileOutputStream.write(it.let(::toBackupString).toByteArray())
@@ -165,9 +163,7 @@ class BackupRepoImpl @Inject constructor(
                 fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             if (saveRecords) {
-                recordToRecordTagRepo.getAll().forEach {
-                    fileOutputStream.write(it.let(::toBackupString).toByteArray())
-                }
+                writeRecordToRecordTagsInBatches(fileOutputStream)
             }
             recordShortcutToRecordTagRepo.getAll().forEach {
                 fileOutputStream.write(it.let(::toBackupString).toByteArray())
@@ -1241,6 +1237,40 @@ class BackupRepoImpl @Inject constructor(
         }
     }
 
+    private suspend fun writeRecordsInBatches(
+        outputStream: BufferedOutputStream,
+    ) {
+        var lastId = Long.MIN_VALUE
+        do {
+            val records = recordRepo.getAfterId(lastId, BACKUP_BATCH_SIZE)
+            records.forEach {
+                outputStream.write(it.let(::toBackupString).toByteArray())
+            }
+            lastId = records.lastOrNull()?.id ?: lastId
+        } while (records.size == BACKUP_BATCH_SIZE)
+    }
+
+    private suspend fun writeRecordToRecordTagsInBatches(
+        outputStream: BufferedOutputStream,
+    ) {
+        var lastRecordId = Long.MIN_VALUE
+        var lastRecordTagId = Long.MIN_VALUE
+        do {
+            val recordTags = recordToRecordTagRepo.getAfter(
+                recordId = lastRecordId,
+                recordTagId = lastRecordTagId,
+                limit = BACKUP_BATCH_SIZE,
+            )
+            recordTags.forEach {
+                outputStream.write(it.let(::toBackupString).toByteArray())
+            }
+            recordTags.lastOrNull()?.let {
+                lastRecordId = it.recordId
+                lastRecordTagId = it.recordTagId
+            }
+        } while (recordTags.size == BACKUP_BATCH_SIZE)
+    }
+
     private fun String.clean() =
         cleanTabs().cleanNewline()
 
@@ -1286,6 +1316,7 @@ class BackupRepoImpl @Inject constructor(
     )
 
     companion object {
+        private const val BACKUP_BATCH_SIZE = 1000
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
         private const val ROW_RECORD_TYPE = "recordType"
         private const val ROW_RECORD = "record"

@@ -11,6 +11,18 @@ interface RecordToRecordTagDao {
     @Query("SELECT * FROM recordToRecordTag")
     suspend fun getAll(): List<RecordToRecordTagDBO>
 
+    @Query(
+        "SELECT * FROM recordToRecordTag " +
+            "WHERE record_id > :recordId " +
+            "OR (record_id = :recordId AND record_tag_id > :recordTagId) " +
+            "ORDER BY record_id, record_tag_id LIMIT :limit",
+    )
+    suspend fun getAfter(
+        recordId: Long,
+        recordTagId: Long,
+        limit: Int,
+    ): List<RecordToRecordTagDBO>
+
     @Query("SELECT record_id FROM recordToRecordTag WHERE record_tag_id = :tagId")
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 

@@ -6,6 +6,8 @@ interface RecordToRecordTagRepo {
 
     suspend fun getAll(): List<RecordToRecordTag>
 
+    suspend fun getAfter(recordId: Long, recordTagId: Long, limit: Int): List<RecordToRecordTag>
+
     suspend fun getRecordIdsByTagId(tagId: Long): List<Long>
 
     suspend fun getRecordCountsByTag(): Map<Long, Int>

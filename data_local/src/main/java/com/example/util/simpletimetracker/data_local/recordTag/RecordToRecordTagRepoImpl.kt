@@ -20,6 +20,15 @@ class RecordToRecordTagRepoImpl @Inject constructor(
             dao.getAll().map(mapper::map)
         }
 
+    override suspend fun getAfter(
+        recordId: Long,
+        recordTagId: Long,
+        limit: Int,
+    ): List<RecordToRecordTag> = withContext(Dispatchers.IO) {
+        logDataAccess("get after")
+        dao.getAfter(recordId, recordTagId, limit).map(mapper::map)
+    }
+
     override suspend fun getRecordIdsByTagId(tagId: Long): List<Long> =
         withContext(Dispatchers.IO) {
             logDataAccess("get record ids")
