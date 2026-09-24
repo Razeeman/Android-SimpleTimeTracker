@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Notifi
 import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.notifications.interactor.ActivityStartedStoppedBroadcastInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase

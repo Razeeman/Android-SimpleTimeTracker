@@ -17,6 +17,7 @@ import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -68,14 +69,14 @@ class TimeMapper @Inject constructor(
             if (showSeconds) timeFormatMilitaryWithSeconds else timeFormatMilitary
         } else {
             if (showSeconds) timeFormatWithSeconds else timeFormat
-        }.format(time)
+        }.formatInCurrentTimeZone(time)
     }
 
     // Mar 11
     fun formatDate(
         time: Long,
     ): String = synchronized(lock) {
-        return dateFormat.format(time)
+        return dateFormat.formatInCurrentTimeZone(time)
     }
 
     // Mar 11 12:21
@@ -88,7 +89,7 @@ class TimeMapper @Inject constructor(
             if (showSeconds) dateTimeFormatMilitaryWithSeconds else dateTimeFormatMilitary
         } else {
             if (showSeconds) dateTimeFormatWithSeconds else dateTimeFormat
-        }.format(time)
+        }.formatInCurrentTimeZone(time)
     }
 
     // Mar 12 2021 12:21
@@ -97,36 +98,36 @@ class TimeMapper @Inject constructor(
             dateTimeYearFormatMilitary
         } else {
             dateTimeYearFormat
-        }.format(time)
+        }.formatInCurrentTimeZone(time)
     }
 
     // Mar 12 2021
     fun formatDateYear(time: Long): String = synchronized(lock) {
-        return dateYearFormat.format(time)
+        return dateYearFormat.formatInCurrentTimeZone(time)
     }
 
     // Tue, Mar 12 2021
     fun formatDayDateYear(time: Long): String = synchronized(lock) {
-        return dayDateYearFormat.format(time)
+        return dayDateYearFormat.formatInCurrentTimeZone(time)
     }
 
     // 12.03
     fun formatShortDay(time: Long, useMonthDayTimeFormat: Boolean): String = synchronized(lock) {
         if (useMonthDayTimeFormat) {
-            return shortDayFormatMMDD.format(time)
+            return shortDayFormatMMDD.formatInCurrentTimeZone(time)
         } else {
-            return shortDayFormatDDMM.format(time)
+            return shortDayFormatDDMM.formatInCurrentTimeZone(time)
         }
     }
 
     // Mar
     fun formatShortMonth(time: Long): String = synchronized(lock) {
-        return shortMonthFormat.format(time)
+        return shortMonthFormat.formatInCurrentTimeZone(time)
     }
 
     // 21
     fun formatShortYear(time: Long): String = synchronized(lock) {
-        return shortYearFormat.format(time)
+        return shortYearFormat.formatInCurrentTimeZone(time)
     }
 
     fun toTimestampShifted(
@@ -578,7 +579,7 @@ class TimeMapper @Inject constructor(
         startOfDayShift: Long,
     ): String = synchronized(lock) {
         val calendar = toDayDateTimestamp(daysFromToday, startOfDayShift)
-        return dayTitleFormat.format(calendar)
+        return dayTitleFormat.formatInCurrentTimeZone(calendar)
     }
 
     fun toDayShortDateTitle(
@@ -586,7 +587,7 @@ class TimeMapper @Inject constructor(
         startOfDayShift: Long,
     ): String = synchronized(lock) {
         val calendar = toDayDateTimestamp(daysFromToday, startOfDayShift)
-        return weekTitleFormat.format(calendar)
+        return weekTitleFormat.formatInCurrentTimeZone(calendar)
     }
 
     fun toWeekDateTimestamp(
@@ -616,7 +617,8 @@ class TimeMapper @Inject constructor(
         firstDayOfWeek: DayOfWeek,
     ): String = synchronized(lock) {
         val (rangeStart, rangeEnd) = toWeekDateTimestamp(weeksFromToday, startOfDayShift, firstDayOfWeek)
-        return weekTitleFormat.format(rangeStart) + " - " + weekTitleFormat.format(rangeEnd)
+        return weekTitleFormat.formatInCurrentTimeZone(rangeStart) +
+            " - " + weekTitleFormat.formatInCurrentTimeZone(rangeEnd)
     }
 
     fun toMonthDateTimestamp(
@@ -637,7 +639,7 @@ class TimeMapper @Inject constructor(
         startOfDayShift: Long,
     ): String = synchronized(lock) {
         val calendar = toMonthDateTimestamp(monthsFromToday, startOfDayShift)
-        return monthTitleFormat.format(calendar)
+        return monthTitleFormat.formatInCurrentTimeZone(calendar)
     }
 
     fun toYearDateTimestamp(
@@ -658,7 +660,7 @@ class TimeMapper @Inject constructor(
         startOfDayShift: Long,
     ): String = synchronized(lock) {
         val calendar = toYearDateTimestamp(yearsFromToday, startOfDayShift)
-        return yearTitleFormat.format(calendar)
+        return yearTitleFormat.formatInCurrentTimeZone(calendar)
     }
 
     fun getStartOfDayTimeStamp(
@@ -768,6 +770,14 @@ class TimeMapper @Inject constructor(
     private fun isFirstWeekOfNextYear(calendar: Calendar): Boolean {
         return calendar.get(Calendar.WEEK_OF_YEAR) == 1 &&
             calendar.get(Calendar.MONTH) == calendar.getActualMaximum(Calendar.MONTH)
+    }
+
+    private fun SimpleDateFormat.formatInCurrentTimeZone(time: Long): String {
+        val currentTimeZone = TimeZone.getDefault()
+        if (timeZone.id != currentTimeZone.id) {
+            timeZone = currentTimeZone
+        }
+        return format(time)
     }
 
     data class DateTime(
