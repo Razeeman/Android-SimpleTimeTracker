@@ -120,7 +120,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         )
         val chartData = statisticsDetailViewDataMapper.mapChartData(
             data = goalData,
-            goal = 0, // Don't show goal on goal graph.
+            goals = emptyList(), // Don't show goal on goal graph.
             rangeLength = rangeLength,
             chartMode = chartMode,
             yAxisZoomed = false,

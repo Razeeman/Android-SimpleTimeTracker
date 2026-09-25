@@ -307,7 +307,7 @@ class StatisticsDetailDataDistributionInteractor @Inject constructor(
             shouldDrawHorizontalLegends = false,
             showSelectedBarOnStart = false,
             selectedBarPosition = selectedBarPosition,
-            goalValue = 0f,
+            goalValues = emptyList(),
             yAxisZoomed = false,
             useSingleColor = true,
             drawRoundCaps = true,

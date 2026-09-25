@@ -14,7 +14,6 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
 import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
-import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.extension.getMonthly
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeekly
 import com.example.util.simpletimetracker.domain.recordType.extension.getYearly
@@ -168,12 +167,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
             canSplitByActivity = canSplitByActivity,
             canComparisonSplitByActivity = canComparisonSplitByActivity,
             splitSortMode = splitSortMode,
-            goalValue = getGoalValue(
+            goalValues = getGoalValues(
                 goals = statisticsDetailGetGoalFromFilterInteractor.execute(filter),
                 appliedChartGrouping = compositeData.appliedChartGrouping,
             ),
             compareData = compareData,
-            compareGoalValue = getGoalValue(
+            compareGoalValues = getGoalValues(
                 goals = statisticsDetailGetGoalFromFilterInteractor.execute(compare),
                 appliedChartGrouping = compositeData.appliedChartGrouping,
             ),
@@ -614,29 +613,19 @@ class StatisticsDetailChartInteractor @Inject constructor(
             filter.getTypeIds().size > 1
     }
 
-    private fun getGoalValue(
+    private fun getGoalValues(
         goals: List<RecordTypeGoal>,
         appliedChartGrouping: ChartGrouping,
-    ): Long {
+    ): List<Long> {
         // Currently only duration goals are on chart.
-        return getGoal(
-            goals = goals,
-            appliedChartGrouping = appliedChartGrouping,
-        ).value * 1000
-    }
-
-    // TODO GOALS show several goals on chart
-    private fun getGoal(
-        goals: List<RecordTypeGoal>,
-        appliedChartGrouping: ChartGrouping,
-    ): RecordTypeGoal? {
-        val goals = goals.getDurations()
+        // Daily goal weekdays are intentionally not taken into account here.
+        val durationGoals = goals.getDurations()
         return when (appliedChartGrouping) {
-            ChartGrouping.DAILY -> goals.getDaily()
-            ChartGrouping.WEEKLY -> goals.getWeekly()
-            ChartGrouping.MONTHLY -> goals.getMonthly()
-            ChartGrouping.YEARLY -> goals.getYearly()
-        }.getLongest()
+            ChartGrouping.DAILY -> durationGoals.getDaily()
+            ChartGrouping.WEEKLY -> durationGoals.getWeekly()
+            ChartGrouping.MONTHLY -> durationGoals.getMonthly()
+            ChartGrouping.YEARLY -> durationGoals.getYearly()
+        }.map { it.value * 1000 }
     }
 
     data class CompositeChartData(

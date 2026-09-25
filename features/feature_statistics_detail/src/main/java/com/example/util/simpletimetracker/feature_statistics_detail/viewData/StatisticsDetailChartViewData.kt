@@ -10,7 +10,7 @@ data class StatisticsDetailChartViewData(
     val shouldDrawHorizontalLegends: Boolean,
     val showSelectedBarOnStart: Boolean,
     val selectedBarPosition: Int?,
-    val goalValue: Float,
+    val goalValues: List<Float>,
     val yAxisZoomed: Boolean,
     val useSingleColor: Boolean,
     val drawRoundCaps: Boolean,
