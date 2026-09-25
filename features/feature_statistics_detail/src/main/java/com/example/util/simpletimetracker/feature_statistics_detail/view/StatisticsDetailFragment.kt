@@ -47,6 +47,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.crea
 import com.example.util.simpletimetracker.feature_statistics_detail.api.StatisticsDetailOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.model.StatisticsDetailGoalOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.settings.dialog.StatisticsTagValuesSettingsDialogListener
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewCompositeViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailPreviewViewData
@@ -198,6 +199,9 @@ class StatisticsDetailFragment :
 
     override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
         when (id) {
+            is StatisticsDetailGoalOptionsListItem -> {
+                viewModel.onGoalSelected(id.position)
+            }
             is StatisticsDetailOptionsListItem -> {
                 viewModel.onOptionsItemClick(id)
             }

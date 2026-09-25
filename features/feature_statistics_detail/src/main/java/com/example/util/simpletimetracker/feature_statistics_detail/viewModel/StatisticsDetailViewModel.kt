@@ -65,7 +65,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val statisticsDetailContentInteractor: StatisticsDetailContentInteractor,
     private val previewDelegate: StatisticsDetailPreviewViewModelDelegate,
     statsDelegate: StatisticsDetailStatsViewModelDelegate,
-    streaksDelegate: StatisticsDetailStreaksViewModelDelegate,
+    private val streaksDelegate: StatisticsDetailStreaksViewModelDelegate,
     chartDelegate: StatisticsDetailChartViewModelDelegate,
     splitChartDelegate: StatisticsDetailSplitChartViewModelDelegate,
     nextActivitiesDelegate: StatisticsDetailNextActivitiesViewModelDelegate,
@@ -156,6 +156,10 @@ class StatisticsDetailViewModel @Inject constructor(
 
     fun onButtonClick(block: StatisticsDetailBlock) {
         delegates.forEach { it.onButtonClick(block) }
+    }
+
+    fun onGoalSelected(position: Int) {
+        streaksDelegate.onGoalSelected(position)
     }
 
     fun onCardClick(

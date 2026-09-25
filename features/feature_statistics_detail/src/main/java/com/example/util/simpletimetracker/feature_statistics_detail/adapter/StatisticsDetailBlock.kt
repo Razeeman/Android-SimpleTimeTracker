@@ -17,6 +17,7 @@ enum class StatisticsDetailBlock : ButtonsRowItemViewData.ButtonsRowId {
     Dates,
     Series,
     SeriesGoal,
+    SeriesGoalSelect,
     SeriesChart,
     SeriesChartComparison,
     SeriesType,
