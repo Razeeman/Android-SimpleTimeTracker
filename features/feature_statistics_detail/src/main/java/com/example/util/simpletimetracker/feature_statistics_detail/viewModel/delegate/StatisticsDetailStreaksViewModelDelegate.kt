@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
-import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.base.Coordinates
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
@@ -17,6 +16,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailGetGoalFromFilterInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailStreaksInteractor
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailGoalsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapToViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StatisticsDetailGoalOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.model.StreaksGoal
@@ -35,6 +35,7 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
     private val timeMapper: TimeMapper,
     private val prefsInteractor: PrefsInteractor,
     private val streaksInteractor: StatisticsDetailStreaksInteractor,
+    private val statisticsDetailGoalsViewDataMapper: StatisticsDetailGoalsViewDataMapper,
     private val statisticsDetailGetGoalFromFilterInteractor: StatisticsDetailGetGoalFromFilterInteractor,
 ) : StatisticsDetailViewModelDelegate, ViewModelDelegate() {
 
@@ -67,6 +68,7 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
         val parent = parent ?: return
         dailyGoals = Result.success(getDailyGoals(parent.filter))
         compareDailyGoals = Result.success(getDailyGoals(parent.comparisonFilter))
+        // TODO GOAL Preserve goal selection across date navigation
         dailyGoalPosition = null
     }
 
@@ -108,8 +110,11 @@ class StatisticsDetailStreaksViewModelDelegate @Inject constructor(
         val selectedPosition = goals.indexOf(selectedGoal).coerceAtLeast(0)
         val items = goals.mapIndexed { position, goal ->
             OptionsListParams.Item(
-                id = StatisticsDetailGoalOptionsListItem(position),
-                text = streaksInteractor.mapGoalName(goal),
+                id = StatisticsDetailGoalOptionsListItem(
+                    position = position,
+                    type = StatisticsDetailGoalOptionsListItem.Type.STREAKS,
+                ),
+                text = statisticsDetailGoalsViewDataMapper.mapGoalName(goal),
                 icon = null,
                 isSelected = position == selectedPosition,
             )

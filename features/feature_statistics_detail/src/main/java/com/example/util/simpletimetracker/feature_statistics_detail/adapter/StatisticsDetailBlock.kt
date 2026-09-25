@@ -33,6 +33,7 @@ enum class StatisticsDetailBlock : ButtonsRowItemViewData.ButtonsRowId {
     DurationSplitChartComparison,
     NextActivities,
     GoalStats,
+    GoalSelect,
     GoalExcessDeficitHint,
     GoalChartData,
     GoalChartGrouping,

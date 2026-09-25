@@ -200,7 +200,7 @@ class StatisticsDetailFragment :
     override fun onOptionsItemClick(id: OptionsListParams.Item.Id) {
         when (id) {
             is StatisticsDetailGoalOptionsListItem -> {
-                viewModel.onGoalSelected(id.position)
+                viewModel.onGoalSelected(id)
             }
             is StatisticsDetailOptionsListItem -> {
                 viewModel.onOptionsItemClick(id)

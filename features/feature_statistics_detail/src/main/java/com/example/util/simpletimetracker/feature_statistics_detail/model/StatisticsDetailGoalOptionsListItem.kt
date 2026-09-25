@@ -6,4 +6,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class StatisticsDetailGoalOptionsListItem(
     val position: Int,
-) : OptionsListParams.Item.Id
+    val type: Type,
+) : OptionsListParams.Item.Id {
+
+    enum class Type {
+        STREAKS,
+        GOALS,
+    }
+}

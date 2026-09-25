@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
+import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
 import com.example.util.simpletimetracker.domain.recordType.extension.getMonthly
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeekly
@@ -21,6 +22,10 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartG
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartLength
 import com.example.util.simpletimetracker.feature_statistics_detail.model.ChartSplitSortMode
 import com.example.util.simpletimetracker.domain.statistics.model.ChartValueMode
+import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
+import com.example.util.simpletimetracker.feature_statistics_detail.R
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailButtonViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailGoalsCompositeViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +38,25 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
     private val prefsInteractor: PrefsInteractor,
     private val statisticsDetailGetGoalFromFilterInteractor: StatisticsDetailGetGoalFromFilterInteractor,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val resourceRepo: ResourceRepo,
 ) {
+
+    fun getSelectedGoal(
+        goals: List<RecordTypeGoal>,
+        goalPosition: Int?,
+    ): RecordTypeGoal? {
+        return goalPosition?.let { goals.getOrNull(it) } ?: goals.getLongest()
+    }
+
+    suspend fun getGoalsForRange(
+        filter: List<RecordsFilter>,
+        chartGrouping: ChartGrouping,
+    ): List<RecordTypeGoal> {
+        return getGoalsForRange(
+            goals = statisticsDetailGetGoalFromFilterInteractor.execute(filter),
+            rangeLength = mapToRange(chartGrouping)
+        )
+    }
 
     // TODO compare?
     suspend fun getChartViewData(
@@ -43,6 +66,7 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
         currentChartLength: ChartLength,
         rangeLength: RangeLength,
         rangePosition: Int,
+        goalPosition: Int?,
     ): StatisticsDetailGoalsCompositeViewData = withContext(Dispatchers.Default) {
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
@@ -62,10 +86,11 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
             firstDayOfWeek = firstDayOfWeek,
             goals = goals,
         )
-        val chartGoal = getGoal(
+        val chartGoals = getGoalsForRange(
             goals = goals,
             rangeLength = mapToRange(compositeData.appliedChartGrouping),
         )
+        val chartGoal = getSelectedGoal(chartGoals, goalPosition)
         val chartMode = statisticsDetailViewDataMapper.mapToChartMode(chartGoal)
         val chartValueMode = ChartValueMode.TOTAL
         val ranges = chartInteractor.getRanges(
@@ -107,7 +132,9 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
 
         val statsViewData = statisticsDetailGoalsViewDataMapper.mapGoalStatsViewData(
             records = records,
-            currentRangeGoal = getGoal(
+            // TODO GOAL select goal
+            // TODO GOAL use the same goal selection everywhere
+            currentRangeGoal = getLongestGoal(
                 goals = goals,
                 rangeLength = rangeLength,
             ),
@@ -133,9 +160,14 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
             isDarkTheme = isDarkTheme,
             startOfDayShift = startOfDayShift,
         )
+        val goalSelectViewData = mapGoalSelectViewData(
+            goals = chartGoals,
+            selectedGoal = chartGoal,
+            isDarkTheme = isDarkTheme,
+        )
 
         return@withContext StatisticsDetailGoalsCompositeViewData(
-            viewData = statsViewData + chartViewData,
+            viewData = statsViewData + goalSelectViewData + chartViewData,
             appliedChartGrouping = compositeData.appliedChartGrouping,
             appliedChartLength = compositeData.appliedChartLength,
         )
@@ -156,7 +188,7 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
         )
 
         val availableChartGroupings = mainData.availableChartGroupings
-            .filter { getGoal(goals, mapToRange(it)).value != 0L }
+            .filter { getLongestGoal(goals, mapToRange(it)).value != 0L }
             .takeUnless { it.isEmpty() }
             ?: listOf(ChartGrouping.DAILY)
 
@@ -180,18 +212,42 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
         }
     }
 
-    // TODO GOALS show several goals on chart
-    // TODO GOALS show several goals on excess / deficit
-    private fun getGoal(
+    private fun mapGoalSelectViewData(
+        goals: List<RecordTypeGoal>,
+        selectedGoal: RecordTypeGoal?,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        if (goals.size <= 1) return emptyList()
+        selectedGoal ?: return emptyList()
+
+        return StatisticsDetailButtonViewData(
+            marginTopDp = 10,
+            data = StatisticsDetailButtonViewData.Button(
+                block = StatisticsDetailBlock.GoalSelect,
+                text = statisticsDetailGoalsViewDataMapper.mapGoalName(selectedGoal),
+                color = resourceRepo.getThemedAttr(R.attr.appInactiveColor, isDarkTheme),
+            ),
+            dataSecond = null,
+        ).let(::listOf)
+    }
+
+    private fun getLongestGoal(
         goals: List<RecordTypeGoal>,
         rangeLength: RangeLength?,
     ): RecordTypeGoal? {
+        return getGoalsForRange(goals, rangeLength).getLongest()
+    }
+
+    private fun getGoalsForRange(
+        goals: List<RecordTypeGoal>,
+        rangeLength: RangeLength?,
+    ): List<RecordTypeGoal> {
         return when (rangeLength) {
             is RangeLength.Day -> goals.getDaily()
             is RangeLength.Week -> goals.getWeekly()
             is RangeLength.Month -> goals.getMonthly()
             is RangeLength.Year -> goals.getYearly()
-            else -> null
-        }?.getLongest()
+            else -> emptyList()
+        }
     }
 }

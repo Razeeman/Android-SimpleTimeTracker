@@ -90,6 +90,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
             ?: ExternalAnswerType.SIMPLE
     }
 
+    // TODO probably would be better to use separate DTOs to allow versioning.
     private fun mapToActivityDTO(recordType: RecordType): WearActivityDTO {
         return WearActivityDTO(
             id = recordType.id,

@@ -35,6 +35,20 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
     private val goalViewDataMapper: GoalViewDataMapper,
 ) {
 
+    // TODO GOAL Include weekdays in selectable daily-goal labels
+    //  to differentiate between 8h Mon-Fri and 8h Sut-Sun
+    fun mapGoalName(goal: RecordTypeGoal): String {
+        val subtype = goalViewDataMapper.mapSubtype(goal.subtype)
+        val value = when (val type = goal.type) {
+            is RecordTypeGoal.Type.Duration -> timeMapper.formatDuration(type.value)
+            is RecordTypeGoal.Type.Count -> "${type.value} " + resourceRepo.getQuantityString(
+                stringResId = R.plurals.statistics_detail_times_tracked,
+                quantity = type.value.toInt(),
+            )
+        }
+        return "$subtype · $value"
+    }
+
     fun mapGoalStatsViewData(
         records: List<RecordBase>,
         currentRangeGoal: RecordTypeGoal?,

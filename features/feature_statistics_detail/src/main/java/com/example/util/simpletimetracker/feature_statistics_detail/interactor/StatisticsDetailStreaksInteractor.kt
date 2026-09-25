@@ -4,7 +4,6 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
-import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.OneShotValue
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -32,6 +31,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.adapter.Stat
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailGoalsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
@@ -50,7 +50,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val resourceRepo: ResourceRepo,
-    private val goalViewDataMapper: GoalViewDataMapper,
+    private val statisticsDetailGoalsViewDataMapper: StatisticsDetailGoalsViewDataMapper,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
 ) {
 
@@ -332,7 +332,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             marginTopDp = -10,
             data = StatisticsDetailButtonViewData.Button(
                 block = StatisticsDetailBlock.SeriesGoalSelect,
-                text = mapGoalName(selectedGoal),
+                text = statisticsDetailGoalsViewDataMapper.mapGoalName(selectedGoal),
                 color = resourceRepo.getThemedAttr(R.attr.appInactiveColor, isDarkTheme),
             ),
             dataSecond = null,
@@ -351,18 +351,6 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             StreaksGoal.ANY -> R.string.statistics_detail_streaks_any
             StreaksGoal.GOAL -> R.string.statistics_detail_streaks_goal
         }.let(resourceRepo::getString)
-    }
-
-    fun mapGoalName(goal: RecordTypeGoal): String {
-        val subtype = goalViewDataMapper.mapSubtype(goal.subtype)
-        val value = when (val type = goal.type) {
-            is RecordTypeGoal.Type.Duration -> timeMapper.formatDuration(type.value)
-            is RecordTypeGoal.Type.Count -> "${type.value} " + resourceRepo.getQuantityString(
-                stringResId = R.plurals.statistics_detail_times_tracked,
-                quantity = type.value.toInt(),
-            )
-        }
-        return "$subtype · $value"
     }
 
     private fun mapStatsData(
