@@ -299,7 +299,7 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="records_all_sort_order">Trier par</string>
     <string name="records_all_sort_time_started">Heure de début</string>
     <string name="records_all_sort_duration">Durée</string>
-    <string name="records_all_days_without_records">Jours sans enregistrements - %s</string>
+    <string name="records_all_days_without_records">%s jour(s) sans enregistrements</string>
 
     <!--  Running records  -->
     <string name="running_records_types_empty">Pour commencer, ajoutez les activités que vous souhaitez enregistrer. Appuyez sur le bouton \'%s\' pour créer une activité personnalisée ou sur \'%s\' pour créer une activité à partir d\'un modèle.</string>
@@ -545,7 +545,7 @@ Exemple :<br/>
     <string name="statistics_detail_range_averages">Sur tous les éléments de la plage</string>
     <string name="statistics_detail_range_averages_non_empty">Uniquement sur les éléments de la plage ayant un enregistrement</string>
 
-    <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_total_duration">Solde</string>
     <string name="statistics_detail_record_length">Durée des enregistrements</string>
     <string name="statistics_detail_shortest_record">Le plus court</string>
     <string name="statistics_detail_average_record">En moyenne</string>
