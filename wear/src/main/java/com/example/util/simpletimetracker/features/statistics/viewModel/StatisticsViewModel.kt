@@ -130,7 +130,6 @@ class StatisticsViewModel @Inject constructor(
                 settings = settingsResult.getOrNull()
                 _state.value = statisticsViewDataMapper.mapContentState(
                     statistics = statistics.getOrNull().orEmpty(),
-                    filterType = filterType,
                     rangeLength = rangeLength,
                     shift = shift,
                     settings = settings,

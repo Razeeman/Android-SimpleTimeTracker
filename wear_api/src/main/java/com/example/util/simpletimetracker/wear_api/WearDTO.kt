@@ -70,6 +70,8 @@ data class WearStatisticsRequest(
 data class WearStatisticsDTO(
     @SerializedName("id")
     val id: Long,
+    @SerializedName("type")
+    val type: TypeDTO,
     @SerializedName("name")
     val name: String?,
     @SerializedName("icon")
@@ -78,7 +80,28 @@ data class WearStatisticsDTO(
     val color: Long?,
     @SerializedName("duration")
     val duration: Long,
-) : Parcelable
+) : Parcelable {
+
+    enum class TypeDTO {
+        @SerializedName("ACTIVITY")
+        ACTIVITY,
+
+        @SerializedName("CATEGORY")
+        CATEGORY,
+
+        @SerializedName("TAG")
+        TAG,
+
+        @SerializedName("UNTRACKED")
+        UNTRACKED,
+
+        @SerializedName("UNCATEGORIZED")
+        UNCATEGORIZED,
+
+        @SerializedName("UNTAGGED")
+        UNTAGGED,
+    }
+}
 
 @Parcelize
 data class WearRecordsRequest(

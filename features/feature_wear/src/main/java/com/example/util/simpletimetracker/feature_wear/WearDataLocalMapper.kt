@@ -8,6 +8,8 @@ package com.example.util.simpletimetracker.feature_wear
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
 import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
+import com.example.util.simpletimetracker.domain.base.UNCATEGORIZED_ITEM_ID
+import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.color.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
@@ -100,9 +102,22 @@ class WearDataLocalMapper @Inject constructor(
     fun map(
         statistics: Statistics,
         dataHolder: StatisticsDataHolder?,
+        filterType: ChartFilterType,
     ): WearStatisticsDTO {
         return WearStatisticsDTO(
             id = statistics.id,
+            type = when (statistics.id) {
+                UNTRACKED_ITEM_ID -> WearStatisticsDTO.TypeDTO.UNTRACKED
+                UNCATEGORIZED_ITEM_ID -> when (filterType) {
+                    ChartFilterType.RECORD_TAG -> WearStatisticsDTO.TypeDTO.UNTAGGED
+                    else -> WearStatisticsDTO.TypeDTO.UNCATEGORIZED
+                }
+                else -> when (filterType) {
+                    ChartFilterType.ACTIVITY -> WearStatisticsDTO.TypeDTO.ACTIVITY
+                    ChartFilterType.CATEGORY -> WearStatisticsDTO.TypeDTO.CATEGORY
+                    ChartFilterType.RECORD_TAG -> WearStatisticsDTO.TypeDTO.TAG
+                }
+            },
             name = dataHolder?.name,
             icon = dataHolder?.icon,
             color = dataHolder?.color?.let(::mapColor),

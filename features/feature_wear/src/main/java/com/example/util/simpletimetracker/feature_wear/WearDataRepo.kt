@@ -159,6 +159,7 @@ class WearDataRepo @Inject constructor(
             wearDataLocalMapper.map(
                 statistics = it,
                 dataHolder = dataHolders[it.id],
+                filterType = filterType,
             )
         }
     }

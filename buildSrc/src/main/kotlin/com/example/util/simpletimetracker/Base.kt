@@ -17,5 +17,5 @@ object Base {
     const val targetSDKWear = 35
 
     // Raise after wear api changes.
-    const val wearApiVersion = 8
+    const val wearApiVersion = 9
 }

@@ -66,6 +66,14 @@ class WearDataLocalMapper @Inject constructor() {
     fun map(dto: WearStatisticsDTO): WearStatistics {
         return WearStatistics(
             id = dto.id,
+            type = when (dto.type) {
+                WearStatisticsDTO.TypeDTO.ACTIVITY -> WearStatistics.Type.Activity
+                WearStatisticsDTO.TypeDTO.CATEGORY -> WearStatistics.Type.Category
+                WearStatisticsDTO.TypeDTO.TAG -> WearStatistics.Type.Tag
+                WearStatisticsDTO.TypeDTO.UNTRACKED -> WearStatistics.Type.Untracked
+                WearStatisticsDTO.TypeDTO.UNCATEGORIZED -> WearStatistics.Type.Uncategorized
+                WearStatisticsDTO.TypeDTO.UNTAGGED -> WearStatistics.Type.Untagged
+            },
             name = dto.name,
             icon = dto.icon,
             color = dto.color,
