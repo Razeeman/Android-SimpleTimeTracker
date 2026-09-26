@@ -6,6 +6,7 @@
 package com.example.util.simpletimetracker.domain.model
 
 data class WearStatistics(
+    // TODO WEAR pass statistics type (untracked, untagged etc) instead of id
     val id: Long,
     val name: String?,
     val icon: String?,

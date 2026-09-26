@@ -69,7 +69,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
 
     fun getSelectedGoal(
         goals: List<RecordTypeGoal>,
-        dailyGoalPosition: Int?
+        dailyGoalPosition: Int?,
     ): RecordTypeGoal? {
         return dailyGoalPosition?.let { goals.getOrNull(it) } ?: goals.getLongest()
     }

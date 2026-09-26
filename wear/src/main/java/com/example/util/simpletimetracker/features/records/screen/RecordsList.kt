@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.features.statistics.screen
+package com.example.util.simpletimetracker.features.records.screen
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
@@ -20,9 +20,9 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
+import com.example.util.simpletimetracker.features.records.ui.RecordChip
+import com.example.util.simpletimetracker.features.records.ui.RecordChipState
 import com.example.util.simpletimetracker.features.statistics.ui.StatisticsButtonsRow
-import com.example.util.simpletimetracker.features.statistics.ui.StatisticsChip
-import com.example.util.simpletimetracker.features.statistics.ui.StatisticsChipState
 import com.example.util.simpletimetracker.features.statistics.ui.StatisticsTitle
 import com.example.util.simpletimetracker.presentation.layout.ScaffoldedScrollingColumn
 import com.example.util.simpletimetracker.presentation.ui.ACTIVITY_RUNNING_VIEW_HEIGHT
@@ -31,37 +31,29 @@ import com.example.util.simpletimetracker.presentation.ui.RenderLoading
 import com.example.util.simpletimetracker.presentation.ui.renderError
 import com.example.util.simpletimetracker.utils.getCoercedFontScale
 import com.example.util.simpletimetracker.utils.getString
-import java.util.UUID
 
-sealed interface StatisticsListState {
-
-    data object Loading : StatisticsListState
+sealed interface RecordsListState {
+    data object Loading : RecordsListState
 
     data class Error(
         val error: ErrorState,
-    ) : StatisticsListState
+    ) : RecordsListState
 
     data class Empty(
         val title: String,
         @StringRes val messageResId: Int,
-    ) : StatisticsListState
+    ) : RecordsListState
 
     data class Content(
         val title: String,
-        val items: List<Item>,
-    ) : StatisticsListState {
-
-        sealed interface Item {
-            data object Loader : Item
-            data class Statistics(val data: StatisticsChipState) : Item
-            data class Total(val data: StatisticsChipState) : Item
-        }
-    }
+        val items: List<RecordChipState>,
+        val isLoading: Boolean,
+    ) : RecordsListState
 }
 
 @Composable
-fun StatisticsList(
-    state: StatisticsListState,
+fun RecordsList(
+    state: RecordsListState,
     onRefresh: () -> Unit = {},
     onTitleClick: () -> Unit = {},
     onTitleLongClick: () -> Unit = {},
@@ -71,23 +63,23 @@ fun StatisticsList(
     Box {
         ScaffoldedScrollingColumn {
             when (state) {
-                is StatisticsListState.Loading -> item {
+                is RecordsListState.Loading -> item {
                     RenderLoading()
                 }
-                is StatisticsListState.Error -> {
+                is RecordsListState.Error -> {
                     renderError(
                         state = state.error,
                         onRefresh = onRefresh,
                     )
                 }
-                is StatisticsListState.Empty -> {
+                is RecordsListState.Empty -> {
                     renderEmptyState(
                         state = state,
                         onTitleClick = onTitleClick,
                         onTitleLongClick = onTitleLongClick,
                     )
                 }
-                is StatisticsListState.Content -> {
+                is RecordsListState.Content -> {
                     renderContent(
                         state = state,
                         onTitleClick = onTitleClick,
@@ -97,8 +89,8 @@ fun StatisticsList(
             }
         }
 
-        val showControls = state is StatisticsListState.Empty ||
-            state is StatisticsListState.Content
+        val showControls = state is RecordsListState.Empty ||
+            state is RecordsListState.Content
         if (showControls) {
             StatisticsButtonsRow(
                 onPrevClick = onPrevClick,
@@ -109,7 +101,7 @@ fun StatisticsList(
 }
 
 private fun ScalingLazyListScope.renderEmptyState(
-    state: StatisticsListState.Empty,
+    state: RecordsListState.Empty,
     onTitleClick: () -> Unit,
     onTitleLongClick: () -> Unit,
 ) {
@@ -136,7 +128,7 @@ private fun ScalingLazyListScope.renderEmptyState(
 }
 
 private fun ScalingLazyListScope.renderContent(
-    state: StatisticsListState.Content,
+    state: RecordsListState.Content,
     onTitleClick: () -> Unit,
     onTitleLongClick: () -> Unit,
 ) {
@@ -147,29 +139,21 @@ private fun ScalingLazyListScope.renderContent(
             onLongClick = onTitleLongClick,
         )
     }
-    for (itemState in state.items) {
-        when (itemState) {
-            is StatisticsListState.Content.Item.Loader -> {
-                item {
-                    val height = ACTIVITY_RUNNING_VIEW_HEIGHT *
-                        getCoercedFontScale()
-                    Box(
-                        modifier = Modifier.height(height.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        RenderLoading()
-                    }
-                }
+    if (state.isLoading) {
+        item {
+            val height = ACTIVITY_RUNNING_VIEW_HEIGHT *
+                getCoercedFontScale()
+            Box(
+                modifier = Modifier.height(height.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                RenderLoading()
             }
-            is StatisticsListState.Content.Item.Statistics -> {
-                item(key = itemState.data.id) {
-                    StatisticsChip(itemState.data)
-                }
-            }
-            is StatisticsListState.Content.Item.Total -> {
-                item(key = itemState.data.name) {
-                    StatisticsChip(itemState.data)
-                }
+        }
+    } else {
+        state.items.forEach { item ->
+            item(key = item.key) {
+                RecordChip(item)
             }
         }
     }
@@ -182,16 +166,16 @@ private fun ScalingLazyListScope.renderContent(
 @Preview(device = WearDevices.LARGE_ROUND, fontScale = 1f)
 @Composable
 private fun Loading() {
-    StatisticsList(
-        state = StatisticsListState.Loading,
+    RecordsList(
+        state = RecordsListState.Loading,
     )
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun Error() {
-    StatisticsList(
-        state = StatisticsListState.Error(
+    RecordsList(
+        state = RecordsListState.Error(
             ErrorState(R.string.wear_loading_error),
         ),
     )
@@ -200,9 +184,9 @@ private fun Error() {
 @Preview(device = WearDevices.LARGE_ROUND, fontScale = 1f)
 @Composable
 private fun NoData() {
-    StatisticsList(
-        state = StatisticsListState.Empty(
-            title = "Tue, Mar 12",
+    RecordsList(
+        state = RecordsListState.Empty(
+            title = "Today",
             messageResId = R.string.no_data,
         ),
     )
@@ -211,22 +195,34 @@ private fun NoData() {
 @Preview(device = WearDevices.LARGE_ROUND, fontScale = 1f)
 @Composable
 private fun Content() {
-    val items = List(5) {
-        StatisticsChipState(
-            id = UUID.randomUUID().hashCode().toLong(),
-            name = "Sleep",
-            icon = WearActivityIcon.Image(R.drawable.ic_hotel_24px),
-            color = 0xFF0000FA,
-            duration = "10h 8m 20s",
-            percent = "$it%",
-        ).let {
-            StatisticsListState.Content.Item.Statistics(it)
-        }
-    }
-    StatisticsList(
-        state = StatisticsListState.Content(
+    RecordsList(
+        state = RecordsListState.Content(
             title = "Tue, Mar 12",
-            items = items,
+            items = listOf(
+                RecordChipState(
+                    key = "1",
+                    name = "Reading",
+                    icon = WearActivityIcon.Text("📖"),
+                    color = 0xFF455A64,
+                    tags = "Home, Pages (24)",
+                    time = "10:20 – 11:45",
+                    duration = "1h 25m",
+                    isRunning = false,
+                    isUntracked = false,
+                ),
+                RecordChipState(
+                    key = "2",
+                    name = "Reading",
+                    icon = WearActivityIcon.Text("📖"),
+                    color = 0xFF455A64,
+                    tags = "Home, Pages (24)",
+                    time = "10:20 – 11:45",
+                    duration = "1h 25m",
+                    isRunning = false,
+                    isUntracked = false,
+                ),
+            ),
+            isLoading = false,
         ),
     )
 }
@@ -234,13 +230,11 @@ private fun Content() {
 @Preview(device = WearDevices.LARGE_ROUND, fontScale = 1f)
 @Composable
 private fun ContentLoading() {
-    val items = List(1) {
-        StatisticsListState.Content.Item.Loader
-    }
-    StatisticsList(
-        state = StatisticsListState.Content(
+    RecordsList(
+        state = RecordsListState.Content(
             title = "Tue, Mar 12",
-            items = items,
+            items = emptyList(),
+            isLoading = true,
         ),
     )
 }

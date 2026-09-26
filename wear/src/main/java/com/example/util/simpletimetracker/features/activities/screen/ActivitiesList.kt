@@ -79,6 +79,7 @@ fun ActivitiesList(
     onRefresh: () -> Unit = {},
     onOpenOnPhone: () -> Unit = {},
     onStatisticsClick: () -> Unit = {},
+    onRecordsClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
     ScaffoldedScrollingColumn {
@@ -103,6 +104,7 @@ fun ActivitiesList(
                     state = state,
                     onItemClick = onItemClick,
                     onStatisticsClick = onStatisticsClick,
+                    onRecordsClick = onRecordsClick,
                     onSettingsClick = onSettingsClick,
                 )
                 item { RefreshButton(onRefresh) }
@@ -134,12 +136,17 @@ private fun ScalingLazyListScope.renderContent(
     state: ActivitiesListState.Content,
     onItemClick: (item: ActivityChipState) -> Unit,
     onStatisticsClick: () -> Unit,
+    onRecordsClick: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
     item {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
+            NavigationButton(
+                drawableResId = R.drawable.wear_records,
+                onClick = onRecordsClick,
+            )
             NavigationButton(
                 drawableResId = R.drawable.wear_statistics,
                 onClick = onStatisticsClick,
@@ -282,6 +289,12 @@ private fun Loading() {
     )
 }
 
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun LoadingFontScale() {
+    Loading()
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun Error() {
@@ -292,12 +305,24 @@ private fun Error() {
     )
 }
 
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun ErrorFontScale() {
+    Error()
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun NoActivities() {
     ActivitiesList(
         state = ActivitiesListState.Empty(R.string.record_types_empty),
     )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun NoActivitiesFontScale() {
+    NoActivities()
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)
@@ -329,6 +354,12 @@ private fun ContentFull() {
     )
 }
 
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun ContentFullFontScale() {
+    ContentFull()
+}
+
 @Preview(device = WearDevices.LARGE_ROUND)
 @Composable
 private fun ContentCompact() {
@@ -356,6 +387,12 @@ private fun ContentCompact() {
             items = items,
         ),
     )
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, fontScale = 2f)
+@Composable
+private fun ContentCompactFontScale() {
+    ContentCompact()
 }
 
 @Preview(device = WearDevices.LARGE_ROUND)

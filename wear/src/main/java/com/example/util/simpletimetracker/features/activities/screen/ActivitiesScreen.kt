@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.utils.collectEffects
 fun ActivitiesScreen(
     onRequestTagSelection: (activityId: Long) -> Unit,
     onStatisticsClick: () -> Unit,
+    onRecordsClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onShowMessage: (Int) -> Unit,
 ) {
@@ -40,6 +41,7 @@ fun ActivitiesScreen(
         onRefresh = viewModel::onRefresh,
         onOpenOnPhone = viewModel::onOpenOnPhone,
         onStatisticsClick = onStatisticsClick,
+        onRecordsClick = onRecordsClick,
         onSettingsClick = onSettingsClick,
     )
 }

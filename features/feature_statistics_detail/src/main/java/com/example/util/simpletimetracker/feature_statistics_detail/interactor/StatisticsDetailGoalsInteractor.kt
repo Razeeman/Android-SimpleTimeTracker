@@ -54,7 +54,7 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
     ): List<RecordTypeGoal> {
         return getGoalsForRange(
             goals = statisticsDetailGetGoalFromFilterInteractor.execute(filter),
-            rangeLength = mapToRange(chartGrouping)
+            rangeLength = mapToRange(chartGrouping),
         )
     }
 

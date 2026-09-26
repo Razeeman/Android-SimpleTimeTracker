@@ -11,6 +11,7 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.util.simpletimetracker.features.activities.screen.ActivitiesScreen
 import com.example.util.simpletimetracker.features.settings.screen.SettingsScreen
 import com.example.util.simpletimetracker.features.statistics.screen.StatisticsScreen
+import com.example.util.simpletimetracker.features.records.screen.RecordsScreen
 import com.example.util.simpletimetracker.features.tagValueSelection.screen.TagValueSelectionScreen
 import com.example.util.simpletimetracker.features.tagsSelection.screen.TagsScreen
 import com.example.util.simpletimetracker.presentation.datePicker.WearDatePicker
@@ -32,6 +33,9 @@ fun WearNavigator() {
                 },
                 onStatisticsClick = {
                     navigation.navigate(WearNavigationRoute.Statistics)
+                },
+                onRecordsClick = {
+                    navigation.navigate(WearNavigationRoute.Records)
                 },
                 onSettingsClick = {
                     navigation.navigate(WearNavigationRoute.Settings)
@@ -66,6 +70,13 @@ fun WearNavigator() {
         }
         composable(WearNavigationRoute.Statistics) { _, _ ->
             StatisticsScreen(
+                onOpenDatePicker = {
+                    navigation.navigate(WearNavigationRoute.DatePicker, it)
+                },
+            )
+        }
+        composable(WearNavigationRoute.Records) { _, _ ->
+            RecordsScreen(
                 onOpenDatePicker = {
                     navigation.navigate(WearNavigationRoute.DatePicker, it)
                 },

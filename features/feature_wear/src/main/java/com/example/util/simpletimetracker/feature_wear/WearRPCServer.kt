@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionReq
 import com.example.util.simpletimetracker.wear_api.WearShouldShowTagValueSelectionRequest
 import com.example.util.simpletimetracker.wear_api.WearStartActivityRequest
 import com.example.util.simpletimetracker.wear_api.WearStatisticsRequest
+import com.example.util.simpletimetracker.wear_api.WearRecordsRequest
 import com.example.util.simpletimetracker.wear_api.WearStopActivityRequest
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Wearable
@@ -38,6 +39,7 @@ class WearRPCServer @Inject constructor(
                 WearRequests.QUERY_ACTIVITIES -> onQueryActivities()
                 WearRequests.QUERY_CURRENT_ACTIVITIES -> onQueryCurrentActivities()
                 WearRequests.QUERY_STATISTICS -> onQueryStatistics(request)
+                WearRequests.QUERY_RECORDS -> onQueryRecords(request)
                 WearRequests.START_ACTIVITY -> onStartActivity(request)
                 WearRequests.STOP_ACTIVITY -> onStopActivity(request)
                 WearRequests.REPEAT_ACTIVITY -> onRepeatActivity()
@@ -121,6 +123,11 @@ class WearRPCServer @Inject constructor(
     private suspend fun onQueryStatistics(request: ByteArray): ByteArray? {
         val data: WearStatisticsRequest = mapFromBytes(request) ?: return null
         return mapToBytes(repo.queryStatistics(data))
+    }
+
+    private suspend fun onQueryRecords(request: ByteArray): ByteArray? {
+        val data: WearRecordsRequest = mapFromBytes(request) ?: return null
+        return mapToBytes(repo.queryRecords(data))
     }
 
     private suspend fun onQuerySettings(): ByteArray {

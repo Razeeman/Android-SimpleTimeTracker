@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.features.statistics.viewModel
+package com.example.util.simpletimetracker.features.records.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,15 +12,16 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.presentation.datePicker.WearDateSelectedInteractor
+import com.example.util.simpletimetracker.domain.model.WearRecord
 import com.example.util.simpletimetracker.domain.model.WearSettings
-import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
-import com.example.util.simpletimetracker.features.statistics.mapper.StatisticsViewDataMapper
-import com.example.util.simpletimetracker.features.statistics.screen.StatisticsListState
+import com.example.util.simpletimetracker.features.records.mapper.RecordsViewDataMapper
+import com.example.util.simpletimetracker.features.records.screen.RecordsListState
+import com.example.util.simpletimetracker.presentation.datePicker.WearDateSelectedInteractor
 import com.example.util.simpletimetracker.presentation.datePicker.toStartOfDayTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -32,15 +33,15 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class StatisticsViewModel @Inject constructor(
-    private val statisticsViewDataMapper: StatisticsViewDataMapper,
+class RecordsViewModel @Inject constructor(
+    private val recordsViewDataMapper: RecordsViewDataMapper,
     private val wearDataRepo: WearDataRepo,
-    private val wearDateSelectedInteractor: WearDateSelectedInteractor,
+    private val dateSelectedInteractor: WearDateSelectedInteractor,
     private val timeMapper: TimeMapper,
 ) : ViewModel() {
 
-    val state: StateFlow<StatisticsListState> get() = _state.asStateFlow()
-    private val _state = MutableStateFlow<StatisticsListState>(StatisticsListState.Loading)
+    val state: StateFlow<RecordsListState> get() = _state.asStateFlow()
+    private val _state = MutableStateFlow<RecordsListState>(RecordsListState.Loading)
 
     val effects: SharedFlow<Effect> get() = _effects.asSharedFlow()
     private val _effects = MutableSharedFlow<Effect>(
@@ -48,28 +49,28 @@ class StatisticsViewModel @Inject constructor(
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
-    private var isInitialized = false
-    private var shift: Int = 0
-    private var filterType: ChartFilterType = ChartFilterType.ACTIVITY
-    private var rangeLength = RangeLength.Day
+    private var initialized = false
+    private var shift = 0
     private var settings: WearSettings? = null
+    private var records: List<WearRecord> = emptyList()
 
     fun init() {
-        if (isInitialized) return
-        isInitialized = true
+        if (initialized) return
+        initialized = true
         subscribeToUpdates()
         viewModelScope.launch { loadData() }
+        viewModelScope.launch { startUpdate() }
     }
 
     fun onRefresh() = viewModelScope.launch {
-        _state.value = StatisticsListState.Loading
+        _state.value = RecordsListState.Loading
         loadData()
     }
 
     fun onTitleClick() = viewModelScope.launch {
         val timestamp = timeMapper.toTimestampShifted(
             rangesFromToday = shift,
-            range = rangeLength,
+            range = RangeLength.Day,
             startOfDayShift = settings?.startOfDayShift.orZero(),
         )
         _effects.emit(Effect.OnOpenDatePicker(timestamp))
@@ -92,15 +93,14 @@ class StatisticsViewModel @Inject constructor(
         timeMapper.toTimestampShift(
             fromTime = System.currentTimeMillis().shiftTimeStamp(-startOfDayShift),
             toTime = date.toStartOfDayTimestamp(),
-            range = rangeLength,
+            range = RangeLength.Day,
             firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.MONDAY,
         ).toInt().let(::changeShift)
     }
 
     private fun changeShift(newPosition: Int) = viewModelScope.launch {
         shift = newPosition
-        _state.value = statisticsViewDataMapper.mapContentLoadingState(
-            rangeLength = rangeLength,
+        _state.value = recordsViewDataMapper.mapContentLoadingState(
             shift = shift,
             settings = settings,
         )
@@ -108,47 +108,57 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private suspend fun loadData() {
-        val statistics = wearDataRepo.loadStatistics(
+        val recordsResult = wearDataRepo.loadRecords(
             forceReload = true,
             shift = shift,
-            filterType = filterType,
         )
         val settingsResult = wearDataRepo.loadSettings(forceReload = false)
-
         when {
-            statistics.isFailure || settingsResult.isFailure -> {
+            settingsResult.isFailure || recordsResult.isFailure -> {
                 showError()
-            }
-            statistics.getOrNull().isNullOrEmpty() -> {
-                _state.value = statisticsViewDataMapper.mapEmptyState(
-                    rangeLength = rangeLength,
-                    shift = shift,
-                    settings = settings,
-                )
             }
             else -> {
                 settings = settingsResult.getOrNull()
-                _state.value = statisticsViewDataMapper.mapContentState(
-                    statistics = statistics.getOrNull().orEmpty(),
-                    filterType = filterType,
-                    rangeLength = rangeLength,
-                    shift = shift,
-                    settings = settings,
-                )
+                records = recordsResult.getOrNull().orEmpty()
+                updateData()
             }
+        }
+    }
+
+    private fun updateData() {
+        _state.value = if (records.isEmpty()) {
+            recordsViewDataMapper.mapEmptyState(
+                shift = shift,
+                settings = settings,
+            )
+        } else {
+            recordsViewDataMapper.mapContentState(
+                records = records,
+                shift = shift,
+                settings = settings,
+                now = System.currentTimeMillis(),
+            )
         }
     }
 
     private fun showError() {
-        _state.value = statisticsViewDataMapper.mapErrorState()
+        _state.value = recordsViewDataMapper.mapErrorState()
     }
 
     private fun subscribeToUpdates() {
         viewModelScope.launch {
-            wearDateSelectedInteractor.data.collect(::onDateSelected)
+            dateSelectedInteractor.data.collect(::onDateSelected)
         }
         viewModelScope.launch {
             wearDataRepo.dataUpdated.collect { loadData() }
+        }
+    }
+
+    private suspend fun startUpdate() {
+        while (true) {
+            delay(1_000L)
+            val needUpdate = records.any { it.type == WearRecord.Type.Running }
+            if (needUpdate) updateData()
         }
     }
 

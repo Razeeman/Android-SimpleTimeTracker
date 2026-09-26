@@ -82,7 +82,7 @@ fun StatisticsChip(
         colors = ChipDefaults.chipColors(
             backgroundColor = Color(state.color),
         ),
-        onClick = { },
+        onClick = {},
     )
 }
 
@@ -163,7 +163,9 @@ private fun White() {
     // Note: A white color is only possible when using the RGB color picker.
     // The default color options in the phone app are mostly darker shades.
     StatisticsChip(
-        StatisticsChipState(0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFFFFFFF, "6m 5s", "1%"),
+        StatisticsChipState(
+            0, "Sleeping", WearActivityIcon.Text("🛏️"), 0xFFFFFFFF, "6m 5s", "1%",
+        ),
     )
 }
 

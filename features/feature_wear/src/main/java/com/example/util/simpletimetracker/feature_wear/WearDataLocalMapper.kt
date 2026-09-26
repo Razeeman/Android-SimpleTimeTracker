@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
+import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
@@ -24,9 +25,12 @@ import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearDayOfWeekDTO
 import com.example.util.simpletimetracker.wear_api.WearLastRecordDTO
 import com.example.util.simpletimetracker.wear_api.WearRecordRepeatResponse
+import com.example.util.simpletimetracker.wear_api.WearRecordDTO
 import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
 import com.example.util.simpletimetracker.wear_api.WearStatisticsDTO
 import com.example.util.simpletimetracker.wear_api.WearTagDTO
+import kotlin.math.max
+import kotlin.math.min
 import javax.inject.Inject
 
 class WearDataLocalMapper @Inject constructor(
@@ -47,24 +51,24 @@ class WearDataLocalMapper @Inject constructor(
 
     fun map(
         record: RunningRecord,
-        tags: List<WearCurrentActivityDTO.TagDTO>,
+        allTags: List<RecordTag>,
     ): WearCurrentActivityDTO {
         return WearCurrentActivityDTO(
             id = record.id,
             startedAt = record.timeStarted,
-            tags = tags,
+            tags = mapTags(record, allTags),
         )
     }
 
     fun map(
         record: Record,
-        tags: List<WearCurrentActivityDTO.TagDTO>,
+        allTags: List<RecordTag>,
     ): WearLastRecordDTO {
         return WearLastRecordDTO(
             activityId = record.typeId,
             startedAt = record.timeStarted,
             finishedAt = record.timeEnded,
-            tags = tags,
+            tags = mapTags(record, allTags),
         )
     }
 
@@ -106,6 +110,28 @@ class WearDataLocalMapper @Inject constructor(
         )
     }
 
+    fun mapRecord(
+        id: Long,
+        type: WearRecordDTO.TypeDTO,
+        recordType: RecordType?,
+        record: RecordBase,
+        tags: List<RecordTag>,
+        range: Range,
+    ): WearRecordDTO {
+        return WearRecordDTO(
+            id = id,
+            type = type,
+            activityId = recordType?.id,
+            activityName = recordType?.name,
+            activityIcon = recordType?.icon,
+            activityColor = recordType?.color?.let(::mapColor),
+            startedAt = max(record.timeStarted, range.timeStarted),
+            // TODO WEAR do not clamp running records, same as in the main app?
+            endedAt = min(record.timeEnded, range.timeEnded),
+            tags = mapTags(record, tags),
+        )
+    }
+
     fun map(
         apiVersion: String,
         allowMultitasking: Boolean,
@@ -115,6 +141,7 @@ class WearDataLocalMapper @Inject constructor(
         retroactiveTrackingMode: Boolean,
         startOfDayShift: Long,
         firstDayOfWeek: DayOfWeek,
+        useMilitaryTime: Boolean,
     ): WearSettingsDTO {
         return WearSettingsDTO(
             apiVersion = apiVersion,
@@ -125,6 +152,7 @@ class WearDataLocalMapper @Inject constructor(
             retroactiveTrackingMode = retroactiveTrackingMode,
             startOfDayShift = startOfDayShift,
             firstDayOfWeek = map(firstDayOfWeek),
+            useMilitaryTime = useMilitaryTime,
         )
     }
 
@@ -162,6 +190,20 @@ class WearDataLocalMapper @Inject constructor(
             DayOfWeek.THURSDAY -> WearDayOfWeekDTO.THURSDAY
             DayOfWeek.FRIDAY -> WearDayOfWeekDTO.FRIDAY
             DayOfWeek.SATURDAY -> WearDayOfWeekDTO.SATURDAY
+        }
+    }
+
+    private fun mapTags(
+        record: RecordBase,
+        allTags: List<RecordTag>,
+    ): List<WearCurrentActivityDTO.TagDTO> {
+        val tagDataMap = record.tags.associateBy { it.tagId }
+        return allTags.mapNotNull { tag ->
+            if (tag.id !in tagDataMap.keys) return@mapNotNull null
+            map(
+                recordTag = tag,
+                recordTagData = tagDataMap[tag.id],
+            )
         }
     }
 

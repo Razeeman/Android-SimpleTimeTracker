@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.model.WearRecordRepeatResult
 import com.example.util.simpletimetracker.domain.model.WearSetSettings
 import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.domain.model.WearStatistics
+import com.example.util.simpletimetracker.domain.model.WearRecord
 import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.domain.model.WearRecordTag
 import com.example.util.simpletimetracker.domain.model.WearShouldShowTagSelectionResult
@@ -25,6 +26,8 @@ import com.example.util.simpletimetracker.wear_api.WearShouldShowTagValueSelecti
 import com.example.util.simpletimetracker.wear_api.WearStartActivityRequest
 import com.example.util.simpletimetracker.wear_api.WearStatisticsDTO
 import com.example.util.simpletimetracker.wear_api.WearStatisticsRequest
+import com.example.util.simpletimetracker.wear_api.WearRecordsRequest
+import com.example.util.simpletimetracker.wear_api.WearRecordDTO
 import com.example.util.simpletimetracker.wear_api.WearStopActivityRequest
 import dagger.Lazy
 import kotlinx.coroutines.Deferred
@@ -56,11 +59,13 @@ class WearDataRepo @Inject constructor(
     )
 
     private var activitiesCache: List<WearActivityDTO>? = null
-    private var statisticsCache: List<WearStatisticsDTO>? = null
+    private var statisticsCache: List<WearStatisticsDTO>? = null // TODO WEAR save by shift like records?
+    private val recordsCache: MutableMap<Int, List<WearRecordDTO>> = mutableMapOf()
     private var currentActivitiesCache: WearCurrentStateDTO? = null
     private var settingsCache: WearSettingsDTO? = null
     private val activitiesMutex: Mutex = Mutex()
     private val statisticsMutex: Mutex = Mutex()
+    private val recordsMutex: Mutex = Mutex()
     private val currentActivitiesMutex: Mutex = Mutex()
     private val settingsMutex: Mutex = Mutex()
 
@@ -114,6 +119,19 @@ class WearDataRepo @Inject constructor(
             val data = statisticsCache.takeUnless { forceReload }
                 ?: wearRPCClient.queryStatistics(request)
                     .also { statisticsCache = it }
+            data.map(wearDataLocalMapper::map)
+        }
+    }
+
+    suspend fun loadRecords(
+        forceReload: Boolean,
+        shift: Int,
+    ): Result<List<WearRecord>> = recordsMutex.withLock {
+        return runCatching {
+            val request = WearRecordsRequest(shift = shift)
+            val data = recordsCache[shift].takeUnless { forceReload }
+                ?: wearRPCClient.queryRecords(request)
+                    .also { recordsCache[shift] = it }
             data.map(wearDataLocalMapper::map)
         }
     }
