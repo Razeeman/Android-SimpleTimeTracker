@@ -59,7 +59,7 @@ class WearDataRepo @Inject constructor(
     )
 
     private var activitiesCache: List<WearActivityDTO>? = null
-    private var statisticsCache: List<WearStatisticsDTO>? = null // TODO WEAR save by shift like records?
+    private val statisticsCache: MutableMap<Int, List<WearStatisticsDTO>> = mutableMapOf()
     private val recordsCache: MutableMap<Int, List<WearRecordDTO>> = mutableMapOf()
     private var currentActivitiesCache: WearCurrentStateDTO? = null
     private var settingsCache: WearSettingsDTO? = null
@@ -116,9 +116,9 @@ class WearDataRepo @Inject constructor(
                 shift = shift,
                 filterType = wearDataLocalMapper.map(filterType),
             )
-            val data = statisticsCache.takeUnless { forceReload }
+            val data = statisticsCache[shift].takeUnless { forceReload }
                 ?: wearRPCClient.queryStatistics(request)
-                    .also { statisticsCache = it }
+                    .also { statisticsCache[shift] = it }
             data.map(wearDataLocalMapper::map)
         }
     }

@@ -59,6 +59,7 @@ class GoalViewDataMapper @Inject constructor(
             return noGoal
         }
 
+        // TODO GOAL show "goal 1/5" or "limit 1/5" instead of type?
         val typeString = mapType(goal.range).lowercase()
         val goalValue = when (goal.type) {
             is RecordTypeGoal.Type.Duration -> goal.value * 1000

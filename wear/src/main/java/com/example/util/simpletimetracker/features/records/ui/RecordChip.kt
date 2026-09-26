@@ -13,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +27,7 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 import com.example.util.simpletimetracker.features.activities.ui.ActivityIcon
+import com.example.util.simpletimetracker.presentation.theme.ColorWhite60
 import com.example.util.simpletimetracker.presentation.ui.ACTIVITY_RUNNING_VIEW_HEIGHT
 import com.example.util.simpletimetracker.utils.getCoercedFontScale
 
@@ -58,11 +62,13 @@ fun RecordChip(
         },
         label = {
             Text(
-                text = if (state.tags.isEmpty()) {
-                    state.name
-                } else {
-                    // TODO WEAR show tags with alpha same as in running record
-                    "${state.name} - ${state.tags}"
+                text = buildAnnotatedString {
+                    append(state.name)
+                    if (state.tags.isNotEmpty()) {
+                        withStyle(SpanStyle(color = ColorWhite60)) {
+                            append(" - ${state.tags}")
+                        }
+                    }
                 },
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

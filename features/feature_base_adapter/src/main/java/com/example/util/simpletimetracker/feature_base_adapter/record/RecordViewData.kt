@@ -53,10 +53,7 @@ sealed class RecordViewData : ViewHolderType {
         override val tagName: String = ""
         override val comment: String = ""
 
-        override fun getUniqueId(): Long {
-            // TODO WEAR remove hashCode?
-            return timeStartedTimestamp.hashCode().toLong()
-        }
+        override fun getUniqueId(): Long = timeStartedTimestamp
 
         override fun isValidType(other: ViewHolderType): Boolean = other is Untracked
     }

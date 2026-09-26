@@ -140,8 +140,10 @@ class WearDataLocalMapper @Inject constructor(
             activityName = recordType?.name,
             activityIcon = recordType?.icon,
             activityColor = recordType?.color?.let(::mapColor),
-            startedAt = max(record.timeStarted, range.timeStarted),
-            // TODO WEAR do not clamp running records, same as in the main app?
+            startedAt = when (type) {
+                WearRecordDTO.TypeDTO.RUNNING -> record.timeStarted
+                else -> max(record.timeStarted, range.timeStarted)
+            },
             endedAt = min(record.timeEnded, range.timeEnded),
             tags = mapTags(record, tags),
         )
