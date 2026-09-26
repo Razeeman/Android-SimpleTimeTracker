@@ -141,7 +141,7 @@ private fun ScalingLazyListScope.renderContent(
 ) {
     item {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             NavigationButton(
                 drawableResId = R.drawable.wear_records,
