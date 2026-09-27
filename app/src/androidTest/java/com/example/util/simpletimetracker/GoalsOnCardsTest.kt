@@ -27,8 +27,10 @@ class GoalsOnCardsTest : BaseUiTest() {
                 GoalsTestUtils.getSessionDurationGoal(1),
                 GoalsTestUtils.getWeeklyDurationGoal(1),
                 GoalsTestUtils.getMonthlyDurationGoal(1),
+                GoalsTestUtils.getYearlyDurationGoal(1),
                 GoalsTestUtils.getWeeklyCountGoal(1),
                 GoalsTestUtils.getMonthlyCountGoal(1),
+                GoalsTestUtils.getYearlyCountGoal(1),
             ),
         )
         Thread.sleep(1000)

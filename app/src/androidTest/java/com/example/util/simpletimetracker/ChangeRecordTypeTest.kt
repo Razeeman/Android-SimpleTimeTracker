@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -33,6 +34,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as statisticsDetailR
 
@@ -161,12 +163,8 @@ class ChangeRecordTypeTest : BaseUiTest() {
         clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeIcon)
 
         openGoals()
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
-                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        GoalsTestUtils.addGoal(RecordTypeGoal.Range.Session)
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
