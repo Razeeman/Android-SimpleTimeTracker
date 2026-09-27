@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.extension.toRecordParams
 import com.example.util.simpletimetracker.core.mapper.ChangeRecordDateTimeMapper
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.feature_base_adapter.record.RecordViewData
+import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
@@ -88,7 +89,7 @@ class GetChangeRecordNavigationParamsInteractor @Inject constructor(
             ).toRecordParams(),
             duration = item.timer,
             durationTotal = item.timerTotal,
-            goalTime = item.goalTime.toParams(),
+            goalTimes = item.goalTimes.map(GoalTimeViewData::toParams),
             iconId = item.iconId.toParams(),
             color = item.color,
             comment = item.comment,

@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_change_running_record.viewData
 import com.example.util.simpletimetracker.feature_change_running_record.viewModel.ChangeRunningRecordViewModel
 import com.example.util.simpletimetracker.feature_comment_selection.api.CommentSelectionViewDelegateProvider
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
+import com.example.util.simpletimetracker.feature_views.RunningRecordView
 import com.example.util.simpletimetracker.feature_views.extension.animateColor
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
@@ -143,7 +144,7 @@ class ChangeRunningRecordFragment :
                 timeStartedTimestamp = 0,
                 timer = preview.duration,
                 timerTotal = preview.durationTotal,
-                goalTime = preview.goalTime.toViewData(),
+                goalTimes = preview.goalTimes.map { it.toViewData() },
                 iconId = preview.iconId.toViewData(),
                 color = preview.color,
                 comment = preview.comment,
@@ -178,11 +179,15 @@ class ChangeRunningRecordFragment :
             itemTimeStarted = item.recordPreview.timeStarted
             itemTimer = item.recordPreview.timer
             itemTimerTotal = item.recordPreview.timerTotal
-            itemGoalTime = item.recordPreview.goalTime.text
-            itemGoalTimeCheck = when (item.recordPreview.goalTime.state) {
-                is Subtype.Hidden -> CheckState.HIDDEN
-                is Subtype.Goal -> CheckState.GOAL_REACHED
-                is Subtype.Limit -> CheckState.LIMIT_REACHED
+            itemGoalTimes = item.recordPreview.goalTimes.map { goalTime ->
+                RunningRecordView.GoalTime(
+                    text = goalTime.text,
+                    checkState = when (goalTime.state) {
+                        is Subtype.Hidden -> CheckState.HIDDEN
+                        is Subtype.Goal -> CheckState.GOAL_REACHED
+                        is Subtype.Limit -> CheckState.LIMIT_REACHED
+                    },
+                )
             }
             itemComment = item.recordPreview.comment
             itemNowIconVisible = item.recordPreview.nowIconVisible

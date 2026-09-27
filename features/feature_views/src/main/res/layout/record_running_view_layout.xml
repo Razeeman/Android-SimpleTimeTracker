@@ -135,11 +135,11 @@
             android:textColor="?appLightTextColor"
             android:textSize="12sp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvRunningRecordItemGoalTimeSecond"
             app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheck"
             app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemTimerTotal"
             app:layout_goneMarginEnd="8dp"
-            tools:text="goal 30m 10s"
+            tools:text="goal · day 30m 10s"
             tools:visibility="visible" />
 
         <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
@@ -154,12 +154,39 @@
             tools:itemCheckState="goalReached"
             tools:visibility="visible" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRunningRecordItemGoalTimeSecond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:textColor="?appLightTextColor"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivRunningRecordItemGoalTimeCheckSecond"
+            app:layout_constraintTop_toBottomOf="@id/tvRunningRecordItemGoalTime"
+            app:layout_goneMarginEnd="8dp"
+            tools:text="limit · day 1h"
+            tools:visibility="visible" />
+
+        <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
+            android:id="@+id/ivRunningRecordItemGoalTimeCheckSecond"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tvRunningRecordItemGoalTimeSecond"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvRunningRecordItemGoalTimeSecond"
+            tools:itemCheckState="limitReached"
+            tools:visibility="visible" />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierRunningRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="start"
-            app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemTimerTotal, tvRunningRecordItemGoalTime" />
+            app:constraint_referenced_ids="tvRunningRecordItemTimer, tvRunningRecordItemTimerTotal, tvRunningRecordItemGoalTime, tvRunningRecordItemGoalTimeSecond" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRunningRecordItemComment"

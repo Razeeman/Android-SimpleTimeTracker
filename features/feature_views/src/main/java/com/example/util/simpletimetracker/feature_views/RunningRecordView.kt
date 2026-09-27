@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.feature_views.extension.setTextOptiona
 import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import androidx.core.content.withStyledAttributes
 
 class RunningRecordView @JvmOverloads constructor(
     context: Context,
@@ -78,16 +79,10 @@ class RunningRecordView @JvmOverloads constructor(
             field = value
         }
 
-    var itemGoalTime: String = ""
+    var itemGoalTimes: List<GoalTime> = emptyList()
         set(value) {
-            binding.tvRunningRecordItemGoalTime.setTextOptional(value)
             field = value
-        }
-
-    var itemGoalTimeCheck: GoalCheckmarkView.CheckState = GoalCheckmarkView.CheckState.HIDDEN
-        set(value) {
-            binding.ivRunningRecordItemGoalTimeCheck.itemCheckState = value
-            field = value
+            setGoalTimes()
         }
 
     var itemComment: String = ""
@@ -121,8 +116,13 @@ class RunningRecordView @JvmOverloads constructor(
         attrs: AttributeSet?,
         defStyleAttr: Int,
     ) {
-        context.obtainStyledAttributes(attrs, R.styleable.RunningRecordView, defStyleAttr, 0)
-            .run {
+        context
+            .withStyledAttributes(
+                set = attrs,
+                attrs = R.styleable.RunningRecordView,
+                defStyleAttr = defStyleAttr,
+                defStyleRes = 0,
+            ) {
                 if (hasValue(R.styleable.RunningRecordView_itemName)) {
                     itemName = getString(R.styleable.RunningRecordView_itemName).orEmpty()
                 }
@@ -162,7 +162,12 @@ class RunningRecordView @JvmOverloads constructor(
                 }
 
                 if (hasValue(R.styleable.RunningRecordView_itemGoalTime)) {
-                    itemGoalTime = getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty()
+                    itemGoalTimes = listOf(
+                        GoalTime(
+                            text = getString(R.styleable.RunningRecordView_itemGoalTime).orEmpty(),
+                            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                        ),
+                    )
                 }
 
                 if (hasValue(R.styleable.RunningRecordView_itemComment)) {
@@ -172,8 +177,6 @@ class RunningRecordView @JvmOverloads constructor(
                 if (hasValue(R.styleable.RunningRecordView_itemNowIconVisible)) {
                     itemNowIconVisible = getBoolean(R.styleable.RunningRecordView_itemNowIconVisible, false)
                 }
-
-                recycle()
             }
     }
 
@@ -190,6 +193,24 @@ class RunningRecordView @JvmOverloads constructor(
         }
     }
 
+    private fun setGoalTimes() = with(binding) {
+        val rows = listOf(
+            Pair(
+                tvRunningRecordItemGoalTime,
+                ivRunningRecordItemGoalTimeCheck,
+            ),
+            Pair(
+                tvRunningRecordItemGoalTimeSecond,
+                ivRunningRecordItemGoalTimeCheckSecond,
+            ),
+        )
+        rows.forEachIndexed { index, (text, checkmark) ->
+            val goalTime = itemGoalTimes.getOrNull(index)
+            text.setTextOptional(goalTime?.text)
+            checkmark.itemCheckState = goalTime?.checkState ?: GoalCheckmarkView.CheckState.HIDDEN
+        }
+    }
+
     private fun setStripesColor(@ColorInt value: Int) {
         ColorUtils.normalizeLightness(value, factor = 0.03f)
             .also(binding.viewRecordItemStripeStart::setBackgroundColor)
@@ -201,4 +222,9 @@ class RunningRecordView @JvmOverloads constructor(
             .let(ColorStateList::valueOf)
             .let { ViewCompat.setBackgroundTintList(binding.tvRunningRecordItemNow, it) }
     }
+
+    data class GoalTime(
+        val text: String,
+        val checkState: GoalCheckmarkView.CheckState,
+    )
 }

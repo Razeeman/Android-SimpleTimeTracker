@@ -34,9 +34,13 @@ class UpdateRunningRecordsInteractor @Inject constructor() {
         val id: Long,
         val timer: String,
         val timerTotal: String,
-        val goalText: String,
-        val goalState: GoalState,
+        val goalTimes: List<GoalTime>,
         val additionalData: AdditionalData?,
+    )
+
+    data class GoalTime(
+        val text: String,
+        val state: GoalState,
     )
 
     data class AdditionalData(

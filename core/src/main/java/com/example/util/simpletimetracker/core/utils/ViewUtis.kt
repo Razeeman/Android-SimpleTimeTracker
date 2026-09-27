@@ -48,13 +48,17 @@ fun updateRunningRecordPreview(
                 it.itemTimerTotal = update.timerTotal
             }
 
-            // Update if goal was shown and need update.
-            if (it.itemGoalTime.isNotEmpty() && update.goalText.isNotEmpty()) {
-                it.itemGoalTime = update.goalText
-                it.itemGoalTimeCheck = when (update.goalState) {
-                    is GoalState.Hidden -> CheckState.HIDDEN
-                    is GoalState.Goal -> CheckState.GOAL_REACHED
-                    is GoalState.Limit -> CheckState.LIMIT_REACHED
+            // Update if goals were shown and need update.
+            if (it.itemGoalTimes.isNotEmpty() && update.goalTimes.isNotEmpty()) {
+                it.itemGoalTimes = update.goalTimes.map { goalTime ->
+                    RunningRecordView.GoalTime(
+                        text = goalTime.text,
+                        checkState = when (goalTime.state) {
+                            is GoalState.Hidden -> CheckState.HIDDEN
+                            is GoalState.Goal -> CheckState.GOAL_REACHED
+                            is GoalState.Limit -> CheckState.LIMIT_REACHED
+                        },
+                    )
                 }
             }
 

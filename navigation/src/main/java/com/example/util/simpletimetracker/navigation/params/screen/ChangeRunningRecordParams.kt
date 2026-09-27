@@ -20,7 +20,7 @@ data class ChangeRunningRecordParams(
         val timeStartedDateTime: ChangeRecordDateTimeStateParams,
         val duration: String,
         val durationTotal: String,
-        val goalTime: GoalTimeParams,
+        val goalTimes: List<GoalTimeParams>,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String,

@@ -10,8 +10,8 @@ import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.recordType.extension.isReached
-import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.color.model.AppColor
+import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
 import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
@@ -198,11 +198,6 @@ class RecordTypeViewDataMapper @Inject constructor(
         goal: RecordTypeGoal?,
         dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
     ): GoalCheckmarkView.CheckState {
-        val goalValue = when (goal?.type) {
-            is RecordTypeGoal.Type.Duration -> goal.value * 1000
-            is RecordTypeGoal.Type.Count -> goal.value
-            else -> 0
-        }
         val current = when (goal?.type) {
             is RecordTypeGoal.Type.Duration -> dailyCurrent?.duration.orZero()
             is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
@@ -213,7 +208,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         // TODO GOAL detailed stats, excess graph, count deficit when should have a goal.
         // TODO GOAL streaks, skip count days when should not have a goal (daily goals).
         return if (goal != null) {
-            if (goal.subtype.isReached(current, goalValue)) {
+            if (goal.subtype.isReached(current, goal.adjustedValue)) {
                 if (isLimit) {
                     GoalCheckmarkView.CheckState.LIMIT_REACHED
                 } else {

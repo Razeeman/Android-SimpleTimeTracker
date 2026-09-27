@@ -77,3 +77,11 @@ fun RecordTypeGoal.Subtype.isSuccessful(
 }
 
 val RecordTypeGoal?.value: Long get() = this?.type?.value.orZero()
+
+val RecordTypeGoal?.adjustedValue: Long get() = this?.type.adjustedValue
+
+val Type?.adjustedValue: Long get() = when (this) {
+    is Type.Duration -> this.value * 1000
+    is Type.Count -> this.value
+    else -> 0
+}

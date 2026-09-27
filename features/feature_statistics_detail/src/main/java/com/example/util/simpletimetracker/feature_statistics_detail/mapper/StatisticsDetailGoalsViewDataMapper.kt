@@ -8,8 +8,8 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
 import com.example.util.simpletimetracker.domain.recordType.extension.isReached
-import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -59,7 +59,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
     ): List<ViewHolderType> {
-        val goalValue = getGoalValue(currentRangeGoal)
+        val goalValue = currentRangeGoal.adjustedValue
         val goalSubtype = currentRangeGoal?.subtype ?: RecordTypeGoal.Subtype.Goal
         val goalRange = currentRangeGoal?.range ?: RecordTypeGoal.Range.Daily
         if (goalValue == 0L) return emptyList()
@@ -107,7 +107,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         startOfDayShift: Long,
     ): List<ViewHolderType> {
-        val goalValue = getGoalValue(chartGoal)
+        val goalValue = chartGoal.adjustedValue
         if (goalValue == 0L) return emptyList()
         val goalRange = chartGoal?.range ?: return emptyList()
         val goalSubtype = chartGoal.subtype
@@ -401,15 +401,5 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
                 description = percentageString,
             ),
         )
-    }
-
-    private fun getGoalValue(
-        goal: RecordTypeGoal?,
-    ): Long {
-        return when (goal?.type) {
-            is RecordTypeGoal.Type.Duration -> goal.value * 1000
-            is RecordTypeGoal.Type.Count -> goal.value
-            null -> 0L
-        }
     }
 }

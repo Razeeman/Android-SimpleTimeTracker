@@ -16,11 +16,15 @@ class ChangeRunningRecordMapper @Inject constructor() {
             id = recordPreview.id,
             timer = recordPreview.timer,
             timerTotal = recordPreview.timerTotal,
-            goalText = recordPreview.goalTime.text,
-            goalState = when (recordPreview.goalTime.state) {
-                is Subtype.Hidden -> GoalState.Hidden
-                is Subtype.Goal -> GoalState.Goal
-                is Subtype.Limit -> GoalState.Limit
+            goalTimes = recordPreview.goalTimes.map { goalTime ->
+                UpdateRunningRecordsInteractor.GoalTime(
+                    text = goalTime.text,
+                    state = when (goalTime.state) {
+                        is Subtype.Hidden -> GoalState.Hidden
+                        is Subtype.Goal -> GoalState.Goal
+                        is Subtype.Limit -> GoalState.Limit
+                    },
+                )
             },
             additionalData = if (fullUpdate) {
                 UpdateRunningRecordsInteractor.AdditionalData(

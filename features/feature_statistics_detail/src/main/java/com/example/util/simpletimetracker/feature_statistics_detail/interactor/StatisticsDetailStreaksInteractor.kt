@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
 import com.example.util.simpletimetracker.domain.recordType.extension.isSuccessful
 import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
@@ -464,10 +465,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 }
             }
         }
-        val goalValue = when (goalType) {
-            is RecordTypeGoal.Type.Duration -> goalType.value * 1000
-            is RecordTypeGoal.Type.Count -> goalType.value
-        }
+        val goalValue = goalType.adjustedValue
         val todayRange = timeMapper.getRangeStartAndEnd(
             rangeLength = RangeLength.Day,
             shift = 0,
