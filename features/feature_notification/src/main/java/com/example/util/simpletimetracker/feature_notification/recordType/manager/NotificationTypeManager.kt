@@ -184,13 +184,13 @@ class NotificationTypeManager @Inject constructor(
     private fun getIconBitmap(
         icon: RecordTypeIcon,
         color: Int,
-        checkState: GoalCheckmarkView.CheckState = GoalCheckmarkView.CheckState.HIDDEN,
+        checkStates: List<GoalCheckmarkView.CheckState> = emptyList(),
         isComplete: Boolean = false,
     ): Bitmap = synchronized(iconView) {
         return iconView.apply {
             itemIcon = icon
             itemColor = color
-            itemCheckState = checkState
+            itemCheckStates = checkStates
             itemIsComplete = isComplete
             measureExactly(iconSize)
         }.getBitmapFromView()

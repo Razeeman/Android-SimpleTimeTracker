@@ -48,7 +48,7 @@ sealed interface NotificationControlsParams {
             val action: Action,
             val icon: RecordTypeIcon,
             val color: Int,
-            val checkState: GoalCheckmarkView.CheckState,
+            val checkStates: List<GoalCheckmarkView.CheckState>,
             val isComplete: Boolean,
         ) : Type
 

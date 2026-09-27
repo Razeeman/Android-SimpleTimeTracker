@@ -163,7 +163,7 @@ class NotificationControlsManager @Inject constructor(
             getTypeControlView(
                 icon = data.icon,
                 color = color,
-                checkState = data.checkState,
+                checkStates = data.checkStates,
                 isComplete = data.isComplete,
                 intent = getPendingSelfIntent(
                     context = context,
@@ -199,7 +199,7 @@ class NotificationControlsManager @Inject constructor(
             getTypeControlView(
                 icon = null,
                 color = null,
-                checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                checkStates = emptyList(),
                 isComplete = false,
                 intent = null,
             ).let {
@@ -523,7 +523,7 @@ class NotificationControlsManager @Inject constructor(
     private fun getTypeControlView(
         icon: RecordTypeIcon?,
         color: Int?,
-        checkState: GoalCheckmarkView.CheckState,
+        checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
         intent: PendingIntent?,
     ): RemoteViews {
@@ -533,7 +533,7 @@ class NotificationControlsManager @Inject constructor(
                     val bitmap = getIconBitmap(
                         icon = icon,
                         color = color,
-                        checkState = checkState,
+                        checkStates = checkStates,
                         isComplete = isComplete,
                     )
                     setViewVisibility(R.id.containerNotificationType, View.VISIBLE)
@@ -629,13 +629,13 @@ class NotificationControlsManager @Inject constructor(
     private fun getIconBitmap(
         icon: RecordTypeIcon,
         color: Int,
-        checkState: GoalCheckmarkView.CheckState = GoalCheckmarkView.CheckState.HIDDEN,
+        checkStates: List<GoalCheckmarkView.CheckState> = emptyList(),
         isComplete: Boolean = false,
     ): Bitmap = synchronized(iconView) {
         return iconView.apply {
             itemIcon = icon
             itemColor = color
-            itemCheckState = checkState
+            itemCheckStates = checkStates
             itemIsComplete = isComplete
             measureExactly(iconSize)
         }.getBitmapFromView()

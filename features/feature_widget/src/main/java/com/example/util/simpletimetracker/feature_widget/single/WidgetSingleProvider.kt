@@ -34,7 +34,7 @@ import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
-import com.example.util.simpletimetracker.feature_views.extension.setAllMargins
+import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.common.WidgetTypeClickManager
@@ -278,7 +278,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
             getContainer().cardElevation = 0f
             getContainer().useCompatPadding = false
-            getCheckmarkOutlines().forEach { it.setAllMargins(4) }
+            getCheckmarkOutlines().forEach { it.setMargins(top = 2, end = 2) }
         }
         preparedView = view
 
