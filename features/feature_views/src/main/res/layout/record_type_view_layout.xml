@@ -20,7 +20,7 @@
     </androidx.cardview.widget.CardView>
 
     <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
-        android:id="@+id/viewRecordTypeItemCheckmark"
+        android:id="@+id/viewRecordTypeItemGoalCheckmark"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_alignParentTop="true"
@@ -28,6 +28,16 @@
         android:elevation="@dimen/record_type_card_elevation"
         android:translationZ="1dp"
         tools:itemCheckState="goalReached" />
+
+    <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
+        android:id="@+id/viewRecordTypeItemLimitCheckmark"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_below="@id/viewRecordTypeItemGoalCheckmark"
+        android:layout_alignParentEnd="true"
+        android:elevation="@dimen/record_type_card_elevation"
+        android:translationZ="1dp"
+        tools:itemCheckState="limitReached" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/viewRecordTypeItemComplete"

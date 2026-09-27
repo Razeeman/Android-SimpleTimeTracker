@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerViewData
 import com.example.util.simpletimetracker.feature_change_activity_filter.R
 import com.example.util.simpletimetracker.feature_change_activity_filter.viewData.ChangeActivityFilterTypesViewData
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import javax.inject.Inject
 
 class ChangeActivityFilterViewDataInteractor @Inject constructor(
@@ -44,7 +43,7 @@ class ChangeActivityFilterViewDataInteractor @Inject constructor(
                             recordType = it,
                             numberOfCards = numberOfCards,
                             isDarkTheme = isDarkTheme,
-                            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                            checkStates = emptyList(),
                             isComplete = false,
                         )
                     }

@@ -285,7 +285,7 @@ class WidgetUniversalViewModel @Inject constructor(
                     isFiltered = it.id in recordTypesRunning,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
-                    checkState = recordTypeViewDataMapper.mapGoalCheckmark(
+                    checkStates = recordTypeViewDataMapper.mapGoalCheckmarks(
                         type = it,
                         goals = goals,
                         allDailyCurrents = allDailyCurrents,

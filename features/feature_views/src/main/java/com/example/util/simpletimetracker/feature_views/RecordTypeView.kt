@@ -61,13 +61,6 @@ class RecordTypeView @JvmOverloads constructor(
                     itemIsRow = getBoolean(R.styleable.RecordTypeView_itemIsRow, false)
                 }
 
-                if (hasValue(R.styleable.RecordTypeView_itemCheckState)) {
-                    itemCheckState = getInt(
-                        R.styleable.RecordTypeView_itemCheckState,
-                        CheckState.HIDDEN.value,
-                    ).let(CheckState.Companion::fromValue)
-                }
-
                 if (hasValue(R.styleable.RecordTypeView_itemIsComplete)) {
                     itemIsComplete = getBoolean(R.styleable.RecordTypeView_itemIsComplete, false)
                 }
@@ -117,10 +110,13 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
-    var itemCheckState: CheckState = CheckState.HIDDEN
+    var itemCheckStates: List<CheckState> = emptyList()
         set(value) {
-            binding.viewRecordTypeItemCheckmark.itemCheckState = value
-            field = value
+            val visibleStates = value.filterNot { it == CheckState.HIDDEN }.take(CHECKMARK_COUNT)
+            getCheckmarkOutlines().forEachIndexed { index, checkmark ->
+                checkmark.itemCheckState = visibleStates.getOrElse(index) { CheckState.HIDDEN }
+            }
+            field = visibleStates
         }
 
     var itemCompleteIsAnimated: Boolean = false
@@ -135,8 +131,11 @@ class RecordTypeView @JvmOverloads constructor(
         return binding.containerRecordTypeItem
     }
 
-    fun getCheckmarkOutline(): GoalCheckmarkView {
-        return binding.viewRecordTypeItemCheckmark
+    fun getCheckmarkOutlines(): List<GoalCheckmarkView> {
+        return listOf(
+            binding.viewRecordTypeItemGoalCheckmark,
+            binding.viewRecordTypeItemLimitCheckmark,
+        )
     }
 
     private fun changeConstraints(isRow: Boolean) = with(binding.container) {
@@ -167,5 +166,9 @@ class RecordTypeView @JvmOverloads constructor(
             binding.viewRecordTypeItemComplete.alpha = 1f
             binding.viewRecordTypeItemComplete.isVisible = itemIsComplete
         }
+    }
+
+    private companion object {
+        const val CHECKMARK_COUNT = 2
     }
 }

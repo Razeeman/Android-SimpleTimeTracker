@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.recordType.extension.isReached
 import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
-import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -45,7 +44,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             recordType = recordType,
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
-            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+            checkStates = emptyList(),
             isComplete = false,
         )
     }
@@ -54,7 +53,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         recordType: RecordType,
         numberOfCards: Int,
         isDarkTheme: Boolean,
-        checkState: GoalCheckmarkView.CheckState,
+        checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
     ): RecordTypeViewData {
         return RecordTypeViewData(
@@ -66,7 +65,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
-            checkState = checkState,
+            checkStates = checkStates,
             isComplete = isComplete,
         )
     }
@@ -76,14 +75,14 @@ class RecordTypeViewDataMapper @Inject constructor(
         numberOfCards: Int,
         isDarkTheme: Boolean,
         isFiltered: Boolean,
-        checkState: GoalCheckmarkView.CheckState,
+        checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
     ): RecordTypeViewData {
         val default = map(
             recordType = recordType,
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
-            checkState = checkState,
+            checkStates = checkStates,
             isComplete = isComplete,
         )
 
@@ -109,7 +108,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.add),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
-            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+            checkStates = emptyList(),
         )
     }
 
@@ -123,7 +122,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.add),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
-            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+            checkStates = emptyList(),
         )
     }
 
@@ -137,7 +136,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             icon = RecordTypeIcon.Image(R.drawable.repeat),
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
-            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+            checkStates = emptyList(),
         )
     }
 
@@ -153,10 +152,10 @@ class RecordTypeViewDataMapper @Inject constructor(
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
             // Somewhat weird logic, GOAL_NOT_REACHED - red dot not checked.
-            checkState = if (isPomodoroStarted) {
-                GoalCheckmarkView.CheckState.GOAL_NOT_REACHED
+            checkStates = if (isPomodoroStarted) {
+                listOf(GoalCheckmarkView.CheckState.GOAL_NOT_REACHED)
             } else {
-                GoalCheckmarkView.CheckState.HIDDEN
+                emptyList()
             },
         )
     }
@@ -183,47 +182,58 @@ class RecordTypeViewDataMapper @Inject constructor(
         )
     }
 
-    fun mapGoalCheckmark(
+    fun mapGoalCheckmarks(
         type: RecordType,
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
-    ): GoalCheckmarkView.CheckState {
-        return mapGoalCheckmark(
-            goal = goals[type.id].orEmpty().getDaily().getLongest(),
+    ): List<GoalCheckmarkView.CheckState> {
+        return mapGoalCheckmarks(
+            goals = goals[type.id].orEmpty(),
             dailyCurrent = allDailyCurrents[type.id],
         )
     }
 
-    fun mapGoalCheckmark(
-        goal: RecordTypeGoal?,
+    fun mapGoalCheckmarks(
+        goals: List<RecordTypeGoal>,
         dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
-    ): GoalCheckmarkView.CheckState {
-        val current = when (goal?.type) {
-            is RecordTypeGoal.Type.Duration -> dailyCurrent?.duration.orZero()
-            is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
-            else -> 0
-        }
-        val isLimit = goal?.subtype == RecordTypeGoal.Subtype.Limit
+    ): List<GoalCheckmarkView.CheckState> {
+        val dailyGoals = goals.getDaily()
+        val goalEntries = dailyGoals.filter { it.subtype is RecordTypeGoal.Subtype.Goal }
+        val limitEntries = dailyGoals.filter { it.subtype is RecordTypeGoal.Subtype.Limit }
 
-        // TODO GOAL detailed stats, excess graph, count deficit when should have a goal.
-        // TODO GOAL streaks, skip count days when should not have a goal (daily goals).
-        return if (goal != null) {
-            if (goal.subtype.isReached(current, goal.adjustedValue)) {
-                if (isLimit) {
-                    GoalCheckmarkView.CheckState.LIMIT_REACHED
-                } else {
-                    GoalCheckmarkView.CheckState.GOAL_REACHED
-                }
+        val goalsCheck = if (goalEntries.isNotEmpty()) {
+            val allReached = goalEntries.all { isReached(it, dailyCurrent) }
+            if (allReached) {
+                GoalCheckmarkView.CheckState.GOAL_REACHED
             } else {
-                if (isLimit) {
-                    GoalCheckmarkView.CheckState.LIMIT_NOT_REACHED
-                } else {
-                    GoalCheckmarkView.CheckState.GOAL_NOT_REACHED
-                }
+                GoalCheckmarkView.CheckState.GOAL_NOT_REACHED
             }
         } else {
-            GoalCheckmarkView.CheckState.HIDDEN
+            null
         }
+        val limitsCheck = if (limitEntries.isNotEmpty()) {
+            val anyReached = limitEntries.any { isReached(it, dailyCurrent) }
+            if (anyReached) {
+                GoalCheckmarkView.CheckState.LIMIT_REACHED
+            } else {
+                GoalCheckmarkView.CheckState.LIMIT_NOT_REACHED
+            }
+        } else {
+            null
+        }
+
+        return listOfNotNull(goalsCheck, limitsCheck)
+    }
+
+    private fun isReached(
+        goal: RecordTypeGoal,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
+    ): Boolean {
+        val current = when (goal.type) {
+            is RecordTypeGoal.Type.Duration -> dailyCurrent?.duration.orZero()
+            is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
+        }
+        return goal.subtype.isReached(current, goal.adjustedValue)
     }
 
     private fun mapToSpecial(
@@ -232,7 +242,7 @@ class RecordTypeViewDataMapper @Inject constructor(
         icon: RecordTypeIcon,
         numberOfCards: Int,
         isDarkTheme: Boolean,
-        checkState: GoalCheckmarkView.CheckState,
+        checkStates: List<GoalCheckmarkView.CheckState>,
     ): RunningRecordTypeSpecialViewData {
         return RunningRecordTypeSpecialViewData(
             type = type,
@@ -242,7 +252,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             width = numberOfCards.let(recordTypeCardSizeMapper::toCardWidth),
             height = numberOfCards.let(recordTypeCardSizeMapper::toCardHeight),
             asRow = numberOfCards.let(recordTypeCardSizeMapper::toCardAsRow).orFalse(),
-            checkState = checkState,
+            checkStates = checkStates,
         )
     }
 

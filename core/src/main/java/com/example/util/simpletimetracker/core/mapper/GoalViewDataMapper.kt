@@ -123,8 +123,9 @@ class GoalViewDataMapper @Inject constructor(
         // TODO GOAL show "goal 1/5" or "limit 1/5" instead of type?
         val nextGoal = goals.getDurations().getNext() ?: goals.getCounts().getNext()
         val rangeString = mapType(range).lowercase()
+        val subtypeString = mapSubtype(subtype).lowercase()
         val text = if (nextGoal == null) {
-            rangeString
+            "$subtypeString · $rangeString"
         } else {
             val valueLeft = nextGoal.adjustedValue - getCurrent(nextGoal)
             val formatted = when (nextGoal.type) {
@@ -137,7 +138,6 @@ class GoalViewDataMapper @Inject constructor(
                     goalValue = valueLeft,
                 )
             }
-            val subtypeString = mapSubtype(subtype).lowercase()
             "$subtypeString · $rangeString $formatted"
         }
         val state = when {

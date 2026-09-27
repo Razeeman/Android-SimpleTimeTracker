@@ -12,6 +12,8 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
+import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
@@ -267,15 +269,18 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationControlsParams.Type.Present {
+        // TODO GOAL show several goals
+        val goal = goals[type.id].orEmpty().getDaily().getLongest()
         return NotificationControlsParams.Type.Present(
             action = NotificationControlsParams.Type.Action.Select(type.id),
             icon = type.icon.let(iconMapper::mapIcon),
             color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
-            checkState = recordTypeViewDataMapper.mapGoalCheckmark(
-                type = type,
-                goals = goals,
-                allDailyCurrents = allDailyCurrents,
-            ),
+            checkState = goal?.let {
+                recordTypeViewDataMapper.mapGoalCheckmarks(
+                    goals = listOf(it),
+                    dailyCurrent = allDailyCurrents[type.id],
+                ).firstOrNull()
+            } ?: GoalCheckmarkView.CheckState.HIDDEN,
             isComplete = type.id in completeTypesStateInteractor.notificationTypeIds,
         )
     }

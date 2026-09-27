@@ -11,7 +11,6 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import javax.inject.Inject
 
 class ChartFilterViewDataInteractor @Inject constructor(
@@ -59,7 +58,7 @@ class ChartFilterViewDataInteractor @Inject constructor(
                     isFiltered = type.id in typeIdsFiltered,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
-                    checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                    checkStates = emptyList(),
                     isComplete = false,
                 )
             }

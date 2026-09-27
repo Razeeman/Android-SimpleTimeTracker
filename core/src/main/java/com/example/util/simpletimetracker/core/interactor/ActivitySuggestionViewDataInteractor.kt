@@ -35,7 +35,7 @@ class ActivitySuggestionViewDataInteractor @Inject constructor(
                 recordType = recordType,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                checkState = recordTypeViewDataMapper.mapGoalCheckmark(
+                checkStates = recordTypeViewDataMapper.mapGoalCheckmarks(
                     type = recordType,
                     goals = goals,
                     allDailyCurrents = allDailyCurrents,

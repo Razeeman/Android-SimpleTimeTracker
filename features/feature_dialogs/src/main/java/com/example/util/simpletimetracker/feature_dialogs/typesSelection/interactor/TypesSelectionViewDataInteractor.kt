@@ -15,7 +15,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.divider.DividerVi
 import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewData
 import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.typesSelection.model.TypesSelectionCacheHolder
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.navigation.params.screen.TypesSelectionDialogParams
 import javax.inject.Inject
 
@@ -81,7 +80,7 @@ class TypesSelectionViewDataInteractor @Inject constructor(
                         recordType = type.data,
                         numberOfCards = numberOfCards,
                         isDarkTheme = isDarkTheme,
-                        checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                        checkStates = emptyList(),
                         isComplete = false,
                     )
                 }
