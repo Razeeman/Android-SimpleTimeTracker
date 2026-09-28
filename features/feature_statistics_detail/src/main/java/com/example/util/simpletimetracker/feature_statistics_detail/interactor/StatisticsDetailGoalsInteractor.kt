@@ -15,6 +15,7 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
+import com.example.util.simpletimetracker.domain.recordType.extension.getOverall
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailChartInteractor.CompositeChartData
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailGoalsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailViewDataMapper
@@ -247,6 +248,7 @@ class StatisticsDetailGoalsInteractor @Inject constructor(
             is RangeLength.Week -> goals.getWeekly()
             is RangeLength.Month -> goals.getMonthly()
             is RangeLength.Year -> goals.getYearly()
+            is RangeLength.All -> goals.getOverall()
             else -> emptyList()
         }
     }

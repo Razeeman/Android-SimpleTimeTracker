@@ -48,6 +48,7 @@ class GoalsViewDataInteractor @Inject constructor(
     ): Int {
         return when (goalRange) {
             is RecordTypeGoal.Range.Session -> return 0 // Not possible here.
+            is RecordTypeGoal.Range.Overall -> return 0
             is RecordTypeGoal.Range.Daily -> dayShift
             is RecordTypeGoal.Range.Weekly,
             is RecordTypeGoal.Range.Monthly,
@@ -103,6 +104,7 @@ class GoalsViewDataInteractor @Inject constructor(
                     is RecordTypeGoal.Range.Weekly -> 2
                     is RecordTypeGoal.Range.Monthly -> 3
                     is RecordTypeGoal.Range.Yearly -> 4
+                    is RecordTypeGoal.Range.Overall -> 5
                 }
             }
             .filter {

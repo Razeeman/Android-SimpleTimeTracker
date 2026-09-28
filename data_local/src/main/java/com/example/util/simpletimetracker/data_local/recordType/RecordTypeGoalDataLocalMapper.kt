@@ -23,6 +23,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor(
                 2L -> RecordTypeGoal.Range.Weekly
                 3L -> RecordTypeGoal.Range.Monthly
                 4L -> RecordTypeGoal.Range.Yearly
+                5L -> RecordTypeGoal.Range.Overall
                 else -> RecordTypeGoal.Range.Session
             },
             type = when (dbo.type) {
@@ -54,6 +55,7 @@ class RecordTypeGoalDataLocalMapper @Inject constructor(
                 is RecordTypeGoal.Range.Weekly -> 2L
                 is RecordTypeGoal.Range.Monthly -> 3L
                 is RecordTypeGoal.Range.Yearly -> 4L
+                is RecordTypeGoal.Range.Overall -> 5L
             },
             type = when (domain.type) {
                 is RecordTypeGoal.Type.Duration -> 0L

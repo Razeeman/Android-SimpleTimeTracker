@@ -385,6 +385,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
             is RecordTypeGoal.Range.Weekly -> R.string.range_week
             is RecordTypeGoal.Range.Monthly -> R.string.range_month
             is RecordTypeGoal.Range.Yearly -> R.string.range_year
+            is RecordTypeGoal.Range.Overall -> R.string.range_overall
         }.let(resourceRepo::getString)
 
         return listOf(

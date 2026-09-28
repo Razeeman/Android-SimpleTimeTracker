@@ -37,6 +37,7 @@ class GoalViewDataMapper @Inject constructor(
             is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
             is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
             is RecordTypeGoal.Range.Yearly -> R.string.change_record_type_yealy_goal_time
+            is RecordTypeGoal.Range.Overall -> R.string.change_record_type_overall_goal_time
         }.let(resourceRepo::getString)
     }
 
@@ -63,6 +64,7 @@ class GoalViewDataMapper @Inject constructor(
                 is RecordTypeGoal.Range.Weekly,
                 is RecordTypeGoal.Range.Monthly,
                 is RecordTypeGoal.Range.Yearly,
+                is RecordTypeGoal.Range.Overall,
                 -> false
             }
         }
@@ -103,6 +105,7 @@ class GoalViewDataMapper @Inject constructor(
                     is RecordTypeGoal.Range.Weekly,
                     is RecordTypeGoal.Range.Monthly,
                     is RecordTypeGoal.Range.Yearly,
+                    is RecordTypeGoal.Range.Overall,
                     -> 0L
                 }
                 is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
@@ -178,7 +181,14 @@ class GoalViewDataMapper @Inject constructor(
                 goals.filter { it.idData is RecordTypeGoal.IdData.Tag }
             }
         }
-        if (rangeLength !in listOf(RangeLength.Day, RangeLength.Week, RangeLength.Month, RangeLength.Year)) {
+        val allowedRangesWithGoals = listOf(
+            RangeLength.Day,
+            RangeLength.Week,
+            RangeLength.Month,
+            RangeLength.Year,
+            RangeLength.All,
+        )
+        if (rangeLength !in allowedRangesWithGoals) {
             return emptyList()
         }
 
@@ -194,6 +204,7 @@ class GoalViewDataMapper @Inject constructor(
                     rangeLength is RangeLength.Week -> it.range is RecordTypeGoal.Range.Weekly
                     rangeLength is RangeLength.Month -> it.range is RecordTypeGoal.Range.Monthly
                     rangeLength is RangeLength.Year -> it.range is RecordTypeGoal.Range.Yearly
+                    rangeLength is RangeLength.All -> it.range is RecordTypeGoal.Range.Overall
                     else -> false
                 }
             }

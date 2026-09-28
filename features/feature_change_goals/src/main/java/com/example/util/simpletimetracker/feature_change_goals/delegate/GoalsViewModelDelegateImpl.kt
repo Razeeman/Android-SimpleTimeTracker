@@ -245,6 +245,7 @@ class GoalsViewModelDelegateImpl @Inject constructor(
             RecordTypeGoal.Range.Weekly,
             RecordTypeGoal.Range.Monthly,
             RecordTypeGoal.Range.Yearly,
+            RecordTypeGoal.Range.Overall,
         )
         return goals.sortedWith(
             compareBy<RecordTypeGoal> { rangeOrder.indexOf(it.range) }

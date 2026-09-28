@@ -46,6 +46,7 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
             RecordTypeGoal.Range.Weekly,
             RecordTypeGoal.Range.Monthly,
             RecordTypeGoal.Range.Yearly,
+            RecordTypeGoal.Range.Overall,
         ).forEach {
             rangeEndScheduler.cancelSchedule(it)
         }
@@ -58,6 +59,7 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
             is RecordTypeGoal.Range.Weekly -> RangeLength.Week
             is RecordTypeGoal.Range.Monthly -> RangeLength.Month
             is RecordTypeGoal.Range.Yearly -> RangeLength.Year
+            is RecordTypeGoal.Range.Overall -> RangeLength.All
         }.let { getRangeInteractor.getRange(it) }
 
         rangeEndScheduler.schedule(

@@ -84,11 +84,17 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         runningRecords: List<RunningRecord>,
         rangeLength: RangeLength,
     ): Map<Long, Result> {
-        val range = getRange(rangeLength)
-        // TODO TAG GOAL improve records load for big ranges (month)?
-        val rangeRecords = recordInteractor.getWithParams(GetParam.FromRange(range))
-
         val targetTagIds = tagIds.toSet()
+        if (targetTagIds.isEmpty()) return emptyMap()
+
+        val range = getRange(rangeLength)
+        val rangeRecords = if (rangeLength is RangeLength.All) {
+            recordInteractor.getWithParams(GetParam.Tagged(targetTagIds))
+        } else {
+            // TODO TAG GOAL improve records load for big ranges (month)?
+            recordInteractor.getWithParams(GetParam.FromRange(range))
+        }
+
         return getRangeCurrents(
             targetIds = targetTagIds,
             getTargetIdsFromRecord = { record ->
@@ -141,6 +147,14 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         range: Range,
         rangeRecords: List<Record>,
     ): Map<Long, Result> {
+        fun RecordBase.clamp(): Long {
+            return if (range.isUndefined) {
+                this.duration
+            } else {
+                rangeMapper.clampToRange(this, range).duration
+            }
+        }
+
         val accumulators = targetIds.associateWith { Accumulator() }
         val current = currentTimestampProvider.get()
 
@@ -148,10 +162,7 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             var duration: Long? = null
             getTargetIdsFromRecord(record).distinct().forEach { targetId ->
                 accumulators[targetId]?.let { accumulator ->
-                    val recordDuration = duration ?: rangeMapper
-                        .clampToRange(record, range)
-                        .duration
-                        .also { duration = it }
+                    val recordDuration = duration ?: record.clamp().also { duration = it }
                     accumulator.duration += recordDuration
                     accumulator.count++
                 }
@@ -190,10 +201,10 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         typeIds: Set<Long>,
     ): List<Record> {
         // Use getFromRange to hit cache.
-        val params = if (rangeLength is RangeLength.Day) {
-            GetParam.FromRange(range)
-        } else {
-            GetParam.FromRangeByType(typeIds, range)
+        val params = when (rangeLength) {
+            is RangeLength.All -> GetParam.Type(typeIds)
+            is RangeLength.Day -> GetParam.FromRange(range)
+            else -> GetParam.FromRangeByType(typeIds, range)
         }
         return recordInteractor.getWithParams(params)
     }

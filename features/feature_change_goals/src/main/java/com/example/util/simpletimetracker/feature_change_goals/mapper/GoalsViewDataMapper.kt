@@ -41,6 +41,7 @@ class GoalsViewDataMapper @Inject constructor(
         RecordTypeGoal.Range.Weekly,
         RecordTypeGoal.Range.Monthly,
         RecordTypeGoal.Range.Yearly,
+        RecordTypeGoal.Range.Overall,
     )
 
     fun toGoalType(position: Int): RecordTypeGoal.Type {
