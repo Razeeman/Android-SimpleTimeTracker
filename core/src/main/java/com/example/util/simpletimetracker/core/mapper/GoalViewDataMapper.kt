@@ -145,14 +145,12 @@ class GoalViewDataMapper @Inject constructor(
         }
         val state = when {
             subtype is RecordTypeGoal.Subtype.Goal && goals.all(::isReached) -> {
-                GoalTimeViewData.Subtype.Goal
+                RecordTypeGoal.Subtype.Goal
             }
             subtype is RecordTypeGoal.Subtype.Limit && goals.any(::isReached) -> {
-                GoalTimeViewData.Subtype.Limit
+                RecordTypeGoal.Subtype.Limit
             }
-            else -> {
-                GoalTimeViewData.Subtype.Hidden
-            }
+            else -> null
         }
 
         return GoalTimeViewData(text = text, state = state)

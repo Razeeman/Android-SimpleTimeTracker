@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.databinding.GoalCheckmarkViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.getThemedAttr
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
+import androidx.core.content.withStyledAttributes
 
 class GoalCheckmarkView @JvmOverloads constructor(
     context: Context,
@@ -22,9 +23,10 @@ class GoalCheckmarkView @JvmOverloads constructor(
     private val binding = GoalCheckmarkViewLayoutBinding.inflate(layoutInflater, this)
 
     init {
-
-        context.obtainStyledAttributes(attrs, R.styleable.GoalCheckmarkView, defStyleAttr, 0)
-            .run {
+        context
+            .withStyledAttributes(
+                attrs, R.styleable.GoalCheckmarkView, defStyleAttr, 0,
+            ) {
                 if (hasValue(R.styleable.GoalCheckmarkView_itemCheckState)) {
                     itemCheckState = getInt(
                         R.styleable.GoalCheckmarkView_itemCheckState,
@@ -35,8 +37,6 @@ class GoalCheckmarkView @JvmOverloads constructor(
                 if (hasValue(R.styleable.GoalCheckmarkView_itemIsFiltered)) {
                     itemIsFiltered = getBoolean(R.styleable.GoalCheckmarkView_itemIsFiltered, false)
                 }
-
-                recycle()
             }
     }
 
