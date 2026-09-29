@@ -215,5 +215,4 @@ class WearDataRepo @Inject constructor(
     override suspend fun openPhoneApp() {
         router.startApp()
     }
-
 }
