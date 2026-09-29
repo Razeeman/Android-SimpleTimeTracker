@@ -132,4 +132,16 @@ class NotificationExternalBroadcastController @Inject constructor(
             externalQueryBroadcastInteractor.onActionQueryRunning(answerType)
         }
     }
+
+    suspend fun onActionExternalQueryRecords(shift: Int) {
+        mutex.withLock {
+            externalQueryBroadcastInteractor.onActionQueryRecords(shift)
+        }
+    }
+
+    suspend fun onActionExternalQueryStatistics(shift: Int, filterType: String?) {
+        mutex.withLock {
+            externalQueryBroadcastInteractor.onActionQueryStatistics(shift, filterType)
+        }
+    }
 }

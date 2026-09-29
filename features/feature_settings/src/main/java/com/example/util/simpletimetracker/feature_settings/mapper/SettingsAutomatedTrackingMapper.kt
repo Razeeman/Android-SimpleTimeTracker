@@ -16,9 +16,13 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_E
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CHANGE_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CREATE_RECORD_TAG
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RECORDS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RUNNING
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_STATISTICS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RECORDS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RUNNING
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_STATISTICS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESTART_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ACTIVITY
@@ -32,6 +36,8 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_CATEGORY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_DATA
+import com.example.util.simpletimetracker.core.utils.EXTRA_FILTER_TYPE
+import com.example.util.simpletimetracker.core.utils.EXTRA_SHIFT
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_MODE
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_GOAL_TYPE
@@ -231,6 +237,20 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     extras = emptyList(),
                     optional = listOf(EXTRA_ANSWER_TYPE),
                     response = ACTION_EXTERNAL_RESPONSE_RUNNING,
+                    responseExtras = listOf(EXTRA_DATA),
+                ),
+                AvailableAction(
+                    action = ACTION_EXTERNAL_QUERY_RECORDS,
+                    extras = emptyList(),
+                    optional = listOf(EXTRA_SHIFT),
+                    response = ACTION_EXTERNAL_RESPONSE_RECORDS,
+                    responseExtras = listOf(EXTRA_DATA),
+                ),
+                AvailableAction(
+                    action = ACTION_EXTERNAL_QUERY_STATISTICS,
+                    extras = emptyList(),
+                    optional = listOf(EXTRA_SHIFT, EXTRA_FILTER_TYPE),
+                    response = ACTION_EXTERNAL_RESPONSE_STATISTICS,
                     responseExtras = listOf(EXTRA_DATA),
                 ),
             ),
