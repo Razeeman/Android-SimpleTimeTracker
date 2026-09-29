@@ -3,10 +3,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package com.example.util.simpletimetracker.feature_wear
+package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.interactor.RecordRepeatInteractor
-import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.base.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID

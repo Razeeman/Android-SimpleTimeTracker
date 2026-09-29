@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_notification.external
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.example.util.simpletimetracker.core.interactor.WearQueryInteractor
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_ACTIVITIES
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RECORDS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RUNNING
@@ -19,15 +20,9 @@ import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTyp
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.wear_api.WearActivityDTO
 import com.example.util.simpletimetracker.wear_api.WearChartFilterTypeDTO
-import com.example.util.simpletimetracker.wear_api.WearCommunicationAPI
 import com.example.util.simpletimetracker.wear_api.WearCurrentActivityDTO
-import com.example.util.simpletimetracker.wear_api.WearRecordsRequest
-import com.example.util.simpletimetracker.wear_api.WearStatisticsRequest
 import com.google.gson.Gson
-import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 import javax.inject.Inject
 
 /**
@@ -42,7 +37,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
     private val runningRecordInteractor: RunningRecordInteractor,
     private val recordTagInteractor: RecordTagInteractor,
     private val appColorMapper: AppColorMapper,
-    private val wearCommunicationApi: Optional<Lazy<WearCommunicationAPI>>,
+    private val wearQueryInteractor: WearQueryInteractor,
 ) {
 
     // TODO get from DI
@@ -101,9 +96,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
     suspend fun onActionQueryRecords(shift: Int) {
         if (!prefsInteractor.getAutomatedTrackingReceiveQueries()) return
 
-        val records = wearCommunicationApi.getOrNull()?.get()
-            ?.queryRecords(WearRecordsRequest(shift = shift))
-            .orEmpty()
+        val records = wearQueryInteractor.queryRecords(shift)
 
         sendResponse(ACTION_EXTERNAL_RESPONSE_RECORDS, gson.toJson(records))
     }
@@ -117,9 +110,7 @@ class ExternalQueryBroadcastInteractor @Inject constructor(
         val filterType = WearChartFilterTypeDTO.entries
             .firstOrNull { it.name.equals(filterTypeData, ignoreCase = true) }
             ?: WearChartFilterTypeDTO.ACTIVITY
-        val statistics = wearCommunicationApi.getOrNull()?.get()
-            ?.queryStatistics(WearStatisticsRequest(shift = shift, filterType = filterType))
-            .orEmpty()
+        val statistics = wearQueryInteractor.queryStatistics(shift, filterType)
 
         sendResponse(ACTION_EXTERNAL_RESPONSE_STATISTICS, gson.toJson(statistics))
     }

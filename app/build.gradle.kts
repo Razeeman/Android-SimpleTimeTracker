@@ -117,7 +117,6 @@ dependencies {
     implementation(project(":feature_dialogs:api"))
     implementation(project(":feature_widget"))
     implementation(project(":feature_notification"))
-    implementation(project(":wear_api"))
     implementation(project(":feature_categories"))
     implementation(project(":feature_change_category"))
     implementation(project(":feature_change_record_tag"))
