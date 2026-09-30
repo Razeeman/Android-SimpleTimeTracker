@@ -10,7 +10,9 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_AUTOMATIC_E
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CHANGE_RECORD
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_CREATE_RECORD_TAG
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RECORDS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RUNNING
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_STATISTICS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESTART_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ACTIVITY
@@ -19,6 +21,7 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_LONGES
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_SHORTEST_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
+import com.example.util.simpletimetracker.core.utils.EXTRA_FILTER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_MODE
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
@@ -27,6 +30,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
+import com.example.util.simpletimetracker.core.utils.EXTRA_SHIFT
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
 import com.example.util.simpletimetracker.feature_notification.external.NotificationExternalBroadcastController
@@ -149,7 +153,24 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
                 val answerType = intent.getStringExtra(EXTRA_ANSWER_TYPE)
                 externalController.onActionExternalQueryRunning(answerType)
             }
+            ACTION_EXTERNAL_QUERY_RECORDS -> {
+                externalController.onActionExternalQueryRecords(
+                    shift = intent.getShiftExtra(),
+                )
+            }
+            ACTION_EXTERNAL_QUERY_STATISTICS -> {
+                externalController.onActionExternalQueryStatistics(
+                    shift = intent.getShiftExtra(),
+                    filterType = intent.getStringExtra(EXTRA_FILTER_TYPE),
+                )
+            }
         }
+    }
+
+    // Accepts both int and string extras, as string is the only option for adb.
+    private fun Intent.getShiftExtra(): Int {
+        val asString = getStringExtra(EXTRA_SHIFT)?.toIntOrNull()
+        return asString ?: getIntExtra(EXTRA_SHIFT, 0)
     }
 
     private fun String.splitTagNames(): List<String> {
@@ -171,6 +192,8 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
             ACTION_EXTERNAL_AUTOMATIC_EXPORT,
             ACTION_EXTERNAL_QUERY_ACTIVITIES,
             ACTION_EXTERNAL_QUERY_RUNNING,
+            ACTION_EXTERNAL_QUERY_RECORDS,
+            ACTION_EXTERNAL_QUERY_STATISTICS,
         )
     }
 }
