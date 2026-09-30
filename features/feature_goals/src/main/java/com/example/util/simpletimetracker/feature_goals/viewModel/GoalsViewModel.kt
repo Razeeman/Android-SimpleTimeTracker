@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.core.model.NavigationTab
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.extension.toRangeLength
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.InfiniteRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -23,6 +24,7 @@ import com.example.util.simpletimetracker.feature_date_selection.api.DateSelecto
 import com.example.util.simpletimetracker.feature_goals.interactor.GoalsViewDataInteractor
 import com.example.util.simpletimetracker.feature_goals.mapper.GoalsOptionsListMapper
 import com.example.util.simpletimetracker.feature_goals.model.GoalsOptionsListItem
+import com.example.util.simpletimetracker.feature_goals.model.RangeViewData
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
@@ -59,7 +61,12 @@ class GoalsViewModel @Inject constructor(
 
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
+    private val rangeJobs = mutableMapOf<RecordTypeGoal.Range, Job>()
+    private val rangeResults = mutableMapOf<RecordTypeGoal.Range, RangeViewData>()
     private var lastRenderedDateItem: InfiniteRecyclerAdapter.Data? = null
+
+    // Incremented when range jobs are cancelled so stale updates cannot start jobs or publish results.
+    private var rangeJobsGeneration: Long = 0
 
     fun initialize() {
         viewModelScope.launch {
@@ -121,6 +128,7 @@ class GoalsViewModel @Inject constructor(
             is GoalsOptionsListItem.HideFinished -> {
                 val newValue = !prefsInteractor.getHideFinishedGoals()
                 prefsInteractor.setHideFinishedGoals(newValue)
+                cancelRangeJobs()
                 updateStatistics()
             }
         }
@@ -161,13 +169,31 @@ class GoalsViewModel @Inject constructor(
         )
     }
 
-    private fun updateStatistics() = viewModelScope.launch {
-        val data = loadStatisticsViewData()
-        goals.set(data)
+    private suspend fun updateStatistics() {
+        val generation = rangeJobsGeneration
+        val shift = currentShift
+        val setup = goalsViewDataInteractor.getSetupData()
+        if (generation != rangeJobsGeneration || shift != currentShift) return
+
+        for (range in GOAL_RANGES_ORDER) {
+            if (rangeJobs[range]?.isActive == true) continue
+            rangeJobs[range] = viewModelScope.launch {
+                val result = goalsViewDataInteractor.getViewDataForRange(
+                    dayShift = shift,
+                    goalRange = range,
+                    setup = setup,
+                )
+                if (isActive && isVisible && generation == rangeJobsGeneration) {
+                    rangeResults[range] = result
+                    publishResults()
+                }
+            }
+        }
     }
 
-    private suspend fun loadStatisticsViewData(): List<ViewHolderType> {
-        return goalsViewDataInteractor.getViewData(currentShift)
+    private fun publishResults() {
+        val orderedResults = GOAL_RANGES_ORDER.map(rangeResults::get)
+        goals.set(goalsViewDataInteractor.combineRanges(orderedResults))
     }
 
     private fun startUpdate() {
@@ -182,12 +208,22 @@ class GoalsViewModel @Inject constructor(
 
     private fun stopUpdate() {
         timerJob?.cancel()
+        timerJob = null
+        cancelRangeJobs()
+    }
+
+    private fun cancelRangeJobs() {
+        rangeJobsGeneration++
+        rangeJobs.values.forEach(Job::cancel)
+        rangeJobs.clear()
     }
 
     private fun updatePosition(newPosition: Int) {
+        if (currentShift == newPosition) return
         currentShift = newPosition
         updateDateSelectorPosition(newPosition)
-        updateStatistics()
+        cancelRangeJobs()
+        viewModelScope.launch { updateStatistics() }
     }
 
     private fun updateDateSelectorPosition(newPosition: Int) {
@@ -225,5 +261,12 @@ class GoalsViewModel @Inject constructor(
     companion object {
         private const val DATE_TAG = "goals_date_tag"
         private const val TIMER_UPDATE = 1000L
+        private val GOAL_RANGES_ORDER = listOf(
+            RecordTypeGoal.Range.Daily,
+            RecordTypeGoal.Range.Weekly,
+            RecordTypeGoal.Range.Monthly,
+            RecordTypeGoal.Range.Yearly,
+            RecordTypeGoal.Range.Overall,
+        )
     }
 }
