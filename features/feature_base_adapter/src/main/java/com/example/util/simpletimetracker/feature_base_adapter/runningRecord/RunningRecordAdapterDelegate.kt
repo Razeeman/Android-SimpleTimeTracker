@@ -2,8 +2,8 @@ package com.example.util.simpletimetracker.feature_base_adapter.runningRecord
 
 import androidx.core.view.ViewCompat
 import com.example.util.simpletimetracker.domain.extension.orFalse
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
-import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData.Subtype
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
 import com.example.util.simpletimetracker.feature_views.RunningRecordView
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
@@ -54,11 +54,15 @@ fun RunningRecordView.bindState(
         itemTimerTotal = item.timerTotal
     }
     if (rebind || updates.contains(ViewData.UPDATE_GOAL_TIME).orFalse()) {
-        itemGoalTime = item.goalTime.text
-        itemGoalTimeCheck = when (item.goalTime.state) {
-            is Subtype.Hidden -> CheckState.HIDDEN
-            is Subtype.Goal -> CheckState.GOAL_REACHED
-            is Subtype.Limit -> CheckState.LIMIT_REACHED
+        itemGoalTimes = item.goalTimes.map { goalTime ->
+            RunningRecordView.GoalTime(
+                text = goalTime.text,
+                checkState = when (goalTime.state) {
+                    null -> CheckState.HIDDEN
+                    is RecordTypeGoal.Subtype.Goal -> CheckState.GOAL_REACHED
+                    is RecordTypeGoal.Subtype.Limit -> CheckState.LIMIT_REACHED
+                },
+            )
         }
     }
     if (rebind || updates.contains(ViewData.UPDATE_ICON).orFalse()) {

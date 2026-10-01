@@ -21,7 +21,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_data_edit.R
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.navigation.Router
 import com.example.util.simpletimetracker.navigation.params.screen.StandardDialogParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -160,7 +159,7 @@ class DataEditDuplicateTypeViewModel @Inject constructor(
                 recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                checkStates = emptyList(),
                 isComplete = false,
             )
         }

@@ -5,6 +5,7 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -15,11 +16,16 @@ import com.example.util.simpletimetracker.feature_change_record.R
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
 import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
+import com.example.util.simpletimetracker.utils.clickOnRecyclerItem
+import com.example.util.simpletimetracker.utils.clickOnView
+import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
+import com.example.util.simpletimetracker.feature_change_goals.api.R as changeGoalsApiR
 
 object GoalsTestUtils {
 
@@ -59,6 +65,15 @@ object GoalsTestUtils {
     fun getMonthlyDurationGoalTag(duration: Long): RecordTypeGoal =
         getDurationGoalTag(RecordTypeGoal.Range.Monthly, duration)
 
+    fun getYearlyDurationGoal(duration: Long): RecordTypeGoal =
+        getDurationGoal(RecordTypeGoal.Range.Yearly, duration)
+
+    fun getYearlyDurationGoalCategory(duration: Long): RecordTypeGoal =
+        getDurationGoalCategory(RecordTypeGoal.Range.Yearly, duration)
+
+    fun getYearlyDurationGoalTag(duration: Long): RecordTypeGoal =
+        getDurationGoalTag(RecordTypeGoal.Range.Yearly, duration)
+
     fun getDailyCountGoal(count: Long): RecordTypeGoal =
         getCountGoal(RecordTypeGoal.Range.Daily, count)
 
@@ -85,6 +100,93 @@ object GoalsTestUtils {
 
     fun getMonthlyCountGoalTag(count: Long): RecordTypeGoal =
         getCountGoalTag(RecordTypeGoal.Range.Monthly, count)
+
+    fun getYearlyCountGoal(count: Long): RecordTypeGoal =
+        getCountGoal(RecordTypeGoal.Range.Yearly, count)
+
+    fun getYearlyCountGoalCategory(count: Long): RecordTypeGoal =
+        getCountGoalCategory(RecordTypeGoal.Range.Yearly, count)
+
+    fun getYearlyCountGoalTag(count: Long): RecordTypeGoal =
+        getCountGoalTag(RecordTypeGoal.Range.Yearly, count)
+
+    fun addGoal(range: RecordTypeGoal.Range = RecordTypeGoal.Range.Daily) {
+        val addButton = withText(R.string.running_records_add_type)
+        scrollRecyclerToView(changeGoalsApiR.id.rvChangeRecordTypeGoals, addButton)
+        clickOnRecyclerItem(
+            changeGoalsApiR.id.rvChangeRecordTypeGoals,
+            withText(R.string.running_records_add_type),
+        )
+
+        if (range !is RecordTypeGoal.Range.Daily) {
+            clickOnView(
+                allOf(
+                    withId(changeGoalsR.id.fieldRecordTypeGoalRange),
+                    isDisplayed(),
+                ),
+            )
+            clickOnView(
+                allOf(
+                    withText(getRangeStringResId(range)),
+                    isDisplayed(),
+                ),
+            )
+        }
+    }
+
+    fun expandGoal(
+        range: RecordTypeGoal.Range,
+        type: RecordTypeGoal.Type,
+    ) {
+        val card = goalCard(range, type)
+        scrollRecyclerToView(changeGoalsApiR.id.rvChangeRecordTypeGoals, card)
+        clickOnView(
+            allOf(
+                withId(changeGoalsR.id.containerChangeRecordTypeGoalSummary),
+                isDescendantOfA(card),
+            ),
+        )
+    }
+
+    fun goalCard(
+        range: RecordTypeGoal.Range,
+        type: RecordTypeGoal.Type,
+    ): Matcher<View> {
+        val typeStringResId = when (type) {
+            is RecordTypeGoal.Type.Duration -> R.string.change_record_type_goal_duration
+            is RecordTypeGoal.Type.Count -> R.string.change_record_type_goal_count
+        }
+        return allOf(
+            withId(changeGoalsR.id.containerChangeRecordTypeGoalCard),
+            hasDescendant(
+                allOf(
+                    withId(changeGoalsR.id.tvChangeRecordTypeGoalRange),
+                    withText(getRangeStringResId(range)),
+                ),
+            ),
+            hasDescendant(
+                allOf(
+                    withId(changeGoalsR.id.tvChangeRecordTypeGoalType),
+                    withText(typeStringResId),
+                ),
+            ),
+        )
+    }
+
+    fun goalField(
+        range: RecordTypeGoal.Range,
+        type: RecordTypeGoal.Type,
+        fieldId: Int,
+    ): Matcher<View> {
+        return allOf(
+            withId(fieldId),
+            isDescendantOfA(goalCard(range, type)),
+        )
+    }
+
+    fun visibleGoalField(fieldId: Int): Matcher<View> {
+        return allOf(withId(fieldId), isDisplayed())
+    }
 
     fun addRecords(testUtils: TestUtils, typeName: String, tagNames: List<String> = emptyList()) {
         val currentTime = Calendar.getInstance().apply {
@@ -123,6 +225,30 @@ object GoalsTestUtils {
             timeEnded = thisMonth,
             tagNames = tagNames,
         )
+    }
+
+    fun addYearlyRecords(testUtils: TestUtils, typeName: String, tagNames: List<String> = emptyList()) {
+        val now = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 15)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val times = listOf(
+            now.timeInMillis,
+            (now.clone() as Calendar).apply { set(Calendar.DAY_OF_YEAR, 1) }.timeInMillis,
+            (now.clone() as Calendar).apply {
+                set(Calendar.DAY_OF_YEAR, maxOf(1, now.get(Calendar.DAY_OF_YEAR) - 1))
+            }.timeInMillis,
+        )
+        times.forEach { time ->
+            testUtils.addRecord(
+                typeName = typeName,
+                timeStarted = time - durationInMillis,
+                timeEnded = time,
+                tagNames = tagNames,
+            )
+        }
     }
 
     fun checkNoStatisticsGoal(typeName: String) {
@@ -179,18 +305,18 @@ object GoalsTestUtils {
     fun checkTypeMark(typeName: String, isVisible: Boolean) {
         allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(typeName)), isCompletelyDisplayed())
             .let(::checkViewIsDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheckOutline))
+        getTypeMarkMatcher(typeName, R.id.ivGoalCheckmarkItemCheckOutline)
             .let(::checkViewIsDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheck))
+        getTypeMarkMatcher(typeName, R.id.ivGoalCheckmarkItemCheck)
             .let { if (isVisible) checkViewIsDisplayed(it) else checkViewIsNotDisplayed(it) }
     }
 
     fun checkNoTypeMark(typeName: String) {
         allOf(withId(R.id.viewRecordTypeItem), hasDescendant(withText(typeName)), isCompletelyDisplayed())
             .let(::checkViewIsDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheckOutline))
+        allOf(getTypeMatcher(typeName), withId(R.id.viewRecordTypeItemGoalCheckmark))
             .let(::checkViewIsNotDisplayed)
-        allOf(getTypeMatcher(typeName), withId(R.id.ivGoalCheckmarkItemCheck))
+        allOf(getTypeMatcher(typeName), withId(R.id.viewRecordTypeItemLimitCheckmark))
             .let(::checkViewIsNotDisplayed)
     }
 
@@ -227,6 +353,14 @@ object GoalsTestUtils {
                 withId(R.id.viewRecordTypeItem),
                 hasDescendant(withText(typeName)),
             ),
+        )
+    }
+
+    private fun getTypeMarkMatcher(typeName: String, viewId: Int): Matcher<View> {
+        return allOf(
+            withId(viewId),
+            getTypeMatcher(typeName),
+            isDescendantOfA(withId(R.id.viewRecordTypeItemGoalCheckmark)),
         )
     }
 
@@ -295,5 +429,15 @@ object GoalsTestUtils {
     ): RecordTypeGoal {
         return getCountGoal(range = range, count = count)
             .copy(idData = RecordTypeGoal.IdData.Tag(0))
+    }
+
+    private fun getRangeStringResId(range: RecordTypeGoal.Range): Int {
+        return when (range) {
+            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
+            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
+            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
+            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
+            is RecordTypeGoal.Range.Yearly -> R.string.change_record_type_yealy_goal_time
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.record.interactor
 
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,9 +35,13 @@ class UpdateRunningRecordsInteractor @Inject constructor() {
         val id: Long,
         val timer: String,
         val timerTotal: String,
-        val goalText: String,
-        val goalState: GoalState,
+        val goalTimes: List<GoalTime>,
         val additionalData: AdditionalData?,
+    )
+
+    data class GoalTime(
+        val text: String,
+        val state: RecordTypeGoal.Subtype?,
     )
 
     data class AdditionalData(
@@ -44,10 +49,4 @@ class UpdateRunningRecordsInteractor @Inject constructor() {
         val timeStarted: String,
         val comment: String,
     )
-
-    sealed interface GoalState {
-        data object Hidden : GoalState
-        data object Goal : GoalState
-        data object Limit : GoalState
-    }
 }

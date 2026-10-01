@@ -7,15 +7,18 @@ package com.example.util.simpletimetracker.features.statistics.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.data.WearDataRepo
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.presentation.datePicker.WearDateSelectedInteractor
 import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.features.statistics.mapper.StatisticsViewDataMapper
 import com.example.util.simpletimetracker.features.statistics.screen.StatisticsListState
+import com.example.util.simpletimetracker.presentation.datePicker.toStartOfDayTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +29,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +40,7 @@ class StatisticsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val state: StateFlow<StatisticsListState> get() = _state.asStateFlow()
-    private val _state: MutableStateFlow<StatisticsListState> = MutableStateFlow(StatisticsListState.Loading)
+    private val _state = MutableStateFlow<StatisticsListState>(StatisticsListState.Loading)
 
     val effects: SharedFlow<Effect> get() = _effects.asSharedFlow()
     private val _effects = MutableSharedFlow<Effect>(
@@ -54,9 +56,9 @@ class StatisticsViewModel @Inject constructor(
 
     fun init() {
         if (isInitialized) return
+        isInitialized = true
         subscribeToUpdates()
         viewModelScope.launch { loadData() }
-        isInitialized = true
     }
 
     fun onRefresh() = viewModelScope.launch {
@@ -68,26 +70,28 @@ class StatisticsViewModel @Inject constructor(
         val timestamp = timeMapper.toTimestampShifted(
             rangesFromToday = shift,
             range = rangeLength,
-            // TODO start of day shift?
+            startOfDayShift = settings?.startOfDayShift.orZero(),
         )
         _effects.emit(Effect.OnOpenDatePicker(timestamp))
     }
 
-    fun onTitleLongClick() = viewModelScope.launch {
+    fun onTitleLongClick() {
         changeShift(0)
     }
 
-    fun onPrevClick() = viewModelScope.launch {
+    fun onPrevClick() {
         changeShift(shift - 1)
     }
 
-    fun onNextClick() = viewModelScope.launch {
+    fun onNextClick() {
         changeShift(shift + 1)
     }
 
     private fun onDateSelected(date: LocalDate) {
+        val startOfDayShift = settings?.startOfDayShift.orZero()
         timeMapper.toTimestampShift(
-            toTime = date.atStartOfDay(ZoneOffset.UTC).toEpochSecond() * 1000,
+            fromTime = System.currentTimeMillis().shiftTimeStamp(-startOfDayShift),
+            toTime = date.toStartOfDayTimestamp(),
             range = rangeLength,
             firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.MONDAY,
         ).toInt().let(::changeShift)
@@ -126,7 +130,6 @@ class StatisticsViewModel @Inject constructor(
                 settings = settingsResult.getOrNull()
                 _state.value = statisticsViewDataMapper.mapContentState(
                     statistics = statistics.getOrNull().orEmpty(),
-                    filterType = filterType,
                     rangeLength = rangeLength,
                     shift = shift,
                     settings = settings,
@@ -142,6 +145,9 @@ class StatisticsViewModel @Inject constructor(
     private fun subscribeToUpdates() {
         viewModelScope.launch {
             wearDateSelectedInteractor.data.collect(::onDateSelected)
+        }
+        viewModelScope.launch {
+            wearDataRepo.dataUpdated.collect { loadData() }
         }
     }
 

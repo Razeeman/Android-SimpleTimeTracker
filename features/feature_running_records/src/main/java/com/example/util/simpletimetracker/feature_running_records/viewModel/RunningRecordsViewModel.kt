@@ -572,7 +572,9 @@ class RunningRecordsViewModel @Inject constructor(
         timerJob = viewModelScope.launch {
             delayLoad()
             while (isActive) {
-                updateRunningRecords()
+                // Just in case update takes longer than timer period,
+                // otherwise will be canceled every tick.
+                if (updateJob?.isCompleted != false) updateRunningRecords()
                 delay(TIMER_UPDATE_MS)
             }
         }
@@ -580,6 +582,7 @@ class RunningRecordsViewModel @Inject constructor(
 
     private fun stopUpdate() {
         timerJob?.cancel()
+        updateJob?.cancel()
     }
 
     companion object {

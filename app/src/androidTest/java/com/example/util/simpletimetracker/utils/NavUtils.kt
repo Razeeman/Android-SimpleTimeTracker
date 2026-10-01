@@ -8,9 +8,11 @@ import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.contrib.PickerActions.setTime
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.example.util.simpletimetracker.GoalsTestUtils
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.clickOnSettingsRecyclerText
 import com.example.util.simpletimetracker.domain.extension.padDuration
@@ -26,6 +28,7 @@ import com.example.util.simpletimetracker.feature_change_category.R as changeCat
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_main.R as mainR
 
@@ -198,47 +201,33 @@ object NavUtils {
     fun addGoalToActivity(
         goal: RecordTypeGoal,
     ) {
-        val layout = when (goal.range) {
-            is RecordTypeGoal.Range.Session -> changeRecordTypeR.id.layoutChangeRecordTypeGoalSession
-            is RecordTypeGoal.Range.Daily -> changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily
-            is RecordTypeGoal.Range.Weekly -> changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly
-            is RecordTypeGoal.Range.Monthly -> changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly
-        }
-        onView(withId(layout)).perform(nestedScrollTo())
+        GoalsTestUtils.addGoal(goal.range)
 
         // Select type
-        layout.takeUnless { goal.range is RecordTypeGoal.Range.Session }?.let {
+        if (goal.type is RecordTypeGoal.Type.Count) {
             clickOnView(
                 allOf(
-                    isDescendantOfA(withId(it)),
-                    withId(changeRecordTypeR.id.fieldRecordTypeGoalType),
+                    withId(changeGoalsR.id.fieldRecordTypeGoalType),
+                    isDisplayed(),
                 ),
             )
-            val typeToSelect = when (goal.type) {
-                is RecordTypeGoal.Type.Duration -> coreR.string.change_record_type_goal_duration
-                is RecordTypeGoal.Type.Count -> coreR.string.change_record_type_goal_count
-            }
-            clickOnViewWithText(typeToSelect)
+            clickOnView(
+                allOf(
+                    withText(coreR.string.change_record_type_goal_count),
+                    isDisplayed(),
+                ),
+            )
         }
 
         // Enter value
         when (goal.type) {
             is RecordTypeGoal.Type.Duration -> {
-                clickOnView(
-                    allOf(
-                        isDescendantOfA(withId(layout)),
-                        withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
-                    ),
-                )
+                clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
                 if (goal.type.value == 0L) disableDuration() else enterDuration(goal.type.value)
             }
             is RecordTypeGoal.Type.Count -> {
-                onView(
-                    allOf(
-                        isDescendantOfA(withId(layout)),
-                        withId(changeRecordTypeR.id.etChangeRecordTypeGoalCountValue),
-                    ),
-                ).perform(replaceText(goal.type.value.toString()))
+                onView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.etChangeRecordTypeGoalCountValue))
+                    .perform(replaceText(goal.type.value.toString()))
             }
         }
 
@@ -248,13 +237,18 @@ object NavUtils {
     fun disableGoalOnActivity(
         goal: RecordTypeGoal,
     ) {
-        val newGoal = goal.copy(
-            type = when (goal.type) {
-                is RecordTypeGoal.Type.Duration -> RecordTypeGoal.Type.Duration(0)
-                is RecordTypeGoal.Type.Count -> RecordTypeGoal.Type.Count(0)
-            },
-        )
-        addGoalToActivity(newGoal)
+        GoalsTestUtils.expandGoal(goal.range, goal.type)
+        when (goal.type) {
+            is RecordTypeGoal.Type.Duration -> {
+                clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
+                disableDuration()
+            }
+            is RecordTypeGoal.Type.Count -> {
+                onView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.etChangeRecordTypeGoalCountValue))
+                    .perform(replaceText("0"))
+            }
+        }
+        closeSoftKeyboard()
     }
 
     fun addCategory(

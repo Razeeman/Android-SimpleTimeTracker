@@ -13,6 +13,7 @@ import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
+import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -24,6 +25,7 @@ import org.junit.runners.Parameterized
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 @RunWith(Enclosed::class)
@@ -44,6 +46,44 @@ class TimeMapperTest {
             `when`(resourceRepo.getString(R.string.time_hour)).thenReturn("h")
             `when`(resourceRepo.getString(R.string.time_minute)).thenReturn("m")
             `when`(resourceRepo.getString(R.string.time_second)).thenReturn("s")
+        }
+    }
+
+    class FormatTimeTimeZoneChangeTest {
+
+        private lateinit var timeZoneDefault: TimeZone
+
+        @Before
+        fun before() {
+            timeZoneDefault = TimeZone.getDefault()
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+            `when`(localeProvider.get()).thenReturn(Locale.US)
+        }
+
+        @After
+        fun after() {
+            TimeZone.setDefault(timeZoneDefault)
+        }
+
+        @Test
+        fun formatTimeAfterTimeZoneChanged() {
+            val subject = TimeMapper(
+                localeProvider = localeProvider,
+                resourceRepo = resourceRepo,
+                currentTimestampProvider = currentTimestampProvider,
+            )
+
+            assertEquals(
+                "12:00 AM",
+                subject.formatTime(time = 0, useMilitaryTime = false, showSeconds = false),
+            )
+
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT+03:00"))
+
+            assertEquals(
+                "3:00 AM",
+                subject.formatTime(time = 0, useMilitaryTime = false, showSeconds = false),
+            )
         }
     }
 

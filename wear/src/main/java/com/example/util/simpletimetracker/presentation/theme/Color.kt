@@ -12,5 +12,6 @@ val ColorActive = Color(0xFF263238)
 val ColorInactive = Color(0xFF455A64)
 val ColorAccent = Color(0xFFFF4081)
 val ColorPositive = Color(0xFF388E3C)
+val ColorWhite60 = Color(0x99FFFFFF)
 
 internal val wearColors: Colors = Colors()

@@ -29,6 +29,7 @@ import com.example.util.simpletimetracker.feature_statistics_detail.api.Statisti
 import com.example.util.simpletimetracker.feature_statistics_detail.customView.SeriesCalendarView
 import com.example.util.simpletimetracker.feature_statistics_detail.interactor.StatisticsDetailContentInteractor
 import com.example.util.simpletimetracker.feature_statistics_detail.model.DataDistributionMode
+import com.example.util.simpletimetracker.feature_statistics_detail.model.StatisticsDetailGoalOptionsListItem
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickablePopup
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailClickableTracked
@@ -65,7 +66,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val statisticsDetailContentInteractor: StatisticsDetailContentInteractor,
     private val previewDelegate: StatisticsDetailPreviewViewModelDelegate,
     statsDelegate: StatisticsDetailStatsViewModelDelegate,
-    streaksDelegate: StatisticsDetailStreaksViewModelDelegate,
+    private val streaksDelegate: StatisticsDetailStreaksViewModelDelegate,
     chartDelegate: StatisticsDetailChartViewModelDelegate,
     splitChartDelegate: StatisticsDetailSplitChartViewModelDelegate,
     nextActivitiesDelegate: StatisticsDetailNextActivitiesViewModelDelegate,
@@ -73,7 +74,7 @@ class StatisticsDetailViewModel @Inject constructor(
     private val rangeDelegate: StatisticsDetailRangeViewModelDelegate,
     private val filterDelegate: StatisticsDetailFilterViewModelDelegate,
     dailyCalendarDelegate: StatisticsDetailDailyCalendarViewModelDelegate,
-    goalsDelegate: StatisticsDetailGoalsViewModelDelegate,
+    private val goalsDelegate: StatisticsDetailGoalsViewModelDelegate,
     dataDistributionDelegate: StatisticsDetailDataDistributionViewModelDelegate,
     tagValueDelegate: StatisticsDetailTagValueViewModelDelegate,
     private val statisticsDetailOptionsListMapper: StatisticsDetailOptionsListMapper,
@@ -156,6 +157,17 @@ class StatisticsDetailViewModel @Inject constructor(
 
     fun onButtonClick(block: StatisticsDetailBlock) {
         delegates.forEach { it.onButtonClick(block) }
+    }
+
+    fun onGoalSelected(item: StatisticsDetailGoalOptionsListItem) {
+        when (item.type) {
+            StatisticsDetailGoalOptionsListItem.Type.STREAKS -> {
+                streaksDelegate.onGoalSelected(item.position)
+            }
+            StatisticsDetailGoalOptionsListItem.Type.GOALS -> {
+                goalsDelegate.onGoalSelected(item.position)
+            }
+        }
     }
 
     fun onCardClick(

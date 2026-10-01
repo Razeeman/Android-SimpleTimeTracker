@@ -34,7 +34,7 @@ class RecordTagValueSelectionViewModel @Inject constructor(
     private var newValue: Double? = null
 
     fun onValueChange(valueText: String) {
-        val value = valueText.toDoubleOrNull()
+        val value = valueText.toDoubleOrNull()?.takeIf { it.isFinite() }
         if (value != newValue) {
             newValue = value
             updateViewData(fromCommentChange = true)

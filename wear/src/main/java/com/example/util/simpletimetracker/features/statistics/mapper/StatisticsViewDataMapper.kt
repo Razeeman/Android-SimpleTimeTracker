@@ -14,14 +14,11 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.data.WearIconMapper
 import com.example.util.simpletimetracker.data.WearResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
-import com.example.util.simpletimetracker.domain.base.UNCATEGORIZED_ITEM_ID
-import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
 import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.domain.model.WearStatistics
-import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.features.statistics.screen.StatisticsListState
 import com.example.util.simpletimetracker.features.statistics.ui.StatisticsChipState
@@ -73,7 +70,6 @@ class StatisticsViewDataMapper @Inject constructor(
 
     fun mapContentState(
         statistics: List<WearStatistics>,
-        filterType: ChartFilterType,
         rangeLength: RangeLength,
         shift: Int,
         settings: WearSettings?,
@@ -86,7 +82,6 @@ class StatisticsViewDataMapper @Inject constructor(
         items += statistics
             .mapNotNull { statistic ->
                 val item = mapItem(
-                    filterType = filterType,
                     statistics = statistic,
                     sumDuration = sumDuration,
                     statisticsSize = statisticsSize,
@@ -117,7 +112,6 @@ class StatisticsViewDataMapper @Inject constructor(
     }
 
     private fun mapItem(
-        filterType: ChartFilterType,
         statistics: WearStatistics,
         sumDuration: Long,
         statisticsSize: Int,
@@ -133,22 +127,23 @@ class StatisticsViewDataMapper @Inject constructor(
             durationFormat = DurationFormat.HOURS,
         )
 
-        return when {
-            statistics.id == UNTRACKED_ITEM_ID -> {
+        return when (statistics.type) {
+            WearStatistics.Type.Untracked -> {
                 StatisticsChipState(
                     id = statistics.id,
-                    name = R.string.untracked_time_name
-                        .let(resourceRepo::getString),
+                    name = resourceRepo.getString(R.string.untracked_time_name),
                     icon = WearActivityIcon.Image(R.drawable.wear_unknown),
                     color = ColorInactive.toArgb().toLong(),
                     duration = duration,
                     percent = durationPercent,
                 )
             }
-            statistics.id == UNCATEGORIZED_ITEM_ID -> {
+            WearStatistics.Type.Uncategorized,
+            WearStatistics.Type.Untagged,
+            -> {
                 StatisticsChipState(
                     id = statistics.id,
-                    name = if (filterType == ChartFilterType.RECORD_TAG) {
+                    name = if (statistics.type == WearStatistics.Type.Untagged) {
                         R.string.change_record_untagged
                     } else {
                         R.string.uncategorized_time_name
@@ -159,19 +154,21 @@ class StatisticsViewDataMapper @Inject constructor(
                     percent = durationPercent,
                 )
             }
-            statistics.name != null &&
-                statistics.icon != null &&
-                statistics.color != null -> {
+            WearStatistics.Type.Activity,
+            WearStatistics.Type.Category,
+            WearStatistics.Type.Tag,
+            -> if (statistics.name != null) {
                 StatisticsChipState(
                     id = statistics.id,
                     name = statistics.name,
-                    icon = wearIconMapper.mapIcon(statistics.icon),
-                    color = statistics.color,
+                    icon = statistics.icon?.let(wearIconMapper::mapIcon),
+                    color = statistics.color ?: ColorInactive.toArgb().toLong(),
                     duration = duration,
                     percent = durationPercent,
                 )
+            } else {
+                null
             }
-            else -> null
         }
     }
 
@@ -192,7 +189,7 @@ class StatisticsViewDataMapper @Inject constructor(
         statistics: List<WearStatistics>,
     ): String {
         val statisticsFiltered = statistics
-            .filterNot { it.id == UNTRACKED_ITEM_ID }
+            .filterNot { it.type == WearStatistics.Type.Untracked }
         val total = statisticsFiltered.sumOf { it.duration }
         return timeMapper.formatInterval(
             interval = total,

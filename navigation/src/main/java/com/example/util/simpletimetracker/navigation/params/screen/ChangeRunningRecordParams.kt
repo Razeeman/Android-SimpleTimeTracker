@@ -20,7 +20,7 @@ data class ChangeRunningRecordParams(
         val timeStartedDateTime: ChangeRecordDateTimeStateParams,
         val duration: String,
         val durationTotal: String,
-        val goalTime: GoalTimeParams,
+        val goalTimes: List<GoalTimeParams>,
         val iconId: RecordTypeIconParams,
         @ColorInt val color: Int,
         val comment: String,
@@ -29,13 +29,10 @@ data class ChangeRunningRecordParams(
         @Parcelize
         data class GoalTimeParams(
             val text: String,
-            val state: GoalSubtypeParams,
+            val state: GoalSubtypeParams?,
         ) : Parcelable
 
         sealed interface GoalSubtypeParams : Parcelable {
-            @Parcelize
-            data object Hidden : GoalSubtypeParams
-
             @Parcelize
             data object Goal : GoalSubtypeParams
 

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.feature_notification.databinding.Notif
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import androidx.core.content.withStyledAttributes
 
 class NotificationIconView @JvmOverloads constructor(
     context: Context,
@@ -26,9 +27,9 @@ class NotificationIconView @JvmOverloads constructor(
     private val binding = NotificationIconViewLayoutBinding.inflate(layoutInflater, this)
 
     init {
-        context.obtainStyledAttributes(
+        context.withStyledAttributes(
             attrs, R.styleable.NotificationIconView, defStyleAttr, 0,
-        ).run {
+        ) {
             if (hasValue(R.styleable.NotificationIconView_itemColor)) {
                 itemColor = getColor(R.styleable.NotificationIconView_itemColor, Color.BLACK)
             }
@@ -38,18 +39,9 @@ class NotificationIconView @JvmOverloads constructor(
                     .let(RecordTypeIcon::Image)
             }
 
-            if (hasValue(R.styleable.NotificationIconView_itemCheckState)) {
-                itemCheckState = getInt(
-                    R.styleable.NotificationIconView_itemCheckState,
-                    CheckState.HIDDEN.value,
-                ).let(CheckState.Companion::fromValue)
-            }
-
             if (hasValue(R.styleable.NotificationIconView_itemIsComplete)) {
                 itemIsComplete = getBoolean(R.styleable.NotificationIconView_itemIsComplete, false)
             }
-
-            recycle()
         }
     }
 
@@ -66,10 +58,13 @@ class NotificationIconView @JvmOverloads constructor(
             field = value
         }
 
-    var itemCheckState: CheckState = CheckState.HIDDEN
+    var itemCheckStates: List<CheckState> = emptyList()
         set(value) {
-            binding.viewNotificationIconCheckmark.itemCheckState = value
-            field = value
+            val visibleStates = value.filterNot { it == CheckState.HIDDEN }.take(CHECKMARK_COUNT)
+            getCheckmarkViews().forEachIndexed { index, checkmark ->
+                checkmark.itemCheckState = visibleStates.getOrElse(index) { CheckState.HIDDEN }
+            }
+            field = visibleStates
         }
 
     var itemIsComplete: Boolean = false
@@ -77,4 +72,13 @@ class NotificationIconView @JvmOverloads constructor(
             binding.viewNotificationIconComplete.isVisible = value
             field = value
         }
+
+    private fun getCheckmarkViews() = listOf(
+        binding.viewNotificationIconGoalCheckmark,
+        binding.viewNotificationIconLimitCheckmark,
+    )
+
+    private companion object {
+        const val CHECKMARK_COUNT = 2
+    }
 }

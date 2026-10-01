@@ -131,10 +131,11 @@ class BackupRepoImpl @Inject constructor(
             fileDescriptor = contentResolver.openFileDescriptor(uri, "wt")
             fileOutputStream = fileDescriptor?.fileDescriptor
                 ?.let(::FileOutputStream)?.buffered()
+                ?: throw IOException("Failed to open backup file descriptor")
 
             // Write file identification
             val identificationBackupRow: String = BACKUP_IDENTIFICATION + "\n"
-            fileOutputStream?.write(identificationBackupRow.toByteArray())
+            fileOutputStream.write(identificationBackupRow.toByteArray())
 
             // Options
             val saveRecords: Boolean = when (params) {
@@ -144,84 +145,80 @@ class BackupRepoImpl @Inject constructor(
 
             // Write data
             recordTypeRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             if (saveRecords) {
-                recordRepo.getAll().forEach {
-                    fileOutputStream?.write(it.let(::toBackupString).toByteArray())
-                }
+                writeRecordsInBatches(fileOutputStream)
             }
             recordShortcutRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             categoryRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeCategoryRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             if (saveRecords) {
-                recordToRecordTagRepo.getAll().forEach {
-                    fileOutputStream?.write(it.let(::toBackupString).toByteArray())
-                }
+                writeRecordToRecordTagsInBatches(fileOutputStream)
             }
             recordShortcutToRecordTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToDefaultTagRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             activityFilterRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteCommentRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeToFavouriteCommentRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteColorRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteIconRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             recordTypeGoalRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             complexRuleRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             activitySuggestionRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             favouriteRecordsFilterDao.getAll().forEach {
-                fileOutputStream?.write(it.main.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.main.let(::toBackupString).toByteArray())
                 it.filters.forEach { filter ->
-                    fileOutputStream?.write(filter.let(::toBackupString).toByteArray())
+                    fileOutputStream.write(filter.let(::toBackupString).toByteArray())
                 }
             }
             scheduledReminderRepo.getAll().forEach {
-                fileOutputStream?.write(it.let(::toBackupString).toByteArray())
+                fileOutputStream.write(it.let(::toBackupString).toByteArray())
             }
             backupPrefsRepo.saveToBackupString().let {
-                fileOutputStream?.write(it.toByteArray())
+                fileOutputStream.write(it.toByteArray())
             }
             activityReminderOverrideRepo.getAll().forEach { data ->
-                fileOutputStream?.write(data.let(::toBackupString).toByteArray())
+                fileOutputStream.write(data.let(::toBackupString).toByteArray())
                 (data.mode as? ActivityReminderOverride.Mode.Custom)?.rule?.let { rule ->
-                    fileOutputStream?.write(toBackupString(data.activityId, rule).toByteArray())
+                    fileOutputStream.write(toBackupString(data.activityId, rule).toByteArray())
                 }
             }
 
-            fileOutputStream?.close()
-            fileDescriptor?.close()
+            fileOutputStream.close()
+            fileDescriptor.close()
             ResultCode.Success(resourceRepo.getString(R.string.message_backup_saved))
         } catch (e: Exception) {
             Timber.e(e)
@@ -315,6 +312,8 @@ class BackupRepoImpl @Inject constructor(
             line = reader?.readLine().orEmpty()
             if (line != BACKUP_IDENTIFICATION) return@withContext errorCode
 
+            // Can erase all user data even on faulty backup file,
+            // this is intentional.
             if (clearData) clearDataInteractor.execute()
             if (clearPrefs) prefsInteractor.clear()
 
@@ -675,6 +674,8 @@ class BackupRepoImpl @Inject constructor(
             is RecordTypeGoal.Range.Daily -> 1L
             is RecordTypeGoal.Range.Weekly -> 2L
             is RecordTypeGoal.Range.Monthly -> 3L
+            is RecordTypeGoal.Range.Yearly -> 4L
+            is RecordTypeGoal.Range.Overall -> 5L
         }.toString()
         val typeString = when (recordTypeGoal.type) {
             is RecordTypeGoal.Type.Duration -> 0L
@@ -982,7 +983,7 @@ class BackupRepoImpl @Inject constructor(
         return RecordToRecordTag(
             recordId = parts.getOrNull(1)?.toLongOrNull().orZero(),
             recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
-            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull(),
+            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull()?.takeIf { it.isFinite() },
         )
     }
 
@@ -990,7 +991,7 @@ class BackupRepoImpl @Inject constructor(
         return RecordShortcutToRecordTag(
             shortcutId = parts.getOrNull(1)?.toLongOrNull().orZero(),
             recordTagId = parts.getOrNull(2)?.toLongOrNull().orZero(),
-            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull(),
+            recordTagNumericValue = parts.getOrNull(3)?.toDoubleOrNull()?.takeIf { it.isFinite() },
         )
     }
 
@@ -1078,6 +1079,8 @@ class BackupRepoImpl @Inject constructor(
                 1L -> RecordTypeGoal.Range.Daily
                 2L -> RecordTypeGoal.Range.Weekly
                 3L -> RecordTypeGoal.Range.Monthly
+                4L -> RecordTypeGoal.Range.Yearly
+                5L -> RecordTypeGoal.Range.Overall
                 else -> RecordTypeGoal.Range.Session
             },
             type = run {
@@ -1238,6 +1241,40 @@ class BackupRepoImpl @Inject constructor(
         }
     }
 
+    private suspend fun writeRecordsInBatches(
+        outputStream: BufferedOutputStream,
+    ) {
+        var lastId = Long.MIN_VALUE
+        do {
+            val records = recordRepo.getAfterId(lastId, BACKUP_BATCH_SIZE)
+            records.forEach {
+                outputStream.write(it.let(::toBackupString).toByteArray())
+            }
+            lastId = records.lastOrNull()?.id ?: lastId
+        } while (records.size == BACKUP_BATCH_SIZE)
+    }
+
+    private suspend fun writeRecordToRecordTagsInBatches(
+        outputStream: BufferedOutputStream,
+    ) {
+        var lastRecordId = Long.MIN_VALUE
+        var lastRecordTagId = Long.MIN_VALUE
+        do {
+            val recordTags = recordToRecordTagRepo.getAfter(
+                recordId = lastRecordId,
+                recordTagId = lastRecordTagId,
+                limit = BACKUP_BATCH_SIZE,
+            )
+            recordTags.forEach {
+                outputStream.write(it.let(::toBackupString).toByteArray())
+            }
+            recordTags.lastOrNull()?.let {
+                lastRecordId = it.recordId
+                lastRecordTagId = it.recordTagId
+            }
+        } while (recordTags.size == BACKUP_BATCH_SIZE)
+    }
+
     private fun String.clean() =
         cleanTabs().cleanNewline()
 
@@ -1248,7 +1285,9 @@ class BackupRepoImpl @Inject constructor(
         replace("\n", " ")
 
     private fun String.replaceNewline() =
-        replace("\n", "␤")
+        replace("\r\n", "␤")
+            .replace("\n", "␤")
+            .replace("\r", "␤")
 
     private fun String.restoreNewline() =
         replace("␤", "\n")
@@ -1281,6 +1320,7 @@ class BackupRepoImpl @Inject constructor(
     )
 
     companion object {
+        private const val BACKUP_BATCH_SIZE = 1000
         private const val BACKUP_IDENTIFICATION = "app simple time tracker"
         private const val ROW_RECORD_TYPE = "recordType"
         private const val ROW_RECORD = "record"

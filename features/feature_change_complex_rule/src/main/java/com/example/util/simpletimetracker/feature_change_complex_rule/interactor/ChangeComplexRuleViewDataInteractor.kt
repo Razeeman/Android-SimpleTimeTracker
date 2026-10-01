@@ -18,7 +18,6 @@ import com.example.util.simpletimetracker.feature_change_complex_rule.adapter.Ch
 import com.example.util.simpletimetracker.feature_change_complex_rule.mapper.ChangeComplexRuleViewDataMapper
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleActionChooserViewData
 import com.example.util.simpletimetracker.feature_change_complex_rule.viewData.ChangeComplexRuleTypesChooserViewData
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import javax.inject.Inject
 
 class ChangeComplexRuleViewDataInteractor @Inject constructor(
@@ -78,7 +77,7 @@ class ChangeComplexRuleViewDataInteractor @Inject constructor(
                     recordType = it,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
-                    checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                    checkStates = emptyList(),
                     isComplete = false,
                 )
             }

@@ -70,6 +70,8 @@ data class WearStatisticsRequest(
 data class WearStatisticsDTO(
     @SerializedName("id")
     val id: Long,
+    @SerializedName("type")
+    val type: TypeDTO,
     @SerializedName("name")
     val name: String?,
     @SerializedName("icon")
@@ -78,7 +80,68 @@ data class WearStatisticsDTO(
     val color: Long?,
     @SerializedName("duration")
     val duration: Long,
+) : Parcelable {
+
+    enum class TypeDTO {
+        @SerializedName("ACTIVITY")
+        ACTIVITY,
+
+        @SerializedName("CATEGORY")
+        CATEGORY,
+
+        @SerializedName("TAG")
+        TAG,
+
+        @SerializedName("UNTRACKED")
+        UNTRACKED,
+
+        @SerializedName("UNCATEGORIZED")
+        UNCATEGORIZED,
+
+        @SerializedName("UNTAGGED")
+        UNTAGGED,
+    }
+}
+
+@Parcelize
+data class WearRecordsRequest(
+    @SerializedName("shift")
+    val shift: Int?,
 ) : Parcelable
+
+@Parcelize
+data class WearRecordDTO(
+    @SerializedName("id")
+    val id: Long,
+    @SerializedName("type")
+    val type: TypeDTO,
+    @SerializedName("activityId")
+    val activityId: Long?,
+    @SerializedName("activityName")
+    val activityName: String?,
+    @SerializedName("activityIcon")
+    val activityIcon: String?,
+    @SerializedName("activityColor")
+    val activityColor: Long?,
+    @SerializedName("startedAt")
+    val startedAt: Long,
+    @SerializedName("endedAt")
+    val endedAt: Long,
+    @SerializedName("tags")
+    val tags: List<WearCurrentActivityDTO.TagDTO>,
+) : Parcelable {
+
+    enum class TypeDTO {
+        @SerializedName("TRACKED")
+        TRACKED,
+
+        @SerializedName("RUNNING")
+        RUNNING,
+
+        @SerializedName("UNTRACKED")
+        UNTRACKED,
+    }
+}
 
 @Parcelize
 data class WearLastRecordDTO(
@@ -120,6 +183,8 @@ data class WearSettingsDTO(
     val startOfDayShift: Long?,
     @SerializedName("firstDayOfWeek")
     val firstDayOfWeek: WearDayOfWeekDTO?,
+    @SerializedName("useMilitaryTime")
+    val useMilitaryTime: Boolean?,
 ) : Parcelable
 
 @Parcelize

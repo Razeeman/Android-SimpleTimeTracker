@@ -19,7 +19,6 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.TYPES_LIST_SIZE
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_DECIMAL_DELIMITER
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -271,10 +270,9 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
             action = NotificationControlsParams.Type.Action.Select(type.id),
             icon = type.icon.let(iconMapper::mapIcon),
             color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
-            checkState = recordTypeViewDataMapper.mapGoalCheckmark(
-                type = type,
-                goals = goals,
-                allDailyCurrents = allDailyCurrents,
+            checkStates = recordTypeViewDataMapper.mapGoalCheckmarks(
+                goals = goals[type.id].orEmpty(),
+                dailyCurrent = allDailyCurrents[type.id],
             ),
             isComplete = type.id in completeTypesStateInteractor.notificationTypeIds,
         )
@@ -291,7 +289,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
             action = NotificationControlsParams.Type.Action.Repeat,
             icon = viewData.iconId,
             color = viewData.color,
-            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+            checkStates = emptyList(),
             isComplete = false,
         ).let(::listOf)
     }

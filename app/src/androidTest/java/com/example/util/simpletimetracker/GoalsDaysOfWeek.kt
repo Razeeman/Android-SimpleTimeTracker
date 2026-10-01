@@ -17,10 +17,12 @@ import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.checkTypeMark
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.domain.extension.removeIf
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.checkViewIsNotDisplayed
 import com.example.util.simpletimetracker.utils.clickOnPrevDate
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
@@ -37,7 +39,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
-import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_statistics.R as statisticsR
 
@@ -48,11 +50,18 @@ class GoalsDaysOfWeek : BaseUiTest() {
     @Test
     fun daysVisibility() {
         fun checkString(
-            layoutId: Int,
+            range: RecordTypeGoal.Range,
             textMatcher: Matcher<View>,
             visibilityMatcher: (Matcher<View>) -> ViewInteraction,
         ) {
-            visibilityMatcher(allOf(textMatcher, isDescendantOfA(withId(layoutId))))
+            visibilityMatcher(
+                allOf(
+                    textMatcher,
+                    isDescendantOfA(
+                        GoalsTestUtils.goalCard(range, RecordTypeGoal.Type.Duration(1)),
+                    ),
+                ),
+            )
         }
 
         val name = "Test"
@@ -74,50 +83,50 @@ class GoalsDaysOfWeek : BaseUiTest() {
         onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
 
-        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)).perform(nestedScrollTo())
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Session, RecordTypeGoal.Type.Duration(1))
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalSession,
+            RecordTypeGoal.Range.Session,
             withText("1$secondString"),
             ::checkViewIsDisplayed,
         )
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalSession,
+            RecordTypeGoal.Range.Session,
             withText(R.string.day_of_week_sunday),
             ::checkViewDoesNotExist,
         )
 
-        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)).perform(nestedScrollTo())
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Daily, RecordTypeGoal.Type.Duration(1))
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily,
+            RecordTypeGoal.Range.Daily,
             withText("1$secondString"),
             ::checkViewIsDisplayed,
         )
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily,
+            RecordTypeGoal.Range.Daily,
             withText(R.string.day_of_week_sunday),
             ::checkViewIsDisplayed,
         )
 
-        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly)).perform(nestedScrollTo())
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Weekly, RecordTypeGoal.Type.Duration(1))
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly,
+            RecordTypeGoal.Range.Weekly,
             withText("1$secondString"),
             ::checkViewIsDisplayed,
         )
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly,
+            RecordTypeGoal.Range.Weekly,
             withText(R.string.day_of_week_sunday),
             ::checkViewDoesNotExist,
         )
 
-        onView(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly)).perform(nestedScrollTo())
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Monthly, RecordTypeGoal.Type.Duration(1))
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly,
+            RecordTypeGoal.Range.Monthly,
             withText("1$secondString"),
             ::checkViewIsDisplayed,
         )
         checkString(
-            changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly,
+            RecordTypeGoal.Range.Monthly,
             withText(R.string.day_of_week_sunday),
             ::checkViewDoesNotExist,
         )
@@ -136,14 +145,10 @@ class GoalsDaysOfWeek : BaseUiTest() {
         onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
         checkViewDoesNotExist(withText(R.string.day_of_week_sunday))
+        GoalsTestUtils.addGoal()
 
         // Set goal
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)),
-                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
 
@@ -151,22 +156,12 @@ class GoalsDaysOfWeek : BaseUiTest() {
         daysResIdList.forEach { checkTypeDay(stringResId = it, colorResId = R.color.colorActive) }
 
         // Disable goal
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)),
-                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithText(R.string.duration_dialog_disable)
-        checkViewDoesNotExist(withText(R.string.day_of_week_sunday))
+        checkViewIsNotDisplayed(withId(changeGoalsR.id.rvChangeRecordTypeGoalDays))
 
         // Change days
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)),
-                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithText(R.string.duration_dialog_save)
 
@@ -209,6 +204,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         tryAction { longClickOnView(withText(name1)) }
         onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Daily, RecordTypeGoal.Type.Duration(1))
         clickOnView(withText(R.string.day_of_week_monday))
         clickOnView(withText(R.string.day_of_week_wednesday))
         clickOnView(withText(R.string.day_of_week_friday))
@@ -218,6 +214,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         tryAction { longClickOnView(withText(name1)) }
         onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Daily, RecordTypeGoal.Type.Duration(1))
         checkTypeDay(stringResId = R.string.day_of_week_sunday, colorResId = R.color.colorActive)
         checkTypeDay(stringResId = R.string.day_of_week_monday, colorResId = R.color.colorInactive)
         checkTypeDay(stringResId = R.string.day_of_week_tuesday, colorResId = R.color.colorActive)
@@ -231,6 +228,7 @@ class GoalsDaysOfWeek : BaseUiTest() {
         tryAction { longClickOnView(withText(name2)) }
         onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Daily, RecordTypeGoal.Type.Duration(1))
         daysResIdList.forEach { checkTypeDay(stringResId = it, colorResId = R.color.colorActive) }
     }
 

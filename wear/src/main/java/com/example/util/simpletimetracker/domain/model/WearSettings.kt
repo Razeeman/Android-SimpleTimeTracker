@@ -16,4 +16,5 @@ data class WearSettings(
     val retroactiveTrackingMode: Boolean,
     val startOfDayShift: Long,
     val firstDayOfWeek: DayOfWeek,
+    val useMilitaryTime: Boolean,
 )

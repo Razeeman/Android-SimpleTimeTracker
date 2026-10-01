@@ -2889,6 +2889,24 @@ class SettingsTest : BaseUiTest() {
     }
 
     @Test
+    fun automatedTrackingReceiveQueries() {
+        // Change setting
+        NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
+        scrollSettingsRecyclerToText(coreR.string.settings_automated_tracking_receive_queries)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries))
+
+        // Change setting back
+        NavUtils.openSettingsScreen()
+        scrollSettingsRecyclerToText(coreR.string.settings_automated_tracking_receive_queries)
+        checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries))
+    }
+
+    @Test
     fun showFiltersOnMain() {
         val name = "ActivityFilter"
 

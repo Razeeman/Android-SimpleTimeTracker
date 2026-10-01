@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.GoalsTestUtils.addRecords
+import com.example.util.simpletimetracker.GoalsTestUtils.addYearlyRecords
 import com.example.util.simpletimetracker.GoalsTestUtils.checkNoStatisticsGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.checkStatisticsMark
@@ -31,6 +32,12 @@ import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoalTag
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoalCategory
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoalTag
+import com.example.util.simpletimetracker.GoalsTestUtils.getYearlyCountGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getYearlyCountGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getYearlyCountGoalTag
+import com.example.util.simpletimetracker.GoalsTestUtils.getYearlyDurationGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getYearlyDurationGoalCategory
+import com.example.util.simpletimetracker.GoalsTestUtils.getYearlyDurationGoalTag
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -254,6 +261,83 @@ class GoalsStatisticsTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_month)
+
+        // Goal time not finished
+        scrollTo(goalTimeNotFinished)
+        checkStatisticsGoal(goalTimeNotFinished, "30$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "75%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalTimeFinished)
+        checkStatisticsGoal(goalTimeFinished, "30$minuteString", "$goal - 10$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalCountNotFinished)
+        checkStatisticsGoal(goalCountNotFinished, "3 Records", "$goal - 4 Records")
+        checkStatisticsPercent(goalCountNotFinished, "75%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalCountFinished)
+        checkStatisticsGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
+
+        // Other goals
+        scrollBottom()
+        checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
+    fun yearlyGoal() {
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+
+        val goalTimeNotFinished = "goalTimeNotFinished"
+        val goalTimeFinished = "goalTimeFinished"
+        val goalCountNotFinished = "goalCountNotFinished"
+        val goalCountFinished = "goalCountFinished"
+        val otherGoals = "otherYearlyGoals"
+
+        // Add data
+        testUtils.addActivity(
+            goalTimeNotFinished,
+            goals = listOf(getYearlyDurationGoal(4 * durationInSeconds)),
+        )
+        addYearlyRecords(testUtils, goalTimeNotFinished)
+
+        testUtils.addActivity(
+            goalTimeFinished,
+            goals = listOf(getYearlyDurationGoal(durationInSeconds)),
+        )
+        addYearlyRecords(testUtils, goalTimeFinished)
+
+        testUtils.addActivity(
+            goalCountNotFinished,
+            goals = listOf(getYearlyCountGoal(4)),
+        )
+        addYearlyRecords(testUtils, goalCountNotFinished)
+
+        testUtils.addActivity(
+            goalCountFinished,
+            goals = listOf(getYearlyCountGoal(3)),
+        )
+        testUtils.addRecord(goalCountFinished)
+        testUtils.addRecord(goalCountFinished)
+        addYearlyRecords(testUtils, goalCountFinished)
+
+        testUtils.addActivity(
+            otherGoals,
+            goals = listOf(
+                getDailyDurationGoal(durationInSeconds),
+                getWeeklyCountGoal(1),
+            ),
+        )
+        addYearlyRecords(testUtils, otherGoals)
+
+        NavUtils.openStatisticsScreen()
+        clickOnCurrentDate()
+        clickOnViewWithText(coreR.string.range_year)
 
         // Goal time not finished
         scrollTo(goalTimeNotFinished)
@@ -653,6 +737,130 @@ class GoalsStatisticsTest : BaseUiTest() {
     }
 
     @Test
+    fun yearlyCategoryGoal() {
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+
+        val goalTimeNotFinished = "goalTimeNotFinished"
+        val goalTimeFinished = "goalTimeFinished"
+        val goalCountNotFinished = "goalCountNotFinished"
+        val goalCountFinished = "goalCountFinished"
+        val otherGoals = "otherYearlyGoals"
+
+        // Add data
+        testUtils.addCategory(
+            goalTimeNotFinished,
+            goals = listOf(getYearlyDurationGoalCategory(8 * durationInSeconds)),
+        )
+        testUtils.addActivity(
+            goalTimeNotFinished.first(),
+            categories = listOf(goalTimeNotFinished),
+        )
+        testUtils.addActivity(
+            goalTimeNotFinished.second(),
+            categories = listOf(goalTimeNotFinished),
+        )
+        addYearlyRecords(testUtils, goalTimeNotFinished.first())
+        addYearlyRecords(testUtils, goalTimeNotFinished.second())
+
+        testUtils.addCategory(
+            goalTimeFinished,
+            goals = listOf(getYearlyDurationGoalCategory(2 * durationInSeconds)),
+        )
+        testUtils.addActivity(
+            goalTimeFinished.first(),
+            categories = listOf(goalTimeFinished),
+        )
+        testUtils.addActivity(
+            goalTimeFinished.second(),
+            categories = listOf(goalTimeFinished),
+        )
+        addYearlyRecords(testUtils, goalTimeFinished.first())
+        addYearlyRecords(testUtils, goalTimeFinished.second())
+
+        testUtils.addCategory(
+            goalCountNotFinished,
+            goals = listOf(getYearlyCountGoalCategory(8)),
+        )
+        testUtils.addActivity(
+            goalCountNotFinished.first(),
+            categories = listOf(goalCountNotFinished),
+        )
+        testUtils.addActivity(
+            goalCountNotFinished.second(),
+            categories = listOf(goalCountNotFinished),
+        )
+        addYearlyRecords(testUtils, goalCountNotFinished.first())
+        addYearlyRecords(testUtils, goalCountNotFinished.second())
+
+        testUtils.addCategory(
+            goalCountFinished,
+            goals = listOf(getYearlyCountGoalCategory(3)),
+        )
+        testUtils.addActivity(
+            goalCountFinished.first(),
+            categories = listOf(goalCountFinished),
+        )
+        testUtils.addActivity(
+            goalCountFinished.second(),
+            categories = listOf(goalCountFinished),
+        )
+        testUtils.addRecord(goalCountFinished.first())
+        testUtils.addRecord(goalCountFinished.second())
+        addYearlyRecords(testUtils, goalCountFinished.first())
+
+        testUtils.addCategory(
+            otherGoals,
+            goals = listOf(
+                getDailyDurationGoalCategory(durationInSeconds),
+                getWeeklyCountGoalCategory(1),
+            ),
+        )
+        testUtils.addActivity(
+            otherGoals.first(),
+            categories = listOf(otherGoals),
+        )
+        testUtils.addActivity(
+            otherGoals.second(),
+            categories = listOf(otherGoals),
+        )
+        addYearlyRecords(testUtils, otherGoals.first())
+        addYearlyRecords(testUtils, otherGoals.second())
+
+        NavUtils.openStatisticsScreen()
+        clickOnCurrentDate()
+        clickOnViewWithText(coreR.string.range_year)
+        NavUtils.openFilter()
+        clickOnViewWithText(coreR.string.category_hint)
+        pressBack()
+
+        // Goal time not finished
+        scrollTo(goalTimeNotFinished)
+        checkStatisticsGoal(goalTimeNotFinished, "1$hourString 0$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "75%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalTimeFinished)
+        checkStatisticsGoal(goalTimeFinished, "1$hourString 0$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalCountNotFinished)
+        checkStatisticsGoal(goalCountNotFinished, "6 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "75%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalCountFinished)
+        checkStatisticsGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
+
+        // Other goals
+        scrollBottom()
+        checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
     fun dailyTagGoal() {
         val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
 
@@ -925,6 +1133,108 @@ class GoalsStatisticsTest : BaseUiTest() {
         NavUtils.openStatisticsScreen()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_month)
+        NavUtils.openFilter()
+        clickOnViewWithText(coreR.string.record_tag_hint_short)
+        pressBack()
+
+        // Goal time not finished
+        scrollTo(goalTimeNotFinished)
+        checkStatisticsGoal(goalTimeNotFinished, "1$hourString 0$minuteString", "$goal - 1$hourString 20$minuteString")
+        checkStatisticsPercent(goalTimeNotFinished, "75%")
+        checkStatisticsMark(goalTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalTimeFinished)
+        checkStatisticsGoal(goalTimeFinished, "1$hourString 0$minuteString", "$goal - 20$minuteString")
+        checkStatisticsMark(goalTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalCountNotFinished)
+        checkStatisticsGoal(goalCountNotFinished, "6 Records", "$goal - 8 Records")
+        checkStatisticsPercent(goalCountNotFinished, "75%")
+        checkStatisticsMark(goalCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalCountFinished)
+        checkStatisticsGoal(goalCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalCountFinished, isVisible = true)
+
+        // Other goals
+        scrollBottom()
+        checkNoStatisticsGoal(otherGoals)
+    }
+
+    @Test
+    fun yearlyTagGoal() {
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+
+        val goalTimeNotFinished = "goalTimeNotFinishedTag"
+        val goalTimeFinished = "goalTimeFinishedTag"
+        val goalCountNotFinished = "goalCountNotFinishedTag"
+        val goalCountFinished = "goalCountFinishedTag"
+        val otherGoals = "otherYearlyTags"
+
+        // Activities
+        testUtils.addActivity(goalTimeNotFinished.first())
+        testUtils.addActivity(goalTimeNotFinished.second())
+        testUtils.addActivity(goalTimeFinished.first())
+        testUtils.addActivity(goalTimeFinished.second())
+        testUtils.addActivity(goalCountNotFinished.first())
+        testUtils.addActivity(goalCountNotFinished.second())
+        testUtils.addActivity(goalCountFinished.first())
+        testUtils.addActivity(goalCountFinished.second())
+        testUtils.addActivity(otherGoals.first())
+        testUtils.addActivity(otherGoals.second())
+
+        // Tags
+        testUtils.addRecordTag(
+            goalTimeNotFinished,
+            typeName = goalTimeNotFinished.first(),
+            goals = listOf(getYearlyDurationGoalTag(8 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            goalTimeFinished,
+            typeName = goalTimeFinished.first(),
+            goals = listOf(getYearlyDurationGoalTag(2 * durationInSeconds)),
+        )
+        testUtils.addRecordTag(
+            goalCountNotFinished,
+            typeName = goalCountNotFinished.first(),
+            goals = listOf(getYearlyCountGoalTag(8)),
+        )
+        testUtils.addRecordTag(
+            goalCountFinished,
+            typeName = goalCountFinished.first(),
+            goals = listOf(getYearlyCountGoalTag(3)),
+        )
+        testUtils.addRecordTag(
+            otherGoals,
+            typeName = otherGoals.first(),
+            goals = listOf(
+                getDailyDurationGoalTag(durationInSeconds),
+                getWeeklyCountGoalTag(1),
+            ),
+        )
+
+        // Records
+        addYearlyRecords(testUtils, goalTimeNotFinished.first(), tagNames = listOf(goalTimeNotFinished))
+        addYearlyRecords(testUtils, goalTimeNotFinished.second(), tagNames = listOf(goalTimeNotFinished))
+        addYearlyRecords(testUtils, goalTimeFinished.first(), tagNames = listOf(goalTimeFinished))
+        addYearlyRecords(testUtils, goalTimeFinished.second(), tagNames = listOf(goalTimeFinished))
+
+        addYearlyRecords(testUtils, goalCountNotFinished.first(), tagNames = listOf(goalCountNotFinished))
+        addYearlyRecords(testUtils, goalCountNotFinished.second(), tagNames = listOf(goalCountNotFinished))
+
+        testUtils.addRecord(goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+        testUtils.addRecord(goalCountFinished.second(), tagNames = listOf(goalCountFinished))
+        addYearlyRecords(testUtils, goalCountFinished.first(), tagNames = listOf(goalCountFinished))
+
+        addYearlyRecords(testUtils, otherGoals.first(), tagNames = listOf(otherGoals))
+        addYearlyRecords(testUtils, otherGoals.second(), tagNames = listOf(otherGoals))
+
+        NavUtils.openStatisticsScreen()
+        clickOnCurrentDate()
+        clickOnViewWithText(coreR.string.range_year)
         NavUtils.openFilter()
         clickOnViewWithText(coreR.string.record_tag_hint_short)
         pressBack()

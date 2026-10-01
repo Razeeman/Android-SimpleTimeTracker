@@ -24,8 +24,9 @@ fun NavigationButton(
     @DrawableRes drawableResId: Int,
     onClick: () -> Unit = {},
 ) {
+    val height = ACTIVITY_VIEW_HEIGHT - 4
     Button(
-        modifier = Modifier.size(ACTIVITY_VIEW_HEIGHT.dp),
+        modifier = Modifier.size(height.dp),
         onClick = onClick,
         content = {
             Icon(

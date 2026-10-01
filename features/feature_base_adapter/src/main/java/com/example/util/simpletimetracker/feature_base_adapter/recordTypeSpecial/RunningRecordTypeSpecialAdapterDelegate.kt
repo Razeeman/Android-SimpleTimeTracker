@@ -24,7 +24,7 @@ fun createRunningRecordTypeSpecialAdapterDelegate(
         itemColor = item.color
         itemIcon = item.iconId
         itemName = item.name
-        itemCheckState = item.checkState
+        itemCheckStates = item.checkStates
         setOnClickWith(item, onItemClick)
     }
 }

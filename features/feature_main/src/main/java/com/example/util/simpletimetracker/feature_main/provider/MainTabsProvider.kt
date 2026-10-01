@@ -92,8 +92,6 @@ class MainTabsProvider @Inject constructor(
     }
 
     private fun loadMainTab(): NavigationTab {
-        return runBlocking {
-            NavigationTab.RunningRecords
-        }
+        return NavigationTab.RunningRecords
     }
 }

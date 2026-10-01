@@ -28,6 +28,13 @@ interface WearCommunicationAPI {
     suspend fun queryStatistics(request: WearStatisticsRequest): List<WearStatisticsDTO>?
 
     /**
+     * [WearRequests.QUERY_RECORDS]
+     *
+     * Retrieves the records shown for one shifted day.
+     */
+    suspend fun queryRecords(request: WearRecordsRequest): List<WearRecordDTO>?
+
+    /**
      * [WearRequests.START_ACTIVITY]
      *
      * Starts new timer.

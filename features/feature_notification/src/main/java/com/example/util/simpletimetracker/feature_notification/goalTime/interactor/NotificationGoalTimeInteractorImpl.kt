@@ -10,7 +10,6 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Notifi
 import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.notifications.interactor.ActivityStartedStoppedBroadcastInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -254,12 +253,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             getCurrentRecordsDurationInteractor.getAllCurrents(
                 typeIds = allTypeIdsFromTheseCategories,
                 runningRecords = runningRecords,
-                rangeLength = when (goalRange) {
-                    is Range.Session -> return
-                    is Range.Daily -> RangeLength.Day
-                    is Range.Weekly -> RangeLength.Week
-                    is Range.Monthly -> RangeLength.Month
-                },
+                rangeLength = goalRange.toRangeLength() ?: return,
             ).mapValues {
                 it.value.duration
             }
@@ -308,12 +302,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             getCurrentRecordsDurationInteractor.getAllTagCurrents(
                 tagIds = tagIds,
                 runningRecords = runningRecords,
-                rangeLength = when (goalRange) {
-                    is Range.Session -> return
-                    is Range.Daily -> RangeLength.Day
-                    is Range.Weekly -> RangeLength.Week
-                    is Range.Monthly -> RangeLength.Month
-                },
+                rangeLength = goalRange.toRangeLength() ?: return,
             ).mapValues {
                 it.value.duration
             }
@@ -354,6 +343,8 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
             is Range.Daily -> this.range is Range.Daily
             is Range.Weekly -> this.range is Range.Weekly
             is Range.Monthly -> this.range is Range.Monthly
+            is Range.Yearly -> this.range is Range.Yearly
+            is Range.Overall -> this.range is Range.Overall
         }
     }
 
@@ -374,6 +365,13 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
     }
 
     private fun getAvailableRanges(): List<Range> {
-        return listOf(Range.Session, Range.Daily, Range.Weekly, Range.Monthly)
+        return listOf(
+            Range.Session,
+            Range.Daily,
+            Range.Weekly,
+            Range.Monthly,
+            Range.Yearly,
+            Range.Overall,
+        )
     }
 }

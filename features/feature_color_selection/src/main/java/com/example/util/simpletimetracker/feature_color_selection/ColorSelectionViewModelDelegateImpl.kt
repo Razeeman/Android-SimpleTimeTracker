@@ -33,7 +33,7 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
         }
     }
     override var newColor: AppColor = AppColor(
-        colorId = (0..ColorMapper.colorsNumber).random(),
+        colorId = ColorMapper.getAvailableColors().indices.random(),
         colorInt = "",
     )
 

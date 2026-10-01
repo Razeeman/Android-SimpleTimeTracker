@@ -43,7 +43,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHin
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
-import com.example.util.simpletimetracker.feature_change_goals.views.GoalsViewDelegate
+import com.example.util.simpletimetracker.feature_change_goals.api.viewDelegate.GoalsViewDelegateProvider
 import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeAdditionalState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
@@ -90,9 +90,15 @@ class ChangeRecordTypeFragment :
     @Inject
     lateinit var iconSelectionViewDelegateProvider: IconSelectionViewDelegateProvider
 
+    @Inject
+    lateinit var goalsViewDelegateProvider: GoalsViewDelegateProvider
+
     private val viewModel: ChangeRecordTypeViewModel by viewModels()
     private val iconSelectionViewDelegate by lazy {
         iconSelectionViewDelegateProvider.provide(viewModel, binding.containerChangeRecordTypeIcon)
+    }
+    private val goalsViewDelegate by lazy {
+        goalsViewDelegateProvider.provide(viewModel, binding.layoutChangeRecordTypeGoals)
     }
 
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
@@ -165,10 +171,7 @@ class ChangeRecordTypeFragment :
             adapter = categoriesAdapter
         }
 
-        GoalsViewDelegate.initGoalUi(
-            layout = binding.layoutChangeRecordTypeGoals,
-            viewModel = viewModel,
-        )
+        goalsViewDelegate.initUi()
 
         setOnPreDrawListener {
             startPostponedEnterTransition()
@@ -230,7 +233,7 @@ class ChangeRecordTypeFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onVisible()
-        GoalsViewDelegate.onResume(viewModel)
+        goalsViewDelegate.onResume()
     }
 
     override fun onDestroyView() {
@@ -395,10 +398,7 @@ class ChangeRecordTypeFragment :
     }
 
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
-        GoalsViewDelegate.updateGoalsState(
-            state = state,
-            layout = layoutChangeRecordTypeGoals,
-        )
+        goalsViewDelegate.updateGoalsState(state)
         layoutChangeRecordTypeGoalPreview.isVisible = state.selectedCount > 0
         tvChangeRecordTypeGoalPreview.text = state.selectedCount.toString()
     }

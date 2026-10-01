@@ -46,7 +46,7 @@ class StatisticsDetailTagValuesViewDataMapper @Inject constructor(
 
         val chartData = statisticsDetailViewDataMapper.mapChartData(
             data = data,
-            goal = 0, // Don't show goal.
+            goals = emptyList(), // Don't show goal.
             rangeLength = rangeLength,
             chartMode = chartMode,
             yAxisZoomed = yAxisZoomed,

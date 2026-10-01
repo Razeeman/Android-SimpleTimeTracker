@@ -7,12 +7,12 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.assertion.PositionAssertions.isTopAlignedWith
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -38,6 +38,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
@@ -146,12 +147,8 @@ class AddRecordTypeTest : BaseUiTest() {
 
         // Selecting goal time
         openGoals()
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
-                withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        GoalsTestUtils.addGoal(RecordTypeGoal.Range.Session)
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -188,15 +185,10 @@ class AddRecordTypeTest : BaseUiTest() {
         tryAction { clickOnViewWithText(coreR.string.running_records_add_type) }
         closeSoftKeyboard()
 
-        // Goal time is disabled
+        // No goals are added by default
         openGoals()
-        checkViewIsDisplayed(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
-                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalDurationValue),
-                withText(coreR.string.change_record_type_goal_time_disabled),
-            ),
-        )
+        checkViewDoesNotExist(withId(changeGoalsR.id.containerChangeRecordTypeGoalCard))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
         openGoals()
 
         // Open category chooser

@@ -63,7 +63,6 @@
         <attr name="itemName" format="string" />
         <attr name="itemColor" format="color" />
         <attr name="itemIsRow" format="boolean" />
-        <attr name="itemCheckState" />
         <attr name="itemIsComplete" format="boolean" />
         <attr name="itemCompleteIsAnimated" format="boolean" />
     </declare-styleable>

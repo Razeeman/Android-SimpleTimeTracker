@@ -13,6 +13,8 @@ fun Range.toRangeLength(): RangeLength? {
         is Range.Daily -> RangeLength.Day
         is Range.Weekly -> RangeLength.Week
         is Range.Monthly -> RangeLength.Month
+        is Range.Yearly -> RangeLength.Year
+        is Range.Overall -> RangeLength.All
     }
 }
 
@@ -44,6 +46,14 @@ fun List<RecordTypeGoal>.getMonthly(): List<RecordTypeGoal> {
     return filter { it.range is Range.Monthly }
 }
 
+fun List<RecordTypeGoal>.getYearly(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Yearly }
+}
+
+fun List<RecordTypeGoal>.getOverall(): List<RecordTypeGoal> {
+    return filter { it.range is Range.Overall }
+}
+
 fun List<RecordTypeGoal>.filterDaysOfWeek(dayOfWeek: DayOfWeek): List<RecordTypeGoal> {
     return filter {
         if (it.range is Range.Daily) dayOfWeek in it.daysOfWeek else true
@@ -72,3 +82,11 @@ fun RecordTypeGoal.Subtype.isSuccessful(
 }
 
 val RecordTypeGoal?.value: Long get() = this?.type?.value.orZero()
+
+val RecordTypeGoal?.adjustedValue: Long get() = this?.type.adjustedValue
+
+val Type?.adjustedValue: Long get() = when (this) {
+    is Type.Duration -> this.value * 1000
+    is Type.Count -> this.value
+    else -> 0
+}

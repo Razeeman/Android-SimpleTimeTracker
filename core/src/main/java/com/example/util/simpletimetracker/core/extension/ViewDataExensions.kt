@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.recordShortcut.RecordShortcutViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
@@ -51,30 +52,28 @@ fun Range.toParams(): RangeParams {
 fun ChangeRunningRecordParams.Preview.GoalTimeParams.toViewData(): GoalTimeViewData {
     return GoalTimeViewData(
         text = this.text,
-        state = this.state.toViewData(),
+        state = this.state?.toViewData(),
     )
 }
 
 fun GoalTimeViewData.toParams(): ChangeRunningRecordParams.Preview.GoalTimeParams {
     return ChangeRunningRecordParams.Preview.GoalTimeParams(
         text = this.text,
-        state = this.state.toParams(),
+        state = this.state?.toParams(),
     )
 }
 
-fun ChangeRunningRecordParams.Preview.GoalSubtypeParams.toViewData(): GoalTimeViewData.Subtype {
+fun ChangeRunningRecordParams.Preview.GoalSubtypeParams.toViewData(): RecordTypeGoal.Subtype {
     return when (this) {
-        is ChangeRunningRecordParams.Preview.GoalSubtypeParams.Hidden -> GoalTimeViewData.Subtype.Hidden
-        is ChangeRunningRecordParams.Preview.GoalSubtypeParams.Goal -> GoalTimeViewData.Subtype.Goal
-        is ChangeRunningRecordParams.Preview.GoalSubtypeParams.Limit -> GoalTimeViewData.Subtype.Limit
+        is ChangeRunningRecordParams.Preview.GoalSubtypeParams.Goal -> RecordTypeGoal.Subtype.Goal
+        is ChangeRunningRecordParams.Preview.GoalSubtypeParams.Limit -> RecordTypeGoal.Subtype.Limit
     }
 }
 
-fun GoalTimeViewData.Subtype.toParams(): ChangeRunningRecordParams.Preview.GoalSubtypeParams {
+fun RecordTypeGoal.Subtype.toParams(): ChangeRunningRecordParams.Preview.GoalSubtypeParams {
     return when (this) {
-        is GoalTimeViewData.Subtype.Hidden -> ChangeRunningRecordParams.Preview.GoalSubtypeParams.Hidden
-        is GoalTimeViewData.Subtype.Goal -> ChangeRunningRecordParams.Preview.GoalSubtypeParams.Goal
-        is GoalTimeViewData.Subtype.Limit -> ChangeRunningRecordParams.Preview.GoalSubtypeParams.Limit
+        is RecordTypeGoal.Subtype.Goal -> ChangeRunningRecordParams.Preview.GoalSubtypeParams.Goal
+        is RecordTypeGoal.Subtype.Limit -> ChangeRunningRecordParams.Preview.GoalSubtypeParams.Limit
     }
 }
 

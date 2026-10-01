@@ -4,7 +4,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.core.mapper.RecordTypeViewDataMapper
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import javax.inject.Inject
 
 class RecordTypesViewDataInteractor @Inject constructor(
@@ -25,7 +24,7 @@ class RecordTypesViewDataInteractor @Inject constructor(
                     recordType = it,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
-                    checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                    checkStates = emptyList(),
                     isComplete = false,
                 )
             }

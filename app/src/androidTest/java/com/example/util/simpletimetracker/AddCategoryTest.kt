@@ -6,12 +6,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -35,6 +35,7 @@ import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_category.R as changeCategoryR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
@@ -129,12 +130,8 @@ class AddCategoryTest : BaseUiTest() {
 
         // Selecting goal time
         openGoals()
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
-                withId(R.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        GoalsTestUtils.addGoal(RecordTypeGoal.Range.Session)
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -165,7 +162,13 @@ class AddCategoryTest : BaseUiTest() {
         // Check goals saved
         Thread.sleep(1000)
         openGoals()
-        checkViewIsDisplayed(withText("10$minuteString"))
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Session, RecordTypeGoal.Type.Duration(1))
+        checkViewIsDisplayed(
+            allOf(
+                GoalsTestUtils.visibleGoalField(changeGoalsR.id.tvChangeRecordTypeGoalDurationValue),
+                withText("10$minuteString"),
+            ),
+        )
         openGoals()
 
         // Check note saved
@@ -179,15 +182,10 @@ class AddCategoryTest : BaseUiTest() {
         NavUtils.openCategoriesScreen()
         clickOnViewWithText(coreR.string.categories_add_category)
 
-        // Goal time is disabled
+        // No goals are added by default
         openGoals()
-        checkViewIsDisplayed(
-            allOf(
-                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
-                withId(R.id.tvChangeRecordTypeGoalDurationValue),
-                withText(coreR.string.change_record_type_goal_time_disabled),
-            ),
-        )
+        checkViewDoesNotExist(withId(changeGoalsR.id.containerChangeRecordTypeGoalCard))
+        checkViewIsDisplayed(withText(coreR.string.running_records_add_type))
         openGoals()
 
         // Open activity chooser

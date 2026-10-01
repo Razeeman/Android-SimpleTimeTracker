@@ -57,7 +57,7 @@ class BarChartView @JvmOverloads constructor(
     private var showSelectedBarOnStart: Boolean = false
     private var addLegendToSelectedBar: Boolean = false
     private var shouldDrawHorizontalLegends: Boolean = true
-    private var goalValue: Float = 0f
+    private var goalValues: List<Float> = emptyList()
     private var yAxisZoomed: Boolean = false
     // End of attrs
 
@@ -145,7 +145,7 @@ class BarChartView @JvmOverloads constructor(
         drawText(canvas, w)
         drawLines(canvas)
         drawBars(canvas)
-        drawGoalValue(canvas)
+        drawGoalValues(canvas)
         drawSelectedBarIcon(canvas)
     }
 
@@ -230,8 +230,8 @@ class BarChartView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setGoalValue(value: Float) {
-        goalValue = value
+    fun setGoalValues(values: List<Float>) {
+        goalValues = values
         invalidate()
     }
 
@@ -294,8 +294,8 @@ class BarChartView @JvmOverloads constructor(
                     getBoolean(R.styleable.BarChartView_addLegendToSelectedBar, false)
                 shouldDrawHorizontalLegends =
                     getBoolean(R.styleable.BarChartView_shouldDrawHorizontalLegends, true)
-                goalValue =
-                    getFloat(R.styleable.BarChartView_goalValue, 0f)
+                goalValues =
+                    listOf(getFloat(R.styleable.BarChartView_goalValue, 0f))
             }
     }
 
@@ -563,20 +563,20 @@ class BarChartView @JvmOverloads constructor(
         }
     }
 
-    private fun drawGoalValue(canvas: Canvas) {
-        if (goalValue == 0f) return
-
+    private fun drawGoalValues(canvas: Canvas) {
         goalLinePaint.color = singleColor
             ?.let(ColorUtils::darkenColor)
             ?: Color.BLACK
-        val y = valueToPixel(goalValue)
-        canvas.drawLine(
-            0f,
-            y,
-            pixelRightBound,
-            y,
-            goalLinePaint,
-        )
+        goalValues.filter { it != 0f }.forEach { goalValue ->
+            val y = valueToPixel(goalValue)
+            canvas.drawLine(
+                0f,
+                y,
+                pixelRightBound,
+                y,
+                goalLinePaint,
+            )
+        }
     }
 
     private fun drawSelectedBarIcon(canvas: Canvas) {

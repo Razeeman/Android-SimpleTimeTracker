@@ -35,7 +35,7 @@ import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.ifNull
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
-import com.example.util.simpletimetracker.feature_views.extension.setAllMargins
+import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.common.WidgetGetActualFilteredIdsInteractor
 import com.example.util.simpletimetracker.feature_widget.common.WidgetViewsHolder
@@ -226,7 +226,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
             context = context,
             recordType = recordType,
             isColored = isColored,
-            checkState = recordTypeViewDataMapper.mapGoalCheckmark(
+            checkStates = recordTypeViewDataMapper.mapGoalCheckmarks(
                 type = recordType,
                 goals = goals,
                 allDailyCurrents = allDailyCurrents,
@@ -258,7 +258,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
         context: Context,
         recordType: RecordType,
         isColored: Boolean,
-        checkState: GoalCheckmarkView.CheckState,
+        checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
         isDarkTheme: Boolean,
         backgroundTransparency: Long,
@@ -288,7 +288,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
             itemName = name
             itemIconColor = textColor
             itemColor = color
-            itemCheckState = checkState
+            itemCheckStates = checkStates
             itemCompleteIsAnimated = false
             itemIsComplete = isComplete
         }
@@ -315,7 +315,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
                 .getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
             getContainer().cardElevation = 0f
             getContainer().useCompatPadding = false
-            getCheckmarkOutline().setAllMargins(4)
+            getCheckmarkOutlines().forEach { it.setMargins(top = 2, end = 2) }
         }
         preparedView = view
 

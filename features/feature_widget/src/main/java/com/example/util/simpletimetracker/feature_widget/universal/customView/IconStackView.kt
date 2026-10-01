@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
@@ -18,6 +17,9 @@ import com.example.util.simpletimetracker.feature_widget.R
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.sqrt
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.content.withStyledAttributes
+import androidx.core.graphics.withTranslation
 
 class IconStackView @JvmOverloads constructor(
     context: Context,
@@ -133,10 +135,12 @@ class IconStackView @JvmOverloads constructor(
 
         // Draw all
         data.forEachIndexed { index, dataPoint ->
-            canvas.save()
-            canvas.translate((index % rowCount) * 2 * radius, (index / rowCount) * 2 * radius)
-            drawIcon(dataPoint, canvas, radius)
-            canvas.restore()
+            canvas.withTranslation(
+                x = (index % rowCount) * 2 * radius,
+                y = (index / rowCount) * 2 * radius,
+            ) {
+                drawIcon(dataPoint, this, radius)
+            }
         }
     }
 
@@ -164,8 +168,10 @@ class IconStackView @JvmOverloads constructor(
                 itemIconColor = iconColor
                 measureExactly(size)
             }
-            .getBitmapFromView() // TODO avoid bitmap creation in onDraw?
-            .let { BitmapDrawable(resources, it) }
+            // TODO avoid bitmap creation in onDraw?
+            //  Probably a low priority because because rendering occurs only during widget updates.
+            .getBitmapFromView()
+            .toDrawable(resources)
     }
 
     private fun initArgs(
@@ -173,14 +179,14 @@ class IconStackView @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0,
     ) {
-        context.obtainStyledAttributes(attrs, R.styleable.IconStackView, defStyleAttr, 0)
-            .run {
-                iconCountInEdit = getInt(R.styleable.IconStackView_iconCountInEdit, 0)
-                iconColor = getColor(R.styleable.IconStackView_iconColor, Color.WHITE)
-                iconPadding = getDimensionPixelOffset(R.styleable.IconStackView_iconPadding, 0)
-                iconBackgroundPadding = getDimensionPixelOffset(R.styleable.IconStackView_iconBackgroundPadding, 0)
-                recycle()
-            }
+        context.withStyledAttributes(
+            attrs, R.styleable.IconStackView, defStyleAttr, 0,
+        ) {
+            iconCountInEdit = getInt(R.styleable.IconStackView_iconCountInEdit, 0)
+            iconColor = getColor(R.styleable.IconStackView_iconColor, Color.WHITE)
+            iconPadding = getDimensionPixelOffset(R.styleable.IconStackView_iconPadding, 0)
+            iconBackgroundPadding = getDimensionPixelOffset(R.styleable.IconStackView_iconBackgroundPadding, 0)
+        }
     }
 
     private fun initPaint() {

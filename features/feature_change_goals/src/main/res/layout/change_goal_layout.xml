@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerChangeRecordTypeGoalCard"
+    style="@style/SettingsCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/edit_screen_margin_horizontal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerChangeRecordTypeGoalSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangeRecordTypeGoalSummary"
+                style="@style/InputFieldCardText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="8dp"
+                app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeGoalSummary"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Goal · Day · 60m · Mon-Fri" />
+
+            <!-- Margin is to align with range chooser arrow -->
+            <ImageView
+                android:id="@+id/arrowChangeRecordTypeGoalSummary"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="15dp"
+                android:src="?appArrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerChangeRecordTypeGoalEditor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeGoalSummary"
+            tools:visibility="visible">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fieldRecordTypeGoalRange"
+                style="@style/InputFieldCard"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_field_height"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?appInputFieldBorder">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeRecordTypeGoalRange"
+                        style="@style/InputFieldCardText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeGoalRange"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="Daily" />
+
+                    <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                        android:id="@+id/spinnerRecordTypeGoalRange"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowChangeRecordTypeGoalRange"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="?appArrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerChangeRecordTypeGoal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/fieldRecordTypeGoalRange">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fieldRecordTypeGoalType"
+                    style="@style/InputFieldCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_field_height"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toStartOf="@id/fieldChangeRecordTypeGoalDuration"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?appInputFieldBorder">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordTypeGoalType"
+                            style="@style/InputFieldCardText"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeGoalType"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="Duration" />
+
+                        <com.example.util.simpletimetracker.feature_views.spinner.CustomSpinner
+                            android:id="@+id/spinnerRecordTypeGoalType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/arrowChangeRecordTypeGoalType"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="?appArrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fieldChangeRecordTypeGoalDuration"
+                    style="@style/InputFieldCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_field_height"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fieldRecordTypeGoalType"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?appInputFieldBorder">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvChangeRecordTypeGoalDurationValue"
+                            style="@style/InputFieldCardText"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="end|center"
+                            android:maxLines="1"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="1sp"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeGoalDuration"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="1h 30m" />
+
+                        <ImageView
+                            android:id="@+id/arrowChangeRecordTypeGoalDuration"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="?appArrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputChangeRecordTypeGoalCount"
+                    style="@style/ChangeItemInputField"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="3dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fieldRecordTypeGoalType"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etChangeRecordTypeGoalCountValue"
+                        style="@style/ChangeItemNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center"
+                        android:inputType="number"
+                        android:paddingVertical="0dp"
+                        tools:text="5" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChangeRecordTypeGoalDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="2dp"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/containerChangeRecordTypeGoal"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_day_of_week" />
+
+            <com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowView
+                android:id="@+id/btnChangeRecordTypeGoalSubtype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/rvChangeRecordTypeGoalDays" />
+
+            <com.example.util.simpletimetracker.feature_views.ButtonIconView
+                android:id="@+id/btnChangeRecordTypeGoalDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_screen_button_margin_horizontal"
+                app:itemButtonIconContentDescription="@string/archive_dialog_delete"
+                app:itemButtonIconRes="@drawable/delete"
+                app:itemButtonIconText="@string/archive_dialog_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnChangeRecordTypeGoalSubtype" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

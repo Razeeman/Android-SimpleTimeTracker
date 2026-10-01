@@ -12,7 +12,6 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_data_edit.R
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -46,7 +45,7 @@ class DataEditTypeSelectionViewModel @Inject constructor(
                 recordType = type,
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
-                checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                checkStates = emptyList(),
                 isComplete = false,
             )
         }

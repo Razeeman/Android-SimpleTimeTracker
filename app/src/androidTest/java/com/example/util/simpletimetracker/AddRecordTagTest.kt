@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
@@ -43,6 +44,7 @@ import com.example.util.simpletimetracker.feature_categories.R as categoriesR
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_views.R as viewsR
 
@@ -194,12 +196,8 @@ class AddRecordTagTest : BaseUiTest() {
 
         // Selecting goal time
         openGoals()
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
-                withId(R.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        GoalsTestUtils.addGoal(RecordTypeGoal.Range.Session)
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard1)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
@@ -230,7 +228,13 @@ class AddRecordTagTest : BaseUiTest() {
         // Check goals saved
         Thread.sleep(1000)
         openGoals()
-        checkViewIsDisplayed(withText("10$minuteString"))
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Session, RecordTypeGoal.Type.Duration(1))
+        checkViewIsDisplayed(
+            allOf(
+                GoalsTestUtils.visibleGoalField(changeGoalsR.id.tvChangeRecordTypeGoalDurationValue),
+                withText("10$minuteString"),
+            ),
+        )
         openGoals()
     }
 

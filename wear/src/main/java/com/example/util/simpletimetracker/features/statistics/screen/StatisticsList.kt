@@ -6,27 +6,21 @@
 package com.example.util.simpletimetracker.features.statistics.screen
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
-import com.example.util.simpletimetracker.features.statistics.ui.StatisticsButtons
+import com.example.util.simpletimetracker.features.statistics.ui.StatisticsButtonsRow
 import com.example.util.simpletimetracker.features.statistics.ui.StatisticsChip
 import com.example.util.simpletimetracker.features.statistics.ui.StatisticsChipState
 import com.example.util.simpletimetracker.features.statistics.ui.StatisticsTitle
@@ -106,7 +100,7 @@ fun StatisticsList(
         val showControls = state is StatisticsListState.Empty ||
             state is StatisticsListState.Content
         if (showControls) {
-            StatisticsButtons(
+            StatisticsButtonsRow(
                 onPrevClick = onPrevClick,
                 onNextClick = onNextClick,
             )
@@ -179,40 +173,9 @@ private fun ScalingLazyListScope.renderContent(
             }
         }
     }
-    // To avoid last item being cutoff by prev next buttons.
+    // To avoid last item being cut off by prev next buttons.
     item {
         Spacer(Modifier)
-    }
-}
-
-@Composable
-private fun BoxScope.StatisticsButtons(
-    onPrevClick: () -> Unit,
-    onNextClick: () -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0x00000000),
-                        MaterialTheme.colors.background,
-                    ),
-                ),
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        StatisticsButtons(
-            modifier = Modifier.padding(
-                top = 4.dp,
-                bottom = 10.dp,
-            ),
-            spacedBy = 4.dp,
-            onPrevClick = onPrevClick,
-            onNextClick = onNextClick,
-        )
     }
 }
 

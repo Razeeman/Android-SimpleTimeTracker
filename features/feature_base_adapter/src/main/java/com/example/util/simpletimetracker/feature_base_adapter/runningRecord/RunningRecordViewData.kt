@@ -12,7 +12,7 @@ data class RunningRecordViewData(
     val timeStartedTimestamp: Long,
     val timer: String,
     val timerTotal: String,
-    val goalTime: GoalTimeViewData,
+    val goalTimes: List<GoalTimeViewData>,
     val iconId: RecordTypeIcon,
     @ColorInt val color: Int,
     val comment: String,
@@ -33,7 +33,7 @@ data class RunningRecordViewData(
         if (this.timerTotal != other.timerTotal) updates.add(UPDATE_TIMER_TOTAL)
         if (this.iconId != other.iconId) updates.add(UPDATE_ICON)
         if (this.color != other.color) updates.add(UPDATE_COLOR)
-        if (this.goalTime != other.goalTime) updates.add(UPDATE_GOAL_TIME)
+        if (this.goalTimes != other.goalTimes) updates.add(UPDATE_GOAL_TIME)
         if (this.comment != other.comment) updates.add(UPDATE_COMMENT)
         if (this.nowIconVisible != other.nowIconVisible) updates.add(UPDATE_NOW_ICON)
 

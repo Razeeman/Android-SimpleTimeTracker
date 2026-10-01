@@ -19,6 +19,8 @@ data class ChangeRecordTypeGoalsViewData(
         val subtypeItems: List<ButtonsRowViewData>,
         val value: String,
         val daysOfWeek: List<ViewHolderType>,
+        val summary: CharSequence,
+        val isExpanded: Boolean,
         val requestScroll: Boolean,
     ) : ViewHolderType {
 

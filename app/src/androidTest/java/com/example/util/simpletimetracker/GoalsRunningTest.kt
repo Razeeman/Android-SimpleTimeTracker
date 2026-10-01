@@ -160,6 +160,7 @@ class GoalsRunningTest : BaseUiTest() {
                 GoalsTestUtils.getDailyDurationGoal(2 * durationInSeconds),
                 GoalsTestUtils.getWeeklyDurationGoal(3 * durationInSeconds),
                 GoalsTestUtils.getMonthlyDurationGoal(4 * durationInSeconds),
+                GoalsTestUtils.getYearlyDurationGoal(5 * durationInSeconds),
             ),
         )
         testUtils.addRecord(
@@ -175,6 +176,7 @@ class GoalsRunningTest : BaseUiTest() {
                 GoalsTestUtils.getDailyCountGoal(10),
                 GoalsTestUtils.getWeeklyCountGoal(10),
                 GoalsTestUtils.getMonthlyCountGoal(10),
+                GoalsTestUtils.getYearlyCountGoal(10),
             ),
         )
         testUtils.addRecord(allGoalCountsPresent)
@@ -203,6 +205,7 @@ class GoalsRunningTest : BaseUiTest() {
             goals = listOf(
                 GoalsTestUtils.getWeeklyDurationGoal(durationInSeconds),
                 GoalsTestUtils.getMonthlyDurationGoal(durationInSeconds),
+                GoalsTestUtils.getYearlyDurationGoal(durationInSeconds),
             ),
         )
         testUtils.addRunningRecord(goalTime)
@@ -212,11 +215,12 @@ class GoalsRunningTest : BaseUiTest() {
             goals = listOf(
                 GoalsTestUtils.getWeeklyCountGoal(10),
                 GoalsTestUtils.getMonthlyCountGoal(10),
+                GoalsTestUtils.getYearlyCountGoal(10),
             ),
         )
         testUtils.addRunningRecord(goalCount)
 
-        // Weekly and monthly goals are not present
+        // Weekly, monthly, and yearly goals are not present
         scrollTo(goalTime)
         checkNoRunningGoal(goalTime)
         checkRunningMark(goalTime, isVisible = false)

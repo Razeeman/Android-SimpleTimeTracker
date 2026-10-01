@@ -7,7 +7,6 @@ import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.RangeViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
-import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
@@ -22,13 +21,17 @@ import com.example.util.simpletimetracker.domain.recordType.extension.toRangeLen
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.HintBigViewData
+import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_goals.R
+import com.example.util.simpletimetracker.feature_goals.model.RangeViewData
+import com.example.util.simpletimetracker.feature_goals.model.GoalsSetupData
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.extension.setForegroundSpan
 import com.example.util.simpletimetracker.feature_views.extension.toSpannableString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.collections.emptyList
 
 class GoalsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
@@ -47,10 +50,12 @@ class GoalsViewDataInteractor @Inject constructor(
         goalRange: RecordTypeGoal.Range,
     ): Int {
         return when (goalRange) {
-            is RecordTypeGoal.Range.Session -> return 0 // Not possible here.
+            is RecordTypeGoal.Range.Session -> 0 // Not possible here.
+            is RecordTypeGoal.Range.Overall -> 0 // No shift for overall range.
             is RecordTypeGoal.Range.Daily -> dayShift
             is RecordTypeGoal.Range.Weekly,
             is RecordTypeGoal.Range.Monthly,
+            is RecordTypeGoal.Range.Yearly,
             -> {
                 val startOfDayShift = prefsInteractor.getStartOfDayShift()
                 val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
@@ -66,83 +71,74 @@ class GoalsViewDataInteractor @Inject constructor(
         }
     }
 
-    suspend fun getViewData(
+    suspend fun getSetupData(): GoalsSetupData = withContext(Dispatchers.Default) {
+        GoalsSetupData(
+            isDarkTheme = prefsInteractor.getDarkMode(),
+            durationFormat = prefsInteractor.getDurationFormat(),
+            showSeconds = prefsInteractor.getShowSeconds(),
+            firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+            startOfDayShift = prefsInteractor.getStartOfDayShift(),
+            hideFinishedGoals = prefsInteractor.getHideFinishedGoals(),
+            types = recordTypeInteractor.getAll().associateBy(RecordType::id),
+            goals = recordTypeGoalInteractor.getAll(),
+        )
+    }
+
+    suspend fun getViewDataForRange(
         dayShift: Int,
-    ): List<ViewHolderType> = withContext(Dispatchers.Default) {
-        val isDarkTheme = prefsInteractor.getDarkMode()
-        val durationFormat = prefsInteractor.getDurationFormat()
-        val showSeconds = prefsInteractor.getShowSeconds()
-        val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
-        val startOfDayShift = prefsInteractor.getStartOfDayShift()
-        val hideFinishedGoals = prefsInteractor.getHideFinishedGoals()
-        val types = recordTypeInteractor.getAll().associateBy(RecordType::id)
-        val goals = recordTypeGoalInteractor.getAll()
-
-        val typeDataHolders = statisticsMediator.getDataHolders(
-            filterType = ChartFilterType.ACTIVITY,
-            types = types,
+        goalRange: RecordTypeGoal.Range,
+        setup: GoalsSetupData,
+    ): RangeViewData = withContext(Dispatchers.Default) {
+        val empty = RangeViewData(
+            items = emptyList(),
+            hasHiddenFinishedGoals = false,
         )
-        val categoryDataHolders = statisticsMediator.getDataHolders(
-            filterType = ChartFilterType.CATEGORY,
-            types = types,
-        )
-        val tagDataHolders = statisticsMediator.getDataHolders(
-            filterType = ChartFilterType.RECORD_TAG,
-            types = types,
-        )
+        val rangeLength = goalRange.toRangeLength() ?: return@withContext empty
+        val goalsForRange = setup.goals.filter { it.range == goalRange }
+        if (goalsForRange.isEmpty()) return@withContext empty
 
-        val items = goals
-            .asSequence()
-            .map(RecordTypeGoal::range)
-            .toSet()
-            .sortedBy {
-                when (it) {
-                    is RecordTypeGoal.Range.Session -> 0
-                    is RecordTypeGoal.Range.Daily -> 1
-                    is RecordTypeGoal.Range.Weekly -> 2
-                    is RecordTypeGoal.Range.Monthly -> 3
-                }
-            }
-            .filter {
-                // No point in statistics for session goals.
-                it !is RecordTypeGoal.Range.Session
-            }
-            .mapNotNull { goalRange ->
-                val rangeLength = goalRange.toRangeLength() ?: return@mapNotNull null
-                val shiftForRange = getRangeShift(dayShift, goalRange)
-                val range = timeMapper.getRangeStartAndEnd(
-                    rangeLength = rangeLength,
-                    shift = shiftForRange,
-                    firstDayOfWeek = firstDayOfWeek,
-                    startOfDayShift = startOfDayShift,
-                )
-                getViewDataForRange(
-                    goals = filterGoalsByDayOfWeekInteractor.execute(
-                        goals = goals,
-                        range = range,
-                        startOfDayShift = startOfDayShift,
-                    ),
-                    types = types,
-                    rangeLength = rangeLength,
-                    range = range,
-                    shift = shiftForRange,
-                    firstDayOfWeek = firstDayOfWeek,
-                    startOfDayShift = startOfDayShift,
-                    typeDataHolders = typeDataHolders,
-                    categoryDataHolders = categoryDataHolders,
-                    tagDataHolders = tagDataHolders,
-                    isDarkTheme = isDarkTheme,
-                    durationFormat = durationFormat,
-                    showSeconds = showSeconds,
-                    hideFinishedGoals = hideFinishedGoals,
-                )
-            }
-            .toList()
+        val shiftForRange = getRangeShift(
+            dayShift = dayShift,
+            goalRange = goalRange,
+        )
+        val range = timeMapper.getRangeStartAndEnd(
+            rangeLength = rangeLength,
+            shift = shiftForRange,
+            firstDayOfWeek = setup.firstDayOfWeek,
+            startOfDayShift = setup.startOfDayShift,
+        )
+        val goals = filterGoalsByDayOfWeekInteractor.execute(
+            goals = goalsForRange,
+            range = range,
+            startOfDayShift = setup.startOfDayShift,
+        )
+        getViewDataForRange(
+            goals = goals,
+            types = setup.types,
+            rangeLength = rangeLength,
+            range = range,
+            shift = shiftForRange,
+            firstDayOfWeek = setup.firstDayOfWeek,
+            startOfDayShift = setup.startOfDayShift,
+            isDarkTheme = setup.isDarkTheme,
+            durationFormat = setup.durationFormat,
+            showSeconds = setup.showSeconds,
+            hideFinishedGoals = setup.hideFinishedGoals,
+        )
+    }
 
-        val visibleItems = items.flatMap(RangeViewData::items)
-        return@withContext when {
+    fun combineRanges(
+        items: List<RangeViewData?>,
+    ): List<ViewHolderType> {
+        val visibleItems = items.filterNotNull().flatMap(RangeViewData::items)
+        return when {
+            // Have items to show - show them.
             visibleItems.isNotEmpty() -> visibleItems
-            items.any(RangeViewData::hasHiddenFinishedGoals) -> mapToAllFinished()
+            // No visible items, null means load in progress - show loader.
+            items.any { it == null } -> listOf(LoaderViewData())
+            // No visible items and not loading but some are hidden - show message.
+            items.filterNotNull().any(RangeViewData::hasHiddenFinishedGoals) -> mapToAllFinished()
+            // Empty.
             else -> mapToEmpty()
         }
     }
@@ -155,9 +151,6 @@ class GoalsViewDataInteractor @Inject constructor(
         shift: Int,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
-        typeDataHolders: Map<Long, StatisticsDataHolder>,
-        categoryDataHolders: Map<Long, StatisticsDataHolder>,
-        tagDataHolders: Map<Long, StatisticsDataHolder>,
         isDarkTheme: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
@@ -170,6 +163,14 @@ class GoalsViewDataInteractor @Inject constructor(
             ChartFilterType.CATEGORY,
             ChartFilterType.RECORD_TAG,
         ).flatMap { filterType ->
+            val hasGoals = goals.any { goal ->
+                when (filterType) {
+                    ChartFilterType.ACTIVITY -> goal.idData is RecordTypeGoal.IdData.Type
+                    ChartFilterType.CATEGORY -> goal.idData is RecordTypeGoal.IdData.Category
+                    ChartFilterType.RECORD_TAG -> goal.idData is RecordTypeGoal.IdData.Tag
+                }
+            }
+            if (!hasGoals) return@flatMap emptyList()
             goalViewDataMapper.mapStatisticsList(
                 goals = goals,
                 types = types,
@@ -182,11 +183,10 @@ class GoalsViewDataInteractor @Inject constructor(
                     range = range,
                     forceSeconds = true,
                 ),
-                data = when (filterType) {
-                    ChartFilterType.ACTIVITY -> typeDataHolders
-                    ChartFilterType.CATEGORY -> categoryDataHolders
-                    ChartFilterType.RECORD_TAG -> tagDataHolders
-                },
+                data = statisticsMediator.getDataHolders(
+                    filterType = filterType,
+                    types = types,
+                ),
                 isDarkTheme = isDarkTheme,
                 durationFormat = durationFormat,
                 showSeconds = showSeconds,
@@ -244,9 +244,4 @@ class GoalsViewDataInteractor @Inject constructor(
             closeIconVisible = false,
         ).let(::listOf)
     }
-
-    private data class RangeViewData(
-        val items: List<ViewHolderType>,
-        val hasHiddenFinishedGoals: Boolean,
-    )
 }

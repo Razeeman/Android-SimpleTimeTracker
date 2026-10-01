@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_notification.goalTime.interactor
 
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.RecordTagViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
@@ -27,6 +28,7 @@ class NotificationGoalParamsInteractor @Inject constructor(
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper,
     private val recordTagViewDataMapper: RecordTagViewDataMapper,
+    private val goalViewDataMapper: GoalViewDataMapper,
 ) {
 
     suspend fun execute(goal: RecordTypeGoal): NotificationGoalTimeParams? {
@@ -83,12 +85,7 @@ class NotificationGoalParamsInteractor @Inject constructor(
             }
         }
 
-        val goalTypeString = when (goal.range) {
-            is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
-            is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
-            is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
-            is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
-        }.let(resourceRepo::getString).let { "($it)" }
+        val goalTypeString = goalViewDataMapper.mapType(goal.range).let { "($it)" }
 
         val subtype = goal.subtype
 

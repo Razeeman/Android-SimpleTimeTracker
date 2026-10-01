@@ -31,6 +31,7 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.view.ButtonsRowViewData
 import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePicker
 import com.example.util.simpletimetracker.utils.BaseUiTest
@@ -66,6 +67,8 @@ import com.example.util.simpletimetracker.feature_change_category.R as changeCat
 import com.example.util.simpletimetracker.feature_change_record.R as changeRecordR
 import com.example.util.simpletimetracker.feature_change_record_tag.R as changeRecordTagR
 import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
+import com.example.util.simpletimetracker.feature_change_goals.api.R as changeGoalsApiR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_records.R as recordsR
 import com.example.util.simpletimetracker.feature_settings.R as settingsR
@@ -381,34 +384,10 @@ class SettingsBackupTest : BaseUiTest() {
         pressBack()
         longClickOnView(getTypeMatcher("type3"))
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
-        onView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalSession)),
-                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalDurationValue),
-                withText("1$minuteString"),
-            ),
-        ).perform(nestedScrollTo()).check(matches(isDisplayed()))
-        onView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)),
-                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalDurationValue),
-                withText("1$hourString"),
-            ),
-        ).perform(nestedScrollTo()).check(matches(isDisplayed()))
-        onView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalWeekly)),
-                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalDurationValue),
-                withText("4$hourString"),
-            ),
-        ).perform(nestedScrollTo()).check(matches(isDisplayed()))
-        onView(
-            allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalMonthly)),
-                withId(changeRecordTypeR.id.tvChangeRecordTypeGoalDurationValue),
-                withText("40$hourString"),
-            ),
-        ).perform(nestedScrollTo()).check(matches(isDisplayed()))
+        checkGoal(RecordTypeGoal.Range.Session, RecordTypeGoal.Type.Duration(1), "1$minuteString")
+        checkGoal(RecordTypeGoal.Range.Daily, RecordTypeGoal.Type.Duration(1), "1$hourString")
+        checkGoal(RecordTypeGoal.Range.Weekly, RecordTypeGoal.Type.Duration(1), "4$hourString")
+        checkGoal(RecordTypeGoal.Range.Monthly, RecordTypeGoal.Type.Duration(1), "40$hourString")
         pressBack()
         pressBack()
         NavUtils.openSettingsScreen()
@@ -416,16 +395,21 @@ class SettingsBackupTest : BaseUiTest() {
         clickOnViewWithText("category3")
         onView(withText(R.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(R.string.change_record_type_goal_time_hint)
+        val countGoalType = RecordTypeGoal.Type.Count(5)
+        GoalsTestUtils.expandGoal(RecordTypeGoal.Range.Daily, countGoalType)
         onView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)),
-                withId(changeRecordTypeR.id.etChangeRecordTypeGoalCountValue),
+                GoalsTestUtils.goalField(
+                    RecordTypeGoal.Range.Daily,
+                    countGoalType,
+                    changeGoalsR.id.etChangeRecordTypeGoalCountValue,
+                ),
                 withText("5"),
             ),
-        ).perform(nestedScrollTo()).check(matches(isDisplayed()))
+        ).check(matches(isDisplayed()))
         onView(
             allOf(
-                isDescendantOfA(withId(changeRecordTypeR.id.layoutChangeRecordTypeGoalDaily)),
+                isDescendantOfA(GoalsTestUtils.goalCard(RecordTypeGoal.Range.Daily, countGoalType)),
                 withId(R.id.btnButtonsRowView),
                 when (databaseVersion) {
                     DatabaseVersion.VER_23 -> withText(R.string.change_record_type_goal_time_hint)
@@ -433,7 +417,7 @@ class SettingsBackupTest : BaseUiTest() {
                 },
                 withTag(ButtonsRowViewData.SELECTED_BUTTON_TEST_TAG),
             ),
-        ).perform(nestedScrollTo()).check(matches(isDisplayed()))
+        ).check(matches(isDisplayed()))
         pressBack()
         pressBack()
         pressBack()
@@ -450,6 +434,26 @@ class SettingsBackupTest : BaseUiTest() {
             checkSuggestions(suggestionsList)
             pressBack()
         }
+    }
+
+    private fun checkGoal(
+        range: RecordTypeGoal.Range,
+        type: RecordTypeGoal.Type,
+        value: String,
+    ) {
+        val card = GoalsTestUtils.goalCard(range, type)
+        scrollRecyclerToView(changeGoalsApiR.id.rvChangeRecordTypeGoals, card)
+        checkViewIsDisplayed(
+            allOf(
+                card,
+                hasDescendant(
+                    allOf(
+                        withId(changeGoalsR.id.tvChangeRecordTypeGoalSummary),
+                        withSubstring(value),
+                    ),
+                ),
+            ),
+        )
     }
 
     private fun fullRestore(databaseVersion: DatabaseVersion) {

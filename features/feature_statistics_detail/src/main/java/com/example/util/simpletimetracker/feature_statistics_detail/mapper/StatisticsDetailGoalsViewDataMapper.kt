@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics_detail.mapper
 
+import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
@@ -7,8 +8,8 @@ import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
 import com.example.util.simpletimetracker.domain.recordType.extension.isReached
-import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -31,7 +32,22 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
+    private val goalViewDataMapper: GoalViewDataMapper,
 ) {
+
+    // TODO GOAL Include weekdays in selectable daily-goal labels
+    //  to differentiate between 8h Mon-Fri and 8h Sut-Sun
+    fun mapGoalName(goal: RecordTypeGoal): String {
+        val subtype = goalViewDataMapper.mapSubtype(goal.subtype)
+        val value = when (val type = goal.type) {
+            is RecordTypeGoal.Type.Duration -> timeMapper.formatDuration(type.value)
+            is RecordTypeGoal.Type.Count -> "${type.value} " + resourceRepo.getQuantityString(
+                stringResId = R.plurals.statistics_detail_times_tracked,
+                quantity = type.value.toInt(),
+            )
+        }
+        return "$subtype · $value"
+    }
 
     fun mapGoalStatsViewData(
         records: List<RecordBase>,
@@ -43,7 +59,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
     ): List<ViewHolderType> {
-        val goalValue = getGoalValue(currentRangeGoal)
+        val goalValue = currentRangeGoal.adjustedValue
         val goalSubtype = currentRangeGoal?.subtype ?: RecordTypeGoal.Subtype.Goal
         val goalRange = currentRangeGoal?.range ?: RecordTypeGoal.Range.Daily
         if (goalValue == 0L) return emptyList()
@@ -64,10 +80,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         )
 
         if (goalStats.isNotEmpty()) {
-            val title = when (goalSubtype) {
-                is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
-                is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
-            }.let(resourceRepo::getString)
+            val title = goalViewDataMapper.mapSubtype(goalSubtype)
             items += StatisticsDetailCardViewData(
                 block = StatisticsDetailBlock.GoalStats,
                 title = title,
@@ -94,7 +107,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         startOfDayShift: Long,
     ): List<ViewHolderType> {
-        val goalValue = getGoalValue(chartGoal)
+        val goalValue = chartGoal.adjustedValue
         if (goalValue == 0L) return emptyList()
         val goalRange = chartGoal?.range ?: return emptyList()
         val goalSubtype = chartGoal.subtype
@@ -121,7 +134,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         )
         val chartData = statisticsDetailViewDataMapper.mapChartData(
             data = goalData,
-            goal = 0, // Don't show goal on goal graph.
+            goals = emptyList(), // Don't show goal on goal graph.
             rangeLength = rangeLength,
             chartMode = chartMode,
             yAxisZoomed = false,
@@ -181,7 +194,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
         }
 
         if (chartLengthViewData.isNotEmpty()) {
-            // Update margin top depending if has buttons before.
+            // Update margin top depending on if it has buttons before.
             val hasButtonsBefore = items.lastOrNull() is ButtonsRowItemViewData
             val marginTopDp = if (hasButtonsBefore) -10 else 4
             items += ButtonsRowItemViewData(
@@ -371,6 +384,8 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
             is RecordTypeGoal.Range.Daily -> R.string.range_day
             is RecordTypeGoal.Range.Weekly -> R.string.range_week
             is RecordTypeGoal.Range.Monthly -> R.string.range_month
+            is RecordTypeGoal.Range.Yearly -> R.string.range_year
+            is RecordTypeGoal.Range.Overall -> R.string.range_overall
         }.let(resourceRepo::getString)
 
         return listOf(
@@ -387,15 +402,5 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
                 description = percentageString,
             ),
         )
-    }
-
-    private fun getGoalValue(
-        goal: RecordTypeGoal?,
-    ): Long {
-        return when (goal?.type) {
-            is RecordTypeGoal.Type.Duration -> goal.value * 1000
-            is RecordTypeGoal.Type.Count -> goal.value
-            null -> 0L
-        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_notification.recordType.inter
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
@@ -48,6 +49,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
     private val getNotificationActivitySwitchControlsInteractor: GetNotificationActivitySwitchControlsInteractor,
     private val notificationCommonMapper: NotificationCommonMapper,
     private val getCurrentActivitySuggestionsInteractor: GetCurrentActivitySuggestionsInteractor,
+    private val goalViewDataMapper: GoalViewDataMapper,
 ) : NotificationTypeInteractor {
 
     // TODO merge with update function?
@@ -251,10 +253,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
 
         val tagIds = runningRecord.tags.map(RecordBase.Tag::tagId)
         val goalSubtype = goal?.subtype ?: RecordTypeGoal.Subtype.Goal
-        val goalSubtypeString = when (goalSubtype) {
-            is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
-            is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
-        }.let(resourceRepo::getString).lowercase()
+        val goalSubtypeString = goalViewDataMapper.mapSubtype(goalSubtype).lowercase()
         val goalTime = goal.value
             .takeIf { it > 0 }
             ?.let(timeMapper::formatDuration)

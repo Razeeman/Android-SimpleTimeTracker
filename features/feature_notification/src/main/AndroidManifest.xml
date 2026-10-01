@@ -8,7 +8,7 @@
 
         <receiver
             android:name=".recevier.NotificationReceiver"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -19,7 +19,13 @@
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
+        <receiver
+            android:name=".recevier.ExternalNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_START_ACTIVITY" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ACTIVITY" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_STOP_ALL_ACTIVITIES" />
@@ -31,6 +37,10 @@
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_CREATE_TAG" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_BACKUP" />
                 <action android:name="com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_EXPORT" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_QUERY_ACTIVITIES" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_QUERY_RUNNING" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_QUERY_RECORDS" />
+                <action android:name="com.razeeman.util.simpletimetracker.ACTION_QUERY_STATISTICS" />
             </intent-filter>
         </receiver>
 

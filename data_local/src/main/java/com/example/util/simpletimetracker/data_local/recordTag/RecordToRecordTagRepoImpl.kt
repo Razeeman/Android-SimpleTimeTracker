@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.data_local.recordTag
 
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
-import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordToRecordTag
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +20,25 @@ class RecordToRecordTagRepoImpl @Inject constructor(
             dao.getAll().map(mapper::map)
         }
 
+    override suspend fun getAfter(
+        recordId: Long,
+        recordTagId: Long,
+        limit: Int,
+    ): List<RecordToRecordTag> = withContext(Dispatchers.IO) {
+        logDataAccess("get after")
+        dao.getAfter(recordId, recordTagId, limit).map(mapper::map)
+    }
+
     override suspend fun getRecordIdsByTagId(tagId: Long): List<Long> =
         withContext(Dispatchers.IO) {
             logDataAccess("get record ids")
             dao.getRecordIdsByTagId(tagId)
+        }
+
+    override suspend fun getRecordCountsByTag(): Map<Long, Int> =
+        withContext(Dispatchers.IO) {
+            logDataAccess("get record counts by tag")
+            dao.getRecordCountsByTag().associate { it.recordTagId to it.recordCount }
         }
 
     override suspend fun add(recordToRecordTag: RecordToRecordTag) =
@@ -35,33 +49,5 @@ class RecordToRecordTagRepoImpl @Inject constructor(
                 .let {
                     dao.insert(listOf(it))
                 }
-        }
-
-    override suspend fun addRecordTags(recordId: Long, tags: List<RecordBase.Tag>) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("add record tags")
-            tags.map {
-                mapper.map(recordId = recordId, recordTag = it)
-            }.let {
-                dao.insert(it)
-            }
-        }
-
-    override suspend fun removeAllByTagId(tagId: Long) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("remove all by tagId")
-            dao.deleteAllByTagId(tagId)
-        }
-
-    override suspend fun removeAllByRecordId(recordId: Long) =
-        withContext(Dispatchers.IO) {
-            logDataAccess("remove all by recordId")
-            dao.deleteAllByRecordId(recordId)
-        }
-
-    override suspend fun clear() =
-        withContext(Dispatchers.IO) {
-            logDataAccess("clear")
-            dao.clear()
         }
 }

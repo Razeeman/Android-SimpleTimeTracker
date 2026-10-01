@@ -2,11 +2,8 @@ package com.example.util.simpletimetracker
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.util.simpletimetracker.feature_change_record_type.R
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
@@ -21,6 +18,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.example.util.simpletimetracker.core.R as coreR
+import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 
 @HiltAndroidTest
@@ -48,9 +46,12 @@ class DurationSuggestionsTest : BaseUiTest() {
         defaultValues.forEach {
             openDialog()
             clickOnViewWithText(it)
-            clickOnViewWithText(R.string.duration_dialog_save)
+            clickOnViewWithText(coreR.string.duration_dialog_save)
             checkViewIsDisplayed(
-                allOf(isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)), withText(it)),
+                allOf(
+                    GoalsTestUtils.visibleGoalField(changeGoalsR.id.tvChangeRecordTypeGoalDurationValue),
+                    withText(it),
+                ),
             )
         }
     }
@@ -79,15 +80,18 @@ class DurationSuggestionsTest : BaseUiTest() {
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard3)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
         clickOnViewWithId(dialogsR.id.tvNumberKeyboard0)
-        clickOnViewWithText(R.string.running_records_add_type)
+        clickOnViewWithText(coreR.string.running_records_add_type)
 
         // Selecting
         checkViewIsDisplayed(withText(text))
         longClickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete)
         clickOnViewWithText(text)
-        clickOnViewWithText(R.string.duration_dialog_save)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
         checkViewIsDisplayed(
-            allOf(isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)), withText(text)),
+            allOf(
+                GoalsTestUtils.visibleGoalField(changeGoalsR.id.tvChangeRecordTypeGoalDurationValue),
+                withText(text),
+            ),
         )
 
         // Deleting
@@ -101,14 +105,10 @@ class DurationSuggestionsTest : BaseUiTest() {
         closeSoftKeyboard()
         onView(withText(coreR.string.change_record_type_goal_time_hint)).perform(nestedScrollTo())
         clickOnViewWithText(coreR.string.change_record_type_goal_time_hint)
+        GoalsTestUtils.addGoal()
     }
 
     private fun openDialog() {
-        clickOnView(
-            allOf(
-                isDescendantOfA(withId(R.id.layoutChangeRecordTypeGoalSession)),
-                withId(R.id.fieldChangeRecordTypeGoalDuration),
-            ),
-        )
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
     }
 }

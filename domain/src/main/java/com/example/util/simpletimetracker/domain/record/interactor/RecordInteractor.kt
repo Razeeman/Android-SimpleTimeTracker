@@ -5,12 +5,10 @@ import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import javax.inject.Inject
 
 class RecordInteractor @Inject constructor(
     private val recordRepo: RecordRepo,
-    private val recordToRecordTagRepo: RecordToRecordTagRepo,
 ) {
 
     suspend fun isEmpty(): Boolean {
@@ -92,8 +90,7 @@ class RecordInteractor @Inject constructor(
     }
 
     suspend fun add(record: Record) {
-        val recordId = recordRepo.add(record)
-        updateTags(recordId, record.tags)
+        recordRepo.add(record)
     }
 
     suspend fun update(
@@ -106,8 +103,8 @@ class RecordInteractor @Inject constructor(
             recordId = recordId,
             typeId = typeId,
             comment = comment,
+            tags = tags,
         )
-        updateTags(recordId, tags)
     }
 
     suspend fun updateTimeEnded(recordId: Long, timeEnded: Long) {
@@ -118,21 +115,11 @@ class RecordInteractor @Inject constructor(
     }
 
     suspend fun remove(id: Long) {
-        recordToRecordTagRepo.removeAllByRecordId(id)
         recordRepo.remove(id)
     }
 
     suspend fun removeAll() {
-        recordToRecordTagRepo.clear()
         recordRepo.clear()
-    }
-
-    private suspend fun updateTags(
-        recordId: Long,
-        tags: List<RecordBase.Tag>,
-    ) {
-        recordToRecordTagRepo.removeAllByRecordId(recordId)
-        recordToRecordTagRepo.addRecordTags(recordId, tags)
     }
 
     sealed interface GetParam {

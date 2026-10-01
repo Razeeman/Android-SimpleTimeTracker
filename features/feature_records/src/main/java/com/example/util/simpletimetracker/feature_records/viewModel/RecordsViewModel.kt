@@ -78,6 +78,7 @@ class RecordsViewModel @Inject constructor(
 
     private var isVisible: Boolean = false
     private var timerJob: Job? = null
+    private var updateJob: Job? = null
     private val shift: Int get() = extra?.shift.orZero()
 
     init {
@@ -335,12 +336,15 @@ class RecordsViewModel @Inject constructor(
         sharingData.set(data)
     }
 
-    private fun updateRecords() = viewModelScope.launch {
-        isCalendarView.set(prefsInteractor.getShowRecordsCalendar())
+    private fun updateRecords() {
+        updateJob?.cancel()
+        updateJob = viewModelScope.launch {
+            isCalendarView.set(prefsInteractor.getShowRecordsCalendar())
 
-        when (val state = loadRecordsViewData()) {
-            is RecordsState.RecordsData -> records.set(state.data)
-            is RecordsState.CalendarData -> calendarData.set(state)
+            when (val state = loadRecordsViewData()) {
+                is RecordsState.RecordsData -> records.set(state.data)
+                is RecordsState.CalendarData -> calendarData.set(state)
+            }
         }
     }
 
@@ -360,7 +364,9 @@ class RecordsViewModel @Inject constructor(
                 return@launch
             }
             while (isActive) {
-                updateRecords()
+                // Just in case update takes longer than timer period,
+                // otherwise will be canceled every tick.
+                if (updateJob?.isCompleted != false) updateRecords()
                 delay(TIMER_UPDATE)
             }
         }
@@ -368,6 +374,7 @@ class RecordsViewModel @Inject constructor(
 
     private fun stopUpdate() {
         timerJob?.cancel()
+        updateJob?.cancel()
     }
 
     companion object {

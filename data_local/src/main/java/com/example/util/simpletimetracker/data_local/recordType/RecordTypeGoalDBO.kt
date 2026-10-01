@@ -24,6 +24,7 @@ data class RecordTypeGoalDBO(
     // 1 - daily
     // 2 - weekly
     // 3 - monthly
+    // 4 - yearly
     @ColumnInfo(name = "range")
     val range: Long,
 

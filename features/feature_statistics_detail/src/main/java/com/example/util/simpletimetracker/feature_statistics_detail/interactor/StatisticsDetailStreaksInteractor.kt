@@ -15,7 +15,9 @@ import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
 import com.example.util.simpletimetracker.domain.recordType.extension.isSuccessful
+import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -26,9 +28,11 @@ import com.example.util.simpletimetracker.feature_statistics_detail.model.Streak
 import com.example.util.simpletimetracker.domain.statistics.model.StatisticsStreaksType
 import com.example.util.simpletimetracker.feature_base_adapter.buttonsRow.ButtonsRowItemViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
+import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailButtonViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailCardViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesCalendarViewData
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailSeriesChartViewData
+import com.example.util.simpletimetracker.feature_statistics_detail.mapper.StatisticsDetailGoalsViewDataMapper
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItem
 import com.example.util.simpletimetracker.feature_statistics_detail.mapper.mapItems
 import com.example.util.simpletimetracker.feature_statistics_detail.viewData.StatisticsDetailCardInternalViewData
@@ -47,6 +51,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val resourceRepo: ResourceRepo,
+    private val statisticsDetailGoalsViewDataMapper: StatisticsDetailGoalsViewDataMapper,
     private val statisticsDetailViewDataMapper: StatisticsDetailViewDataMapper,
 ) {
 
@@ -63,6 +68,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         )
     }
 
+    fun getSelectedGoal(
+        goals: List<RecordTypeGoal>,
+        dailyGoalPosition: Int?,
+    ): RecordTypeGoal? {
+        return dailyGoalPosition?.let { goals.getOrNull(it) } ?: goals.getLongest()
+    }
+
     suspend fun getStreaksViewData(
         records: List<RecordBase>,
         compareRecords: List<RecordBase>,
@@ -71,12 +83,16 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         rangePosition: Int,
         streaksType: StatisticsStreaksType,
         streaksGoal: StreaksGoal,
-        goal: RecordTypeGoal?,
-        compareGoal: RecordTypeGoal?,
+        goals: List<RecordTypeGoal>,
+        compareGoals: List<RecordTypeGoal>,
+        dailyGoalPosition: Int?,
     ): StatisticsDetailStreaksViewData = withContext(Dispatchers.Default) {
         val calendar = Calendar.getInstance()
         val firstDayOfWeek = prefsInteractor.getFirstDayOfWeek()
         val startOfDayShift = prefsInteractor.getStartOfDayShift()
+        val isDarkTheme = prefsInteractor.getDarkMode()
+        val goal = getSelectedGoal(goals, dailyGoalPosition)
+        val compareGoal = compareGoals.getLongest()
 
         val range = timeMapper.getRangeStartAndEnd(
             rangeLength = rangeLength,
@@ -171,6 +187,13 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
             compareGoalType = compareGoal,
             rangeLength = rangeLength,
         )
+        val streakGoalSelectData = mapToStreaksGoalSelectViewData(
+            streaksGoal = streaksGoal,
+            goals = goals,
+            selectedGoal = goal,
+            rangeLength = rangeLength,
+            isDarkTheme = isDarkTheme,
+        )
 
         val streakTypeData = if (hasData) {
             ButtonsRowItemViewData(
@@ -197,6 +220,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
         val viewData = mutableListOf<StatisticsDetailViewData.Item<*>>()
         viewData += streaks.mapItems()
         viewData += streakGoalTypeData.mapItems()
+        viewData += streakGoalSelectData.mapItems()
         viewData += streaksListData.takeIf { it.isNotEmpty() }?.let {
             StatisticsDetailSeriesChartViewData(
                 block = StatisticsDetailBlock.SeriesChart,
@@ -292,6 +316,28 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 data = it,
             )
         }.let(::listOf)
+    }
+
+    private fun mapToStreaksGoalSelectViewData(
+        streaksGoal: StreaksGoal,
+        goals: List<RecordTypeGoal>,
+        selectedGoal: RecordTypeGoal?,
+        rangeLength: RangeLength,
+        isDarkTheme: Boolean,
+    ): List<ViewHolderType> {
+        if (streaksGoal != StreaksGoal.GOAL || goals.size <= 1) return emptyList()
+        if (rangeLength is RangeLength.Day) return emptyList()
+        selectedGoal ?: return emptyList()
+
+        return StatisticsDetailButtonViewData(
+            marginTopDp = -10,
+            data = StatisticsDetailButtonViewData.Button(
+                block = StatisticsDetailBlock.SeriesGoalSelect,
+                text = statisticsDetailGoalsViewDataMapper.mapGoalName(selectedGoal),
+                color = resourceRepo.getThemedAttr(R.attr.appInactiveColor, isDarkTheme),
+            ),
+            dataSecond = null,
+        ).let(::listOf)
     }
 
     private fun mapToStreakTypeName(streaksType: StatisticsStreaksType): String {
@@ -419,10 +465,7 @@ class StatisticsDetailStreaksInteractor @Inject constructor(
                 }
             }
         }
-        val goalValue = when (goalType) {
-            is RecordTypeGoal.Type.Duration -> goalType.value * 1000
-            is RecordTypeGoal.Type.Count -> goalType.value
-        }
+        val goalValue = goalType.adjustedValue
         val todayRange = timeMapper.getRangeStartAndEnd(
             rangeLength = RangeLength.Day,
             shift = 0,

@@ -10,30 +10,36 @@ import com.example.util.simpletimetracker.data.WearRPCException
 import com.example.util.simpletimetracker.domain.interactor.WearTagSelectionDataInteractor
 import com.example.util.simpletimetracker.domain.model.WearRecordRepeatResult
 import com.example.util.simpletimetracker.domain.model.WearRecordTag
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class StartActivityMediator @Inject constructor(
     private val wearDataRepo: WearDataRepo,
     private val wearTagSelectionDataInteractor: WearTagSelectionDataInteractor,
 ) {
 
+    private val activityActionMutex: Mutex = Mutex()
+
     suspend fun requestStart(
         activityId: Long,
         onRequestTagSelection: suspend () -> Unit,
         onProgressChanged: (isLoading: Boolean) -> Unit,
-    ): Result<Unit> {
+    ): Result<Unit> = activityActionMutex.withLock {
         onProgressChanged(true)
 
         val shouldShowTagSelection = wearDataRepo.loadShouldShowTagSelection(activityId)
-            .getOrNull() ?: return Result.failure(WearRPCException)
+            .getOrNull() ?: return@withLock Result.failure(WearRPCException)
 
-        return if (shouldShowTagSelection.shouldShow) {
+        if (shouldShowTagSelection.shouldShow) {
             onProgressChanged(false)
             wearTagSelectionDataInteractor.data[activityId] = shouldShowTagSelection
             onRequestTagSelection()
             Result.success(Unit)
         } else {
-            start(
+            startUnlocked(
                 activityId = activityId,
                 tags = emptyList(),
                 useSelectedTags = false,
@@ -45,19 +51,27 @@ class StartActivityMediator @Inject constructor(
         activityId: Long,
         tags: List<WearRecordTag>,
         useSelectedTags: Boolean,
+    ): Result<Unit> = activityActionMutex.withLock {
+        startUnlocked(activityId, tags, useSelectedTags)
+    }
+
+    suspend fun stop(currentId: Long): Result<Unit> = activityActionMutex.withLock {
+        wearDataRepo.stopActivity(currentId)
+    }
+
+    suspend fun repeat(): Result<WearRecordRepeatResult> = activityActionMutex.withLock {
+        wearDataRepo.repeatActivity()
+    }
+
+    private suspend fun startUnlocked(
+        activityId: Long,
+        tags: List<WearRecordTag>,
+        useSelectedTags: Boolean,
     ): Result<Unit> {
         return wearDataRepo.startActivity(
             id = activityId,
             tags = tags,
             useSelectedTags = useSelectedTags,
         )
-    }
-
-    suspend fun stop(currentId: Long): Result<Unit> {
-        return wearDataRepo.stopActivity(currentId)
-    }
-
-    suspend fun repeat(): Result<WearRecordRepeatResult> {
-        return wearDataRepo.repeatActivity()
     }
 }

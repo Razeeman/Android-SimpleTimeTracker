@@ -8,6 +8,7 @@
         <item>/stt/QUERY_ACTIVITIES</item>
         <item>/stt/QUERY_CURRENT_ACTIVITIES</item>
         <item>/stt/QUERY_STATISTICS</item>
+        <item>/stt/QUERY_RECORDS</item>
         <item>/stt/START_ACTIVITY</item>
         <item>/stt/STOP_ACTIVITY</item>
         <item>/stt/REPEAT_ACTIVITY</item>

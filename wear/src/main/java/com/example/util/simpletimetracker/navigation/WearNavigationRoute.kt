@@ -28,6 +28,11 @@ interface WearNavigationRoute<T> {
         override val baseRoute: String = "statistics"
     }
 
+    object Records : WearNavigationRoute<Nothing> {
+        override val key: String = ""
+        override val baseRoute: String = "records"
+    }
+
     object Settings : WearNavigationRoute<Nothing> {
         override val key: String = ""
         override val baseRoute: String = "settings"

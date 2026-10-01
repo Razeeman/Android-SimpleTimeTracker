@@ -95,6 +95,7 @@ enum class SettingsBlock {
     AdditionalShiftStartOfDayHint,
     AdditionalAutomatedTracking,
     AdditionalSendEvents,
+    AdditionalReceiveQueries,
     AdditionalDataEdit,
     AdditionalComplexRules,
     AdditionalActivitySuggestions,

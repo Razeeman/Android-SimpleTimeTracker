@@ -26,6 +26,7 @@ import androidx.wear.compose.material.SplitToggleChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleChipDefaults
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.util.simpletimetracker.presentation.theme.ColorWhite60
 import com.example.util.simpletimetracker.presentation.ui.ACTIVITY_VIEW_HEIGHT
 import com.example.util.simpletimetracker.utils.getCoercedFontScale
 
@@ -99,7 +100,7 @@ private fun SingleSelectTagChip(
             if (state.value.isNotEmpty() && !state.isLoading) {
                 Text(
                     text = state.value,
-                    color = Color(0x99FFFFFF),
+                    color = ColorWhite60,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 10.sp,
@@ -149,7 +150,7 @@ private fun MultiSelectTagChip(
             if (state.value.isNotEmpty() && !state.isLoading) {
                 Text(
                     text = state.value,
-                    color = Color(0x99FFFFFF),
+                    color = ColorWhite60,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 10.sp,

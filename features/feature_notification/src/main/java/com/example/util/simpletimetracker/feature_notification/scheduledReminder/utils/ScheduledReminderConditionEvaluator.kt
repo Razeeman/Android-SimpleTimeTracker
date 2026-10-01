@@ -31,11 +31,16 @@ class ScheduledReminderConditionEvaluator @Inject constructor(
     private suspend fun isTargetNotTrackedToday(
         target: ScheduledReminder.Condition.Target,
     ): Boolean {
+        val categoryActivityIds = if (target is ScheduledReminder.Condition.Target.Category) {
+            recordTypeCategoryInteractor.getTypes(target.id)
+        } else {
+            emptySet()
+        }
         val range = getRangeInteractor.getRange(RangeLength.Day)
         val hasCompletedRecord = recordInteractor.getWithParams(
             param = RecordInteractor.GetParam.FromRange(range),
         ).any { record ->
-            matches(target, record)
+            matches(target, record, categoryActivityIds)
         }
         if (hasCompletedRecord) return false
 
@@ -44,13 +49,14 @@ class ScheduledReminderConditionEvaluator @Inject constructor(
                 timeStarted = runningRecord.timeStarted,
                 timeEnded = currentTimestampProvider.get(),
             )
-            runningRange.isOverlappingWith(range) && matches(target, runningRecord)
+            runningRange.isOverlappingWith(range) && matches(target, runningRecord, categoryActivityIds)
         }
     }
 
-    private suspend fun matches(
+    private fun matches(
         target: ScheduledReminder.Condition.Target,
         record: RecordBase,
+        categoryActivityIds: Set<Long>,
     ): Boolean {
         val activityId = record.typeIds.firstOrNull() ?: return false
         val tagIds = record.tags.map(RecordBase.Tag::tagId)
@@ -58,7 +64,7 @@ class ScheduledReminderConditionEvaluator @Inject constructor(
             is ScheduledReminder.Condition.Target.Activity ->
                 activityId == target.id
             is ScheduledReminder.Condition.Target.Category ->
-                activityId in recordTypeCategoryInteractor.getTypes(target.id)
+                activityId in categoryActivityIds
             is ScheduledReminder.Condition.Target.Tag ->
                 target.id in tagIds
         }

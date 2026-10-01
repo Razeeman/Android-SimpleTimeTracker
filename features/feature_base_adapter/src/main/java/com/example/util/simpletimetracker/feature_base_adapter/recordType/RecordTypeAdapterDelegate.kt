@@ -35,10 +35,10 @@ fun createRecordTypeAdapterDelegate(
         itemIconColor = item.iconColor
         itemIconAlpha = item.iconAlpha
         itemName = item.name
-        itemCheckState = item.checkState
+        itemCheckStates = item.checkStates
         itemCompleteIsAnimated = true
         itemIsComplete = item.isComplete
-        getCheckmarkOutline().itemIsFiltered = item.itemIsFiltered
+        getCheckmarkOutlines().forEach { it.itemIsFiltered = item.itemIsFiltered }
         onItemClick?.let { setOnClickWith(item, it) }
         onItemClickWithData?.let { setOnClick { it(item, this to transitionName) } }
         onItemLongClick?.let { setOnLongClick { it(item, this to transitionName) } }

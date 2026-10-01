@@ -22,11 +22,19 @@
         android:layout_margin="8dp" />
 
     <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
-        android:id="@+id/viewNotificationIconCheckmark"
+        android:id="@+id/viewNotificationIconGoalCheckmark"
         android:layout_width="14dp"
         android:layout_height="14dp"
         android:layout_alignParentEnd="true"
         tools:itemCheckState="goalReached" />
+
+    <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
+        android:id="@+id/viewNotificationIconLimitCheckmark"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_below="@id/viewNotificationIconGoalCheckmark"
+        android:layout_alignParentEnd="true"
+        tools:itemCheckState="limitReached" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/viewNotificationIconComplete"

@@ -18,6 +18,7 @@ import com.example.util.simpletimetracker.domain.model.WearSetSettings
 import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.domain.model.WearShouldShowTagSelectionResult
 import com.example.util.simpletimetracker.domain.model.WearStatistics
+import com.example.util.simpletimetracker.domain.model.WearRecord
 import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.wear_api.WearActivityDTO
@@ -31,6 +32,7 @@ import com.example.util.simpletimetracker.wear_api.WearSetSettingsRequest
 import com.example.util.simpletimetracker.wear_api.WearSettingsDTO
 import com.example.util.simpletimetracker.wear_api.WearShouldShowTagSelectionResponse
 import com.example.util.simpletimetracker.wear_api.WearStatisticsDTO
+import com.example.util.simpletimetracker.wear_api.WearRecordDTO
 import com.example.util.simpletimetracker.wear_api.WearTagDTO
 import javax.inject.Inject
 
@@ -64,10 +66,36 @@ class WearDataLocalMapper @Inject constructor() {
     fun map(dto: WearStatisticsDTO): WearStatistics {
         return WearStatistics(
             id = dto.id,
+            type = when (dto.type) {
+                WearStatisticsDTO.TypeDTO.ACTIVITY -> WearStatistics.Type.Activity
+                WearStatisticsDTO.TypeDTO.CATEGORY -> WearStatistics.Type.Category
+                WearStatisticsDTO.TypeDTO.TAG -> WearStatistics.Type.Tag
+                WearStatisticsDTO.TypeDTO.UNTRACKED -> WearStatistics.Type.Untracked
+                WearStatisticsDTO.TypeDTO.UNCATEGORIZED -> WearStatistics.Type.Uncategorized
+                WearStatisticsDTO.TypeDTO.UNTAGGED -> WearStatistics.Type.Untagged
+            },
             name = dto.name,
             icon = dto.icon,
             color = dto.color,
             duration = dto.duration,
+        )
+    }
+
+    fun map(dto: WearRecordDTO): WearRecord {
+        return WearRecord(
+            id = dto.id,
+            type = when (dto.type) {
+                WearRecordDTO.TypeDTO.TRACKED -> WearRecord.Type.Tracked
+                WearRecordDTO.TypeDTO.RUNNING -> WearRecord.Type.Running
+                WearRecordDTO.TypeDTO.UNTRACKED -> WearRecord.Type.Untracked
+            },
+            activityId = dto.activityId,
+            activityName = dto.activityName,
+            activityIcon = dto.activityIcon,
+            activityColor = dto.activityColor,
+            startedAt = dto.startedAt,
+            endedAt = dto.endedAt,
+            tags = dto.tags.map(::map),
         )
     }
 
@@ -106,6 +134,7 @@ class WearDataLocalMapper @Inject constructor() {
             retroactiveTrackingMode = dto.retroactiveTrackingMode.orFalse(),
             startOfDayShift = dto.startOfDayShift.orZero(),
             firstDayOfWeek = dto.firstDayOfWeek?.let(::map) ?: DayOfWeek.MONDAY,
+            useMilitaryTime = dto.useMilitaryTime.orFalse(),
         )
     }
 

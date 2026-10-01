@@ -2,12 +2,15 @@ package com.example.util.simpletimetracker.domain.record.repo
 
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.Record
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 
 interface RecordRepo {
 
     suspend fun isEmpty(): Boolean
 
     suspend fun getAll(): List<Record>
+
+    suspend fun getAfterId(id: Long, limit: Int): List<Record>
 
     suspend fun getByType(typeIds: Set<Long>): List<Record>
 
@@ -55,6 +58,7 @@ interface RecordRepo {
         recordId: Long,
         typeId: Long,
         comment: String,
+        tags: List<RecordBase.Tag>,
     )
 
     suspend fun updateTimeEnded(recordId: Long, timeEnded: Long)
@@ -62,6 +66,8 @@ interface RecordRepo {
     suspend fun remove(id: Long)
 
     suspend fun removeByType(typeId: Long)
+
+    suspend fun removeTagFromAll(tagId: Long)
 
     suspend fun clear()
 }

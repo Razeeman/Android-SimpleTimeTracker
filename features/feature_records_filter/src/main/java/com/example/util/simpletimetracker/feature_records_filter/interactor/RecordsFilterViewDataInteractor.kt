@@ -88,7 +88,6 @@ import com.example.util.simpletimetracker.feature_records_filter.model.RecordsFi
 import com.example.util.simpletimetracker.feature_records_filter.viewData.CategoryFilteredType
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordTypeFilteredType
 import com.example.util.simpletimetracker.feature_records_filter.viewData.RecordsFilterSelectionButtonType
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogParams
 import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialogType
 import com.example.util.simpletimetracker.navigation.params.screen.RecordsFilterParams
@@ -1066,7 +1065,7 @@ class RecordsFilterViewDataInteractor @Inject constructor(
                 numberOfCards = numberOfCards,
                 isDarkTheme = isDarkTheme,
                 isFiltered = type.id !in allSelectedTypeIds,
-                checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                checkStates = emptyList(),
                 isComplete = false,
             )
         }.plus(

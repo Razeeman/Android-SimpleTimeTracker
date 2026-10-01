@@ -23,7 +23,9 @@ import com.example.util.simpletimetracker.features.activities.ui.ActivityChipSta
 import com.example.util.simpletimetracker.features.activities.ui.ActivityChipType
 import com.example.util.simpletimetracker.notification.WearNotificationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -156,10 +158,14 @@ class ActivitiesViewModel @Inject constructor(
         _state.value = currentState.copy(items = newItems)
     }
 
-    private suspend fun loadData(forceReload: Boolean) {
-        val activities = wearDataRepo.loadActivities(forceReload)
-        val currentState = wearDataRepo.loadCurrentActivities(forceReload)
-        val settings = wearDataRepo.loadSettings(forceReload)
+    private suspend fun loadData(forceReload: Boolean) = coroutineScope {
+        val activitiesRequest = async { wearDataRepo.loadActivities(forceReload) }
+        val currentStateRequest = async { wearDataRepo.loadCurrentActivities(forceReload) }
+        val settingsRequest = async { wearDataRepo.loadSettings(forceReload) }
+
+        val activities = activitiesRequest.await()
+        val currentState = currentStateRequest.await()
+        val settings = settingsRequest.await()
 
         val loadError = activities.isFailure ||
             currentState.isFailure ||

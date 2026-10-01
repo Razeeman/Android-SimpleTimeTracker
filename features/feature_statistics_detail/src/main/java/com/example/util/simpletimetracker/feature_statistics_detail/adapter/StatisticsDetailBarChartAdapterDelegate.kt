@@ -32,7 +32,7 @@ fun createStatisticsDetailBarChartAdapterDelegate(
         setLegendTextSuffix(viewData.legendSuffix)
         shouldAddLegendToSelectedBar(viewData.addLegendToSelectedBar)
         shouldDrawHorizontalLegends(viewData.shouldDrawHorizontalLegends)
-        setGoalValue(viewData.goalValue)
+        setGoalValues(viewData.goalValues)
         setSingleColor(item.singleColor.takeIf { viewData.useSingleColor })
         setDrawRoundCaps(viewData.drawRoundCaps)
         setOnBarClickListener { onBarClick(item.block, it) }

@@ -16,5 +16,7 @@ interface RunningRecordRepo {
 
     suspend fun remove(id: Long)
 
+    suspend fun removeTagFromAll(tagId: Long)
+
     suspend fun clear()
 }

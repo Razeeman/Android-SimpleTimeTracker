@@ -399,6 +399,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_AUTOMATED_TRACKING_SEND_EVENTS, false,
     )
 
+    override var automatedTrackingReceiveQueries: Boolean by prefs.delegate(
+        KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES, false,
+    )
+
     override var automaticBackupUri: String by prefs.delegate(
         KEY_AUTOMATIC_BACKUP_URI, "",
     )
@@ -824,6 +828,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_AUTOSTART_POMODORO_ACTIVITIES = "autostartPomodoroActivities"
         const val KEY_RECORD_TAG_SELECTION_CLOSE_AFTER_ONE = "recordTagSelectionCloseAfterOne"
         const val KEY_AUTOMATED_TRACKING_SEND_EVENTS = "automatedTrackingSendEvents"
+        const val KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES = "automatedTrackingReceiveQueries"
         const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
         const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
         const val KEY_DEFAULT_TYPES_HIDDEN = "defaultTypesHidden"

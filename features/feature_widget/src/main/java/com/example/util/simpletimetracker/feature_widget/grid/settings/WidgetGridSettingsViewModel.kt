@@ -17,7 +17,6 @@ import com.example.util.simpletimetracker.domain.widget.model.WidgetDataFilterTy
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.loader.LoaderViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_widget.common.WidgetGetActualFilteredIdsInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -146,7 +145,7 @@ class WidgetGridSettingsViewModel @Inject constructor(
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
                     isFiltered = type.id in typeIdsFiltered,
-                    checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                    checkStates = emptyList(),
                     isComplete = false,
                 )
             }

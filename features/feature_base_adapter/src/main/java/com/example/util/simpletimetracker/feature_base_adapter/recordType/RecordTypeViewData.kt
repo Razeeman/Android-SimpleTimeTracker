@@ -15,7 +15,7 @@ data class RecordTypeViewData(
     val width: Int,
     val height: Int,
     val asRow: Boolean = false,
-    val checkState: CheckState = CheckState.HIDDEN,
+    val checkStates: List<CheckState> = emptyList(),
     val itemIsFiltered: Boolean = false,
     val isComplete: Boolean = false,
 ) : ViewHolderType {

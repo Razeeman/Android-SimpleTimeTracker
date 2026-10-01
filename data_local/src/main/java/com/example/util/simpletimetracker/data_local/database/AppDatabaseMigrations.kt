@@ -46,6 +46,7 @@ class AppDatabaseMigrations {
                 migration_35_36,
                 migration_36_37,
                 migration_37_38,
+                migration_38_39,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -482,6 +483,20 @@ class AppDatabaseMigrations {
                 )
                 database.execSQL(
                     "ALTER TABLE scheduledReminders_new RENAME TO scheduledReminders",
+                )
+            }
+        }
+
+        private val migration_38_39 = object : Migration(38, 39) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_records_time_started` ON `records` (`time_started`)",
+                )
+                database.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_records_time_ended` ON `records` (`time_ended`)",
+                )
+                database.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_records_type_id_time_ended` ON `records` (`type_id`, `time_ended`)",
                 )
             }
         }

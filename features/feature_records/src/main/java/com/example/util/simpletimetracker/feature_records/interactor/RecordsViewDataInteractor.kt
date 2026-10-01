@@ -1,11 +1,12 @@
 package com.example.util.simpletimetracker.feature_records.interactor
 
 import com.example.util.simpletimetracker.core.interactor.GetRunningRecordViewDataMediator
+import com.example.util.simpletimetracker.core.interactor.DailyRecordFilterInteractor
+import com.example.util.simpletimetracker.core.interactor.DailyRecordFilterInteractor.RecordHolder
 import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapper
 import com.example.util.simpletimetracker.core.mapper.RecordViewDataMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.base.DurationFormat
-import com.example.util.simpletimetracker.domain.base.UNCATEGORIZED_ITEM_ID
 import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
@@ -46,7 +47,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Long.min
 import java.util.Calendar
-import java.util.Comparator
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.max
@@ -68,6 +68,7 @@ class RecordsViewDataInteractor @Inject constructor(
     private val recordTypeCategoryInteractor: RecordTypeCategoryInteractor,
     private val daysInCalendarMapper: DaysInCalendarMapper,
     private val recordsContainerMultiselectInteractor: RecordsContainerMultiselectInteractor,
+    private val dailyRecordFilterInteractor: DailyRecordFilterInteractor,
 ) {
 
     suspend fun getViewData(
@@ -248,19 +249,11 @@ class RecordsViewDataInteractor @Inject constructor(
             null
         }
 
-        val sortComparator: Comparator<RecordHolder> = compareByDescending<RecordHolder> {
-            it.timeStartedTimestamp
-        }.thenBy {
-            // Otherwise 0 duration activities would be on top of untracked.
-            it.data.typeId != UNTRACKED_ITEM_ID
-        }
-
         val items = when {
             showFirstEnterHint -> listOf(recordViewDataMapper.mapToNoRecords())
             records.isEmpty() -> listOf(recordViewDataMapper.mapToEmpty())
             else -> {
-                records
-                    .sortedWith(sortComparator)
+                dailyRecordFilterInteractor.sort(records)
                     .map { remapForMultiselect(it, multiSelectedIds) } +
                     listOfNotNull(hint)
             }
@@ -270,7 +263,7 @@ class RecordsViewDataInteractor @Inject constructor(
     }
 
     private fun remapForMultiselect(
-        holder: RecordHolder,
+        holder: RecordHolder<Data>,
         multiSelectedIds: List<MultiSelectedRecordId>,
     ): ViewHolderType {
         // If disabled - return right away.
@@ -278,17 +271,17 @@ class RecordsViewDataInteractor @Inject constructor(
             return holder.data.value
         }
         val multiSelectedId = mapMultiSelectedId(holder)
-        return when (holder.data) {
-            is RecordHolder.Data.RecordData -> {
-                val value = holder.data.value
+        return when (val data = holder.data) {
+            is Data.RecordData -> {
+                val value = data.value
                 if (multiSelectedId in multiSelectedIds) {
                     RecordSelectedViewData(value)
                 } else {
                     value
                 }
             }
-            is RecordHolder.Data.RunningRecordData -> {
-                val value = holder.data.value
+            is Data.RunningRecordData -> {
+                val value = data.value
                 if (multiSelectedId in multiSelectedIds) {
                     RunningRecordSelectedViewData(value)
                 } else {
@@ -313,7 +306,7 @@ class RecordsViewDataInteractor @Inject constructor(
         durationFormat: DurationFormat,
         showUntrackedInRecords: Boolean,
         showSeconds: Boolean,
-    ): List<RecordHolder> {
+    ): List<RecordHolder<Data>> {
         val trackedRecordsData = records
             .map { record ->
                 recordsViewDataMapper.map(
@@ -326,13 +319,11 @@ class RecordsViewDataInteractor @Inject constructor(
                     durationFormat = durationFormat,
                     showSeconds = showSeconds,
                 ).let {
-                    RecordHolder(
+                    RecordHolder<Data>(
                         timeStartedTimestamp = it.timeStartedTimestamp,
-                        data = RecordHolder.Data.RecordData(
-                            value = it,
-                            typeId = record.typeId,
-                            tagIds = record.tags.map(RecordBase.Tag::tagId),
-                        ),
+                        typeId = record.typeId,
+                        tagIds = record.tags.map(RecordBase.Tag::tagId),
+                        data = Data.RecordData(it),
                     )
                 }
             }
@@ -355,13 +346,11 @@ class RecordsViewDataInteractor @Inject constructor(
                     durationFormat = durationFormat,
                     showSeconds = showSeconds,
                 ).let {
-                    RecordHolder(
-                        timeStartedTimestamp = runningRecord.timeStarted,
-                        data = RecordHolder.Data.RunningRecordData(
-                            value = it,
-                            typeId = runningRecord.id,
-                            tagIds = runningRecord.tags.map(RecordBase.Tag::tagId),
-                        ),
+                    RecordHolder<Data>(
+                        timeStartedTimestamp = it.timeStartedTimestamp,
+                        typeId = runningRecord.id,
+                        tagIds = runningRecord.tags.map(RecordBase.Tag::tagId),
+                        data = Data.RunningRecordData(it),
                     )
                 }
             }
@@ -384,13 +373,11 @@ class RecordsViewDataInteractor @Inject constructor(
                     durationFormat = durationFormat,
                     showSeconds = showSeconds,
                 ).let {
-                    RecordHolder(
+                    RecordHolder<Data>(
                         timeStartedTimestamp = it.timeStartedTimestamp,
-                        data = RecordHolder.Data.RecordData(
-                            value = it,
-                            typeId = UNTRACKED_ITEM_ID,
-                            tagIds = emptyList(),
-                        ),
+                        typeId = UNTRACKED_ITEM_ID,
+                        tagIds = emptyList(),
+                        data = Data.RecordData(it),
                     )
                 }
             }
@@ -398,59 +385,18 @@ class RecordsViewDataInteractor @Inject constructor(
             emptyList()
         }
 
-        return filterRecords(
-            records = runningRecordsData + trackedRecordsData, // Timers should be first for correct sort.
+        return dailyRecordFilterInteractor.filter(
+            runningRecordsData = runningRecordsData,
+            trackedRecordsData = trackedRecordsData,
+            untrackedRecordsData = untrackedRecordsData,
             chartFilterType = filterType,
             filteredIds = filteredIds,
             lazyRecordTypeCategories = recordTypeCategories,
-        ) + untrackedRecordsData
-    }
-
-    private suspend fun filterRecords(
-        records: List<RecordHolder>,
-        chartFilterType: ChartFilterType,
-        filteredIds: List<Long>,
-        lazyRecordTypeCategories: suspend () -> List<RecordTypeCategory>,
-    ): List<RecordHolder> {
-        return when (chartFilterType) {
-            ChartFilterType.ACTIVITY -> {
-                records.filter {
-                    it.data.typeId !in filteredIds
-                }
-            }
-            ChartFilterType.CATEGORY -> {
-                val recordTypeCategories = lazyRecordTypeCategories.invoke()
-                val categorizedTypeIds = recordTypeCategories
-                    .map(RecordTypeCategory::recordTypeId)
-                    .distinct()
-                val filteredTypeIds = recordTypeCategories
-                    .filter { it.categoryId in filteredIds }
-                    .map(RecordTypeCategory::recordTypeId)
-                    .distinct()
-                records.filter {
-                    val typeId = it.data.typeId
-                    if (typeId !in categorizedTypeIds) {
-                        UNCATEGORIZED_ITEM_ID !in filteredIds
-                    } else {
-                        typeId !in filteredTypeIds
-                    }
-                }
-            }
-            ChartFilterType.RECORD_TAG -> {
-                records.filter {
-                    val tagIds = it.data.tagIds
-                    if (tagIds.isEmpty()) {
-                        UNCATEGORIZED_ITEM_ID !in filteredIds
-                    } else {
-                        tagIds.all { tagId -> tagId !in filteredIds }
-                    }
-                }
-            }
-        }
+        )
     }
 
     private fun mapToCalendarPoint(
-        holder: RecordHolder,
+        holder: RecordHolder<Data>,
         calendar: Calendar,
         startOfDayShift: Long,
         rangeStart: Long,
@@ -460,15 +406,15 @@ class RecordsViewDataInteractor @Inject constructor(
     ): RecordsCalendarViewData.Point {
         // Record data already clamped.
         val timeStartedTimestamp = when (holder.data) {
-            is RecordHolder.Data.RecordData ->
+            is Data.RecordData ->
                 holder.timeStartedTimestamp.let { if (showSeconds) it else it.dropSeconds() }
-            is RecordHolder.Data.RunningRecordData ->
+            is Data.RunningRecordData ->
                 max(holder.timeStartedTimestamp, rangeStart)
         }
-        val timeEndedTimestamp = when (holder.data) {
-            is RecordHolder.Data.RecordData ->
-                holder.data.value.timeEndedTimestamp.let { if (showSeconds) it else it.dropSeconds() }
-            is RecordHolder.Data.RunningRecordData ->
+        val timeEndedTimestamp = when (val data = holder.data) {
+            is Data.RecordData ->
+                data.value.timeEndedTimestamp.let { if (showSeconds) it else it.dropSeconds() }
+            is Data.RunningRecordData ->
                 min(System.currentTimeMillis(), rangeEnd)
         }
 
@@ -490,23 +436,23 @@ class RecordsViewDataInteractor @Inject constructor(
             start = start - startOfDayShift,
             end = end - startOfDayShift,
             isSelected = isSelected,
-            data = when (holder.data) {
-                is RecordHolder.Data.RecordData -> {
-                    RecordsCalendarViewData.Point.Data.RecordData(holder.data.value)
+            data = when (val data = holder.data) {
+                is Data.RecordData -> {
+                    RecordsCalendarViewData.Point.Data.RecordData(data.value)
                 }
-                is RecordHolder.Data.RunningRecordData -> {
-                    RecordsCalendarViewData.Point.Data.RunningRecordData(holder.data.value)
+                is Data.RunningRecordData -> {
+                    RecordsCalendarViewData.Point.Data.RunningRecordData(data.value)
                 }
             },
         )
     }
 
     private fun mapMultiSelectedId(
-        holder: RecordHolder,
+        holder: RecordHolder<Data>,
     ): MultiSelectedRecordId {
-        return when (holder.data) {
-            is RecordHolder.Data.RecordData -> {
-                when (val value = holder.data.value) {
+        return when (val data = holder.data) {
+            is Data.RecordData -> {
+                when (val value = data.value) {
                     is RecordViewData.Tracked -> MultiSelectedRecordId.Tracked(value.id)
                     is RecordViewData.Untracked -> MultiSelectedRecordId.Untracked(
                         timeStartedTimestamp = value.timeStartedTimestamp,
@@ -514,41 +460,30 @@ class RecordsViewDataInteractor @Inject constructor(
                     )
                 }
             }
-            is RecordHolder.Data.RunningRecordData -> {
-                val value = holder.data.value
+            is Data.RunningRecordData -> {
+                val value = data.value
                 MultiSelectedRecordId.Running(value.id)
             }
         }
     }
 
-    private data class RecordHolder(
-        val timeStartedTimestamp: Long,
-        val data: Data,
-    ) {
-        sealed interface Data {
-            val value: ViewHolderType
-            val typeId: Long
-            val tagIds: List<Long>
+    private sealed interface Data {
+        val value: ViewHolderType
 
-            data class RecordData(
-                override val value: RecordViewData,
-                override val typeId: Long,
-                override val tagIds: List<Long>,
-            ) : Data
+        data class RecordData(
+            override val value: RecordViewData,
+        ) : Data
 
-            data class RunningRecordData(
-                override val value: RunningRecordViewData,
-                override val typeId: Long,
-                override val tagIds: List<Long>,
-            ) : Data
-        }
+        data class RunningRecordData(
+            override val value: RunningRecordViewData,
+        ) : Data
     }
 
     private data class ViewDataIntermediate(
         val rangeStart: Long,
         val rangeEnd: Long,
         val isToday: Boolean,
-        val records: List<RecordHolder>,
+        val records: List<RecordHolder<Data>>,
     )
 
     companion object {

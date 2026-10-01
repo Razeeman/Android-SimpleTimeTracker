@@ -399,6 +399,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             ?.replace(TAG_VALUE_DECIMAL_DELIMITER, '.')
             ?.replace(TAG_VALUE_MINUS_SIGN, '-')
             ?.toDoubleOrNull()
+            ?.takeIf { it.isFinite() }
     }
 
     private suspend fun isMultipleTagChoiceAvailable(

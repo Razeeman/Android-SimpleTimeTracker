@@ -24,8 +24,6 @@ import com.example.util.simpletimetracker.domain.base.REPEAT_BUTTON_ITEM_ID
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
-import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
-import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
@@ -36,7 +34,7 @@ import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.extension.pxToDp
-import com.example.util.simpletimetracker.feature_views.extension.setAllMargins
+import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.common.WidgetTypeClickManager
@@ -169,17 +167,16 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeName = viewData.name,
                     recordTypeColor = viewData.color,
                     isColored = false,
-                    checkState = GoalCheckmarkView.CheckState.HIDDEN,
+                    checkStates = emptyList(),
                     isComplete = false,
                     backgroundTransparency = backgroundTransparency,
                 )
             } else {
                 val recordType = recordTypeInteractor.get(recordTypeId)
-                val checkState = if (recordType != null) {
+                val checkStates = if (recordType != null) {
                     val goals = filterGoalsByDayOfWeekInteractor
                         .execute(recordTypeGoalInteractor.getByType(recordTypeId))
-                    val dailyGoals = goals.getDaily()
-                    val dailyCurrent = if (dailyGoals.isNotEmpty()) {
+                    val dailyCurrent = if (goals.isNotEmpty()) {
                         getCurrentRecordsDurationInteractor.getDailyCurrent(
                             typeId = recordTypeId,
                             runningRecord = runningRecord,
@@ -187,12 +184,12 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     } else {
                         null
                     }
-                    recordTypeViewDataMapper.mapGoalCheckmark(
-                        goal = dailyGoals.getLongest(),
+                    recordTypeViewDataMapper.mapGoalCheckmarks(
+                        goals = goals,
                         dailyCurrent = dailyCurrent,
                     )
                 } else {
-                    GoalCheckmarkView.CheckState.HIDDEN
+                    emptyList()
                 }
                 val isColored = when {
                     runningRecord != null -> recordType != null
@@ -207,7 +204,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     recordTypeColor = recordType?.color
                         ?.let { colorMapper.mapToColorInt(it, isDarkTheme) },
                     isColored = isColored,
-                    checkState = checkState,
+                    checkStates = checkStates,
                     isComplete = recordTypeId in completeTypesStateInteractor.widgetTypeIds,
                     backgroundTransparency = backgroundTransparency,
                 )
@@ -234,7 +231,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         recordTypeName: String?,
         recordTypeColor: Int?,
         isColored: Boolean,
-        checkState: GoalCheckmarkView.CheckState,
+        checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
         backgroundTransparency: Long,
     ): View {
@@ -265,7 +262,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
             itemName = name
             itemIconColor = textColor
             itemColor = color
-            itemCheckState = checkState
+            itemCheckStates = checkStates
             itemCompleteIsAnimated = false
             itemIsComplete = isComplete
         }
@@ -281,7 +278,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                 resources.getDimensionPixelOffset(R.dimen.widget_universal_corner_radius).toFloat()
             getContainer().cardElevation = 0f
             getContainer().useCompatPadding = false
-            getCheckmarkOutline().setAllMargins(4)
+            getCheckmarkOutlines().forEach { it.setMargins(top = 2, end = 2) }
         }
         preparedView = view
 

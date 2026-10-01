@@ -14,7 +14,6 @@ import com.example.util.simpletimetracker.feature_dialogs.R
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogButtonsViewData
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogInfoViewData
 import com.example.util.simpletimetracker.feature_dialogs.archive.viewData.ArchiveDialogTitleViewData
-import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import javax.inject.Inject
 
 class ArchiveDialogViewDataInteractor @Inject constructor(
@@ -37,7 +36,7 @@ class ArchiveDialogViewDataInteractor @Inject constructor(
             recordType = type,
             numberOfCards = numberOfCards,
             isDarkTheme = isDarkTheme,
-            checkState = GoalCheckmarkView.CheckState.HIDDEN,
+            checkStates = emptyList(),
             isComplete = false,
         )
         val recordsCount = recordInteractor.getWithParams(GetParam.Type(setOf(typeId))).size

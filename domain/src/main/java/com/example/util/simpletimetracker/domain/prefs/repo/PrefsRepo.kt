@@ -173,6 +173,8 @@ interface PrefsRepo {
 
     var automatedTrackingSendEvents: Boolean
 
+    var automatedTrackingReceiveQueries: Boolean
+
     var automaticBackupUri: String
 
     var automaticBackupError: Boolean

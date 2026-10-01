@@ -27,8 +27,9 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.util.simpletimetracker.R
 import com.example.util.simpletimetracker.domain.model.WearActivityIcon
-import com.example.util.simpletimetracker.presentation.theme.ColorInactive
 import com.example.util.simpletimetracker.presentation.remember.rememberDurationSince
+import com.example.util.simpletimetracker.presentation.theme.ColorInactive
+import com.example.util.simpletimetracker.presentation.theme.ColorWhite60
 import com.example.util.simpletimetracker.presentation.ui.ACTIVITY_RUNNING_VIEW_HEIGHT
 import com.example.util.simpletimetracker.presentation.ui.ACTIVITY_VIEW_HEIGHT
 import com.example.util.simpletimetracker.utils.durationToLabel
@@ -103,7 +104,7 @@ fun ActivityChip(
                 if (state.tagString.isNotEmpty()) {
                     Text(
                         text = state.tagString,
-                        color = Color(0x99FFFFFF),
+                        color = ColorWhite60,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontSize = 10.sp,

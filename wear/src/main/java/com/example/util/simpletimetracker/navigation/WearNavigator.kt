@@ -11,13 +11,13 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.util.simpletimetracker.features.activities.screen.ActivitiesScreen
 import com.example.util.simpletimetracker.features.settings.screen.SettingsScreen
 import com.example.util.simpletimetracker.features.statistics.screen.StatisticsScreen
+import com.example.util.simpletimetracker.features.records.screen.RecordsScreen
 import com.example.util.simpletimetracker.features.tagValueSelection.screen.TagValueSelectionScreen
 import com.example.util.simpletimetracker.features.tagsSelection.screen.TagsScreen
 import com.example.util.simpletimetracker.presentation.datePicker.WearDatePicker
+import com.example.util.simpletimetracker.presentation.datePicker.toLocalDate
 import com.example.util.simpletimetracker.presentation.dialog.MessageDialog
 import com.example.util.simpletimetracker.utils.getString
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @Composable
 fun WearNavigator() {
@@ -33,6 +33,9 @@ fun WearNavigator() {
                 },
                 onStatisticsClick = {
                     navigation.navigate(WearNavigationRoute.Statistics)
+                },
+                onRecordsClick = {
+                    navigation.navigate(WearNavigationRoute.Records)
                 },
                 onSettingsClick = {
                     navigation.navigate(WearNavigationRoute.Settings)
@@ -72,6 +75,13 @@ fun WearNavigator() {
                 },
             )
         }
+        composable(WearNavigationRoute.Records) { _, _ ->
+            RecordsScreen(
+                onOpenDatePicker = {
+                    navigation.navigate(WearNavigationRoute.DatePicker, it)
+                },
+            )
+        }
         composable(WearNavigationRoute.Settings) { _, _ ->
             SettingsScreen()
         }
@@ -87,9 +97,7 @@ fun WearNavigator() {
         }
         composable(WearNavigationRoute.DatePicker) { route, arguments ->
             val timestamp = route.get(arguments) ?: return@composable
-            val date = LocalDateTime
-                .ofEpochSecond(timestamp / 1000, 0, ZoneOffset.UTC)
-                .toLocalDate()
+            val date = timestamp.toLocalDate()
 
             WearDatePicker(
                 date = date,

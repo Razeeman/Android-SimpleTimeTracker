@@ -7,6 +7,9 @@ import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.recordType.extension.adjustedValue
+import com.example.util.simpletimetracker.domain.recordType.extension.getCounts
+import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
 import com.example.util.simpletimetracker.domain.recordType.extension.isReached
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
@@ -27,51 +30,108 @@ class GoalViewDataMapper @Inject constructor(
     private val resourceRepo: ResourceRepo,
 ) {
 
-    fun mapForTimer(
-        goal: RecordTypeGoal?,
-        currentDuration: Long,
-        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
-        goalsVisible: Boolean,
-        durationFormat: DurationFormat,
-    ): GoalTimeViewData {
-        val noGoal = GoalTimeViewData(
-            text = "",
-            state = GoalTimeViewData.Subtype.Hidden,
-        )
-        if (goal == null || goal.value <= 0L || !goalsVisible) {
-            return noGoal
-        }
-
-        val typeString = when (goal.range) {
+    fun mapType(goalRange: RecordTypeGoal.Range): String {
+        return when (goalRange) {
             is RecordTypeGoal.Range.Session -> R.string.change_record_type_session_goal_time
             is RecordTypeGoal.Range.Daily -> R.string.change_record_type_daily_goal_time
             is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
             is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
-        }.let(resourceRepo::getString).lowercase()
-        val goalValue = when (goal.type) {
-            is RecordTypeGoal.Type.Duration -> goal.value * 1000
-            is RecordTypeGoal.Type.Count -> goal.value
-        }
-        val current = when (goal.type) {
-            is RecordTypeGoal.Type.Duration -> when (goal.range) {
-                is RecordTypeGoal.Range.Session -> currentDuration
-                is RecordTypeGoal.Range.Daily -> dailyCurrent?.duration.orZero()
+            is RecordTypeGoal.Range.Yearly -> R.string.change_record_type_yealy_goal_time
+            is RecordTypeGoal.Range.Overall -> R.string.change_record_type_overall_goal_time
+        }.let(resourceRepo::getString)
+    }
+
+    fun mapSubtype(goalSubtype: RecordTypeGoal.Subtype): String {
+        return when (goalSubtype) {
+            is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
+            is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
+        }.let(resourceRepo::getString)
+    }
+
+    fun mapForTimer(
+        goals: List<RecordTypeGoal>,
+        currentDuration: Long,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
+        goalsVisible: Boolean,
+        durationFormat: DurationFormat,
+    ): List<GoalTimeViewData> {
+        if (!goalsVisible) return emptyList()
+
+        val supportedGoals = goals.filter { goal ->
+            goal.value > 0L && when (goal.range) {
+                is RecordTypeGoal.Range.Daily -> true
+                is RecordTypeGoal.Range.Session -> goal.type is RecordTypeGoal.Type.Duration
                 is RecordTypeGoal.Range.Weekly,
                 is RecordTypeGoal.Range.Monthly,
-                -> return noGoal
+                is RecordTypeGoal.Range.Yearly,
+                is RecordTypeGoal.Range.Overall,
+                -> false
             }
-            is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
+        }
+        val applicableGoals = supportedGoals
+            .filter { it.range is RecordTypeGoal.Range.Daily }
+            .ifEmpty { supportedGoals.filter { it.range is RecordTypeGoal.Range.Session } }
+
+        return listOf(
+            RecordTypeGoal.Subtype.Goal,
+            RecordTypeGoal.Subtype.Limit,
+        ).mapNotNull { subtype ->
+            val subtypeGoals = applicableGoals.filter { it.subtype == subtype }
+            mapTimerRow(
+                goals = subtypeGoals,
+                subtype = subtype,
+                currentDuration = currentDuration,
+                dailyCurrent = dailyCurrent,
+                durationFormat = durationFormat,
+            )
+        }
+    }
+
+    private fun mapTimerRow(
+        goals: List<RecordTypeGoal>,
+        subtype: RecordTypeGoal.Subtype,
+        currentDuration: Long,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
+        durationFormat: DurationFormat,
+    ): GoalTimeViewData? {
+        if (goals.isEmpty()) return null
+        val range = goals.firstOrNull()?.range ?: return null
+
+        fun getCurrent(goal: RecordTypeGoal): Long {
+            return when (goal.type) {
+                is RecordTypeGoal.Type.Duration -> when (goal.range) {
+                    is RecordTypeGoal.Range.Session -> currentDuration
+                    is RecordTypeGoal.Range.Daily -> dailyCurrent?.duration.orZero()
+                    is RecordTypeGoal.Range.Weekly,
+                    is RecordTypeGoal.Range.Monthly,
+                    is RecordTypeGoal.Range.Yearly,
+                    is RecordTypeGoal.Range.Overall,
+                    -> 0L
+                }
+                is RecordTypeGoal.Type.Count -> dailyCurrent?.count.orZero()
+            }
         }
 
-        val valueLeft = goalValue - current
-        val reached = goal.subtype.isReached(
-            current = current,
-            goalValue = goalValue,
-        )
-        val durationLeftString = if (reached) {
-            typeString
+        fun isReached(goal: RecordTypeGoal): Boolean {
+            return subtype.isReached(
+                current = getCurrent(goal),
+                goalValue = goal.adjustedValue,
+            )
+        }
+
+        fun List<RecordTypeGoal>.getNext(): RecordTypeGoal? {
+            return this.filterNot(::isReached).minByOrNull(RecordTypeGoal::value)
+        }
+
+        // TODO GOAL show "goal 1/5" or "limit 1/5" instead of type?
+        val nextGoal = goals.getDurations().getNext() ?: goals.getCounts().getNext()
+        val rangeString = mapType(range).lowercase()
+        val subtypeString = mapSubtype(subtype).lowercase()
+        val text = if (nextGoal == null) {
+            "$subtypeString · $rangeString"
         } else {
-            val formatted = when (goal.type) {
+            val valueLeft = nextGoal.adjustedValue - getCurrent(nextGoal)
+            val formatted = when (nextGoal.type) {
                 is RecordTypeGoal.Type.Duration -> mapDuration(
                     goalValue = valueLeft,
                     showSeconds = true,
@@ -81,20 +141,19 @@ class GoalViewDataMapper @Inject constructor(
                     goalValue = valueLeft,
                 )
             }
-
-            "$typeString $formatted"
+            "$subtypeString · $rangeString $formatted"
         }
-
         val state = when {
-            reached && goal.subtype is RecordTypeGoal.Subtype.Goal -> GoalTimeViewData.Subtype.Goal
-            reached && goal.subtype is RecordTypeGoal.Subtype.Limit -> GoalTimeViewData.Subtype.Limit
-            else -> GoalTimeViewData.Subtype.Hidden
+            subtype is RecordTypeGoal.Subtype.Goal && goals.all(::isReached) -> {
+                RecordTypeGoal.Subtype.Goal
+            }
+            subtype is RecordTypeGoal.Subtype.Limit && goals.any(::isReached) -> {
+                RecordTypeGoal.Subtype.Limit
+            }
+            else -> null
         }
 
-        return GoalTimeViewData(
-            text = durationLeftString,
-            state = state,
-        )
+        return GoalTimeViewData(text = text, state = state)
     }
 
     fun mapStatisticsList(
@@ -120,7 +179,14 @@ class GoalViewDataMapper @Inject constructor(
                 goals.filter { it.idData is RecordTypeGoal.IdData.Tag }
             }
         }
-        if (rangeLength !in listOf(RangeLength.Day, RangeLength.Week, RangeLength.Month)) {
+        val allowedRangesWithGoals = listOf(
+            RangeLength.Day,
+            RangeLength.Week,
+            RangeLength.Month,
+            RangeLength.Year,
+            RangeLength.All,
+        )
+        if (rangeLength !in allowedRangesWithGoals) {
             return emptyList()
         }
 
@@ -135,6 +201,8 @@ class GoalViewDataMapper @Inject constructor(
                     rangeLength is RangeLength.Day -> it.range is RecordTypeGoal.Range.Daily
                     rangeLength is RangeLength.Week -> it.range is RecordTypeGoal.Range.Weekly
                     rangeLength is RangeLength.Month -> it.range is RecordTypeGoal.Range.Monthly
+                    rangeLength is RangeLength.Year -> it.range is RecordTypeGoal.Range.Yearly
+                    rangeLength is RangeLength.All -> it.range is RecordTypeGoal.Range.Overall
                     else -> false
                 }
             }
@@ -190,10 +258,7 @@ class GoalViewDataMapper @Inject constructor(
             )
         }
 
-        val goalValue = when (goal.type) {
-            is RecordTypeGoal.Type.Duration -> goal.value * 1000
-            is RecordTypeGoal.Type.Count -> goal.value
-        }
+        val goalValue = goal.adjustedValue
         val current = when (goal.type) {
             is RecordTypeGoal.Type.Duration -> statistics?.data?.duration.orZero()
             is RecordTypeGoal.Type.Count -> statistics?.data?.count.orZero()
@@ -220,10 +285,7 @@ class GoalViewDataMapper @Inject constructor(
                 mapCount(current) to mapCount(goalValue)
             }
         }
-        val goalHint = when (goalSubtype) {
-            is RecordTypeGoal.Subtype.Goal -> R.string.change_record_type_goal_time_hint
-            is RecordTypeGoal.Subtype.Limit -> R.string.change_record_type_limit_time_hint
-        }.let(resourceRepo::getString).lowercase()
+        val goalHint = mapSubtype(goalSubtype).lowercase()
         val goalString = "$goalHint - $goalValueString"
         val goalPercent = if (goalValue == 0L) {
             0

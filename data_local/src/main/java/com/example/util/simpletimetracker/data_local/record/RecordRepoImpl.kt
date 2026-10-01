@@ -3,9 +3,12 @@ package com.example.util.simpletimetracker.data_local.record
 import androidx.collection.LruCache
 import com.example.util.simpletimetracker.data_local.base.logDataAccess
 import com.example.util.simpletimetracker.data_local.base.withLockedCache
+import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagDataLocalMapper
+import com.example.util.simpletimetracker.data_local.recordTag.RecordToRecordTagDao
 import com.example.util.simpletimetracker.domain.extension.dropMillis
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.Record
+import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -16,7 +19,9 @@ import javax.inject.Singleton
 @Singleton
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
+    private val recordToRecordTagDao: RecordToRecordTagDao,
     private val recordDataLocalMapper: RecordDataLocalMapper,
+    private val recordToRecordTagDataLocalMapper: RecordToRecordTagDataLocalMapper,
 ) : RecordRepo {
 
     private var getFromRangeCache = LruCache<GetFromRangeKey, List<Record>>(10)
@@ -36,6 +41,11 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun getAll(): List<Record> = withContext(Dispatchers.IO) {
         logDataAccess("getAll")
         recordDao.getAll().map(::mapItem)
+    }
+
+    override suspend fun getAfterId(id: Long, limit: Int): List<Record> = withContext(Dispatchers.IO) {
+        logDataAccess("getAfterId")
+        recordDao.getAfterId(id, limit).map(::mapItem)
     }
 
     override suspend fun getByType(typeIds: Set<Long>): List<Record> = withContext(Dispatchers.IO) {
@@ -178,7 +188,12 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun add(record: Record): Long = mutex.withLockedCache(
         logMessage = "add",
         accessSource = {
-            recordDao.insert(record.let(recordDataLocalMapper::map))
+            recordDao.insert(
+                record = record.let(recordDataLocalMapper::map),
+                recordTags = record.tags.map {
+                    recordToRecordTagDataLocalMapper.map(record.id, it)
+                },
+            )
         },
         afterSourceAccess = { clearCache() },
     )
@@ -187,6 +202,7 @@ class RecordRepoImpl @Inject constructor(
         recordId: Long,
         typeId: Long,
         comment: String,
+        tags: List<RecordBase.Tag>,
     ) = mutex.withLockedCache(
         logMessage = "update",
         accessSource = {
@@ -194,6 +210,9 @@ class RecordRepoImpl @Inject constructor(
                 recordId = recordId,
                 typeId = typeId,
                 comment = comment,
+                recordTags = tags.map {
+                    recordToRecordTagDataLocalMapper.map(recordId, it)
+                },
             )
         },
         afterSourceAccess = { clearCache() },
@@ -222,6 +241,12 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun removeByType(typeId: Long) = mutex.withLockedCache(
         logMessage = "removeByType",
         accessSource = { recordDao.deleteByType(typeId) },
+        afterSourceAccess = { clearCache() },
+    )
+
+    override suspend fun removeTagFromAll(tagId: Long) = mutex.withLockedCache(
+        logMessage = "removeTagFromAll",
+        accessSource = { recordToRecordTagDao.deleteAllByTagId(tagId) },
         afterSourceAccess = { clearCache() },
     )
 

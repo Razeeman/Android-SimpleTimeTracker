@@ -1,13 +1,14 @@
 package com.example.util.simpletimetracker.core.interactor
 
+import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor.GetParam
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.Range
-import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
+import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import java.lang.Long.max
 import javax.inject.Inject
 
@@ -15,6 +16,7 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val rangeMapper: RangeMapper,
     private val getRangeInteractor: GetRangeInteractor,
+    private val currentTimestampProvider: CurrentTimestampProvider,
 ) {
 
     suspend fun getDailyCurrent(
@@ -36,14 +38,13 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             typeIds = typeIds,
         )
 
-        return typeIds.associateWith { typeId ->
-            getRangeCurrent(
-                filter = { record -> typeId in record.typeIds },
-                allRunningRecords = runningRecords,
-                range = range,
-                rangeRecords = rangeRecords,
-            )
-        }
+        return getRangeCurrents(
+            targetIds = typeIds,
+            getTargetIdsFromRecord = { record -> record.typeIds.asSequence() },
+            allRunningRecords = runningRecords,
+            range = range,
+            rangeRecords = rangeRecords,
+        )
     }
 
     suspend fun getAllCategoryCurrents(
@@ -58,14 +59,24 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             typeIds = recordTypeCategories.values.flatten().toSet(),
         )
 
-        return recordTypeCategories.mapValues { (_, typeIds) ->
-            getRangeCurrent(
-                filter = { record -> record.typeIds.any { it in typeIds } },
-                allRunningRecords = runningRecords,
-                range = range,
-                rangeRecords = rangeRecords,
-            )
+        val categoryIdsByTypeId = mutableMapOf<Long, MutableSet<Long>>()
+        recordTypeCategories.forEach { (categoryId, typeIds) ->
+            typeIds.forEach { typeId ->
+                categoryIdsByTypeId.getOrPut(typeId, ::mutableSetOf).add(categoryId)
+            }
         }
+
+        return getRangeCurrents(
+            targetIds = recordTypeCategories.keys,
+            getTargetIdsFromRecord = { record ->
+                record.typeIds.asSequence().flatMap { typeId ->
+                    categoryIdsByTypeId[typeId].orEmpty().asSequence()
+                }
+            },
+            allRunningRecords = runningRecords,
+            range = range,
+            rangeRecords = rangeRecords,
+        )
     }
 
     suspend fun getAllTagCurrents(
@@ -73,18 +84,28 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         runningRecords: List<RunningRecord>,
         rangeLength: RangeLength,
     ): Map<Long, Result> {
-        val range = getRange(rangeLength)
-        // TODO TAG GOAL improve records load for big ranges (month)?
-        val rangeRecords = recordInteractor.getWithParams(GetParam.FromRange(range))
+        val targetTagIds = tagIds.toSet()
+        if (targetTagIds.isEmpty()) return emptyMap()
 
-        return tagIds.associateWith { tagId ->
-            getRangeCurrent(
-                filter = { record -> record.tags.any { it.tagId == tagId } },
-                allRunningRecords = runningRecords,
-                range = range,
-                rangeRecords = rangeRecords,
-            )
+        val range = getRange(rangeLength)
+        val rangeRecords = if (rangeLength is RangeLength.All) {
+            recordInteractor.getWithParams(GetParam.Tagged(targetTagIds))
+        } else {
+            // TODO TAG GOAL improve records load for big ranges (month)?
+            recordInteractor.getWithParams(GetParam.FromRange(range))
         }
+
+        return getRangeCurrents(
+            targetIds = targetTagIds,
+            getTargetIdsFromRecord = { record ->
+                record.tags.asSequence()
+                    .map(RecordBase.Tag::tagId)
+                    .filter(targetTagIds::contains)
+            },
+            allRunningRecords = runningRecords,
+            range = range,
+            rangeRecords = rangeRecords,
+        )
     }
 
     suspend fun getAllDailyCurrents(
@@ -110,42 +131,64 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
             typeIds = setOf(typeId),
         )
 
-        return getRangeCurrent(
-            filter = { record -> typeId in record.typeIds },
+        return getRangeCurrents(
+            targetIds = setOf(typeId),
+            getTargetIdsFromRecord = { record -> record.typeIds.asSequence() },
             allRunningRecords = listOfNotNull(runningRecord),
             range = range,
             rangeRecords = rangeRecords,
-        )
+        ).getValue(typeId)
     }
 
-    private fun getRangeCurrent(
-        filter: (RecordBase) -> Boolean,
+    private fun getRangeCurrents(
+        targetIds: Set<Long>,
+        getTargetIdsFromRecord: (RecordBase) -> Sequence<Long>,
         allRunningRecords: List<RunningRecord>,
         range: Range,
         rangeRecords: List<Record>,
-    ): Result {
-        val runningRecords = allRunningRecords.filter(filter)
-        val current = System.currentTimeMillis()
-        val currentRunning = runningRecords.sumOf { runningRecord ->
-            current - runningRecord.timeStarted
+    ): Map<Long, Result> {
+        fun RecordBase.clamp(): Long {
+            return if (range.isUndefined) {
+                this.duration
+            } else {
+                rangeMapper.clampToRange(this, range).duration
+            }
         }
-        val currentRunningClamped = runningRecords.sumOf { runningRecord ->
-            current - max(runningRecord.timeStarted, range.timeStarted)
+
+        val accumulators = targetIds.associateWith { Accumulator() }
+        val current = currentTimestampProvider.get()
+
+        rangeRecords.forEach { record ->
+            var duration: Long? = null
+            getTargetIdsFromRecord(record).distinct().forEach { targetId ->
+                accumulators[targetId]?.let { accumulator ->
+                    val recordDuration = duration ?: record.clamp().also { duration = it }
+                    accumulator.duration += recordDuration
+                    accumulator.count++
+                }
+            }
         }
-        val currentRunningCount = runningRecords.size
 
-        val records = rangeRecords.filter(filter)
-            .map { rangeMapper.clampToRange(it, range) }
-        val duration = records
-            .let(rangeMapper::mapToDuration)
-        val count = records.size.toLong()
+        allRunningRecords.forEach { runningRecord ->
+            var currentRunning: Long? = null
+            var currentRunningClamped: Long? = null
+            getTargetIdsFromRecord(runningRecord).distinct().forEach { targetId ->
+                accumulators[targetId]?.let { accumulator ->
+                    val runningDuration = currentRunning
+                        ?: (current - runningRecord.timeStarted).also { currentRunning = it }
+                    val clampedDuration = currentRunningClamped
+                        ?: (current - max(runningRecord.timeStarted, range.timeStarted))
+                            .also { currentRunningClamped = it }
+                    accumulator.currentRunning += runningDuration
+                    accumulator.currentRunningClamped += clampedDuration
+                    accumulator.currentRunningCount++
+                }
+            }
+        }
 
-        return Result(
-            range = range,
-            duration = duration + currentRunningClamped,
-            count = count + currentRunningCount,
-            durationDiffersFromCurrent = duration != 0L || currentRunning != currentRunningClamped,
-        )
+        return accumulators.mapValues { (_, accumulator) ->
+            accumulator.toResult(range)
+        }
     }
 
     private suspend fun getRange(rangeLength: RangeLength): Range {
@@ -158,12 +201,21 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         typeIds: Set<Long>,
     ): List<Record> {
         // Use getFromRange to hit cache.
-        val params = if (rangeLength is RangeLength.Day) {
-            GetParam.FromRange(range)
-        } else {
-            GetParam.FromRangeByType(typeIds, range)
+        val params = when (rangeLength) {
+            is RangeLength.All -> GetParam.Type(typeIds)
+            is RangeLength.Day -> GetParam.FromRange(range)
+            else -> GetParam.FromRangeByType(typeIds, range)
         }
         return recordInteractor.getWithParams(params)
+    }
+
+    private fun Accumulator.toResult(range: Range): Result {
+        return Result(
+            range = range,
+            duration = duration + currentRunningClamped,
+            count = count + currentRunningCount,
+            durationDiffersFromCurrent = duration != 0L || currentRunning != currentRunningClamped,
+        )
     }
 
     data class Result(
@@ -171,5 +223,13 @@ class GetCurrentRecordsDurationInteractor @Inject constructor(
         val duration: Long,
         val count: Long,
         val durationDiffersFromCurrent: Boolean,
+    )
+
+    private data class Accumulator(
+        var duration: Long = 0,
+        var count: Long = 0,
+        var currentRunning: Long = 0,
+        var currentRunningClamped: Long = 0,
+        var currentRunningCount: Long = 0,
     )
 }

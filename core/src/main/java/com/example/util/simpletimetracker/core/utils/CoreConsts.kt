@@ -18,6 +18,16 @@ const val ACTION_EXTERNAL_CHANGE_RECORD = "com.razeeman.util.simpletimetracker.A
 const val ACTION_EXTERNAL_CREATE_RECORD_TAG = "com.razeeman.util.simpletimetracker.ACTION_CREATE_TAG"
 const val ACTION_EXTERNAL_AUTOMATIC_BACKUP = "com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_BACKUP"
 const val ACTION_EXTERNAL_AUTOMATIC_EXPORT = "com.razeeman.util.simpletimetracker.ACTION_EXTERNAL_AUTOMATIC_EXPORT"
+const val ACTION_EXTERNAL_QUERY_ACTIVITIES = "com.razeeman.util.simpletimetracker.ACTION_QUERY_ACTIVITIES"
+const val ACTION_EXTERNAL_QUERY_RUNNING = "com.razeeman.util.simpletimetracker.ACTION_QUERY_RUNNING"
+const val ACTION_EXTERNAL_QUERY_RECORDS = "com.razeeman.util.simpletimetracker.ACTION_QUERY_RECORDS"
+const val ACTION_EXTERNAL_QUERY_STATISTICS = "com.razeeman.util.simpletimetracker.ACTION_QUERY_STATISTICS"
+
+// Sent by the app in response to ACTION_EXTERNAL_QUERY_ACTIVITIES / ACTION_EXTERNAL_QUERY_RUNNING.
+const val ACTION_EXTERNAL_RESPONSE_ACTIVITIES = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_ACTIVITIES"
+const val ACTION_EXTERNAL_RESPONSE_RUNNING = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_RUNNING"
+const val ACTION_EXTERNAL_RESPONSE_RECORDS = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_RECORDS"
+const val ACTION_EXTERNAL_RESPONSE_STATISTICS = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_STATISTICS"
 
 const val EVENT_STARTED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STARTED_ACTIVITY"
 const val EVENT_STOPPED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STOPPED_ACTIVITY"
@@ -36,5 +46,9 @@ const val EXTRA_FIND_RECORD_MODE = "extra_find_record_mode" // current_or_last, 
 const val EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME = "extra_find_record_with_activity_name"
 const val EXTRA_GOAL_TYPE = "extra_goal_type" // duration, count
 const val EXTRA_GOAL_VALUE = "extra_goal_value"
+const val EXTRA_ANSWER_TYPE = "extra_answer_type" // simple, json
+const val EXTRA_DATA = "data"
+const val EXTRA_SHIFT = "extra_shift" // days from today, 0 - today, -1 - yesterday
+const val EXTRA_FILTER_TYPE = "extra_filter_type" // activity, category, record_tag
 
 const val DELAY_DATA_LOAD_MS = 300L // Same as @integer/screen_animation_time

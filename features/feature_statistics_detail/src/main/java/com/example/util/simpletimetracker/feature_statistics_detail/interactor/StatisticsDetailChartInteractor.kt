@@ -14,9 +14,9 @@ import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordsFilter
 import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
 import com.example.util.simpletimetracker.domain.recordType.extension.getDurations
-import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
 import com.example.util.simpletimetracker.domain.recordType.extension.getMonthly
 import com.example.util.simpletimetracker.domain.recordType.extension.getWeekly
+import com.example.util.simpletimetracker.domain.recordType.extension.getYearly
 import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
@@ -167,12 +167,12 @@ class StatisticsDetailChartInteractor @Inject constructor(
             canSplitByActivity = canSplitByActivity,
             canComparisonSplitByActivity = canComparisonSplitByActivity,
             splitSortMode = splitSortMode,
-            goalValue = getGoalValue(
+            goalValues = getGoalValues(
                 goals = statisticsDetailGetGoalFromFilterInteractor.execute(filter),
                 appliedChartGrouping = compositeData.appliedChartGrouping,
             ),
             compareData = compareData,
-            compareGoalValue = getGoalValue(
+            compareGoalValues = getGoalValues(
                 goals = statisticsDetailGetGoalFromFilterInteractor.execute(compare),
                 appliedChartGrouping = compositeData.appliedChartGrouping,
             ),
@@ -211,9 +211,10 @@ class StatisticsDetailChartInteractor @Inject constructor(
             }
         }
 
-        fun multiplyDuration(tagValue: Double, record: RecordBase): Double {
+        fun multiplyDuration(tagValue: Double, record: RecordBase, range: Range): Double {
             return if (multiplyDuration) {
-                val hours: Double = record.duration.toDouble() / TimeUnit.HOURS.toMillis(1)
+                val duration = rangeMapper.clampToRange(record, range).duration
+                val hours: Double = duration.toDouble() / TimeUnit.HOURS.toMillis(1)
                 tagValue.times(hours)
             } else {
                 tagValue
@@ -237,7 +238,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
                             .firstOrNull { it.tagId == chartMode.tagId }
                             ?.numericValue
                             ?.times(TAG_VALUE_PRECISION)
-                            ?.let { multiplyDuration(it, record) }
+                            ?.let { multiplyDuration(it, record, range) }
                     }.takeUnless { it.isEmpty() }
                     when (chartValueMode) {
                         ChartValueMode.TOTAL -> tagsValues?.sum()?.roundToLong()
@@ -612,29 +613,19 @@ class StatisticsDetailChartInteractor @Inject constructor(
             filter.getTypeIds().size > 1
     }
 
-    private fun getGoalValue(
+    private fun getGoalValues(
         goals: List<RecordTypeGoal>,
         appliedChartGrouping: ChartGrouping,
-    ): Long {
+    ): List<Long> {
         // Currently only duration goals are on chart.
-        return getGoal(
-            goals = goals,
-            appliedChartGrouping = appliedChartGrouping,
-        ).value * 1000
-    }
-
-    // TODO GOALS show several goals on chart
-    private fun getGoal(
-        goals: List<RecordTypeGoal>,
-        appliedChartGrouping: ChartGrouping,
-    ): RecordTypeGoal? {
-        val goals = goals.getDurations()
+        // Daily goal weekdays are intentionally not taken into account here.
+        val durationGoals = goals.getDurations()
         return when (appliedChartGrouping) {
-            ChartGrouping.DAILY -> goals.getDaily()
-            ChartGrouping.WEEKLY -> goals.getWeekly()
-            ChartGrouping.MONTHLY -> goals.getMonthly()
-            ChartGrouping.YEARLY -> null
-        }?.getLongest()
+            ChartGrouping.DAILY -> durationGoals.getDaily()
+            ChartGrouping.WEEKLY -> durationGoals.getWeekly()
+            ChartGrouping.MONTHLY -> durationGoals.getMonthly()
+            ChartGrouping.YEARLY -> durationGoals.getYearly()
+        }.map { it.value * 1000 }
     }
 
     data class CompositeChartData(

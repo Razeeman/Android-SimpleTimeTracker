@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.domain.activityReminder.repo.ActivityR
 import com.example.util.simpletimetracker.domain.activitySuggestion.interactor.ActivitySuggestionInteractor
 import com.example.util.simpletimetracker.domain.record.repo.RecordRepo
 import com.example.util.simpletimetracker.domain.recordTag.repo.RecordTagRepo
-import com.example.util.simpletimetracker.domain.recordTag.repo.RecordToRecordTagRepo
 import com.example.util.simpletimetracker.domain.category.repo.RecordTypeCategoryRepo
 import com.example.util.simpletimetracker.domain.complexRule.interactor.ComplexRuleInteractor
 import com.example.util.simpletimetracker.domain.favourite.repo.RecordTypeToFavouriteCommentRepo
@@ -27,7 +26,6 @@ class RecordTypeInteractor @Inject constructor(
     private val recordShortcutRepo: RecordShortcutRepo,
     private val runningRecordRepo: RunningRecordRepo,
     private val recordTagRepo: RecordTagRepo,
-    private val recordToRecordTagRepo: RecordToRecordTagRepo,
     private val recordShortcutToRecordTagRepo: RecordShortcutToRecordTagRepo,
     private val recordTypeCategoryRepo: RecordTypeCategoryRepo,
     private val recordTypeToTagRepo: RecordTypeToTagRepo,
@@ -72,10 +70,6 @@ class RecordTypeInteractor @Inject constructor(
     }
 
     suspend fun remove(id: Long) {
-        val recordsToRemove = recordRepo.getByType(setOf(id)).map { it.id }
-        recordsToRemove.forEach { recordId ->
-            recordToRecordTagRepo.removeAllByRecordId(recordId) // TODO do better?
-        }
         val shortcutsToRemove = recordShortcutRepo.getByType(listOf(id)).map { it.id }
         shortcutsToRemove.forEach { shortcutId ->
             recordShortcutToRecordTagRepo.removeAllByShortcutId(shortcutId) // TODO do better?

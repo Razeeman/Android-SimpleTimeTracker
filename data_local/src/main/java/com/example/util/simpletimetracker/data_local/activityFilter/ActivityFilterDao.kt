@@ -17,8 +17,20 @@ interface ActivityFilterDao {
     @Query("SELECT * FROM activityFilters WHERE id = :id LIMIT 1")
     suspend fun get(id: Long): ActivityFilterDBO?
 
+    // Type 0 limits the lookup to activity filters so overlapping category IDs are not matched.
+    // SQLite's || operator concatenates strings;
+    // comma boundaries ensure full ID matches (e.g. 1 must not match 11).
     @Transaction
-    @Query("SELECT * FROM activityFilters WHERE :typeId in (selectedIds)")
+    @Query(
+        """
+        SELECT * FROM activityFilters
+        WHERE type = 0
+        AND instr(
+            ',' || selectedIds || ',',
+            ',' || CAST(:typeId AS TEXT) || ','
+        ) > 0
+        """,
+    )
     suspend fun getByTypeId(typeId: Long): List<ActivityFilterDBO>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -7,12 +7,8 @@ import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
-import com.example.util.simpletimetracker.domain.recordType.extension.getDaily
-import com.example.util.simpletimetracker.domain.recordType.extension.getLongest
-import com.example.util.simpletimetracker.domain.recordType.extension.getSession
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
-import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.RunningRecordViewData
 import javax.inject.Inject
 
@@ -66,7 +62,7 @@ class RunningRecordViewDataMapper @Inject constructor(
                 showSeconds = showSeconds,
                 durationFormat = durationFormat,
             ),
-            goalTime = mapGoalTime(
+            goalTimes = goalViewDataMapper.mapForTimer(
                 currentDuration = currentDuration,
                 goals = goals,
                 dailyCurrent = dailyCurrent,
@@ -112,24 +108,5 @@ class RunningRecordViewDataMapper @Inject constructor(
         )
 
         return "$hint $duration"
-    }
-
-    private fun mapGoalTime(
-        currentDuration: Long,
-        goals: List<RecordTypeGoal>,
-        dailyCurrent: GetCurrentRecordsDurationInteractor.Result?,
-        goalsVisible: Boolean,
-        durationFormat: DurationFormat,
-    ): GoalTimeViewData {
-        // TODO GOAL show several goals
-        val goal = goals.getDaily().ifEmpty { goals.getSession() }.getLongest()
-
-        return goalViewDataMapper.mapForTimer(
-            goal = goal,
-            currentDuration = currentDuration,
-            dailyCurrent = dailyCurrent,
-            goalsVisible = goalsVisible,
-            durationFormat = durationFormat,
-        )
     }
 }

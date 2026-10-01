@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.model.WearRecordRepeatResult
 import com.example.util.simpletimetracker.domain.model.WearSetSettings
 import com.example.util.simpletimetracker.domain.model.WearSettings
 import com.example.util.simpletimetracker.domain.model.WearStatistics
+import com.example.util.simpletimetracker.domain.model.WearRecord
 import com.example.util.simpletimetracker.domain.model.WearTag
 import com.example.util.simpletimetracker.domain.model.WearRecordTag
 import com.example.util.simpletimetracker.domain.model.WearShouldShowTagSelectionResult
@@ -25,6 +26,8 @@ import com.example.util.simpletimetracker.wear_api.WearShouldShowTagValueSelecti
 import com.example.util.simpletimetracker.wear_api.WearStartActivityRequest
 import com.example.util.simpletimetracker.wear_api.WearStatisticsDTO
 import com.example.util.simpletimetracker.wear_api.WearStatisticsRequest
+import com.example.util.simpletimetracker.wear_api.WearRecordsRequest
+import com.example.util.simpletimetracker.wear_api.WearRecordDTO
 import com.example.util.simpletimetracker.wear_api.WearStopActivityRequest
 import dagger.Lazy
 import kotlinx.coroutines.Deferred
@@ -56,10 +59,15 @@ class WearDataRepo @Inject constructor(
     )
 
     private var activitiesCache: List<WearActivityDTO>? = null
-    private var statisticsCache: List<WearStatisticsDTO>? = null
+    private val statisticsCache: MutableMap<Int, List<WearStatisticsDTO>> = mutableMapOf()
+    private val recordsCache: MutableMap<Int, List<WearRecordDTO>> = mutableMapOf()
     private var currentActivitiesCache: WearCurrentStateDTO? = null
     private var settingsCache: WearSettingsDTO? = null
-    private val mutex: Mutex = Mutex()
+    private val activitiesMutex: Mutex = Mutex()
+    private val statisticsMutex: Mutex = Mutex()
+    private val recordsMutex: Mutex = Mutex()
+    private val currentActivitiesMutex: Mutex = Mutex()
+    private val settingsMutex: Mutex = Mutex()
 
     init {
         wearRPCClient.addListener {
@@ -78,7 +86,7 @@ class WearDataRepo @Inject constructor(
 
     suspend fun loadActivities(
         forceReload: Boolean,
-    ): Result<List<WearActivity>> = mutex.withLock {
+    ): Result<List<WearActivity>> = activitiesMutex.withLock {
         return runCatching {
             val data = activitiesCache.takeUnless { forceReload }
                 ?: wearRPCClient.queryActivities()
@@ -89,7 +97,7 @@ class WearDataRepo @Inject constructor(
 
     suspend fun loadCurrentActivities(
         forceReload: Boolean,
-    ): Result<WearCurrentState> = mutex.withLock {
+    ): Result<WearCurrentState> = currentActivitiesMutex.withLock {
         return runCatching {
             val data = currentActivitiesCache.takeUnless { forceReload }
                 ?: wearRPCClient.queryCurrentActivities()
@@ -102,15 +110,28 @@ class WearDataRepo @Inject constructor(
         forceReload: Boolean,
         shift: Int,
         filterType: ChartFilterType,
-    ): Result<List<WearStatistics>> = mutex.withLock {
+    ): Result<List<WearStatistics>> = statisticsMutex.withLock {
         return runCatching {
             val request = WearStatisticsRequest(
                 shift = shift,
                 filterType = wearDataLocalMapper.map(filterType),
             )
-            val data = statisticsCache.takeUnless { forceReload }
+            val data = statisticsCache[shift].takeUnless { forceReload }
                 ?: wearRPCClient.queryStatistics(request)
-                    .also { statisticsCache = it }
+                    .also { statisticsCache[shift] = it }
+            data.map(wearDataLocalMapper::map)
+        }
+    }
+
+    suspend fun loadRecords(
+        forceReload: Boolean,
+        shift: Int,
+    ): Result<List<WearRecord>> = recordsMutex.withLock {
+        return runCatching {
+            val request = WearRecordsRequest(shift = shift)
+            val data = recordsCache[shift].takeUnless { forceReload }
+                ?: wearRPCClient.queryRecords(request)
+                    .also { recordsCache[shift] = it }
             data.map(wearDataLocalMapper::map)
         }
     }
@@ -119,7 +140,7 @@ class WearDataRepo @Inject constructor(
         id: Long,
         tags: List<WearRecordTag>,
         useSelectedTags: Boolean,
-    ): Result<Unit> = mutex.withLock {
+    ): Result<Unit> {
         return runCatching {
             val request = WearStartActivityRequest(
                 id = id,
@@ -135,21 +156,21 @@ class WearDataRepo @Inject constructor(
         }
     }
 
-    suspend fun stopActivity(id: Long): Result<Unit> = mutex.withLock {
+    suspend fun stopActivity(id: Long): Result<Unit> {
         return runCatching {
             val request = WearStopActivityRequest(id)
             wearRPCClient.stopActivity(request)
         }
     }
 
-    suspend fun repeatActivity(): Result<WearRecordRepeatResult> = mutex.withLock {
+    suspend fun repeatActivity(): Result<WearRecordRepeatResult> {
         return runCatching {
             val response = wearRPCClient.repeatActivity()
             wearDataLocalMapper.map(response)
         }
     }
 
-    suspend fun loadTagsForActivity(activityId: Long): Result<List<WearTag>> = mutex.withLock {
+    suspend fun loadTagsForActivity(activityId: Long): Result<List<WearTag>> {
         return runCatching {
             val data = wearRPCClient.queryTagsForActivity(activityId)
             data.map(wearDataLocalMapper::map)
@@ -158,7 +179,7 @@ class WearDataRepo @Inject constructor(
 
     suspend fun loadShouldShowTagSelection(
         activityId: Long,
-    ): Result<WearShouldShowTagSelectionResult> = mutex.withLock {
+    ): Result<WearShouldShowTagSelectionResult> {
         return runCatching {
             val request = WearShouldShowTagSelectionRequest(activityId)
             val data = wearRPCClient.queryShouldShowTagSelection(request)
@@ -169,7 +190,7 @@ class WearDataRepo @Inject constructor(
     suspend fun loadShouldShowTagValueSelection(
         selectedTagIds: List<Long>,
         clickedTagId: Long,
-    ): Result<Boolean> = mutex.withLock {
+    ): Result<Boolean> {
         return runCatching {
             val request = WearShouldShowTagValueSelectionRequest(selectedTagIds, clickedTagId)
             wearRPCClient.queryShouldShowTagValueSelection(request).shouldShow
@@ -178,7 +199,7 @@ class WearDataRepo @Inject constructor(
 
     suspend fun loadSettings(
         forceReload: Boolean,
-    ): Result<WearSettings> = mutex.withLock {
+    ): Result<WearSettings> = settingsMutex.withLock {
         return runCatching {
             val data = settingsCache.takeUnless { forceReload }
                 ?: wearRPCClient.querySettings()
@@ -187,14 +208,14 @@ class WearDataRepo @Inject constructor(
         }
     }
 
-    suspend fun setSettings(settings: WearSetSettings): Result<Unit> = mutex.withLock {
+    suspend fun setSettings(settings: WearSetSettings): Result<Unit> {
         return runCatching {
             val data = wearDataLocalMapper.map(settings)
             wearRPCClient.setSettings(data)
         }
     }
 
-    suspend fun openAppPhone(): Result<Unit> = mutex.withLock {
+    suspend fun openAppPhone(): Result<Unit> {
         return runCatching { wearRPCClient.openPhoneApp() }
     }
 }
