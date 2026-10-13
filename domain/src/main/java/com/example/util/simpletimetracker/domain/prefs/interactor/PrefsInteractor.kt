@@ -1030,6 +1030,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.widgetBackgroundTransparencyPercent
     }
 
+    suspend fun setAlwaysShowWidgetActivityColors(value: Boolean) = withContext(Dispatchers.IO) {
+        prefsRepo.alwaysShowWidgetActivityColors = value
+    }
+
+    suspend fun getAlwaysShowWidgetActivityColors(): Boolean = withContext(Dispatchers.IO) {
+        prefsRepo.alwaysShowWidgetActivityColors
+    }
+
     suspend fun getDefaultTypesHidden(): Boolean = withContext(Dispatchers.IO) {
         prefsRepo.defaultTypesHidden
     }

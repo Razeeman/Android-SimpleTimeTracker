@@ -195,6 +195,8 @@ interface PrefsRepo {
 
     var widgetBackgroundTransparencyPercent: Long
 
+    var alwaysShowWidgetActivityColors: Boolean
+
     var defaultTypesHidden: Boolean
 
     var isNavBarAtTheBottom: Boolean
