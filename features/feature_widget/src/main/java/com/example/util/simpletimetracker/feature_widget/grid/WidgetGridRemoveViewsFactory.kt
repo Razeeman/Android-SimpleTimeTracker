@@ -82,6 +82,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
         val runningRecords = runningRecordInteractor.getAll()
         val isDarkTheme = prefsInteractor.getDarkMode()
         val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
+        val alwaysShowActivityColors = prefsInteractor.getAlwaysShowWidgetActivityColors()
         val prevRecords = if (prefsInteractor.getRetroactiveTrackingMode()) {
             recordInteractor.getAllPrev(timeStarted = System.currentTimeMillis())
         } else {
@@ -156,6 +157,7 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
                     allDailyCurrents = allDailyCurrents,
                     isDarkTheme = isDarkTheme,
                     backgroundTransparency = backgroundTransparency,
+                    alwaysShowActivityColors = alwaysShowActivityColors,
                 )
             }
             val row = getRow(context, items, gridSize)
@@ -216,8 +218,10 @@ class WidgetGridRemoveViewsFactory @Inject constructor(
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
         isDarkTheme: Boolean,
         backgroundTransparency: Long,
+        alwaysShowActivityColors: Boolean,
     ): RemoteViews {
         val isColored = when {
+            alwaysShowActivityColors -> true
             runningRecord != null -> true
             prevRecord != null -> true
             else -> false

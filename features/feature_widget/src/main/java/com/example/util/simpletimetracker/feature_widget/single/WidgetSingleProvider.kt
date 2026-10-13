@@ -140,6 +140,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
             val view: View
             val recordTypeId = prefsInteractor.getWidget(appWidgetId)
             val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
+            val alwaysShowActivityColors = prefsInteractor.getAlwaysShowWidgetActivityColors()
             val retroactiveTrackingModeEnabled = prefsInteractor.getRetroactiveTrackingMode()
             val typeIds = typeIdsToUpdate
             if (typeIds.isNotEmpty() && recordTypeId !in typeIds) return@launch
@@ -192,6 +193,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                     emptyList()
                 }
                 val isColored = when {
+                    alwaysShowActivityColors && recordType != null -> true
                     runningRecord != null -> recordType != null
                     prevRecord != null -> true
                     else -> false

@@ -64,6 +64,7 @@ enum class SettingsBlock {
     DisplayGoalsOnSeparateTabs,
     DisplayNavBarAtTheBottom,
     DisplayWidgetBackground,
+    DisplayWidgetActivityColors,
     DisplayMilitaryFormat,
     DisplayMonthDayFormat,
     DisplayDurationFormat,
