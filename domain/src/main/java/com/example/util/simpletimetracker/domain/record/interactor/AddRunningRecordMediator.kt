@@ -116,6 +116,7 @@ class AddRunningRecordMediator @Inject constructor(
             typeId = typeId,
             tagIds = actualTags.map { it.tagId },
             comment = comment,
+            timeStarted = actualTimeStarted,
         )
         val startParams = StartParams(
             typeId = typeId,

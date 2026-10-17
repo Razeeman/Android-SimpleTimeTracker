@@ -38,6 +38,7 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
         typeId: Long,
         tagIds: List<Long>,
         comment: String,
+        timeStarted: Long,
     ) {
         if (!prefsInteractor.getAutomatedTrackingSendEvents()) return
 
@@ -49,7 +50,7 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
             tagNames = getTagNames(tagIds),
             note = type.note,
             icon = type.icon,
-            timeStarted = null,
+            timeStarted = timeStarted,
         )
     }
 
@@ -104,7 +105,7 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
         tagNames: List<String>,
         note: String,
         icon: String,
-        timeStarted: Long?,
+        timeStarted: Long,
     ) {
         val tagsString = tagNames.joinToString(separator = ",")
         Intent().apply {
@@ -114,7 +115,7 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
             putExtra(EXTRA_RECORD_TAG_NAME, tagsString)
             if (note.isNotEmpty()) putExtra(EXTRA_RECORD_TYPE_NOTE, note)
             if (icon.isNotEmpty()) putExtra(EXTRA_RECORD_TYPE_ICON, icon)
-            if (timeStarted != null) putExtra(EXTRA_RECORD_TIME_STARTED, timeStarted)
+            putExtra(EXTRA_RECORD_TIME_STARTED, timeStarted)
         }.let(context::sendBroadcast)
     }
 

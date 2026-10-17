@@ -194,6 +194,7 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                         EXTRA_RECORD_TAG_NAME,
                         EXTRA_RECORD_TYPE_NOTE,
                         EXTRA_RECORD_TYPE_ICON,
+                        EXTRA_RECORD_TIME_STARTED,
                     ),
                     optional = emptyList(),
                 ),
