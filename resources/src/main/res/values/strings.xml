@@ -456,6 +456,9 @@ If <b>\"%s\"</b> setting is enabled, app will respond with data to query broadca
     <string name="settings_automated_tracking_extra_color">in RGB hex format, for example #29A674 or 29A674.</string>
     <string name="settings_automated_tracking_extra_time">in the format \"yyyy-MM-dd HH:mm:ss\" or UTC timestamp.</string>
     <string name="settings_automated_tracking_extra_request_id">optional string supplied with a start or stop action and echoed in the resulting activity events.</string>
+    <string name="settings_automated_tracking_extra_request_response">optional boolean for start and stop actions. Set to true to receive response after processing, including when nothing changes</string>
+    <string name="settings_automated_tracking_extra_command_action">the original start or stop action in a command response.</string>
+    <string name="settings_automated_tracking_extra_status">command result.</string>
     <string name="settings_automated_tracking_find_record_mode">selects which record to change.</string>
     <string name="settings_automated_tracking_comment_mode">selects how to change comment of the selected record.</string>
     <string name="settings_automated_tracking_find_with_activity">additionally selects record by activity name, if there are several current or last records.</string>

@@ -454,6 +454,9 @@ Uma isilungiselelo esithi <b>\"%s\"</b> sivuliwe, uhlelo lokusebenza luzophendul
     <string name="settings_automated_tracking_extra_color">ngefomethi ye-RGB eyi-hexadecimal, isibonelo #29A674 noma 29A674.</string>
     <string name="settings_automated_tracking_extra_time">ngesimo esithi \"yyyy-MM-dd HH:mm:ss\" noma isikhathi se-UTC.</string>
     <string name="settings_automated_tracking_extra_request_id">uchungechunge lombhalo olungaphoqelekile oluthunyelwa nesenzo sokuqala noma sokumisa bese lubuyiselwa ezenzakalweni zomsebenzi ezivelayo.</string>
+    <string name="settings_automated_tracking_extra_request_response">inani le-boolean elingaphoqelekile lezenzo zokuqala nokumisa. Libeke ku-true ukuze uthole impendulo ngemva kokucubungula, ngisho noma kungashintshi lutho</string>
+    <string name="settings_automated_tracking_extra_command_action">isenzo sokuqala noma sokumisa sangempela empendulweni yomyalo.</string>
+    <string name="settings_automated_tracking_extra_status">umphumela womyalo.</string>
     <string name="settings_automated_tracking_find_record_mode">khetha irekhodi okufanele lishintshwe.</string>
     <string name="settings_automated_tracking_comment_mode">khetha indlela yokushintsha amazwana erekhodi ekhethiwe.</string>
     <string name="settings_automated_tracking_find_with_activity">ukhetha futhi irekhodi ngegama lomsebenzi uma kunezirekhodi eziningi ezisebenzayo noma zakamuva.</string>

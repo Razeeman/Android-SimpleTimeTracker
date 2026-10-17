@@ -454,6 +454,9 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, reageert de app met gegevens op
     <string name="settings_automated_tracking_extra_color">in hexadecimaal RGB-formaat, bijvoorbeeld #29A674 of 29A674.</string>
     <string name="settings_automated_tracking_extra_time">in de notatie \"jjjj-MM-dd HH:mm:ss\" of UTC-tijdstempel.</string>
     <string name="settings_automated_tracking_extra_request_id">optionele tekenreeks die wordt meegegeven met een start- of stopactie en wordt teruggestuurd in de resulterende activiteitsgebeurtenissen.</string>
+    <string name="settings_automated_tracking_extra_request_response">optionele booleaanse waarde voor start- en stopacties. Stel deze in op true om na verwerking een antwoord te ontvangen, ook als er niets verandert</string>
+    <string name="settings_automated_tracking_extra_command_action">de oorspronkelijke start- of stopactie in een antwoord op een opdracht.</string>
+    <string name="settings_automated_tracking_extra_status">resultaat van de opdracht.</string>
     <string name="settings_automated_tracking_find_record_mode">selecteert welke record gewijzigd moet worden.</string>
     <string name="settings_automated_tracking_comment_mode">selecteert hoe de opmerking van het geselecteerde record moet worden gewijzigd.</string>
     <string name="settings_automated_tracking_find_with_activity">selecteert bovendien records op basis van de activiteitsnaam, als er meerdere huidige of laatste records zijn.</string>

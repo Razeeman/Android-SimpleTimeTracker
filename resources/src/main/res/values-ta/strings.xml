@@ -454,6 +454,9 @@
     <string name="settings_automated_tracking_extra_color">RGB ஹெக்ஸாடெசிமல் வடிவத்தில், எடுத்துக்காட்டாக #29A674 அல்லது 29A674.</string>
     <string name="settings_automated_tracking_extra_time">\"yyyy-MM-dd HH:mm:ss\" வடிவத்தில் அல்லது யூடிசி நேர முத்திரை.</string>
     <string name="settings_automated_tracking_extra_request_id">தொடங்கும் அல்லது நிறுத்தும் செயலுடன் அனுப்பப்பட்டு, அதன் விளைவாக உருவாகும் செயல்பாட்டு நிகழ்வுகளில் திருப்பி அனுப்பப்படும் விருப்பத் தேர்வான உரைச் சரம்.</string>
+    <string name="settings_automated_tracking_extra_request_response">தொடங்கும் மற்றும் நிறுத்தும் செயல்களுக்கான விருப்பத் தேர்வான பூலியன் மதிப்பு. எந்த மாற்றமும் இல்லாதபோதும், செயலாக்கத்திற்குப் பிறகு பதிலைப் பெற இதை true என அமைக்கவும்</string>
+    <string name="settings_automated_tracking_extra_command_action">கட்டளைக்கான பதிலில் உள்ள அசல் தொடங்கும் அல்லது நிறுத்தும் செயல்.</string>
+    <string name="settings_automated_tracking_extra_status">கட்டளையின் முடிவு.</string>
     <string name="settings_automated_tracking_find_record_mode">எந்தப் பதிவை மாற்ற வேண்டும் என்பதைத் தேர்ந்தெடுக்கிறது.</string>
     <string name="settings_automated_tracking_comment_mode">தேர்ந்தெடுக்கப்பட்ட பதிவின் கருத்தை எப்படி மாற்றுவது என்பதைத் தேர்ந்தெடுக்கிறது.</string>
     <string name="settings_automated_tracking_find_with_activity">பல தற்போதைய அல்லது கடைசிப் பதிவுகள் இருந்தால், செயல்பாட்டுப் பெயரால் பதிவைக் கூடுதலாகத் தேர்ந்தெடுக்கிறது.</string>

@@ -454,6 +454,9 @@
     <string name="settings_automated_tracking_extra_color">در قالب هگزادسیمال RGB، برای مثال #29A674 یا 29A674.</string>
     <string name="settings_automated_tracking_extra_time">در قالب \"yyyy-MM-dd HH:mm:ss\" یا مهر زمانی UTC.</string>
     <string name="settings_automated_tracking_extra_request_id">رشتهٔ متنی اختیاری که همراه با کنش شروع یا توقف ارسال می‌شود و در رویدادهای فعالیت حاصل بازگردانده می‌شود.</string>
+    <string name="settings_automated_tracking_extra_request_response">مقدار بولی اختیاری برای عملیات شروع و توقف. برای دریافت پاسخ پس از پردازش، حتی وقتی چیزی تغییر نمی‌کند، آن را روی true تنظیم کنید</string>
+    <string name="settings_automated_tracking_extra_command_action">عملیات اصلی شروع یا توقف در پاسخ فرمان.</string>
+    <string name="settings_automated_tracking_extra_status">نتیجهٔ فرمان.</string>
     <string name="settings_automated_tracking_find_record_mode">انتخاب می کند که کدام رکورد را تغییر دهد.</string>
     <string name="settings_automated_tracking_comment_mode">نحوه تغییر نظر رکورد انتخاب شده را انتخاب می کند.</string>
     <string name="settings_automated_tracking_find_with_activity">علاوه بر این، رکورد را با نام فعالیت انتخاب می کند، اگر چندین رکورد فعلی یا آخرین وجود داشته باشد.</string>

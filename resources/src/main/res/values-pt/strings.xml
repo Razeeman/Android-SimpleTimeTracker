@@ -454,6 +454,9 @@ Se a configuração <b>\"%s\"</b> estiver ativada, o aplicativo responderá com 
     <string name="settings_automated_tracking_extra_color">no formato hexadecimal RGB, por exemplo #29A674 ou 29A674.</string>
     <string name="settings_automated_tracking_extra_time">no formato \"aaaa-MM-dd HH:mm:ss\" ou carimbo de data/hora UTC.</string>
     <string name="settings_automated_tracking_extra_request_id">string opcional enviada com uma ação de início ou parada e retornada nos eventos de atividade resultantes.</string>
+    <string name="settings_automated_tracking_extra_request_response">valor booleano opcional para as ações de início e parada. Defina como true para receber uma resposta após o processamento, mesmo quando nada mudar</string>
+    <string name="settings_automated_tracking_extra_command_action">a ação original de início ou parada em uma resposta ao comando.</string>
+    <string name="settings_automated_tracking_extra_status">resultado do comando.</string>
     <string name="settings_automated_tracking_find_record_mode">seleciona qual registro alterar.</string>
     <string name="settings_automated_tracking_comment_mode">seleciona como alterar o comentário do registro selecionado.</string>
     <string name="settings_automated_tracking_find_with_activity">adicionalmente seleciona o registro pelo nome da atividade, se houver vários registros atuais ou últimos.</string>

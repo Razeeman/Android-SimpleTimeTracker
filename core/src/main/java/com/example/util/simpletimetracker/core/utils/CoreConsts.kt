@@ -47,6 +47,9 @@ const val ACTION_EXTERNAL_RESPONSE_RUNNING = "com.razeeman.util.simpletimetracke
 const val ACTION_EXTERNAL_RESPONSE_RECORDS = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_RECORDS"
 const val ACTION_EXTERNAL_RESPONSE_STATISTICS = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_STATISTICS"
 
+// Sent for start/stop commands that opt in with EXTRA_REQUEST_RESPONSE.
+const val ACTION_EXTERNAL_RESPONSE_COMMAND = "com.razeeman.util.simpletimetracker.ACTION_RESPONSE_COMMAND"
+
 const val EVENT_STARTED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STARTED_ACTIVITY"
 const val EVENT_STOPPED_ACTIVITY = "com.razeeman.util.simpletimetracker.EVENT_STOPPED_ACTIVITY"
 const val EVENT_COMPLETED_GOAL = "com.razeeman.util.simpletimetracker.EVENT_COMPLETED_GOAL"
@@ -66,6 +69,9 @@ const val EXTRA_GOAL_TYPE = "extra_goal_type" // duration, count
 const val EXTRA_GOAL_VALUE = "extra_goal_value"
 const val EXTRA_ANSWER_TYPE = "extra_answer_type" // simple, json
 const val EXTRA_REQUEST_ID = "extra_request_id"
+const val EXTRA_REQUEST_RESPONSE = "extra_request_response"
+const val EXTRA_COMMAND_ACTION = "extra_command_action"
+const val EXTRA_STATUS = "extra_status"
 const val EXTRA_COLOR = "extra_color" // #RRGGBB or RRGGBB
 const val EXTRA_DATA = "data"
 const val EXTRA_SHIFT = "extra_shift" // days from today, 0 - today, -1 - yesterday

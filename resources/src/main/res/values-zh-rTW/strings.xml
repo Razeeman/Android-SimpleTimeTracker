@@ -454,6 +454,9 @@
     <string name="settings_automated_tracking_extra_color">採用 RGB 十六進位格式，例如 #29A674 或 29A674。</string>
     <string name="settings_automated_tracking_extra_time">格式為 \"yyyy-MM-dd HH:mm:ss\" 或 UTC 時間戳記。</string>
     <string name="settings_automated_tracking_extra_request_id">隨啟動或停止操作傳送的選用字串，會原樣傳回於該操作所產生的活動事件中。</string>
+    <string name="settings_automated_tracking_extra_request_response">用於啟動和停止操作的選用布林值。設為 true 可在處理後收到回應，即使沒有任何變更</string>
+    <string name="settings_automated_tracking_extra_command_action">命令回應中包含的原始啟動或停止操作。</string>
+    <string name="settings_automated_tracking_extra_status">命令結果。</string>
     <string name="settings_automated_tracking_find_record_mode">選擇要變更的記錄。</string>
     <string name="settings_automated_tracking_comment_mode">選擇如何變更所選記錄的註釋。</string>
     <string name="settings_automated_tracking_find_with_activity">如果有多個目前或最後的記錄，則也可以按活動名稱選擇記錄。</string>

@@ -454,6 +454,9 @@
     <string name="settings_automated_tracking_extra_color">в шестнадцатеричном формате RGB, например #29A674 или 29A674.</string>
     <string name="settings_automated_tracking_extra_time">в формате \"гггг-ММ-дд ЧЧ:мм:сс\" или временной метке UTC.</string>
     <string name="settings_automated_tracking_extra_request_id">необязательная строка, передаваемая с командой запуска или остановки и возвращаемая в соответствующих событиях действий.</string>
+    <string name="settings_automated_tracking_extra_request_response">необязательное логическое значение для команд запуска и остановки. Установите true, чтобы получить ответ после обработки, в том числе когда ничего не изменилось</string>
+    <string name="settings_automated_tracking_extra_command_action">исходная команда запуска или остановки в ответе на команду.</string>
+    <string name="settings_automated_tracking_extra_status">результат команды.</string>
     <string name="settings_automated_tracking_find_record_mode">выбирает, какую запись изменить.</string>
     <string name="settings_automated_tracking_comment_mode">выбирает способ изменения комментария выбранной записи.</string>
     <string name="settings_automated_tracking_find_with_activity">дополнительно выбирает запись по названию действия, если есть несколько текущих или последних записей.</string>

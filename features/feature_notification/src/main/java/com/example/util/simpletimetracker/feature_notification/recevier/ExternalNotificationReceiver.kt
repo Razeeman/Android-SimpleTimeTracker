@@ -33,6 +33,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
 import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_ID
+import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_RESPONSE
 import com.example.util.simpletimetracker.core.utils.EXTRA_SHIFT
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
@@ -81,22 +82,26 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
                     ?.splitNames().orEmpty()
                 val timeStarted = intent.getStringExtra(EXTRA_RECORD_TIME_STARTED)
                 val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
+                val requestResponse = intent.getBooleanExtra(EXTRA_REQUEST_RESPONSE, false)
                 externalController.onActionExternalActivityStart(
                     name = name,
                     comment = comment,
                     tagNames = tagNames,
                     timeStarted = timeStarted,
                     requestId = requestId,
+                    requestResponse = requestResponse,
                 )
             }
             ACTION_EXTERNAL_STOP_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val timeEnded = intent.getStringExtra(EXTRA_RECORD_TIME_ENDED)
                 val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
+                val requestResponse = intent.getBooleanExtra(EXTRA_REQUEST_RESPONSE, false)
                 externalController.onActionExternalActivityStop(
                     name = name,
                     timeEnded = timeEnded,
                     requestId = requestId,
+                    requestResponse = requestResponse,
                 )
             }
             ACTION_EXTERNAL_STOP_ALL_ACTIVITIES -> {

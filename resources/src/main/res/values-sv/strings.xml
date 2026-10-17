@@ -454,6 +454,9 @@ Om inställningen <b>\"%s\"</b> är aktiverad svarar appen med data på fråges�
     <string name="settings_automated_tracking_extra_color">i hexadecimalt RGB-format, till exempel #29A674 eller 29A674.</string>
     <string name="settings_automated_tracking_extra_time">i formatet \"åååå-MM-dd HH:mm:ss\" eller UTC-tidsstämpel.</string>
     <string name="settings_automated_tracking_extra_request_id">valfri sträng som skickas med en start- eller stoppåtgärd och returneras i de resulterande aktivitetshändelserna.</string>
+    <string name="settings_automated_tracking_extra_request_response">valfritt booleskt värde för start- och stoppåtgärder. Ange true för att få ett svar efter bearbetningen, även när inget ändras</string>
+    <string name="settings_automated_tracking_extra_command_action">den ursprungliga start- eller stoppåtgärden i ett kommandosvar.</string>
+    <string name="settings_automated_tracking_extra_status">resultatet av kommandot.</string>
     <string name="settings_automated_tracking_find_record_mode">väljer vilken post som ska ändras.</string>
     <string name="settings_automated_tracking_comment_mode">väljer hur kommentaren för den valda posten ska ändras.</string>
     <string name="settings_automated_tracking_find_with_activity">väljer dessutom post efter aktivitetsnamn, om det finns flera aktuella eller senaste poster.</string>

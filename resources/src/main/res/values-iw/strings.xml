@@ -454,6 +454,9 @@
     <string name="settings_automated_tracking_extra_color">בפורמט הקסדצימלי RGB, לדוגמה #29A674 או 29A674.</string>
     <string name="settings_automated_tracking_extra_time">בפורמט \"yyyy-MM-dd HH:mm:ss\" או חותמת זמן UTC.</string>
     <string name="settings_automated_tracking_extra_request_id">מחרוזת אופציונלית שנשלחת עם פעולת התחלה או עצירה ומוחזרת באירועי הפעילות שנוצרים בעקבותיה.</string>
+    <string name="settings_automated_tracking_extra_request_response">ערך בוליאני אופציונלי לפעולות התחלה ועצירה. יש להגדיר אותו ל-true כדי לקבל תגובה לאחר העיבוד, גם כשאין שינוי</string>
+    <string name="settings_automated_tracking_extra_command_action">פעולת ההתחלה או העצירה המקורית בתגובה לפקודה.</string>
+    <string name="settings_automated_tracking_extra_status">תוצאת הפקודה.</string>
     <string name="settings_automated_tracking_find_record_mode">בוחר איזו רשומה לשנות.</string>
     <string name="settings_automated_tracking_comment_mode">בוחר כיצד לשנות את ההערה של הרשומה שנבחרה.</string>
     <string name="settings_automated_tracking_find_with_activity">בוחר בנוסף רשומה לפי שם פעילות, אם יש כמה רשומות נוכחיות או אחרונות.</string>

@@ -12,6 +12,7 @@ import com.example.util.simpletimetracker.domain.record.interactor.RemoveRunning
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionCommentMode
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionFindRecordMode
+import com.example.util.simpletimetracker.domain.notifications.model.ExternalCommandStatus
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
@@ -42,10 +43,10 @@ class ExternalBroadcastInteractor @Inject constructor(
         tagNames: List<String>,
         timeStarted: String?,
         requestId: String?,
-    ) {
-        val typeId = getTypeIdByName(name) ?: return
+    ): ExternalCommandStatus {
+        val typeId = getTypeIdByName(name) ?: return ExternalCommandStatus.UNKNOWN_ACTIVITY
         val runningRecord = runningRecordInteractor.get(typeId)
-        if (runningRecord != null) return // Already running.
+        if (runningRecord != null) return ExternalCommandStatus.ALREADY_RUNNING
         val tagIds = findTagIdByName(tagNames, typeId)
         val newTimeStarted = timeStarted?.let(::parseTimestamp)
 
@@ -60,23 +61,25 @@ class ExternalBroadcastInteractor @Inject constructor(
             },
             requestId = requestId,
         )
+        return ExternalCommandStatus.STARTED
     }
 
     suspend fun onActionActivityStopByName(
         name: String,
         timeEnded: String?,
         requestId: String?,
-    ) {
-        val typeId = getTypeIdByName(name) ?: return
+    ): ExternalCommandStatus {
+        val typeId = getTypeIdByName(name) ?: return ExternalCommandStatus.UNKNOWN_ACTIVITY
         val newTimeEnded = timeEnded?.let(::parseTimestamp)
         val runningRecord = runningRecordInteractor.get(typeId)
-            ?: return // Not running.
+            ?: return ExternalCommandStatus.NOT_RUNNING
 
         removeRunningRecordMediator.removeWithRecordAdd(
             runningRecord = runningRecord,
             timeEnded = newTimeEnded,
             requestId = requestId,
         )
+        return ExternalCommandStatus.STOPPED
     }
 
     suspend fun onActionActivityStopAll() {

@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RECOR
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_RUNNING
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_QUERY_STATISTICS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_ACTIVITIES
+import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_COMMAND
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RECORDS
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RUNNING
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_STATISTICS
@@ -35,6 +36,7 @@ import com.example.util.simpletimetracker.core.utils.EVENT_STOPPED_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_CATEGORY_NAME
+import com.example.util.simpletimetracker.core.utils.EXTRA_COMMAND_ACTION
 import com.example.util.simpletimetracker.core.utils.EXTRA_DATA
 import com.example.util.simpletimetracker.core.utils.EXTRA_FILTER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_SHIFT
@@ -49,6 +51,9 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_ID
+import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_RESPONSE
+import com.example.util.simpletimetracker.core.utils.EXTRA_STATUS
+import com.example.util.simpletimetracker.domain.notifications.model.ExternalCommandStatus
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_NOTE
 import com.example.util.simpletimetracker.domain.extension.indexesOf
@@ -109,6 +114,13 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                         EXTRA_RECORD_TAG_NAME,
                         EXTRA_RECORD_TIME_STARTED,
                         EXTRA_REQUEST_ID,
+                        EXTRA_REQUEST_RESPONSE,
+                    ),
+                    response = ACTION_EXTERNAL_RESPONSE_COMMAND,
+                    responseExtras = listOf(
+                        EXTRA_COMMAND_ACTION,
+                        EXTRA_STATUS,
+                        EXTRA_REQUEST_ID,
                     ),
                 ),
                 AvailableAction(
@@ -116,6 +128,13 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     extras = listOf(EXTRA_ACTIVITY_NAME),
                     optional = listOf(
                         EXTRA_RECORD_TIME_ENDED,
+                        EXTRA_REQUEST_ID,
+                        EXTRA_REQUEST_RESPONSE,
+                    ),
+                    response = ACTION_EXTERNAL_RESPONSE_COMMAND,
+                    responseExtras = listOf(
+                        EXTRA_COMMAND_ACTION,
+                        EXTRA_STATUS,
                         EXTRA_REQUEST_ID,
                     ),
                 ),
@@ -285,6 +304,21 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     extra = EXTRA_REQUEST_ID,
                     description = resourceRepo.getString(R.string.settings_automated_tracking_extra_request_id),
                     values = emptyList(),
+                ),
+                ExtraDescription(
+                    extra = EXTRA_REQUEST_RESPONSE,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_request_response),
+                    values = listOf("true", "false"),
+                ),
+                ExtraDescription(
+                    extra = EXTRA_COMMAND_ACTION,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_command_action),
+                    values = listOf(ACTION_EXTERNAL_START_ACTIVITY, ACTION_EXTERNAL_STOP_ACTIVITY),
+                ),
+                ExtraDescription(
+                    extra = EXTRA_STATUS,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_status),
+                    values = ExternalCommandStatus.entries.map(ExternalCommandStatus::dataValue),
                 ),
                 ExtraDescription(
                     extra = EXTRA_RECORD_TIME_STARTED,

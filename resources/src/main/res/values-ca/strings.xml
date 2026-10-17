@@ -454,6 +454,9 @@ Si l\'opció <b>\"%s\"</b> està activada, l\'aplicació respondrà amb dades a 
     <string name="settings_automated_tracking_extra_color">en format hexadecimal RGB, per exemple #29A674 o 29A674.</string>
     <string name="settings_automated_tracking_extra_time">en el format \"aaaa-MM-dd HH:mm:ss\" o marca d\'hora UTC.</string>
     <string name="settings_automated_tracking_extra_request_id">cadena de text opcional que s\'envia amb una acció d\'inici o d\'aturada i es retorna en els esdeveniments d\'activitat resultants.</string>
+    <string name="settings_automated_tracking_extra_request_response">booleà opcional per a les accions d’inici i d’aturada. Establiu-lo a true per rebre una resposta després del processament, fins i tot quan no canviï res</string>
+    <string name="settings_automated_tracking_extra_command_action">l’acció original d’inici o d’aturada en una resposta a una ordre.</string>
+    <string name="settings_automated_tracking_extra_status">resultat de l’ordre.</string>
     <string name="settings_automated_tracking_find_record_mode">selecciona quin registre es canviarà.</string>
     <string name="settings_automated_tracking_comment_mode">selecciona com canviar el comentari del registre seleccionat.</string>
     <string name="settings_automated_tracking_find_with_activity">a més, selecciona registre per nom de l\'activitat, si hi ha diversos registres actuals o darrers.</string>

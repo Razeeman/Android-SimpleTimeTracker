@@ -454,6 +454,9 @@
     <string name="settings_automated_tracking_extra_color">RGB हेक्साडेसिमल प्रारूप में, उदाहरण के लिए #29A674 या 29A674।</string>
     <string name="settings_automated_tracking_extra_time">प्रारूप में \"yyyy-MM-dd HH:mm:ss\" या UTC टाइमस्टैम्प।</string>
     <string name="settings_automated_tracking_extra_request_id">वैकल्पिक टेक्स्ट स्ट्रिंग जो शुरू या बंद करने की क्रिया के साथ भेजी जाती है और उससे उत्पन्न गतिविधि इवेंट में वापस दी जाती है।</string>
+    <string name="settings_automated_tracking_extra_request_response">शुरू और बंद करने की क्रियाओं के लिए वैकल्पिक बूलियन मान। प्रोसेसिंग के बाद उत्तर पाने के लिए इसे true पर सेट करें, तब भी जब कुछ न बदले</string>
+    <string name="settings_automated_tracking_extra_command_action">कमांड के उत्तर में शामिल मूल शुरू या बंद करने की क्रिया।</string>
+    <string name="settings_automated_tracking_extra_status">कमांड का परिणाम।</string>
     <string name="settings_automated_tracking_find_record_mode">चयन करता है कि कौन सा रिकॉर्ड बदलना है.</string>
     <string name="settings_automated_tracking_comment_mode">चयनित रिकॉर्ड की टिप्पणी को बदलने का तरीका चुनता है.</string>
     <string name="settings_automated_tracking_find_with_activity">इसके अतिरिक्त, यदि कई वर्तमान या अंतिम रिकॉर्ड हैं, तो गतिविधि नाम से रिकॉर्ड का चयन करता है।</string>
