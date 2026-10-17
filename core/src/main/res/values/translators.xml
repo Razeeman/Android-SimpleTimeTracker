@@ -18,6 +18,10 @@
     <string name="settings_catalan_language" translatable="false">Català</string>
     <string name="settings_catalan_tag" translatable="false">ca</string>
 
+    <string name="settings_danish_translators" translatable="false">nemaides</string>
+    <string name="settings_danish_language" translatable="false">Dansk</string>
+    <string name="settings_danish_tag" translatable="false">da</string>
+
     <string name="settings_german_translators" translatable="false">mondstern</string>
     <string name="settings_german_language" translatable="false">Deutsch</string>
     <string name="settings_german_tag" translatable="false">de</string>
