@@ -31,6 +31,7 @@ class RemoveRunningRecordMediator @Inject constructor(
         updateWidgets: Boolean = true,
         updateNotificationSwitch: Boolean = true,
         timeEnded: Long? = null, // null - take current time.
+        requestId: String? = null,
     ) = mutex.withLock {
         val runningRecord = runningRecordInteractor.get(runningRecord.id)
             ?.takeIf { it.timeStarted == runningRecord.timeStarted }
@@ -55,6 +56,7 @@ class RemoveRunningRecordMediator @Inject constructor(
             tagIds = runningRecord.tags.map(RecordBase.Tag::tagId),
             comment = runningRecord.comment,
             timeStarted = runningRecord.timeStarted,
+            requestId = requestId,
         )
         removeInternal(
             runningRecord = runningRecord,

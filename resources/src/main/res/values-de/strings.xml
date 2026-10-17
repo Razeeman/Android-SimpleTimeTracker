@@ -453,6 +453,7 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, antwortet die App mit Daten au
     <string name="settings_automated_tracking_extra_tag">mit dem Namen eines Datensatz-Tags. Oder durch Komma getrennte Liste von Tag-Namen.</string>
     <string name="settings_automated_tracking_extra_color">im hexadezimalen RGB-Format, zum Beispiel #29A674 oder 29A674.</string>
     <string name="settings_automated_tracking_extra_time">im Format „jjjj-MM-tt HH:mm:ss“ oder UTC-Zeitstempel.</string>
+    <string name="settings_automated_tracking_extra_request_id">optionale Zeichenfolge, die mit einer Start- oder Stoppaktion übergeben und in den daraus resultierenden Aktivitätsereignissen zurückgegeben wird.</string>
     <string name="settings_automated_tracking_find_record_mode">wählt aus, welcher Datensatz geändert werden soll.</string>
     <string name="settings_automated_tracking_comment_mode">wählt aus, wie der Kommentar des ausgewählten Datensatzes geändert wird.</string>
     <string name="settings_automated_tracking_find_with_activity">wählt Datensätze zusätzlich nach Aktivitätsnamen aus, wenn mehrere aktuelle oder letzte Datensätze vorhanden sind.</string>

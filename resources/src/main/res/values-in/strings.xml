@@ -453,6 +453,7 @@ Jika pengaturan <b>\"%s\"</b> diaktifkan, aplikasi akan merespons dengan data te
     <string name="settings_automated_tracking_extra_tag">dengan nama tag rekaman. Atau daftar nama tag dipisahkan dengan koma.</string>
     <string name="settings_automated_tracking_extra_color">dalam format heksadesimal RGB, misalnya #29A674 atau 29A674.</string>
     <string name="settings_automated_tracking_extra_time">dalam format \"yyyy-MM-dd HH:mm:ss\" atau stempel waktu UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">string opsional yang dikirim bersama tindakan mulai atau berhenti dan dikembalikan dalam peristiwa aktivitas yang dihasilkan.</string>
     <string name="settings_automated_tracking_find_record_mode">memilih rekaman mana yang akan diubah.</string>
     <string name="settings_automated_tracking_comment_mode">memilih cara mengubah komentar pada rekaman yang dipilih.</string>
     <string name="settings_automated_tracking_find_with_activity">selain itu memilih rekaman berdasarkan nama aktivitas, jika ada beberapa rekaman saat ini atau terakhir.</string>

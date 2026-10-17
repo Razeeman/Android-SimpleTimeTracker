@@ -453,6 +453,7 @@
     <string name="settings_automated_tracking_extra_tag">з назвою тегу запису. Або список імен тегів, розділених комами.</string>
     <string name="settings_automated_tracking_extra_color">у шістнадцятковому форматі RGB, наприклад #29A674 або 29A674.</string>
     <string name="settings_automated_tracking_extra_time">у форматі \"рррр-ММ-дд ГГ:хх:сс\" або у форматі часової позначки UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">необов’язковий рядок, що передається з командою запуску або зупинки та повертається у відповідних подіях дій.</string>
     <string name="settings_automated_tracking_find_record_mode">вибирає, який запис змінити.</string>
     <string name="settings_automated_tracking_comment_mode">вибирає спосіб зміни коментаря вибраного запису.</string>
     <string name="settings_automated_tracking_find_with_activity">додатково вибирає запис за назвою дії, якщо поточних або останніх записів декілька.</string>

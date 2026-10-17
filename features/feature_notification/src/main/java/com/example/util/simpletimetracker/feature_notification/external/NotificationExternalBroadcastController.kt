@@ -18,6 +18,7 @@ class NotificationExternalBroadcastController @Inject constructor(
         comment: String?,
         tagNames: List<String>,
         timeStarted: String?,
+        requestId: String?,
     ) {
         name ?: return
         mutex.withLock {
@@ -26,6 +27,7 @@ class NotificationExternalBroadcastController @Inject constructor(
                 comment = comment,
                 tagNames = tagNames,
                 timeStarted = timeStarted,
+                requestId = requestId,
             )
         }
     }
@@ -33,12 +35,14 @@ class NotificationExternalBroadcastController @Inject constructor(
     suspend fun onActionExternalActivityStop(
         name: String?,
         timeEnded: String?,
+        requestId: String?,
     ) {
         name ?: return
         mutex.withLock {
             externalBroadcastInteractor.onActionActivityStopByName(
                 name = name,
                 timeEnded = timeEnded,
+                requestId = requestId,
             )
         }
     }

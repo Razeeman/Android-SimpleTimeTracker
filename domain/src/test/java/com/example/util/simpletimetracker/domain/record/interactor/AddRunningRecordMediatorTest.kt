@@ -357,6 +357,7 @@ class AddRunningRecordMediatorTest {
             tagIds = listOf(tagId),
             comment = "comment",
             timeStarted = currentTime,
+            requestId = null,
         )
         verify(notificationGoalCountInteractor).checkAndShow(typeId)
         verify(pomodoroStartInteractor).checkAndStart(typeId)
@@ -386,6 +387,7 @@ class AddRunningRecordMediatorTest {
             tagIds = selectedTags.map { it.tagId },
             comment = "comment",
             timeStarted = currentTime,
+            requestId = null,
         )
         verify(runningRecordInteractor).add(
             RunningRecord(

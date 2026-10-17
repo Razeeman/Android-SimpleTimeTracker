@@ -41,6 +41,7 @@ class ExternalBroadcastInteractor @Inject constructor(
         comment: String?,
         tagNames: List<String>,
         timeStarted: String?,
+        requestId: String?,
     ) {
         val typeId = getTypeIdByName(name) ?: return
         val runningRecord = runningRecordInteractor.get(typeId)
@@ -57,12 +58,14 @@ class ExternalBroadcastInteractor @Inject constructor(
             } else {
                 AddRunningRecordMediator.StartTime.TakeCurrent
             },
+            requestId = requestId,
         )
     }
 
     suspend fun onActionActivityStopByName(
         name: String,
         timeEnded: String?,
+        requestId: String?,
     ) {
         val typeId = getTypeIdByName(name) ?: return
         val newTimeEnded = timeEnded?.let(::parseTimestamp)
@@ -72,6 +75,7 @@ class ExternalBroadcastInteractor @Inject constructor(
         removeRunningRecordMediator.removeWithRecordAdd(
             runningRecord = runningRecord,
             timeEnded = newTimeEnded,
+            requestId = requestId,
         )
     }
 

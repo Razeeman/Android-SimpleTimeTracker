@@ -453,6 +453,7 @@ Nếu cài đặt <b>\"%s\"</b> được bật, ứng dụng sẽ phản hồi b
     <string name="settings_automated_tracking_extra_tag">với tên của thẻ bản ghi. Hoặc danh sách tên thẻ cách nhau bằng dấu phẩy.</string>
     <string name="settings_automated_tracking_extra_color">ở định dạng thập lục phân RGB, ví dụ #29A674 hoặc 29A674.</string>
     <string name="settings_automated_tracking_extra_time">ở định dạng \"yyyy-MM-dd HH:mm:ss\" hoặc dấu thời gian UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">chuỗi tùy chọn được gửi cùng hành động bắt đầu hoặc dừng và được trả lại trong các sự kiện hoạt động phát sinh.</string>
     <string name="settings_automated_tracking_find_record_mode">chọn bản ghi cần thay đổi.</string>
     <string name="settings_automated_tracking_comment_mode">chọn cách thay đổi bình luận của bản ghi đã chọn.</string>
     <string name="settings_automated_tracking_find_with_activity">ngoài ra còn chọn bản ghi theo tên hoạt động, nếu có nhiều bản ghi hiện tại hoặc bản ghi cuối cùng.</string>

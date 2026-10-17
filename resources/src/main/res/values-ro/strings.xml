@@ -453,6 +453,7 @@ Dacă setarea <b>\"%s\"</b> este activată, aplicația va răspunde cu date la d
     <string name="settings_automated_tracking_extra_tag">cu numele etichetei înregistrării. Sau o listă de nume de etichete separate prin virgulă.</string>
     <string name="settings_automated_tracking_extra_color">în format hexazecimal RGB, de exemplu #29A674 sau 29A674.</string>
     <string name="settings_automated_tracking_extra_time">în formatul \"aaaa-ll-zz HH:mm:ss\" sau marcaj orar UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">șir de caractere opțional trimis cu o acțiune de pornire sau oprire și returnat în evenimentele de activitate rezultate.</string>
     <string name="settings_automated_tracking_find_record_mode">selectează ce înregistrare să schimbe.</string>
     <string name="settings_automated_tracking_comment_mode">selectează modul de modificare a comentariului înregistrării selectate.</string>
     <string name="settings_automated_tracking_find_with_activity">selectează suplimentar înregistrarea după numele activității, dacă există mai multe înregistrări curente sau ultime.</string>

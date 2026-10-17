@@ -65,6 +65,7 @@ const val EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME = "extra_find_record_with_activit
 const val EXTRA_GOAL_TYPE = "extra_goal_type" // duration, count
 const val EXTRA_GOAL_VALUE = "extra_goal_value"
 const val EXTRA_ANSWER_TYPE = "extra_answer_type" // simple, json
+const val EXTRA_REQUEST_ID = "extra_request_id"
 const val EXTRA_COLOR = "extra_color" // #RRGGBB or RRGGBB
 const val EXTRA_DATA = "data"
 const val EXTRA_SHIFT = "extra_shift" // days from today, 0 - today, -1 - yesterday

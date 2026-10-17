@@ -453,6 +453,7 @@ Se a configuración <b>\"%s\"</b> está activada, a aplicación responderá con 
     <string name="settings_automated_tracking_extra_tag">co nome dunha etiqueta de rexistro ou unha lista de nomes separados por comas.</string>
     <string name="settings_automated_tracking_extra_color">en formato hexadecimal RGB, por exemplo #29A674 ou 29A674.</string>
     <string name="settings_automated_tracking_extra_time">no formato \"yyyy-MM-dd HH:mm:ss\" ou marca de tempo UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">cadea de texto opcional que se envía cunha acción de inicio ou de parada e se devolve nos eventos de actividade resultantes.</string>
     <string name="settings_automated_tracking_find_record_mode">selecciona que rexistro trocar.</string>
     <string name="settings_automated_tracking_comment_mode">selecciona como trocar o comentario do rexistro seleccionado.</string>
     <string name="settings_automated_tracking_find_with_activity">ademais, selecciona o rexistro polo nome da actividade, se hai varios rexistros actuais ou recentes.</string>

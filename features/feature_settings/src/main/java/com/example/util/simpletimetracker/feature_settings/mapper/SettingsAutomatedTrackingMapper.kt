@@ -48,6 +48,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_COLOR
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
+import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_ID
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_NOTE
 import com.example.util.simpletimetracker.domain.extension.indexesOf
@@ -107,6 +108,7 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                         EXTRA_RECORD_COMMENT,
                         EXTRA_RECORD_TAG_NAME,
                         EXTRA_RECORD_TIME_STARTED,
+                        EXTRA_REQUEST_ID,
                     ),
                 ),
                 AvailableAction(
@@ -114,6 +116,7 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     extras = listOf(EXTRA_ACTIVITY_NAME),
                     optional = listOf(
                         EXTRA_RECORD_TIME_ENDED,
+                        EXTRA_REQUEST_ID,
                     ),
                 ),
                 AvailableAction(
@@ -196,7 +199,7 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                         EXTRA_RECORD_TYPE_ICON,
                         EXTRA_RECORD_TIME_STARTED,
                     ),
-                    optional = emptyList(),
+                    optional = listOf(EXTRA_REQUEST_ID),
                 ),
                 AvailableAction(
                     action = EVENT_STOPPED_ACTIVITY,
@@ -208,7 +211,7 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                         EXTRA_RECORD_TYPE_ICON,
                         EXTRA_RECORD_TIME_STARTED,
                     ),
-                    optional = emptyList(),
+                    optional = listOf(EXTRA_REQUEST_ID),
                 ),
                 AvailableAction(
                     action = EVENT_COMPLETED_GOAL,
@@ -276,6 +279,11 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                 ExtraDescription(
                     extra = EXTRA_COLOR,
                     description = resourceRepo.getString(R.string.settings_automated_tracking_extra_color),
+                    values = emptyList(),
+                ),
+                ExtraDescription(
+                    extra = EXTRA_REQUEST_ID,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_request_id),
                     values = emptyList(),
                 ),
                 ExtraDescription(

@@ -453,6 +453,7 @@
     <string name="settings_automated_tracking_extra_tag">باسم علامة السجل. أو قائمة بأسماء العلامات مفصولة بفاصلة.</string>
     <string name="settings_automated_tracking_extra_color">بتنسيق RGB السداسي عشري، على سبيل المثال #29A674 أو 29A674.</string>
     <string name="settings_automated_tracking_extra_time">بالتنسيق \"yyyy-MM-dd HH:mm:ss\" أو الطابع الزمني UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">سلسلة نصية اختيارية تُرسل مع إجراء بدء أو إيقاف وتُعاد في أحداث النشاط الناتجة.</string>
     <string name="settings_automated_tracking_find_record_mode">يختار السجل الذي تريد تغييره.</string>
     <string name="settings_automated_tracking_comment_mode">يختار كيفية تغيير تعليق السجل المحدد.</string>
     <string name="settings_automated_tracking_find_with_activity">بالإضافة إلى ذلك، يقوم بتحديد السجل حسب اسم النشاط، إذا كان هناك العديد من السجلات الحالية أو الأخيرة.</string>

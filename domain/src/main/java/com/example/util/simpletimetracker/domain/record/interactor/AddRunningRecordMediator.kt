@@ -73,6 +73,7 @@ class AddRunningRecordMediator @Inject constructor(
         updateNotificationSwitch: Boolean = true,
         checkDefaultDuration: Boolean = true,
         useSelectedTags: Boolean = false,
+        requestId: String? = null,
     ) {
         val currentTime = currentTimestampProvider.get()
         val actualTimeStarted = when (timeStarted) {
@@ -97,6 +98,7 @@ class AddRunningRecordMediator @Inject constructor(
             typeId = typeId,
             isMultitaskingAllowed = isMultitaskingAllowed,
             disallowOnlyPreviousTypeIds = rulesResult.disallowOnlyPreviousTypeIds,
+            requestId = requestId,
             splitTime = when (timeStarted) {
                 is StartTime.Current -> timeStarted.currentTimeStampMs
                 is StartTime.TakeCurrent -> currentTime
@@ -117,6 +119,7 @@ class AddRunningRecordMediator @Inject constructor(
             tagIds = actualTags.map { it.tagId },
             comment = comment,
             timeStarted = actualTimeStarted,
+            requestId = requestId,
         )
         val startParams = StartParams(
             typeId = typeId,
@@ -281,6 +284,7 @@ class AddRunningRecordMediator @Inject constructor(
         isMultitaskingAllowed: Boolean,
         disallowOnlyPreviousTypeIds: Set<Long>,
         splitTime: Long,
+        requestId: String?,
     ) {
         // Stop running records if multitasking is disabled.
         if (!isMultitaskingAllowed) {
@@ -301,6 +305,7 @@ class AddRunningRecordMediator @Inject constructor(
                         updateWidgets = false,
                         updateNotificationSwitch = false,
                         timeEnded = splitTime,
+                        requestId = requestId,
                     )
                 }
         }

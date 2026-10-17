@@ -453,6 +453,7 @@
     <string name="settings_automated_tracking_extra_tag">にレコード タグの名前を付けます。または、カンマで区切られたタグ名のリスト。</string>
     <string name="settings_automated_tracking_extra_color">RGBの16進数形式で、例えば #29A674 または 29A674。</string>
     <string name="settings_automated_tracking_extra_time">形式は 「yyyy-MM-dd HH:mm:ss」 または UTC タイムスタンプです。</string>
+    <string name="settings_automated_tracking_extra_request_id">開始または停止アクションとともに渡す任意の文字列で、その結果発生するアクティビティイベントに同じ値が含まれます。</string>
     <string name="settings_automated_tracking_find_record_mode">変更するレコードを選択します。</string>
     <string name="settings_automated_tracking_comment_mode">選択したレコードのコメントを変更する方法を選択します。</string>
     <string name="settings_automated_tracking_find_with_activity">現在のレコードまたは最後のレコードが複数ある場合は、アクティビティ名でレコードをさらに選択します。</string>

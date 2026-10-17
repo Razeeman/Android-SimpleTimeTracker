@@ -9,6 +9,7 @@ interface ActivityStartedStoppedBroadcastInteractor {
         tagIds: List<Long>,
         comment: String,
         timeStarted: Long,
+        requestId: String?,
     )
 
     suspend fun onActivityStopped(
@@ -16,6 +17,7 @@ interface ActivityStartedStoppedBroadcastInteractor {
         tagIds: List<Long>,
         comment: String,
         timeStarted: Long,
+        requestId: String?,
     )
 
     suspend fun onGoalReached(
