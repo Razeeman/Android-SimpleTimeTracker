@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">توضیحات:</string>
     <string name="settings_automated_tracking_extra_name">با نام فعالیتی که باید شروع یا متوقف شود.</string>
     <string name="settings_automated_tracking_extra_tag">با نام یک برچسب رکورد. یا لیستی از نام برچسب ها که با کاما از هم جدا شده اند.</string>
+    <string name="settings_automated_tracking_extra_color">در قالب هگزادسیمال RGB، برای مثال #29A674 یا 29A674.</string>
     <string name="settings_automated_tracking_extra_time">در قالب \"yyyy-MM-dd HH:mm:ss\" یا مهر زمانی UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">انتخاب می کند که کدام رکورد را تغییر دهد.</string>
     <string name="settings_automated_tracking_comment_mode">نحوه تغییر نظر رکورد انتخاب شده را انتخاب می کند.</string>

@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">תֵאוּר:</string>
     <string name="settings_automated_tracking_extra_name">עם שם פעילות שיש להתחיל או לעצור.</string>
     <string name="settings_automated_tracking_extra_tag">עם השם של תג רשומה. או רשימה של שמות תגים מופרדים בפסיק.</string>
+    <string name="settings_automated_tracking_extra_color">בפורמט הקסדצימלי RGB, לדוגמה #29A674 או 29A674.</string>
     <string name="settings_automated_tracking_extra_time">בפורמט \"yyyy-MM-dd HH:mm:ss\" או חותמת זמן UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">בוחר איזו רשומה לשנות.</string>
     <string name="settings_automated_tracking_comment_mode">בוחר כיצד לשנות את ההערה של הרשומה שנבחרה.</string>

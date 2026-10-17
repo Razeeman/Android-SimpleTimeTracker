@@ -451,6 +451,7 @@ Uma isilungiselelo esithi <b>\"%s\"</b> sivuliwe, uhlelo lokusebenza luzophendul
     <string name="settings_automated_tracking_extras_description">Incazelo:</string>
     <string name="settings_automated_tracking_extra_name">negama lomsebenzi okufanele uqale noma uyeke.</string>
     <string name="settings_automated_tracking_extra_tag">negama lethegi noma uhlu lwamagama lwahlukaniswe ngama-comma.</string>
+    <string name="settings_automated_tracking_extra_color">ngefomethi ye-RGB eyi-hexadecimal, isibonelo #29A674 noma 29A674.</string>
     <string name="settings_automated_tracking_extra_time">ngesimo esithi \"yyyy-MM-dd HH:mm:ss\" noma isikhathi se-UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">khetha irekhodi okufanele lishintshwe.</string>
     <string name="settings_automated_tracking_comment_mode">khetha indlela yokushintsha amazwana erekhodi ekhethiwe.</string>

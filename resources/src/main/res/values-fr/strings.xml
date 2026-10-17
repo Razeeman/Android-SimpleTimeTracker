@@ -451,6 +451,7 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application répondra avec des do
     <string name="settings_automated_tracking_extras_description">Description</string>
     <string name="settings_automated_tracking_extra_name">le nom de l\'activité à démarrer ou arrêter.</string>
     <string name="settings_automated_tracking_extra_tag">le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\'étiquettes séparés par des virgules.</string>
+    <string name="settings_automated_tracking_extra_color">au format hexadécimal RGB, par exemple #29A674 ou 29A674.</string>
     <string name="settings_automated_tracking_extra_time">format \"aaaa-MM-jj HH:mm:ss\" ou horodatage UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">indique l\'enregistrement à modifier.</string>
     <string name="settings_automated_tracking_comment_mode">indique comment modifier le commentaire de l\'enregistrement.</string>

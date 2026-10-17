@@ -451,6 +451,7 @@ Nếu cài đặt <b>\"%s\"</b> được bật, ứng dụng sẽ phản hồi b
     <string name="settings_automated_tracking_extras_description">Sự miêu tả:</string>
     <string name="settings_automated_tracking_extra_name">với tên hoạt động sẽ được bắt đầu hoặc dừng.</string>
     <string name="settings_automated_tracking_extra_tag">với tên của thẻ bản ghi. Hoặc danh sách tên thẻ cách nhau bằng dấu phẩy.</string>
+    <string name="settings_automated_tracking_extra_color">ở định dạng thập lục phân RGB, ví dụ #29A674 hoặc 29A674.</string>
     <string name="settings_automated_tracking_extra_time">ở định dạng \"yyyy-MM-dd HH:mm:ss\" hoặc dấu thời gian UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">chọn bản ghi cần thay đổi.</string>
     <string name="settings_automated_tracking_comment_mode">chọn cách thay đổi bình luận của bản ghi đã chọn.</string>

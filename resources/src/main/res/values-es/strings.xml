@@ -451,6 +451,7 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación responderá 
     <string name="settings_automated_tracking_extras_description">Descripción:</string>
     <string name="settings_automated_tracking_extra_name">con el nombre de la actividad que debe iniciarse o detenerse.</string>
     <string name="settings_automated_tracking_extra_tag">con el nombre de una etiqueta de registro. O lista de nombres de etiquetas separados por coma.</string>
+    <string name="settings_automated_tracking_extra_color">en formato hexadecimal RGB, por ejemplo #29A674 o 29A674.</string>
     <string name="settings_automated_tracking_extra_time">en el formato \"yyyy-MM-dd HH:mm:ss\" o marca de tiempo UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">selecciona qué registro cambiar.</string>
     <string name="settings_automated_tracking_comment_mode">selecciona cómo cambiar el comentario del registro seleccionado.</string>

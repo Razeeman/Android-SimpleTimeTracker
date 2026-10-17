@@ -110,8 +110,8 @@ class ActivityStartedStoppedBroadcastInteractorImpl @Inject constructor(
         Intent().apply {
             action = actionString
             putExtra(EXTRA_ACTIVITY_NAME, activityName)
-            if (comment.isNotEmpty()) putExtra(EXTRA_RECORD_COMMENT, comment)
-            if (tagNames.isNotEmpty()) putExtra(EXTRA_RECORD_TAG_NAME, tagsString)
+            putExtra(EXTRA_RECORD_COMMENT, comment)
+            putExtra(EXTRA_RECORD_TAG_NAME, tagsString)
             if (note.isNotEmpty()) putExtra(EXTRA_RECORD_TYPE_NOTE, note)
             if (icon.isNotEmpty()) putExtra(EXTRA_RECORD_TYPE_ICON, icon)
             if (timeStarted != null) putExtra(EXTRA_RECORD_TIME_STARTED, timeStarted)

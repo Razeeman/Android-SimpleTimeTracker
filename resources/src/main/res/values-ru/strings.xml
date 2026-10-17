@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">Описание:</string>
     <string name="settings_automated_tracking_extra_name">с именем действия, которое следует запустить или остановить.</string>
     <string name="settings_automated_tracking_extra_tag">с названием тега записи. Или список названий тегов, разделенных запятой.</string>
+    <string name="settings_automated_tracking_extra_color">в шестнадцатеричном формате RGB, например #29A674 или 29A674.</string>
     <string name="settings_automated_tracking_extra_time">в формате \"гггг-ММ-дд ЧЧ:мм:сс\" или временной метке UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">выбирает, какую запись изменить.</string>
     <string name="settings_automated_tracking_comment_mode">выбирает способ изменения комментария выбранной записи.</string>

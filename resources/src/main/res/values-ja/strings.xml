@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">説明：</string>
     <string name="settings_automated_tracking_extra_name">を開始または停止する必要があるアクティビティ名で指定します。</string>
     <string name="settings_automated_tracking_extra_tag">にレコード タグの名前を付けます。または、カンマで区切られたタグ名のリスト。</string>
+    <string name="settings_automated_tracking_extra_color">RGBの16進数形式で、例えば #29A674 または 29A674。</string>
     <string name="settings_automated_tracking_extra_time">形式は 「yyyy-MM-dd HH:mm:ss」 または UTC タイムスタンプです。</string>
     <string name="settings_automated_tracking_find_record_mode">変更するレコードを選択します。</string>
     <string name="settings_automated_tracking_comment_mode">選択したレコードのコメントを変更する方法を選択します。</string>

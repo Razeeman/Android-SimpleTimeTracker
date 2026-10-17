@@ -451,6 +451,7 @@ Se l\'impostazione <b>\"%s\"</b> è abilitata, l\'app risponderà con dati alle 
     <string name="settings_automated_tracking_extras_description">Descrizione:</string>
     <string name="settings_automated_tracking_extra_name">con il nome dell\'attività che deve essere avviata o interrotta.</string>
     <string name="settings_automated_tracking_extra_tag">con il nome di un tag record. Oppure un elenco di nomi di tag separati da virgola.</string>
+    <string name="settings_automated_tracking_extra_color">in formato esadecimale RGB, ad esempio #29A674 o 29A674.</string>
     <string name="settings_automated_tracking_extra_time">nel formato \"aaaa-MM-gg HH:mm:ss\" o timestamp UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">seleziona quale record modificare.</string>
     <string name="settings_automated_tracking_comment_mode">seleziona come modificare il commento del record selezionato.</string>

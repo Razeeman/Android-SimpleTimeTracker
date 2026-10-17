@@ -112,11 +112,15 @@ class NotificationExternalBroadcastController @Inject constructor(
     suspend fun onActionExternalRecordTagAdd(
         name: String?,
         icon: String?,
+        activityNames: List<String>,
+        color: String?,
     ) {
         mutex.withLock {
             externalBroadcastInteractor.onRecordTagAdd(
                 name = name,
                 icon = icon,
+                activityNames = activityNames,
+                color = color,
             )
         }
     }

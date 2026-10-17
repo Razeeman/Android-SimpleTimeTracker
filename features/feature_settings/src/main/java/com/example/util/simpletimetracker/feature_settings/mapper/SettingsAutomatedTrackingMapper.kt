@@ -44,6 +44,7 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_GOAL_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_GOAL_VALUE
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT_MODE
+import com.example.util.simpletimetracker.core.utils.EXTRA_COLOR
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
@@ -165,6 +166,8 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                     ),
                     optional = listOf(
                         EXTRA_RECORD_TYPE_ICON,
+                        EXTRA_ACTIVITY_NAME,
+                        EXTRA_COLOR,
                     ),
                 ),
                 AvailableAction(
@@ -267,6 +270,11 @@ class SettingsAutomatedTrackingMapper @Inject constructor(
                 ExtraDescription(
                     extra = EXTRA_RECORD_TAG_NAME,
                     description = resourceRepo.getString(R.string.settings_automated_tracking_extra_tag),
+                    values = emptyList(),
+                ),
+                ExtraDescription(
+                    extra = EXTRA_COLOR,
+                    description = resourceRepo.getString(R.string.settings_automated_tracking_extra_color),
                     values = emptyList(),
                 ),
                 ExtraDescription(

@@ -451,6 +451,7 @@ Om inställningen <b>\"%s\"</b> är aktiverad svarar appen med data på fråges�
     <string name="settings_automated_tracking_extras_description">Beskrivning:</string>
     <string name="settings_automated_tracking_extra_name">med namnet på aktiviteten som ska startas eller stoppas.</string>
     <string name="settings_automated_tracking_extra_tag">med namnet på en händelsetagg. Eller lista över taggnamn separerade med kommatecken.</string>
+    <string name="settings_automated_tracking_extra_color">i hexadecimalt RGB-format, till exempel #29A674 eller 29A674.</string>
     <string name="settings_automated_tracking_extra_time">i formatet \"åååå-MM-dd HH:mm:ss\" eller UTC-tidsstämpel.</string>
     <string name="settings_automated_tracking_find_record_mode">väljer vilken post som ska ändras.</string>
     <string name="settings_automated_tracking_comment_mode">väljer hur kommentaren för den valda posten ska ändras.</string>

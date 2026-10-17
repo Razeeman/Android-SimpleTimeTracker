@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">விளக்கம்:</string>
     <string name="settings_automated_tracking_extra_name">தொடங்கப்பட வேண்டிய அல்லது நிறுத்தப்பட வேண்டிய செயல்பாட்டின் பெயருடன்.</string>
     <string name="settings_automated_tracking_extra_tag">ஒரு பதிவுக் குறிச்சொல்லின் பெயருடன். அல்லது கமாவால் பிரிக்கப்பட்ட குறிச்சொல் பெயர்களின் பட்டியல்.</string>
+    <string name="settings_automated_tracking_extra_color">RGB ஹெக்ஸாடெசிமல் வடிவத்தில், எடுத்துக்காட்டாக #29A674 அல்லது 29A674.</string>
     <string name="settings_automated_tracking_extra_time">\"yyyy-MM-dd HH:mm:ss\" வடிவத்தில் அல்லது யூடிசி நேர முத்திரை.</string>
     <string name="settings_automated_tracking_find_record_mode">எந்தப் பதிவை மாற்ற வேண்டும் என்பதைத் தேர்ந்தெடுக்கிறது.</string>
     <string name="settings_automated_tracking_comment_mode">தேர்ந்தெடுக்கப்பட்ட பதிவின் கருத்தை எப்படி மாற்றுவது என்பதைத் தேர்ந்தெடுக்கிறது.</string>

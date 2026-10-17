@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">설명:</string>
     <string name="settings_automated_tracking_extra_name">시작 또는 정지할 앱의 이름.</string>
     <string name="settings_automated_tracking_extra_tag">기록 태그. 또는 쉼표로 구분된 태그 이름 목록입니다.</string>
+    <string name="settings_automated_tracking_extra_color">RGB 16진수 형식으로, 예를 들어 #29A674 또는 29A674.</string>
     <string name="settings_automated_tracking_extra_time">형식은 \"yyyy-MM-dd HH:mm:ss\" 또는 UTC 타임스탬프입니다.</string>
     <string name="settings_automated_tracking_find_record_mode">어떤 레코드를 변경할지 선택합니다.</string>
     <string name="settings_automated_tracking_comment_mode">선택한 레코드의 주석을 변경하는 방법을 선택합니다.</string>

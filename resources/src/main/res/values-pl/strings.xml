@@ -451,6 +451,7 @@ Jeśli ustawienie <b>\"%s\"</b> jest włączone, aplikacja odpowie danymi na tra
     <string name="settings_automated_tracking_extras_description">Opis:</string>
     <string name="settings_automated_tracking_extra_name">z nazwą działania, które należy rozpocząć lub zatrzymać.</string>
     <string name="settings_automated_tracking_extra_tag">z nazwą taga dla rekordu. Lub lista nazw znaczników oddzielonych przecinkami.</string>
+    <string name="settings_automated_tracking_extra_color">w szesnastkowym formacie RGB, na przykład #29A674 lub 29A674.</string>
     <string name="settings_automated_tracking_extra_time">w formacie \"rrrr-mm-dd gg:mm:ss\" lub sygnatura czasowa UTC.</string>
     <string name="settings_automated_tracking_find_record_mode">wybiera rekord, który ma zostać zmieniony.</string>
     <string name="settings_automated_tracking_comment_mode">wybiera sposób zmiany komentarza wybranego rekordu.</string>

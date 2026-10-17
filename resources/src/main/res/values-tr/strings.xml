@@ -451,6 +451,7 @@ Bu davranışı etkinleştirmek için bu uygulamaların şu parametrelerle \"int
     <string name="settings_automated_tracking_extras_description">Tanım:</string>
     <string name="settings_automated_tracking_extra_name">başlatılması veya durdurulması gereken etkinlik adıyla.</string>
     <string name="settings_automated_tracking_extra_tag">bir kayıt etiketi adıyla. Veya virgülle ayrılmış etiket adlarının listesi.</string>
+    <string name="settings_automated_tracking_extra_color">onaltılık RGB biçiminde, örneğin #29A674 veya 29A674.</string>
     <string name="settings_automated_tracking_extra_time">veya UTC zaman damgası biçiminde.</string>
     <string name="settings_automated_tracking_find_record_mode">hangi kaydın değiştirileceğini seçer.</string>
     <string name="settings_automated_tracking_comment_mode">seçili kaydın yorumunun nasıl değiştirileceğini seçer.</string>

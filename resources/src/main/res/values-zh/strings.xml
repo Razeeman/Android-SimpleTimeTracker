@@ -451,6 +451,7 @@
     <string name="settings_automated_tracking_extras_description">描述：</string>
     <string name="settings_automated_tracking_extra_name">带有应启动或停止的活动名称的</string>
     <string name="settings_automated_tracking_extra_tag">带有记录标签名称的或以逗号分隔的标签名称列表</string>
+    <string name="settings_automated_tracking_extra_color">采用 RGB 十六进制格式，例如 #29A674 或 29A674。</string>
     <string name="settings_automated_tracking_extra_time">格式为 \"yyyy-MM-dd HH:mm:ss\" 或 UTC 时间戳</string>
     <string name="settings_automated_tracking_find_record_mode">选择要更改的记录</string>
     <string name="settings_automated_tracking_comment_mode">选择如何更改所选记录的注释</string>
