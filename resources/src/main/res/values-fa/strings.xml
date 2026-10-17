@@ -575,6 +575,7 @@
     <string name="statistics_detail_goals_hint">بیش از حد یا کسری هدف</string>
     <string name="statistics_detail_goals_excess">مازاد</string>
     <string name="statistics_detail_goals_deficit">کسری</string>
+    <string name="statistics_detail_goals_balance">مانده</string>
     <string name="statistics_detail_tag_values_hint">مقادیر برچسب</string>
     <string name="statistics_detail_tag_values_multiply_duration">ضرب در مدت‌زمان</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">پر کردن دوره‌های خالی با داده‌های قبلی</string>

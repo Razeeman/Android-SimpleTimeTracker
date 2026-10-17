@@ -575,6 +575,7 @@ Contoh:<br/>
     <string name="statistics_detail_goals_hint">Kelebihan atau kekurangan gol</string>
     <string name="statistics_detail_goals_excess">Kelebihan</string>
     <string name="statistics_detail_goals_deficit">Defisit</string>
+    <string name="statistics_detail_goals_balance">Saldo</string>
     <string name="statistics_detail_tag_values_hint">Nilai tag</string>
     <string name="statistics_detail_tag_values_multiply_duration">Kalikan dengan durasi</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Isi periode kosong dengan data sebelumnya</string>

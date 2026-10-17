@@ -575,6 +575,7 @@ Examplu:<br/>
     <string name="statistics_detail_goals_hint">Exces sau deficit de obiectiv</string>
     <string name="statistics_detail_goals_excess">Exces</string>
     <string name="statistics_detail_goals_deficit">Deficit</string>
+    <string name="statistics_detail_goals_balance">Bilanț</string>
     <string name="statistics_detail_tag_values_hint">Valori etichetă</string>
     <string name="statistics_detail_tag_values_multiply_duration">Înmulțește cu durata</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Completează perioadele goale cu datele anterioare</string>

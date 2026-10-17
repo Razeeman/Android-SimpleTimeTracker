@@ -575,6 +575,7 @@ Beispiel:<br/>
     <string name="statistics_detail_goals_hint">Zielüberschreitung oder -defizit</string>
     <string name="statistics_detail_goals_excess">Überschuss</string>
     <string name="statistics_detail_goals_deficit">Defizit</string>
+    <string name="statistics_detail_goals_balance">Bilanz</string>
     <string name="statistics_detail_tag_values_hint">Tag-Werte</string>
     <string name="statistics_detail_tag_values_multiply_duration">Mit Dauer multiplizieren</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Leere Zeiträume mit vorherigen Daten füllen</string>

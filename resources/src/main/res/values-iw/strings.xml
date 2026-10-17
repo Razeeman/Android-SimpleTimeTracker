@@ -575,6 +575,7 @@
     <string name="statistics_detail_goals_hint">עודף או גירעון יעד</string>
     <string name="statistics_detail_goals_excess">עוֹדֶף</string>
     <string name="statistics_detail_goals_deficit">גֵרָעוֹן</string>
+    <string name="statistics_detail_goals_balance">מאזן</string>
     <string name="statistics_detail_tag_values_hint">ערכי תג</string>
     <string name="statistics_detail_tag_values_multiply_duration">הכפל במשך הזמן</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">מלא תקופות ריקות בנתונים קודמים</string>

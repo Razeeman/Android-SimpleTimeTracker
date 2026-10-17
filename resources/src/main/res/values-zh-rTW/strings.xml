@@ -575,6 +575,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="statistics_detail_goals_hint">目標超額或不足</string>
     <string name="statistics_detail_goals_excess">過量的</string>
     <string name="statistics_detail_goals_deficit">赤字</string>
+    <string name="statistics_detail_goals_balance">淨差額</string>
     <string name="statistics_detail_tag_values_hint">標籤值</string>
     <string name="statistics_detail_tag_values_multiply_duration">按時長相乘</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">用先前的資料填補空白期間</string>

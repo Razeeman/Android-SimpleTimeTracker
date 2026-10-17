@@ -575,6 +575,7 @@ Exemple :<br/>
     <string name="statistics_detail_goals_hint">Avance ou retard par rapport à l\'objectif</string>
     <string name="statistics_detail_goals_excess">Avance</string>
     <string name="statistics_detail_goals_deficit">Retard</string>
+    <string name="statistics_detail_goals_balance">Solde</string>
     <string name="statistics_detail_tag_values_hint">Valeurs de l\'étiquette</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplier par la durée</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Remplir les périodes vides avec les données précédentes</string>

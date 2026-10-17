@@ -575,6 +575,7 @@ Ejemplo:<br/>
     <string name="statistics_detail_goals_hint">Exceso o déficit de goles</string>
     <string name="statistics_detail_goals_excess">Exceso</string>
     <string name="statistics_detail_goals_deficit">Déficit</string>
+    <string name="statistics_detail_goals_balance">Balance</string>
     <string name="statistics_detail_tag_values_hint">Valores de etiqueta</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplicar por la duración</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Rellenar períodos vacíos con datos anteriores</string>

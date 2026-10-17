@@ -575,6 +575,7 @@
     <string name="statistics_detail_goals_hint">هدف فائض أو عجز</string>
     <string name="statistics_detail_goals_excess">إفراط</string>
     <string name="statistics_detail_goals_deficit">العجز</string>
+    <string name="statistics_detail_goals_balance">الرصيد</string>
     <string name="statistics_detail_tag_values_hint">قيم الوسوم</string>
     <string name="statistics_detail_tag_values_multiply_duration">اضرب بالمدة</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">املأ الفترات الفارغة بالبيانات السابقة</string>

@@ -575,6 +575,7 @@ Ví dụ:<br/>
     <string name="statistics_detail_goals_hint">Mục tiêu vượt quá hoặc thâm hụt</string>
     <string name="statistics_detail_goals_excess">Thặng dư</string>
     <string name="statistics_detail_goals_deficit">Thâm hụt</string>
+    <string name="statistics_detail_goals_balance">Số dư</string>
     <string name="statistics_detail_tag_values_hint">Giá trị thẻ</string>
     <string name="statistics_detail_tag_values_multiply_duration">Nhân với thời lượng</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Điền các kỳ trống bằng dữ liệu trước đó</string>

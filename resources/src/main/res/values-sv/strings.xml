@@ -575,6 +575,7 @@ Exempel:<br/>
     <string name="statistics_detail_goals_hint">Målöverskott eller underskott</string>
     <string name="statistics_detail_goals_excess">Överskott</string>
     <string name="statistics_detail_goals_deficit">Underskott</string>
+    <string name="statistics_detail_goals_balance">Balans</string>
     <string name="statistics_detail_tag_values_hint">Taggvärden</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplicera med varaktighet</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Fyll tomma perioder med tidigare data</string>

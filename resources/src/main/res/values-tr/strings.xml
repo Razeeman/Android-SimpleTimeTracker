@@ -575,6 +575,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_goals_hint">Hedef fazlası veya açığı</string>
     <string name="statistics_detail_goals_excess">Aşırı</string>
     <string name="statistics_detail_goals_deficit">Açık</string>
+    <string name="statistics_detail_goals_balance">Bakiye</string>
     <string name="statistics_detail_tag_values_hint">Etiket değerleri</string>
     <string name="statistics_detail_tag_values_multiply_duration">Süre ile çarp</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Boş dönemleri önceki verilerle doldur</string>

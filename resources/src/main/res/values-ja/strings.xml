@@ -575,6 +575,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="statistics_detail_goals_hint">目標超過または不足</string>
     <string name="statistics_detail_goals_excess">過剰</string>
     <string name="statistics_detail_goals_deficit">赤字</string>
+    <string name="statistics_detail_goals_balance">差し引き</string>
     <string name="statistics_detail_tag_values_hint">タグ値</string>
     <string name="statistics_detail_tag_values_multiply_duration">時間で掛け算</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">空の期間を前のデータで埋める</string>

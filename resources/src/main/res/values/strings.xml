@@ -577,6 +577,7 @@ Example:<br/>
     <string name="statistics_detail_goals_hint">Goal excess or deficit</string>
     <string name="statistics_detail_goals_excess">Excess</string>
     <string name="statistics_detail_goals_deficit">Deficit</string>
+    <string name="statistics_detail_goals_balance">Balance</string>
     <string name="statistics_detail_tag_values_hint">Tag values</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiply by duration</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Fill empty periods with previous data</string>

@@ -575,6 +575,7 @@
     <string name="statistics_detail_goals_hint">Перевищення або дефіцит цілі</string>
     <string name="statistics_detail_goals_excess">Перевищення</string>
     <string name="statistics_detail_goals_deficit">Дефіцит</string>
+    <string name="statistics_detail_goals_balance">Баланс</string>
     <string name="statistics_detail_tag_values_hint">Значення тегів</string>
     <string name="statistics_detail_tag_values_multiply_duration">Помножити на тривалість</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Заповнювати порожні періоди попередніми даними</string>

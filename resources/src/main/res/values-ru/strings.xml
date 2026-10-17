@@ -575,6 +575,7 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="statistics_detail_goals_hint">Превышение или дефицит цели</string>
     <string name="statistics_detail_goals_excess">Превышение</string>
     <string name="statistics_detail_goals_deficit">Дефицит</string>
+    <string name="statistics_detail_goals_balance">Баланс</string>
     <string name="statistics_detail_tag_values_hint">Значения тегов</string>
     <string name="statistics_detail_tag_values_multiply_duration">Умножить на длительность</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Заполнять пустые периоды предыдущими данными</string>

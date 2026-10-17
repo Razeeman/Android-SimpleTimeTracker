@@ -575,6 +575,7 @@ Voorbeeld:<br/>
     <string name="statistics_detail_goals_hint">Doeloverschot of -tekort</string>
     <string name="statistics_detail_goals_excess">Overmaat</string>
     <string name="statistics_detail_goals_deficit">Tekort</string>
+    <string name="statistics_detail_goals_balance">Saldo</string>
     <string name="statistics_detail_tag_values_hint">Tagwaarden</string>
     <string name="statistics_detail_tag_values_multiply_duration">Vermenigvuldig met duur</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Lege periodes vullen met vorige gegevens</string>

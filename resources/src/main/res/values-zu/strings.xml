@@ -575,6 +575,7 @@ Isibonelo:<br/>
     <string name="statistics_detail_goals_hint">Ukweqa noma ukusilela kwezinhloso</string>
     <string name="statistics_detail_goals_excess">Okweqile</string>
     <string name="statistics_detail_goals_deficit">Ukusilela</string>
+    <string name="statistics_detail_goals_balance">Ibhalansi</string>
     <string name="statistics_detail_tag_values_hint">Amanani ethegi</string>
     <string name="statistics_detail_tag_values_multiply_duration">Phindaphinda isikhathi</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Gcwalisa izikhathi ezingenalutho ngedatha yangaphambilini</string>

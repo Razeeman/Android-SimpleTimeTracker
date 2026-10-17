@@ -575,6 +575,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_goals_hint">लक्ष्य की अधिकता या कमी</string>
     <string name="statistics_detail_goals_excess">अधिकता</string>
     <string name="statistics_detail_goals_deficit">घाटा</string>
+    <string name="statistics_detail_goals_balance">शेष</string>
     <string name="statistics_detail_tag_values_hint">टैग मान</string>
     <string name="statistics_detail_tag_values_multiply_duration">अवधि से गुणा करें</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">खाली अवधियों को पिछले डेटा से भरें</string>
