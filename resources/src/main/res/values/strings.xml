@@ -347,7 +347,7 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="settings_days_in_calendar">Days in calendar</string>
     <string name="settings_widget_transparency">Widget background transparency</string>
     <string name="settings_always_show_widget_activity_colors">Always show activity colors in widgets</string>
-    <string name="settings_always_show_widget_activity_colors_hint">Show activity colors even when inactive in the Grid and Single Activity widgets. Running activities display a timer.</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Show activity colors even when inactive in activity widgets.</string>
     <string name="settings_show_activity_filters">Show activity filters on main screen</string>
     <string name="settings_allow_multiple_activity_filters">Allow multiple activity filters</string>
     <string name="settings_allow_multiple_activity_filters_hint">If disabled, selecting a filter will disable other activity filters.</string>

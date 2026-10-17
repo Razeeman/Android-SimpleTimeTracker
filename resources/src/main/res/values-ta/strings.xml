@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">பதிவுகளின் வரிசையைத் தலைகீழாக்கு</string>
     <string name="settings_days_in_calendar">நாட்காட்டியில் உள்ள நாட்கள்</string>
     <string name="settings_widget_transparency">விட்ஜெட் பின்னணி வெளிப்படைத்தன்மை</string>
+    <string name="settings_always_show_widget_activity_colors">விட்ஜெட்களில் எப்போதும் செயல்பாடுகளின் வண்ணங்களைக் காட்டு</string>
+    <string name="settings_always_show_widget_activity_colors_hint">செயல்பாடுகள் செயலில் இல்லாதபோதும் செயல்பாட்டு விட்ஜெட்களில் அவற்றின் வண்ணங்களைக் காட்டு.</string>
     <string name="settings_show_activity_filters">முதன்மைத் திரையில் செயல்பாட்டு வடிகட்டிகளைக் காட்டு</string>
     <string name="settings_allow_multiple_activity_filters">பல செயல்பாட்டு வடிகட்டிகளை அனுமதி</string>
     <string name="settings_allow_multiple_activity_filters_hint">முடக்கப்பட்டால், ஒரு வடிகட்டியைத் தேர்ந்தெடுத்தால் மற்ற செயல்பாட்டு வடிகட்டிகள் முடக்கப்படும்.</string>

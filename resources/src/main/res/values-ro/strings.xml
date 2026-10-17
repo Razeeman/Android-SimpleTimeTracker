@@ -346,6 +346,8 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_reverse_order_in_calendar">Inversează ordinea înregistrărilor</string>
     <string name="settings_days_in_calendar">Zile în calendar</string>
     <string name="settings_widget_transparency">Transparență fundal Widget</string>
+    <string name="settings_always_show_widget_activity_colors">Afișează întotdeauna culorile activităților în widgeturi</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Afișează culorile activităților în widgeturile de activitate chiar și atunci când activitățile sunt inactive.</string>
     <string name="settings_show_activity_filters">Afișează filtrele de activitate pe ecranul principal</string>
     <string name="settings_allow_multiple_activity_filters">Permite mai multe filtre de activitate</string>
     <string name="settings_allow_multiple_activity_filters_hint">Dacă este dezactivată, selectarea unui filtru va dezactiva alte filtre de activitate.</string>

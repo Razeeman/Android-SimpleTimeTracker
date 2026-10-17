@@ -346,6 +346,8 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
     <string name="settings_days_in_calendar">Jours du calendrier</string>
     <string name="settings_widget_transparency">Transparence de l\'arrière-plan du widget</string>
+    <string name="settings_always_show_widget_activity_colors">Toujours afficher les couleurs des activités dans les widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Afficher les couleurs des activités dans les widgets d\'activité même lorsque les activités sont inactives.</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multiple_activity_filters">Autoriser plusieurs filtres d\'activité</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si désactivé, le choix d\'un filtre annulera les autres filtres.</string>

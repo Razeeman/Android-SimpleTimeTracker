@@ -346,6 +346,8 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_reverse_order_in_calendar">Odwrotna kolejność zapisów</string>
     <string name="settings_days_in_calendar">Dni w kalendarzu</string>
     <string name="settings_widget_transparency">Przezroczystość tła widgetu</string>
+    <string name="settings_always_show_widget_activity_colors">Zawsze pokazuj kolory aktywności w widgetach</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Pokazuj kolory aktywności w widgetach aktywności, nawet gdy aktywności są nieaktywne.</string>
     <string name="settings_show_activity_filters">Pokaż filtry aktywności na ekranie głównym</string>
     <string name="settings_allow_multiple_activity_filters">Zezwalaj na wiele filtrów aktywności</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jeśli opcja jest wyłączona, wybranie filtra spowoduje wyłączenie innych filtrów aktywności.</string>

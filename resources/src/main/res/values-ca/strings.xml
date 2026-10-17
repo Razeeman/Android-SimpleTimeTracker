@@ -346,6 +346,8 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="settings_reverse_order_in_calendar">Inverteix l\'ordre dels enregistraments</string>
     <string name="settings_days_in_calendar">Dies al calendari</string>
     <string name="settings_widget_transparency">Transparència de fons del widget</string>
+    <string name="settings_always_show_widget_activity_colors">Mostra sempre els colors de les activitats als widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Mostra els colors de les activitats als widgets d\'activitat encara que les activitats estiguin inactives.</string>
     <string name="settings_show_activity_filters">Mostra els filtres d\'activitat a la pantalla principal.</string>
     <string name="settings_allow_multiple_activity_filters">Permet diversos filtres d\'activitat</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si està desactivat, seleccionar un filtre desactivarà altres filtres d\'activitat.</string>

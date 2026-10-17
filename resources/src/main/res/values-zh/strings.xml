@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">倒序记录</string>
     <string name="settings_days_in_calendar">日历视图显示的天数</string>
     <string name="settings_widget_transparency">小部件背景透明度</string>
+    <string name="settings_always_show_widget_activity_colors">始终在小部件中显示活动颜色</string>
+    <string name="settings_always_show_widget_activity_colors_hint">即使活动未在进行，也在活动小部件中显示活动颜色。</string>
     <string name="settings_show_activity_filters">在首页上显示活动过滤器</string>
     <string name="settings_allow_multiple_activity_filters">允许多个活动过滤器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果禁用，选择一个过滤器将禁用其他活动过滤器</string>

@@ -346,6 +346,8 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>
     <string name="settings_widget_transparency">Transparansi latar belakang widget</string>
+    <string name="settings_always_show_widget_activity_colors">Selalu tampilkan warna aktivitas di widget</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Tampilkan warna aktivitas di widget aktivitas meskipun aktivitas tidak aktif.</string>
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_allow_multiple_activity_filters">Izinkan beberapa filter aktivitas</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jika dinonaktifkan, memilih filter akan menonaktifkan filter aktivitas lainnya.</string>

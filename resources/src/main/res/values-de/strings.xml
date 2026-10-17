@@ -346,6 +346,8 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
     <string name="settings_days_in_calendar">Tage im Kalender</string>
     <string name="settings_widget_transparency">Widget-Hintergrundtransparenz</string>
+    <string name="settings_always_show_widget_activity_colors">Aktivitätsfarben immer in Widgets anzeigen</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Aktivitätsfarben in Aktivitätswidgets auch dann anzeigen, wenn die Aktivitäten inaktiv sind.</string>
     <string name="settings_show_activity_filters">Aktivitätsfilter auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_allow_multiple_activity_filters">Erlauben Sie mehrere Aktivitätsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Wenn die Option deaktiviert ist, werden durch die Auswahl eines Filters andere Aktivitätsfilter deaktiviert.</string>

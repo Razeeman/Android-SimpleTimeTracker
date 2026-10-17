@@ -346,6 +346,8 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_reverse_order_in_calendar">Orde inversa de rexistros</string>
     <string name="settings_days_in_calendar">Días no calendario</string>
     <string name="settings_widget_transparency">Transparencia do fondo do widget</string>
+    <string name="settings_always_show_widget_activity_colors">Amosar sempre as cores das actividades nos widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Amosar as cores das actividades nos widgets de actividade mesmo cando as actividades estean inactivas.</string>
     <string name="settings_show_activity_filters">Amosar filtros de actividade na pantalla principal</string>
     <string name="settings_allow_multiple_activity_filters">Permitir múltiples filtros de actividade</string>
     <string name="settings_allow_multiple_activity_filters_hint">Se está desactivado, ao escoller un filtro desactivaranse outros filtros de actividade.</string>

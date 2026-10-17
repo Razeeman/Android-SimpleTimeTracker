@@ -346,6 +346,8 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_reverse_order_in_calendar">Kayıtların ters sırası</string>
     <string name="settings_days_in_calendar">Takvimdeki günler</string>
     <string name="settings_widget_transparency">Widget arka plan şeffaflığı</string>
+    <string name="settings_always_show_widget_activity_colors">Widgetlarda aktivite renklerini her zaman göster</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Aktiviteler etkin değilken bile aktivite widgetlarında aktivite renklerini göster.</string>
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
     <string name="settings_allow_multiple_activity_filters">Birden fazla etkinlik filtresine izin ver</string>
     <string name="settings_allow_multiple_activity_filters_hint">Devre dışı bırakılırsa, bir filtre seçildiğinde diğer etkinlik filtreleri devre dışı bırakılır.</string>

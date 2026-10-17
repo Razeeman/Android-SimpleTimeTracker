@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">Đảo ngược thứ tự các bản ghi</string>
     <string name="settings_days_in_calendar">Ngày trong lịch</string>
     <string name="settings_widget_transparency">Độ trong suốt của nền tiện ích</string>
+    <string name="settings_always_show_widget_activity_colors">Luôn hiển thị màu của các hoạt động trong tiện ích</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Hiển thị màu của các hoạt động trong tiện ích hoạt động ngay cả khi chúng không diễn ra.</string>
     <string name="settings_show_activity_filters">Hiển thị bộ lọc hoạt động trên màn hình chính</string>
     <string name="settings_allow_multiple_activity_filters">Cho phép nhiều bộ lọc hoạt động</string>
     <string name="settings_allow_multiple_activity_filters_hint">Nếu bị tắt, việc chọn bộ lọc sẽ tắt các bộ lọc hoạt động khác.</string>

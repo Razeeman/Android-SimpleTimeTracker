@@ -346,6 +346,8 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_days_in_calendar">Dagar i kalendern</string>
     <string name="settings_widget_transparency">Transparens för widgetbakgrund</string>
+    <string name="settings_always_show_widget_activity_colors">Visa alltid aktivitetsfärger i widgetar</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Visa aktivitetsfärger i aktivitetswidgetar även när aktiviteterna är inaktiva.</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multiple_activity_filters">Tillåt flera aktivitetsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Om det är inaktiverat kommer andra aktivitetsfilter att inaktiveras om du väljer ett filter.</string>

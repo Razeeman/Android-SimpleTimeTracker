@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">סדר הפוך של רשומות</string>
     <string name="settings_days_in_calendar">ימים בלוח שנה</string>
     <string name="settings_widget_transparency">שקיפות רקע יישומון</string>
+    <string name="settings_always_show_widget_activity_colors">הצג תמיד צבעי פעילויות ביישומונים</string>
+    <string name="settings_always_show_widget_activity_colors_hint">הצג צבעי פעילויות ביישומוני פעילות גם כשהפעילויות אינן פעילות.</string>
     <string name="settings_show_activity_filters">הצג מסנני פעילות במסך ראשי</string>
     <string name="settings_allow_multiple_activity_filters">אפשר מסנני פעילות מרובים</string>
     <string name="settings_allow_multiple_activity_filters_hint">אם מושבת, בחירת מסנן תשבית מסנני פעילות אחרים.</string>

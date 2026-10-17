@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>
     <string name="settings_widget_transparency">小部件背景透明度</string>
+    <string name="settings_always_show_widget_activity_colors">一律在小部件中顯示活動顏色</string>
+    <string name="settings_always_show_widget_activity_colors_hint">即使活動未在進行，也在活動小部件中顯示活動顏色。</string>
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters">允許多個活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果停用，選擇一個過濾器將停用其他活動過濾器。</string>

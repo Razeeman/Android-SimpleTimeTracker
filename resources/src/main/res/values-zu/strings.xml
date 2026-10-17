@@ -346,6 +346,8 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_reverse_order_in_calendar">Phendula ukuhleleka kwamarekhodi</string>
     <string name="settings_days_in_calendar">Izinsuku ezikukhalenda</string>
     <string name="settings_widget_transparency">Ukusobala kwangemuva kwewidget</string>
+    <string name="settings_always_show_widget_activity_colors">Bonisa njalo imibala yemisebenzi kumawidget</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Bonisa imibala yemisebenzi kumawidget emisebenzi ngisho nalapho imisebenzi ingasebenzi.</string>
     <string name="settings_show_activity_filters">Bonisa izihlungi zemisebenzi ekhasini eliyinhloko</string>
     <string name="settings_allow_multiple_activity_filters">Vumela izihlungi eziningi zemisebenzi</string>
     <string name="settings_allow_multiple_activity_filters_hint">Uma kungavunyelwe, ukukhetha isihlungi kuzokhubaza ezinye izihlungi.</string>

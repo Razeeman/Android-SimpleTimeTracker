@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
     <string name="settings_widget_transparency">ウィジェットの背景の透明度</string>
+    <string name="settings_always_show_widget_activity_colors">ウィジェットにアクティビティの色を常に表示する</string>
+    <string name="settings_always_show_widget_activity_colors_hint">アクティビティが実行中でない場合でも、アクティビティウィジェットにアクティビティの色を表示します。</string>
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multiple_activity_filters">複数のアクティビティフィルターを許可する</string>
     <string name="settings_allow_multiple_activity_filters_hint">無効にした場合、フィルターを選択すると他のアクティビティ フィルターが無効になります。</string>

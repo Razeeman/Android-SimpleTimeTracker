@@ -346,6 +346,8 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_reverse_order_in_calendar">Ordine inverso dei record</string>
     <string name="settings_days_in_calendar">Giorni in calendario</string>
     <string name="settings_widget_transparency">Trasparenza dello sfondo del widget</string>
+    <string name="settings_always_show_widget_activity_colors">Mostra sempre i colori delle attività nei widget</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Mostra i colori delle attività nei widget delle attività anche quando le attività sono inattive.</string>
     <string name="settings_show_activity_filters">Mostra i filtri delle attività sulla schermata principale</string>
     <string name="settings_allow_multiple_activity_filters">Consenti più filtri di attività</string>
     <string name="settings_allow_multiple_activity_filters_hint">Se disabilitato, la selezione di un filtro disabiliterà gli altri filtri di attività.</string>
