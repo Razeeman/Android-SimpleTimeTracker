@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteracto
 import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorFavouriteViewData
+import com.example.util.simpletimetracker.feature_base_adapter.color.ColorGradientViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
@@ -25,6 +26,7 @@ class ColorViewDataInteractor @Inject constructor(
 
     suspend fun getColorsViewData(
         currentColor: AppColor?,
+        gradientSelected: Boolean?,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val customColorSelected = currentColor?.colorInt?.isNotEmpty().orFalse()
@@ -62,6 +64,10 @@ class ColorViewDataInteractor @Inject constructor(
 
         result += ColorPaletteViewData(selected = customColorSelected)
 
+        if (gradientSelected != null) {
+            result += ColorGradientViewData(selected = gradientSelected)
+        }
+
         if (customColorSelected) {
             val iconColor = if (currentColor?.colorInt in favouriteColorsData) {
                 R.attr.colorAccent
@@ -82,7 +88,8 @@ class ColorViewDataInteractor @Inject constructor(
                     type = ColorViewData.Type.Favourite,
                     colorInt = favouriteColor.colorInt.toIntOrNull()
                         ?: colorMapper.toInactiveColor(isDarkTheme),
-                    selected = false,
+                    selected = customColorSelected &&
+                        currentColor?.colorInt == favouriteColor.colorInt,
                 )
             }
         }

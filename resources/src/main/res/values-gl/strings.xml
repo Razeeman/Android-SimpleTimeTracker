@@ -222,6 +222,10 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_record_type_more_fields">Máis</string>
     <string name="change_record_type_less_fields">Menos</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Degradado</string>
+    <string name="color_selection_gradient_angle_label">Ángulo</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permite unha aplicación máis precisa dalgunhas configuracións</string>
     <string name="complex_rules_disable">Desactivar</string>

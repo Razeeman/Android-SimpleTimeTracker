@@ -222,6 +222,10 @@
     <string name="change_record_type_more_fields">더보기</string>
     <string name="change_record_type_less_fields">간단히</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">그라데이션</string>
+    <string name="color_selection_gradient_angle_label">각도</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">일부 설정을 보다 세밀하게 적용할 수 있습니다.</string>
     <string name="complex_rules_disable">장애를 입히다</string>

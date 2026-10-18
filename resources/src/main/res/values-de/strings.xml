@@ -222,6 +222,10 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="change_record_type_more_fields">Mehr</string>
     <string name="change_record_type_less_fields">Weniger</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Farbverlauf</string>
+    <string name="color_selection_gradient_angle_label">Winkel</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Ermöglicht eine genauere Anwendung einiger Einstellungen</string>
     <string name="complex_rules_disable">Deaktivieren</string>

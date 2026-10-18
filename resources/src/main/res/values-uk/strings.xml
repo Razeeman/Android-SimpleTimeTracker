@@ -222,6 +222,10 @@
     <string name="change_record_type_more_fields">Більше</string>
     <string name="change_record_type_less_fields">Менше</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Градієнт</string>
+    <string name="color_selection_gradient_angle_label">Кут</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Дозволяє більш точно налаштувати застосування деяких параметрів</string>
     <string name="complex_rules_disable">Вимкнути</string>

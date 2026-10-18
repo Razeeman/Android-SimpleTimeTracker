@@ -222,6 +222,10 @@ Isto permite-lhe ver quanto tempo está a gastar em atividades produtivas versus
     <string name="change_record_type_more_fields">Mais</string>
     <string name="change_record_type_less_fields">Menos</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Gradiente</string>
+    <string name="color_selection_gradient_angle_label">Ângulo</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permite uma aplicação mais precisa de algumas configurações</string>
     <string name="complex_rules_disable">Desativar</string>

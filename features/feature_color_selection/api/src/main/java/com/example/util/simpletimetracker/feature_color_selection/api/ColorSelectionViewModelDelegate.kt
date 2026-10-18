@@ -15,9 +15,13 @@ interface ColorSelectionViewModelDelegate {
     fun onColorClick(item: ColorViewData)
     fun onColorPaletteClick()
     fun onColorFavouriteClick()
+    fun onGradientClick()
+    fun onGradientEndpointClick(endpoint: GradientEndpoint)
+    fun onGradientAngleChange(angle: Int)
     fun onCustomColorSelected(tag: String, colorInt: Int)
 
     interface Parent {
+        val supportsGradients: Boolean get() = false
         fun getDialogTag(): String
         suspend fun update()
         fun onColorSelected() = Unit

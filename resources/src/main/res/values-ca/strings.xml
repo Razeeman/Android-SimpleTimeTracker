@@ -222,6 +222,10 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="change_record_type_more_fields">Més</string>
     <string name="change_record_type_less_fields">Menys</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Degradat</string>
+    <string name="color_selection_gradient_angle_label">Angle</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permet una aplicació més afinada d\'alguns paràmetres</string>
     <string name="complex_rules_disable">Desactivar</string>

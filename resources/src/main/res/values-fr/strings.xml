@@ -222,6 +222,10 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="change_record_type_more_fields">Plus</string>
     <string name="change_record_type_less_fields">Moins</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Dégradé</string>
+    <string name="color_selection_gradient_angle_label">Angle</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Créez des actions automatiques dans l\'application</string>
     <string name="complex_rules_disable">Désactiver</string>

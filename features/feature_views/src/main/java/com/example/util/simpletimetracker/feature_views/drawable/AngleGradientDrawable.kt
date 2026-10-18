@@ -14,7 +14,7 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
-internal class AngleGradientDrawable : Drawable() {
+class AngleGradientDrawable : Drawable() {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private var startColor: Int = Color.TRANSPARENT

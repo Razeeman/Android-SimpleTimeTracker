@@ -5,6 +5,7 @@
     android:id="@+id/layoutColorFavouriteItem"
     style="@style/ColorIconItem"
     android:foreground="?selectableItemBackground"
+    android:contentDescription="@string/change_record_favourite_colors_hint"
     android:outlineProvider="background"
     app:cardBackgroundColor="?appBackgroundColor">
 

@@ -144,7 +144,14 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         app:layout_constraintEnd_toStartOf="@id/arrowChangeRecordTypeColor"
-                        tools:cardBackgroundColor="@color/black" />
+                        tools:cardBackgroundColor="@color/black">
+
+                        <View
+                            android:id="@+id/viewChangeRecordTypeColorPreview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/EditScreenField"

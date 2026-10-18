@@ -222,6 +222,10 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="change_record_type_more_fields">Więcej</string>
     <string name="change_record_type_less_fields">Mniej</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Gradient</string>
+    <string name="color_selection_gradient_angle_label">Kąt</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Umożliwia bardziej precyzyjne zastosowanie niektórych ustawień</string>
     <string name="complex_rules_disable">Wyłączyć</string>

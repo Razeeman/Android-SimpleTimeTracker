@@ -5,7 +5,6 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.color.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.color.model.AppColor
-import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.ColorUtils.darkenColorByFactor
 import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -16,19 +15,28 @@ class ColorMapper @Inject constructor(
     private val appColorMapper: AppColorMapper,
 ) {
 
-    @ColorInt fun mapToColorInt(color: AppColor, isDarkTheme: Boolean): Int {
+    @ColorInt
+    fun mapToColorInt(color: AppColor, isDarkTheme: Boolean): Int {
         return appColorMapper.mapToColorInt(color).let {
             if (isDarkTheme) darkenColorByFactor(it) else it
         }
     }
 
-    // TODO GRADIENT remove mock
     fun mapToColorStyle(color: AppColor, isDarkTheme: Boolean): ColorStyle {
-        val color = mapToColorInt(color, isDarkTheme)
+        val start = mapToColorInt(color, isDarkTheme)
+        val gradient = color.gradient ?: return ColorStyle.Solid(start)
+        val end = mapToColorInt(
+            color = AppColor(
+                colorId = gradient.endColorId,
+                colorInt = gradient.endColorInt,
+                gradient = null,
+            ),
+            isDarkTheme = isDarkTheme,
+        )
         return ColorStyle.LinearGradient(
-            start = color,
-            end = ColorUtils.normalizeLightness(color, 0.4f),
-            angleDegrees = 45,
+            start = start,
+            end = end,
+            angleDegrees = gradient.angleDegrees,
         )
     }
 

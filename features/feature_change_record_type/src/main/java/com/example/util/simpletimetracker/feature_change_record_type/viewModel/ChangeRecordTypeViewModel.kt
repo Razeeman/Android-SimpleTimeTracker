@@ -434,6 +434,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
 
     private fun getColorSelectionDelegateParent(): ColorSelectionViewModelDelegate.Parent {
         return object : ColorSelectionViewModelDelegate.Parent {
+            override val supportsGradients: Boolean = true
             override fun getDialogTag(): String = COLOR_SELECTION_DIALOG_TAG
             override suspend fun update() {
                 updateRecordPreviewViewData()

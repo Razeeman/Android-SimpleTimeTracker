@@ -222,6 +222,10 @@
     <string name="change_record_type_more_fields">بیشتر</string>
     <string name="change_record_type_less_fields">کمتر</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">گرادیان</string>
+    <string name="color_selection_gradient_angle_label">زاویه</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">اجازه می دهد تا برای اعمال دقیق تر تنظیمات برخی از تنظیمات</string>
     <string name="complex_rules_disable">غیر فعال کردن</string>

@@ -1,6 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_record_type.view
 
-import android.animation.ValueAnimator
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.TextWatcher
@@ -15,10 +15,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.util.simpletimetracker.core.base.BaseFragment
-import com.example.util.simpletimetracker.feature_dialogs.api.ColorSelectionDialogListener
-import com.example.util.simpletimetracker.feature_dialogs.api.DurationDialogListener
-import com.example.util.simpletimetracker.feature_dialogs.api.EmojiSelectionDialogListener
-import com.example.util.simpletimetracker.feature_dialogs.api.StandardDialogListener
 import com.example.util.simpletimetracker.core.extension.addOnBackPressedListener
 import com.example.util.simpletimetracker.core.extension.hideKeyboard
 import com.example.util.simpletimetracker.core.extension.observeOnce
@@ -35,6 +31,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.category.createCa
 import com.example.util.simpletimetracker.feature_base_adapter.category.createCategoryAddAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorFavouriteAdapterDelegate
+import com.example.util.simpletimetracker.feature_base_adapter.color.createColorGradientAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.color.createColorPaletteAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.divider.createDividerAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.empty.createEmptyAdapterDelegate
@@ -42,10 +39,11 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
-import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.api.viewDelegate.GoalsViewDelegateProvider
 import com.example.util.simpletimetracker.feature_change_record_type.R
+import com.example.util.simpletimetracker.feature_change_record_type.adapter.createChangeRecordTypeGradientControlsAdapterDelegate
+import com.example.util.simpletimetracker.feature_change_record_type.utils.ColorPreviewAnimator
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeAdditionalState
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeCategoriesViewData
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Category
@@ -55,10 +53,16 @@ import com.example.util.simpletimetracker.feature_change_record_type.viewData.Ch
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeChooserState.Icon
 import com.example.util.simpletimetracker.feature_change_record_type.viewData.ChangeRecordTypeFieldsState
 import com.example.util.simpletimetracker.feature_change_record_type.viewModel.ChangeRecordTypeViewModel
+import com.example.util.simpletimetracker.feature_dialogs.api.ColorSelectionDialogListener
+import com.example.util.simpletimetracker.feature_dialogs.api.DurationDialogListener
+import com.example.util.simpletimetracker.feature_dialogs.api.EmojiSelectionDialogListener
+import com.example.util.simpletimetracker.feature_dialogs.api.StandardDialogListener
 import com.example.util.simpletimetracker.feature_icon_selection.api.viewDelegate.IconSelectionViewDelegateProvider
-import com.example.util.simpletimetracker.feature_views.extension.animateColor
+import com.example.util.simpletimetracker.feature_views.drawable.AngleGradientDrawable
+import com.example.util.simpletimetracker.feature_views.drawable.HorizontalFadeDrawable
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordTypeParams
@@ -104,8 +108,13 @@ class ChangeRecordTypeFragment :
 
     private val colorsAdapter: BaseRecyclerAdapter by lazy {
         BaseRecyclerAdapter(
+            createChangeRecordTypeGradientControlsAdapterDelegate(
+                onEndpointClick = viewModel::onGradientEndpointClick,
+                onAngleChange = viewModel::onGradientAngleChange,
+            ),
             createColorAdapterDelegate(viewModel::onColorClick),
             createColorPaletteAdapterDelegate(viewModel::onColorPaletteClick),
+            createColorGradientAdapterDelegate(viewModel::onGradientClick),
             createColorFavouriteAdapterDelegate(viewModel::onColorFavouriteClick),
             createHintAdapterDelegate(),
         )
@@ -125,11 +134,14 @@ class ChangeRecordTypeFragment :
         )
     }
     private var iconsLayoutManager: GridLayoutManager? = null
-    private var typeColorAnimator: ValueAnimator? = null
+    private val colorPreviewAnimator = ColorPreviewAnimator(::applyPreviewColor)
     private var iconTextWatcher: TextWatcher? = null
-    private val colorPreviewGradient = GradientDrawable().apply {
-        orientation = GradientDrawable.Orientation.LEFT_RIGHT
-    }
+    private val colorPreviewSolid = ColorDrawable()
+    private val colorPreviewGradient = AngleGradientDrawable()
+    private val colorLongPreviewSolid = GradientDrawable()
+        .apply { orientation = GradientDrawable.Orientation.LEFT_RIGHT }
+    private val colorLongPreviewGradient = AngleGradientDrawable()
+    private val colorLongPreviewGradientFaded = HorizontalFadeDrawable(colorLongPreviewGradient)
 
     private val params: ChangeRecordTypeParams by fragmentArgumentDelegate(
         key = ARGS_PARAMS,
@@ -238,6 +250,7 @@ class ChangeRecordTypeFragment :
     }
 
     override fun onDestroyView() {
+        colorPreviewAnimator.cancel()
         iconSelectionViewDelegate.onDestroyView(
             textWatcher = iconTextWatcher,
             layout = binding.containerChangeRecordTypeIcon,
@@ -246,7 +259,7 @@ class ChangeRecordTypeFragment :
     }
 
     override fun onDestroy() {
-        typeColorAnimator?.cancel()
+        colorPreviewAnimator.cancel()
         super.onDestroy()
     }
 
@@ -284,27 +297,27 @@ class ChangeRecordTypeFragment :
         )
     }
 
+    // TODO GRADIENT add top padding to custom color selection dialog and remove background fade,
+    //  so that item preview will be visible and updated on color change.
     private fun updatePreview(item: RecordTypeViewData) {
         with(binding.previewChangeRecordType) {
             itemName = item.name
             itemIcon = item.iconId
-
-            // TODO GRADIENT
-            typeColorAnimator?.cancel()
-            typeColorAnimator = animateColor(
-                from = itemColor.primaryColor,
-                to = item.color.primaryColor,
-                doOnUpdate = { value ->
-                    itemColor = ColorStyle.Solid(value)
-                    updateColorPreview(value)
-                },
-            )
         }
+        colorPreviewAnimator.animate(
+            from = binding.previewChangeRecordType.itemColor,
+            to = item.color,
+        )
         with(binding) {
             updateIconPreview(item.iconId, item.color.primaryColor)
             layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(item.color.primaryColor)
             layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(item.color.primaryColor)
         }
+    }
+
+    private fun applyPreviewColor(color: ColorStyle) {
+        binding.previewChangeRecordType.itemColor = color
+        updateColorPreview(color)
     }
 
     private fun setPreview() {
@@ -318,10 +331,10 @@ class ChangeRecordTypeFragment :
             (params as? ChangeRecordTypeParams.Change)?.preview?.let {
                 itemName = it.name
                 itemIcon = it.iconId.toViewData()
-                // TODO GRADIENT
+                // TODO GRADIENT fix shared transition
                 itemColor = ColorStyle.Solid(it.color)
 
-                updateColorPreview(it.color)
+                updateColorPreview(itemColor)
                 updateIconPreview(it.iconId.toViewData(), it.color)
                 binding.layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(it.color)
                 binding.layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(it.color)
@@ -431,10 +444,32 @@ class ChangeRecordTypeFragment :
         tvChangeRecordTypeAdditionalDefaultDurationSelectorValue.text = data.defaultDuration
     }
 
-    private fun updateColorPreview(@ColorInt color: Int) = with(binding) {
-        colorPreviewGradient.colors = intArrayOf(AndroidColor.TRANSPARENT, color)
-        layoutChangeRecordTypeColorPreview.setCardBackgroundColor(color)
-        viewChangeRecordTypeColorPreviewLong.background = colorPreviewGradient
+    private fun updateColorPreview(color: ColorStyle) = with(binding) {
+        when (color) {
+            is ColorStyle.Solid -> {
+                colorLongPreviewSolid.colors = intArrayOf(AndroidColor.TRANSPARENT, color.color)
+                colorPreviewSolid.color = color.color
+                viewChangeRecordTypeColorPreview.background = colorPreviewSolid
+                viewChangeRecordTypeColorPreviewLong.background = colorLongPreviewSolid
+            }
+            is ColorStyle.LinearGradient -> {
+                colorPreviewGradient.setGradient(
+                    startColor = color.start,
+                    endColor = color.end,
+                    angleDegrees = color.angleDegrees.toFloat(),
+                    cornerRadius = layoutChangeRecordTypeColorPreview.radius,
+                )
+                // TODO GRADIENT pass data class
+                colorLongPreviewGradient.setGradient(
+                    startColor = color.start,
+                    endColor = color.end,
+                    angleDegrees = color.angleDegrees.toFloat(),
+                    cornerRadius = 0f,
+                )
+                viewChangeRecordTypeColorPreview.background = colorPreviewGradient
+                viewChangeRecordTypeColorPreviewLong.background = colorLongPreviewGradientFaded
+            }
+        }
     }
 
     private fun updateIconPreview(

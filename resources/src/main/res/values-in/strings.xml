@@ -222,6 +222,10 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="change_record_type_more_fields">Lainnya</string>
     <string name="change_record_type_less_fields">Lebih sedikit</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Gradien</string>
+    <string name="color_selection_gradient_angle_label">Sudut</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Memungkinkan penerapan beberapa pengaturan yang lebih baik</string>
     <string name="complex_rules_disable">Cacat</string>

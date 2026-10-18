@@ -222,6 +222,10 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="change_record_type_more_fields">Mai mult</string>
     <string name="change_record_type_less_fields">Mai puțin</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Degrade</string>
+    <string name="color_selection_gradient_angle_label">Unghi</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permite o modificare fină a unor setări</string>
     <string name="complex_rules_disable">Dezactivează</string>

@@ -222,6 +222,10 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="change_record_type_more_fields">Altro</string>
     <string name="change_record_type_less_fields">Meno</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Sfumatura</string>
+    <string name="color_selection_gradient_angle_label">Angolo</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Consente un\'applicazione più precisa di alcune impostazioni</string>
     <string name="complex_rules_disable">Disattivare</string>

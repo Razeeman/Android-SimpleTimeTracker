@@ -222,6 +222,10 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="change_record_type_more_fields">Meer</string>
     <string name="change_record_type_less_fields">Minder</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Kleurverloop</string>
+    <string name="color_selection_gradient_angle_label">Hoek</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Maakt een meer verfijnde toepassing van sommige instellingen mogelijk</string>
     <string name="complex_rules_disable">Uitzetten</string>
