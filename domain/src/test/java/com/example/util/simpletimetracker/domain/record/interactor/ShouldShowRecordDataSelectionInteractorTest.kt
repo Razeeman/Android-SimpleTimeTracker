@@ -134,7 +134,7 @@ internal class ShouldShowRecordDataSelectionInteractorTest {
             id = tagId,
             name = "tag-$tagId",
             icon = "icon",
-            color = AppColor(colorId = 0, colorInt = "#000000"),
+            color = AppColor(colorId = 0, colorInt = "#000000", null),
             iconColorSource = 0,
             note = "",
             archived = archived,

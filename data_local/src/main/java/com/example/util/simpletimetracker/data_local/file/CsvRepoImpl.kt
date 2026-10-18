@@ -151,6 +151,7 @@ class CsvRepoImpl @Inject constructor(
                                 color = AppColor(
                                     colorId = ColorMapper.getAvailableColors().indices.random(),
                                     colorInt = "",
+                                    gradient = null,
                                 ),
                                 hidden = false,
                                 defaultDuration = 0L,

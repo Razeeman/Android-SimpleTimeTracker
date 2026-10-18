@@ -80,7 +80,7 @@ class RecordTypeInteractor @Inject constructor(
             if (type != null) {
                 tagsToChange.forEach { tag ->
                     val updatedTag = tag.copy(
-                        color = type.color,
+                        color = type.color.copy(gradient = null),
                         icon = type.icon,
                         iconColorSource = 0,
                     )

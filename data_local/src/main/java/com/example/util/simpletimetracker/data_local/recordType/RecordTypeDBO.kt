@@ -23,6 +23,16 @@ data class RecordTypeDBO(
     @ColumnInfo(name = "color_int")
     val colorInt: String,
 
+    @ColumnInfo(name = "end_color")
+    val endColor: Int,
+
+    @ColumnInfo(name = "end_color_int")
+    val endColorInt: String,
+
+    // If not null - color is a gradient.
+    @ColumnInfo(name = "gradient_angle")
+    val gradientAngle: Int?,
+
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
 

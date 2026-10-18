@@ -1064,10 +1064,10 @@ class SettingsBackupTest : BaseUiTest() {
         ActivityTestData("type4", "ic_add_location_alt_24px", ColorTestData.Custom(0xff646464.toInt())),
     )
     private val activityDataList = listOf(
-        RecordType(1, "type1", "ic_360_24px", AppColor(1, ""), 0, ""),
-        RecordType(2, "type2", "ic_add_business_24px", AppColor(2, ""), 0, ""),
-        RecordType(3, "type3", "ic_add_location_24px", AppColor(3, ""), 60, "type note"),
-        RecordType(4, "type4", "ic_add_location_alt_24px", AppColor(0, 0xff646464.toInt().toString()), 0, "", true),
+        RecordType(1, "type1", "ic_360_24px", AppColor(1, "", null), 0, ""),
+        RecordType(2, "type2", "ic_add_business_24px", AppColor(2, "", null), 0, ""),
+        RecordType(3, "type3", "ic_add_location_24px", AppColor(3, "", null), 60, "type note"),
+        RecordType(4, "type4", "ic_add_location_alt_24px", AppColor(0, 0xff646464.toInt().toString(), null), 0, "", true),
     )
     private val categoryList = listOf(
         CategoryTestData("category1", ColorTestData.Position(18)),

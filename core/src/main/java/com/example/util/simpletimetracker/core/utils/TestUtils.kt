@@ -110,7 +110,7 @@ class TestUtils @Inject constructor(
 
         val data = RecordType(
             name = name,
-            color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
+            color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty(), gradient = null),
             icon = iconId,
             defaultDuration = defaultDuration,
             note = note,
@@ -208,7 +208,7 @@ class TestUtils @Inject constructor(
 
         val data = Category(
             name = tagName,
-            color = AppColor(colorId = colorId, colorInt = ""),
+            color = AppColor(colorId = colorId, colorInt = "", gradient = null),
             note = note,
         )
 
@@ -245,7 +245,7 @@ class TestUtils @Inject constructor(
         val data = RecordTag(
             name = tagName,
             icon = iconId.orEmpty(),
-            color = AppColor(colorId = colorId, colorInt = ""),
+            color = AppColor(colorId = colorId, colorInt = "", gradient = null),
             iconColorSource = type?.id.orZero(),
             note = note,
             archived = archived,
@@ -302,7 +302,7 @@ class TestUtils @Inject constructor(
             selectedIds = selectedIds,
             type = type,
             name = name,
-            color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty()),
+            color = AppColor(colorId = colorId, colorInt = colorInt?.toString().orEmpty(), gradient = null),
             selected = selected,
         )
 

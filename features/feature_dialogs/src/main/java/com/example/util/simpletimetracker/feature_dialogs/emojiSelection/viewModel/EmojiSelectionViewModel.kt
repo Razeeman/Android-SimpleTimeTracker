@@ -43,7 +43,11 @@ class EmojiSelectionViewModel @Inject constructor(
         val isDarkTheme = prefsInteractor.getDarkMode()
 
         return mapper.mapIconEmojiData(
-            color = AppColor(colorId = extra.color.colorId, colorInt = extra.color.colorInt),
+            color = AppColor(
+                colorId = extra.color.colorId,
+                colorInt = extra.color.colorInt,
+                gradient = null,
+            ),
             isDarkTheme = isDarkTheme,
             emojiCodes = extra.emojiCodes,
         )

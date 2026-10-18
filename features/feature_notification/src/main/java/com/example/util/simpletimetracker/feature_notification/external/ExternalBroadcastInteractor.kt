@@ -254,7 +254,7 @@ class ExternalBroadcastInteractor @Inject constructor(
             ?.toLong(16)
             ?.or(0xFF000000)
             ?.toInt()?.toString().orEmpty()
-        return AppColor(0, colorInt)
+        return AppColor(colorId = 0, colorInt = colorInt, gradient = null)
     }
 
     private suspend fun getTypeIdByName(name: String): Long? {

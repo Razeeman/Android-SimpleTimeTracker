@@ -83,7 +83,7 @@ class AddRunningRecordMediatorTest {
         id = typeId,
         name = "type_name",
         icon = "type_icon",
-        color = AppColor(1, ""),
+        color = AppColor(1, "", null),
         defaultDuration = 0,
         note = "",
     )
@@ -169,6 +169,7 @@ class AddRunningRecordMediatorTest {
             updateNotificationSwitch = eq(true),
             checkDefaultDuration = eq(true),
             useSelectedTags = eq(false),
+            requestId = anyOrNull(),
         )
     }
 
@@ -207,6 +208,7 @@ class AddRunningRecordMediatorTest {
             updateNotificationSwitch = any(),
             checkDefaultDuration = any(),
             useSelectedTags = any(),
+            requestId = anyOrNull(),
         )
     }
 
@@ -253,6 +255,7 @@ class AddRunningRecordMediatorTest {
             updateNotificationSwitch = any(),
             checkDefaultDuration = any(),
             useSelectedTags = any(),
+            requestId = anyOrNull(),
         )
     }
 
@@ -285,6 +288,7 @@ class AddRunningRecordMediatorTest {
             updateNotificationSwitch = eq(false),
             checkDefaultDuration = eq(true),
             useSelectedTags = eq(false),
+            requestId = anyOrNull(),
         )
     }
 
@@ -421,6 +425,7 @@ class AddRunningRecordMediatorTest {
             updateWidgets = any(),
             updateNotificationSwitch = any(),
             timeEnded = anyOrNull(),
+            requestId = anyOrNull(),
         )
     }
 
@@ -447,12 +452,14 @@ class AddRunningRecordMediatorTest {
             updateWidgets = eq(false),
             updateNotificationSwitch = eq(false),
             timeEnded = eq(currentTime),
+            requestId = anyOrNull(),
         )
         verify(removeRunningRecordMediator).removeWithRecordAdd(
             runningRecord = eq(runningRecords[1]),
             updateWidgets = eq(false),
             updateNotificationSwitch = eq(false),
             timeEnded = eq(currentTime),
+            requestId = anyOrNull(),
         )
     }
 
@@ -519,6 +526,7 @@ class AddRunningRecordMediatorTest {
             updateWidgets = any(),
             updateNotificationSwitch = any(),
             timeEnded = anyOrNull(),
+            requestId = anyOrNull(),
         )
     }
 
@@ -558,6 +566,7 @@ class AddRunningRecordMediatorTest {
             updateWidgets = any(),
             updateNotificationSwitch = any(),
             timeEnded = anyOrNull(),
+            requestId = anyOrNull(),
         )
     }
 
@@ -597,12 +606,14 @@ class AddRunningRecordMediatorTest {
             updateWidgets = eq(false),
             updateNotificationSwitch = eq(false),
             timeEnded = eq(currentTime),
+            requestId = anyOrNull(),
         )
         verify(removeRunningRecordMediator, never()).removeWithRecordAdd(
             runningRecord = eq(runningRecords[1]),
             updateWidgets = any(),
             updateNotificationSwitch = any(),
             timeEnded = anyOrNull(),
+            requestId = anyOrNull(),
         )
     }
 
@@ -1140,8 +1151,8 @@ class AddRunningRecordMediatorTest {
             ),
         )
         val types = listOf(
-            RecordType(typeId2, "", "", AppColor(1, ""), 0, ""),
-            RecordType(typeId3, "", "", AppColor(1, ""), 0, ""),
+            RecordType(typeId2, "", "", AppColor(1, "", null), 0, ""),
+            RecordType(typeId3, "", "", AppColor(1, "", null), 0, ""),
         )
         `when`(recordTypeInteractor.getAll()).thenReturn(types)
 
@@ -1223,9 +1234,9 @@ class AddRunningRecordMediatorTest {
             ),
         )
         val types = listOf(
-            RecordType(typeId2, "", "", AppColor(1, ""), 0, ""),
-            RecordType(typeId3, "", "", AppColor(1, ""), 0, ""),
-            RecordType(typeId4, "", "", AppColor(1, ""), 1, ""),
+            RecordType(typeId2, "", "", AppColor(1, "", null), 0, ""),
+            RecordType(typeId3, "", "", AppColor(1, "", null), 0, ""),
+            RecordType(typeId4, "", "", AppColor(1, "", null), 1, ""),
         )
         `when`(recordTypeInteractor.getAll()).thenReturn(types)
 

@@ -46,7 +46,7 @@ class CustomTagHandler @Inject constructor(
                     isDarkTheme = isDarkTheme,
                 )
                 val backgroundColor = colorMapper.mapToColorInt(
-                    color = AppColor(colorId = markSpan.colorId, colorInt = ""),
+                    color = AppColor(colorId = markSpan.colorId, colorInt = "", gradient = null),
                     isDarkTheme = isDarkTheme,
                 )
                 setSpanFromMark(
@@ -95,7 +95,7 @@ class CustomTagHandler @Inject constructor(
         insert(length, " ")
     }
 
-    private inner class TagMark(val colorId: Int)
+    private class TagMark(val colorId: Int)
 
     companion object {
         private const val CUSTOM_COLOR_TAG = "custom-color"

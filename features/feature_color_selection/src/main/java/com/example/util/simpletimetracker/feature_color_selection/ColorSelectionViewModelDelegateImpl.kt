@@ -35,6 +35,7 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
     override var newColor: AppColor = AppColor(
         colorId = ColorMapper.getAvailableColors().indices.random(),
         colorInt = "",
+        gradient = null,
     )
 
     private var parent: ColorSelectionViewModelDelegate.Parent? = null
@@ -96,7 +97,8 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
     private fun onBaseColorSelected(colorId: Int) {
         delegateScope.launch {
             if (colorId != newColor.colorId || newColor.colorInt.isNotEmpty()) {
-                newColor = AppColor(colorId = colorId, colorInt = "")
+                // TODO GRADIENT
+                newColor = AppColor(colorId = colorId, colorInt = "", gradient = null)
                 parent?.onColorSelected()
                 parent?.update()
                 updateColors()
@@ -108,7 +110,7 @@ class ColorSelectionViewModelDelegateImpl @Inject constructor(
         if (tag != parent?.getDialogTag()) return
         delegateScope.launch {
             if (colorInt.toString() != newColor.colorInt) {
-                newColor = AppColor(colorId = 0, colorInt = colorInt.toString())
+                newColor = AppColor(colorId = 0, colorInt = colorInt.toString(), gradient = null)
                 parent?.onColorSelected()
                 parent?.update()
                 updateColors()

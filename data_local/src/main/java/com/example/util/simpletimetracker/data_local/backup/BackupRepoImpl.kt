@@ -34,6 +34,7 @@ import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.domain.complexRule.model.ComplexRule
 import com.example.util.simpletimetracker.domain.complexRule.repo.ComplexRuleRepo
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
+import com.example.util.simpletimetracker.domain.extension.normalizeColorAngle
 import com.example.util.simpletimetracker.domain.extension.orEmpty
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.favourite.model.FavouriteColor
@@ -497,7 +498,7 @@ class BackupRepoImpl @Inject constructor(
 
     private fun toBackupString(recordType: RecordType): String {
         return String.format(
-            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
+            "$ROW_RECORD_TYPE\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",
             recordType.id.toString(),
             recordType.name.clean(),
             recordType.icon,
@@ -510,6 +511,9 @@ class BackupRepoImpl @Inject constructor(
             "", // monthly goal time is moved to separate table,
             recordType.defaultDuration,
             recordType.note.cleanTabs().replaceNewline(),
+            recordType.color.gradient?.endColorId?.toString().orEmpty(),
+            recordType.color.gradient?.endColorInt.orEmpty(),
+            recordType.color.gradient?.angleDegrees?.let(::normalizeColorAngle)?.toString().orEmpty(),
         )
     }
 
@@ -872,15 +876,29 @@ class BackupRepoImpl @Inject constructor(
                 ).let(::add)
             }
         }
+        fun mapColor(parts: List<String>): AppColor {
+            val color = AppColor(
+                colorId = parts.getOrNull(4)?.toIntOrNull().orZero(),
+                colorInt = parts.getOrNull(7).orEmpty(),
+                gradient = null,
+            )
+            val endId = parts.getOrNull(13)?.toIntOrNull() ?: return color
+            val endCustom = parts.getOrNull(14) ?: return color
+            val angle = parts.getOrNull(15)?.toIntOrNull() ?: return color
+            return color.copy(
+                gradient = AppColor.Gradient(
+                    endColorId = endId,
+                    endColorInt = endCustom,
+                    angleDegrees = normalizeColorAngle(angle),
+                ),
+            )
+        }
 
         return RecordType(
             id = typeId,
             name = parts.getOrNull(2).orEmpty(),
             icon = parts.getOrNull(3).orEmpty(),
-            color = AppColor(
-                colorId = parts.getOrNull(4)?.toIntOrNull().orZero(),
-                colorInt = parts.getOrNull(7).orEmpty(),
-            ),
+            color = mapColor(parts),
             hidden = parts.getOrNull(5)?.toIntOrNull() == 1,
             // parts[6] - goal time is moved to separate table
             // parts[8] - daily time is moved to separate table
@@ -942,6 +960,7 @@ class BackupRepoImpl @Inject constructor(
             color = AppColor(
                 colorId = parts.getOrNull(3)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(4).orEmpty(),
+                gradient = null,
             ),
             note = parts.getOrNull(5)?.restoreNewline().orEmpty(),
         )
@@ -966,6 +985,7 @@ class BackupRepoImpl @Inject constructor(
             color = AppColor(
                 colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(6).orEmpty(),
+                gradient = null,
             ),
             icon = parts.getOrNull(7).orEmpty(),
             iconColorSource = parts.getOrNull(8)?.toLongOrNull().orZero(),
@@ -1025,6 +1045,7 @@ class BackupRepoImpl @Inject constructor(
             color = AppColor(
                 colorId = parts.getOrNull(5)?.toIntOrNull().orZero(),
                 colorInt = parts.getOrNull(6).orEmpty(),
+                gradient = null,
             ),
             selected = parts.getOrNull(7)?.toIntOrNull() == 1,
         )
@@ -1235,7 +1256,7 @@ class BackupRepoImpl @Inject constructor(
             val type = typesMap[typeId] ?: return@mapNotNull null
             tag.copy(
                 icon = type.icon,
-                color = type.color,
+                color = type.color.copy(gradient = null),
                 iconColorSource = typeId,
             )
         }

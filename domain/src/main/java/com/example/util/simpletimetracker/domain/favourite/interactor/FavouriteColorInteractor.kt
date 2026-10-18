@@ -34,7 +34,11 @@ class FavouriteColorInteractor @Inject constructor(
             SortCardsInteractor.DataHolder(
                 id = it.id,
                 name = "", // Doesn't matter here.
-                color = AppColor(colorId = 0, colorInt = it.colorInt),
+                color = AppColor(
+                    colorId = 0,
+                    colorInt = it.colorInt,
+                    gradient = null, // TODO GRADIENT
+                ),
                 data = it,
             )
         }.let {

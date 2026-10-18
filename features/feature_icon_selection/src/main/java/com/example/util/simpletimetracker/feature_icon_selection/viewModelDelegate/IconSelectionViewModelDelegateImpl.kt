@@ -266,7 +266,7 @@ class IconSelectionViewModelDelegateImpl @Inject constructor(
     }
 
     private suspend fun loadIconsViewData(): IconSelectionStateViewData {
-        val color = parent?.getColor() ?: AppColor(0, "")
+        val color = parent?.getColor() ?: AppColor(0, "", null)
         return viewDataInteractor.getIconsViewData(
             newColor = color,
             iconType = iconType,

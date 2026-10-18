@@ -47,6 +47,7 @@ class AppDatabaseMigrations {
                 migration_36_37,
                 migration_37_38,
                 migration_38_39,
+                migration_39_40,
             )
 
         private val migration_1_2 = object : Migration(1, 2) {
@@ -497,6 +498,19 @@ class AppDatabaseMigrations {
                 )
                 database.execSQL(
                     "CREATE INDEX IF NOT EXISTS `index_records_type_id_time_ended` ON `records` (`type_id`, `time_ended`)",
+                )
+            }
+        }
+        private val migration_39_40 = object : Migration(39, 40) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE recordTypes ADD COLUMN end_color INTEGER NOT NULL DEFAULT 0",
+                )
+                database.execSQL(
+                    "ALTER TABLE recordTypes ADD COLUMN end_color_int TEXT NOT NULL DEFAULT ''",
+                )
+                database.execSQL(
+                    "ALTER TABLE recordTypes ADD COLUMN gradient_angle INTEGER",
                 )
             }
         }

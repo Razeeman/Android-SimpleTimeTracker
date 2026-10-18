@@ -78,7 +78,6 @@ class RecordTypeView @JvmOverloads constructor(
                 if (hasValue(R.styleable.RecordTypeView_itemCompleteIsAnimated)) {
                     itemCompleteIsAnimated = getBoolean(R.styleable.RecordTypeView_itemCompleteIsAnimated, false)
                 }
-
             }
     }
 

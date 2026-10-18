@@ -5,7 +5,6 @@ import android.content.Intent
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_COMMAND
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_START_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ACTIVITY
-import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_COMMAND_ACTION
 import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_ID
 import com.example.util.simpletimetracker.core.utils.EXTRA_STATUS

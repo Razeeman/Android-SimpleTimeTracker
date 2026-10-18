@@ -41,7 +41,7 @@ class ChangeRecordViewDataMapper @Inject constructor(
             id = 0,
             name = "",
             icon = "",
-            color = AppColor(colorId = 0, colorInt = ""),
+            color = AppColor(colorId = 0, colorInt = "", gradient = null),
             defaultDuration = 0,
             note = "",
         )

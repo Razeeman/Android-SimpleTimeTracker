@@ -112,7 +112,9 @@ class RunningRecordsViewDataMapper @Inject constructor(
                     name = resourceRepo.getString(R.string.untracked_time_name),
                     icon = "",
                     color = AppColor(
-                        0, colorMapper.toUntrackedColor(isDarkTheme).toString(),
+                        colorId = 0,
+                        colorInt = colorMapper.toUntrackedColor(isDarkTheme).toString(),
+                        gradient = null,
                     ),
                     defaultDuration = 0,
                     note = "",

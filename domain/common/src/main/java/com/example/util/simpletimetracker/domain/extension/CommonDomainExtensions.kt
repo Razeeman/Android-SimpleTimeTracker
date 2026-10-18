@@ -54,3 +54,7 @@ inline fun <reified T> Any.tryCast(): T? {
 inline fun <T> T?.ifNull(newValue: () -> T): T {
     return this ?: newValue()
 }
+
+fun normalizeColorAngle(angleDegrees: Int): Int {
+    return ((angleDegrees % 360) + 360) % 360
+}

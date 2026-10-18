@@ -17,7 +17,7 @@ fun recordTag(tagId: Long): RecordTag {
         id = tagId,
         name = "",
         icon = "",
-        color = AppColor(0, ""),
+        color = AppColor(0, "", null),
         iconColorSource = 0,
         note = "",
         archived = false,

@@ -15,6 +15,7 @@ class RecordTagDataLocalMapper @Inject constructor() {
             color = AppColor(
                 colorId = dbo.color,
                 colorInt = dbo.colorInt,
+                gradient = null,
             ),
             iconColorSource = dbo.iconColorSource,
             note = dbo.note,

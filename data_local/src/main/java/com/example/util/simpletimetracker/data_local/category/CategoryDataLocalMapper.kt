@@ -13,6 +13,7 @@ class CategoryDataLocalMapper @Inject constructor() {
             color = AppColor(
                 colorId = dbo.color,
                 colorInt = dbo.colorInt,
+                gradient = null,
             ),
             note = dbo.note,
         )
