@@ -553,7 +553,7 @@ Exemple :<br/>
     <string name="statistics_detail_range_averages">Sur tous les éléments de la plage</string>
     <string name="statistics_detail_range_averages_non_empty">Uniquement sur les éléments de la plage ayant un enregistrement</string>
 
-    <string name="statistics_detail_total_duration">Solde</string>
+    <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_record_length">Durée des enregistrements</string>
     <string name="statistics_detail_shortest_record">Le plus court</string>
     <string name="statistics_detail_average_record">En moyenne</string>
