@@ -269,7 +269,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         return NotificationControlsParams.Type.Present(
             action = NotificationControlsParams.Type.Action.Select(type.id),
             icon = type.icon.let(iconMapper::mapIcon),
-            color = type.color.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+            color = type.color.let { colorMapper.mapToColorStyle(it, isDarkTheme) },
             checkStates = recordTypeViewDataMapper.mapGoalCheckmarks(
                 goals = goals[type.id].orEmpty(),
                 dailyCurrent = allDailyCurrents[type.id],
@@ -288,7 +288,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         return NotificationControlsParams.Type.Present(
             action = NotificationControlsParams.Type.Action.Repeat,
             icon = viewData.iconId,
-            color = viewData.color.primaryColor,
+            color = viewData.color,
             checkStates = emptyList(),
             isComplete = false,
         ).let(::listOf)

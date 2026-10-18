@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.feature_notification.recordType.custom
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -183,7 +184,7 @@ class NotificationTypeManager @Inject constructor(
 
     private fun getIconBitmap(
         icon: RecordTypeIcon,
-        color: Int,
+        color: ColorStyle,
         checkStates: List<GoalCheckmarkView.CheckState> = emptyList(),
         isComplete: Boolean = false,
     ): Bitmap = synchronized(iconView) {

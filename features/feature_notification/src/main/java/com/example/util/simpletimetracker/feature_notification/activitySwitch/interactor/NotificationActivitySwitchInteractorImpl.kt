@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationActivitySwitchManager
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationActivitySwitchParams
 import com.example.util.simpletimetracker.feature_notification.core.NotificationCommonMapper
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -126,7 +127,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
         }
         val hint: String
         val icon: RecordTypeIcon?
-        val color: Int?
+        val color: ColorStyle
         val title: CharSequence
         val subtitle: String
         val untrackedTimeStarted: Long?
@@ -135,7 +136,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
             retroactiveTrackingModeEnabled && prevRecord != null && prevRecordType != null -> {
                 hint = resourceRepo.getString(R.string.retroactive_tracking_mode_hint)
                 icon = prevRecordType.icon.let(iconMapper::mapIcon)
-                color = colorMapper.mapToColorInt(prevRecordType.color, isDarkTheme)
+                color = colorMapper.mapToColorStyle(prevRecordType.color, isDarkTheme)
                 val tagIds = prevRecord.tags.map(RecordBase.Tag::tagId)
                 val namePrefix = resourceRepo.getString(R.string.statistics_detail_last_record)
                 val fullName = notificationCommonMapper.getNotificationText(
@@ -159,7 +160,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
             retroactiveTrackingModeEnabled -> {
                 hint = ""
                 icon = RecordTypeIcon.Image(R.drawable.unknown)
-                color = colorMapper.toUntrackedColor(isDarkTheme)
+                color = ColorStyle.Solid(colorMapper.toUntrackedColor(isDarkTheme))
                 title = resourceRepo.getString(R.string.retroactive_tracking_mode_hint)
                 subtitle = ""
                 untrackedTimeStarted = null
@@ -168,7 +169,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
             else -> {
                 hint = ""
                 icon = RecordTypeIcon.Image(R.drawable.app_ic_launcher_monochrome)
-                color = colorMapper.toUntrackedColor(isDarkTheme)
+                color = ColorStyle.Solid(colorMapper.toUntrackedColor(isDarkTheme))
                 title = resourceRepo.getString(R.string.running_records_empty)
                 subtitle = ""
                 untrackedTimeStarted = null

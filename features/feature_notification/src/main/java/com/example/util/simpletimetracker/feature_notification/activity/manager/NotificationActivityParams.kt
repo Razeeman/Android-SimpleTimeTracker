@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.activity.manager
 
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
 data class NotificationActivityParams(
@@ -7,5 +8,5 @@ data class NotificationActivityParams(
     val title: String,
     val subtitle: String,
     val icon: RecordTypeIcon,
-    val color: Int,
+    val color: ColorStyle,
 )

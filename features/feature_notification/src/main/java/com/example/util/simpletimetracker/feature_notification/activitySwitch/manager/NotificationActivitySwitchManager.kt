@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_notification.recevier.Notifica
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -145,7 +146,7 @@ class NotificationActivitySwitchManager @Inject constructor(
 
     private fun getIconBitmap(
         icon: RecordTypeIcon,
-        color: Int,
+        color: ColorStyle,
     ): Bitmap = synchronized(iconView) {
         return iconView.apply {
             itemIcon = icon

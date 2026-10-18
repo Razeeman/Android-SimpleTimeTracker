@@ -20,6 +20,7 @@ import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.recordType.customView.NotificationIconView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.Router
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -114,7 +115,7 @@ class NotificationPomodoroManager @Inject constructor(
     private fun prepareView(params: NotificationPomodoroParams): RemoteViews {
         val iconBitmap = iconView.apply {
             itemIcon = RecordTypeIcon.Image(R.drawable.pomodoro)
-            itemColor = colorMapper.toUntrackedColor(params.isDarkTheme)
+            itemColor = ColorStyle.Solid(colorMapper.toUntrackedColor(params.isDarkTheme))
             measureExactly(iconSize)
         }.getBitmapFromView()
 

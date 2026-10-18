@@ -2,15 +2,17 @@ package com.example.util.simpletimetracker.feature_notification.recordType.custo
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.databinding.NotificationIconViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
+import com.example.util.simpletimetracker.feature_views.drawable.AngleGradientDrawable
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
+import com.example.util.simpletimetracker.feature_views.extension.toData
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import androidx.core.content.withStyledAttributes
 
@@ -25,6 +27,8 @@ class NotificationIconView @JvmOverloads constructor(
 ) {
 
     private val binding = NotificationIconViewLayoutBinding.inflate(layoutInflater, this)
+    private val solidDrawable = GradientDrawable().apply { shape = GradientDrawable.OVAL }
+    private val gradientDrawable by lazy { AngleGradientDrawable() }
 
     init {
         context.withStyledAttributes(
@@ -32,6 +36,7 @@ class NotificationIconView @JvmOverloads constructor(
         ) {
             if (hasValue(R.styleable.NotificationIconView_itemColor)) {
                 itemColor = getColor(R.styleable.NotificationIconView_itemColor, Color.BLACK)
+                    .let(ColorStyle::Solid)
             }
 
             if (hasValue(R.styleable.NotificationIconView_itemIcon)) {
@@ -45,10 +50,16 @@ class NotificationIconView @JvmOverloads constructor(
         }
     }
 
-    var itemColor: Int = 0
+    var itemColor: ColorStyle = ColorStyle.Solid(0)
         set(value) {
-            binding.ivNotificationIconBackground.background.colorFilter =
-                PorterDuffColorFilter(value, PorterDuff.Mode.SRC_IN)
+            binding.ivNotificationIconBackground.background = when (value) {
+                is ColorStyle.Solid -> solidDrawable.apply {
+                    setColor(value.color)
+                }
+                is ColorStyle.LinearGradient -> gradientDrawable.apply {
+                    setGradient(value.toData(), minOf(width, height) / 2f)
+                }
+            }
             field = value
         }
 
@@ -72,6 +83,15 @@ class NotificationIconView @JvmOverloads constructor(
             binding.viewNotificationIconComplete.isVisible = value
             field = value
         }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        val color = itemColor as? ColorStyle.LinearGradient ?: return
+        gradientDrawable.setGradient(
+            data = color.toData(),
+            cornerRadius = minOf(w, h) / 2f,
+        )
+    }
 
     private fun getCheckmarkViews() = listOf(
         binding.viewNotificationIconGoalCheckmark,

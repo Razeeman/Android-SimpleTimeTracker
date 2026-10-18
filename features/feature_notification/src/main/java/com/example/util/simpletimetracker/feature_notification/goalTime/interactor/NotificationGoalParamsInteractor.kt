@@ -111,7 +111,7 @@ class NotificationGoalParamsInteractor @Inject constructor(
             icon = dataHolder.icon
                 ?.let(iconMapper::mapIcon)
                 ?: RecordTypeIcon.Text(""),
-            color = colorMapper.mapToColorInt(dataHolder.color, isDarkTheme),
+            color = colorMapper.mapToColorStyle(dataHolder.color, isDarkTheme),
             text = dataHolder.name,
             description = description,
             checkState = checkState,

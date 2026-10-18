@@ -263,7 +263,7 @@ class NotificationTypeInteractorImpl @Inject constructor(
         NotificationTypeParams(
             id = recordType.id,
             icon = recordType.icon.let(iconMapper::mapIcon),
-            color = colorMapper.mapToColorInt(recordType.color, isDarkTheme),
+            color = colorMapper.mapToColorStyle(recordType.color, isDarkTheme),
             text = notificationCommonMapper.getNotificationText(
                 recordType = recordType,
                 recordTags = recordTags.filter { it.id in tagIds },

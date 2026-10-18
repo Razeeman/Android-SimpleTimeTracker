@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.activity.manager.NotificationActivityManager
 import com.example.util.simpletimetracker.feature_notification.activity.manager.NotificationActivityParams
 import com.example.util.simpletimetracker.feature_notification.activity.scheduler.NotificationActivityScheduler
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import java.util.TimeZone
 import javax.inject.Inject
@@ -240,7 +241,7 @@ class NotificationActivityInteractorImpl @Inject constructor(
                 )
             },
             icon = iconMapper.mapIcon(recordType.icon),
-            color = colorMapper.mapToColorInt(recordType.color, isDarkTheme),
+            color = colorMapper.mapToColorStyle(recordType.color, isDarkTheme),
         )
     }
 
@@ -270,7 +271,7 @@ class NotificationActivityInteractorImpl @Inject constructor(
                 )
             },
             icon = RecordTypeIcon.Image(R.drawable.unknown),
-            color = colorMapper.toUntrackedColor(isDarkTheme),
+            color = ColorStyle.Solid(colorMapper.toUntrackedColor(isDarkTheme)),
         )
     }
 
@@ -281,7 +282,7 @@ class NotificationActivityInteractorImpl @Inject constructor(
         rule: ActivityReminderOverride.Rule,
         subtitle: suspend () -> String,
         icon: RecordTypeIcon,
-        color: Int,
+        color: ColorStyle,
     ) {
         // In case clock was changed just when broadcast is handled, rare but would lose reminder.
         val nowTimestamp = currentTimestampProvider.get()

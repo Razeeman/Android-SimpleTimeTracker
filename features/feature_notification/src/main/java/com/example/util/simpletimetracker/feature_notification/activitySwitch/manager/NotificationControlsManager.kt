@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_notification.recordType.custom
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -156,7 +157,7 @@ class NotificationControlsManager @Inject constructor(
             }
             val selectedTypeId = (data.action as? NotificationControlsParams.Type.Action.Select)?.typeId
             val color = if (recordTypeId == selectedTypeId) {
-                viewState.filteredTypeColor
+                ColorStyle.Solid(viewState.filteredTypeColor)
             } else {
                 data.color
             }
@@ -522,7 +523,7 @@ class NotificationControlsManager @Inject constructor(
 
     private fun getTypeControlView(
         icon: RecordTypeIcon?,
-        color: Int?,
+        color: ColorStyle?,
         checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
         intent: PendingIntent?,
@@ -629,6 +630,16 @@ class NotificationControlsManager @Inject constructor(
     private fun getIconBitmap(
         icon: RecordTypeIcon,
         color: Int,
+    ): Bitmap {
+        return getIconBitmap(
+            icon = icon,
+            color = ColorStyle.Solid(color),
+        )
+    }
+
+    private fun getIconBitmap(
+        icon: RecordTypeIcon,
+        color: ColorStyle,
         checkStates: List<GoalCheckmarkView.CheckState> = emptyList(),
         isComplete: Boolean = false,
     ): Bitmap = synchronized(iconView) {

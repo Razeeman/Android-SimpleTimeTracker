@@ -15,6 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
@@ -91,7 +92,7 @@ class NotificationInactivityManager @Inject constructor(
     private fun prepareView(params: NotificationInactivityParams): RemoteViews {
         val iconBitmap = iconView.apply {
             itemIcon = RecordTypeIcon.Image(R.drawable.unknown)
-            itemColor = colorMapper.toUntrackedColor(params.isDarkTheme)
+            itemColor = ColorStyle.Solid(colorMapper.toUntrackedColor(params.isDarkTheme))
             measureExactly(iconSize)
         }.getBitmapFromView()
 
