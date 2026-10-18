@@ -62,19 +62,37 @@ class ColorViewDataInteractor @Inject constructor(
                 )
             }
 
-        result += ColorPaletteViewData(selected = customColorSelected)
+        result += ColorPaletteViewData(
+            selected = customColorSelected,
+            backgroundColor = getBackgroundColor(
+                isSelected = customColorSelected,
+                isDarkTheme = isDarkTheme,
+            ),
+        )
 
         if (gradientSelected != null) {
-            result += ColorGradientViewData(selected = gradientSelected)
+            result += ColorGradientViewData(
+                selected = gradientSelected,
+                backgroundColor = getBackgroundColor(
+                    isSelected = gradientSelected,
+                    isDarkTheme = isDarkTheme,
+                ),
+            )
         }
 
         if (customColorSelected) {
-            val iconColor = if (currentColor?.colorInt in favouriteColorsData) {
-                R.attr.colorAccent
-            } else {
-                R.attr.appInactiveColor
-            }.let { resourceRepo.getThemedAttr(it, isDarkTheme) }
-            result += ColorFavouriteViewData(iconColor = iconColor)
+            val isFavourite = currentColor?.colorInt in favouriteColorsData
+            result += ColorFavouriteViewData(
+                iconResId = if (isFavourite) {
+                    R.drawable.favorite
+                } else {
+                    R.drawable.favorite_border
+                },
+                backgroundColor = getBackgroundColor(
+                    isSelected = isFavourite,
+                    isDarkTheme = isDarkTheme,
+                ),
+            )
         }
 
         if (favouriteColors.isNotEmpty()) {
@@ -95,5 +113,13 @@ class ColorViewDataInteractor @Inject constructor(
         }
 
         return result
+    }
+
+    private fun getBackgroundColor(
+        isSelected: Boolean,
+        isDarkTheme: Boolean,
+    ): Int {
+        val attr = if (isSelected) R.attr.colorAccent else R.attr.appInactiveColor
+        return resourceRepo.getThemedAttr(attr, isDarkTheme)
     }
 }

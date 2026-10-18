@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutColorFavouriteItem"
     style="@style/ColorIconItem"
     android:foreground="?selectableItemBackground"
     android:contentDescription="@string/change_record_favourite_colors_hint"
-    android:outlineProvider="background"
-    app:cardBackgroundColor="?appBackgroundColor">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/ButtonTimeAdjust"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="" />
+    app:cardBackgroundColor="?appInactiveColor">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivColorFavouriteItem"
@@ -21,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_margin="6dp"
         android:scaleType="center"
-        android:src="@drawable/favorite"
-        tools:tint="?appInactiveColor" />
+        android:src="@drawable/favorite_border"
+        android:tint="@color/white" />
 
 </com.google.android.material.card.MaterialCardView>

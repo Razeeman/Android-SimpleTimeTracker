@@ -2,7 +2,6 @@ package com.example.util.simpletimetracker.feature_base_adapter.color
 
 import com.example.util.simpletimetracker.feature_base_adapter.createRecyclerBindingAdapterDelegate
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
-import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_base_adapter.color.ColorPaletteViewData as ViewData
 import com.example.util.simpletimetracker.feature_base_adapter.databinding.ItemColorPaletteLayoutBinding as Binding
 
@@ -15,7 +14,8 @@ fun createColorPaletteAdapterDelegate(
     with(binding) {
         item as ViewData
 
-        viewColorPaletteItemSelected.visible = item.selected
+        layoutColorPaletteItem.setCardBackgroundColor(item.backgroundColor)
+        layoutColorPaletteItem.isSelected = item.selected
         layoutColorPaletteItem.setOnClick(onColorPaletteItemClick)
     }
 }

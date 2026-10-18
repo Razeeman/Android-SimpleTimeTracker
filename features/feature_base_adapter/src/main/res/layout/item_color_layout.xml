@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutColorItem"
     style="@style/ColorIconItem"
     android:background="?selectableItemBackground"
     tools:cardBackgroundColor="@color/black">
 
-    <View
+    <com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
         android:id="@+id/viewColorItemSelected"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="top|end"
         android:layout_margin="2dp"
-        android:background="@drawable/bg_selected_color_border"
         android:visibility="gone"
+        app:itemCheckState="goalReached"
         tools:visibility="visible" />
 
 </com.google.android.material.card.MaterialCardView>

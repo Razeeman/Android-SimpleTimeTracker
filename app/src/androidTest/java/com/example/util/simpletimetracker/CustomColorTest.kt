@@ -8,6 +8,7 @@ import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.GeneralLocation
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isSelected
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -251,8 +252,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
 
@@ -274,8 +275,8 @@ class CustomColorTest : BaseUiTest() {
         clickOnViewWithText(coreR.string.change_record_type_color_hint)
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         scrollRecyclerToView(changeRecordTypeR.id.rvChangeRecordTypeColor, withId(dialogsR.id.layoutColorPaletteItem))
@@ -374,8 +375,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         clickOnViewWithText(coreR.string.change_category_color_hint)
@@ -400,8 +401,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         scrollRecyclerToView(changeCategoryR.id.rvChangeCategoryColor, withId(dialogsR.id.layoutColorPaletteItem))
@@ -482,8 +483,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         clickOnViewWithText(coreR.string.change_category_color_hint)
@@ -508,8 +509,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         scrollRecyclerToView(changeRecordTagR.id.rvChangeRecordTagColor, withId(dialogsR.id.layoutColorPaletteItem))
@@ -574,8 +575,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         clickOnViewWithText(coreR.string.change_category_color_hint)
@@ -600,8 +601,8 @@ class CustomColorTest : BaseUiTest() {
         )
         checkViewIsDisplayed(
             allOf(
-                withId(dialogsR.id.viewColorPaletteItemSelected),
-                withParent(withId(dialogsR.id.layoutColorPaletteItem)),
+                withId(dialogsR.id.layoutColorPaletteItem),
+                isSelected(),
             ),
         )
         scrollRecyclerToView(
