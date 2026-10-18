@@ -225,6 +225,7 @@
     <!--  Color selection  -->
     <string name="color_selection_gradient">रंग प्रवणता</string>
     <string name="color_selection_gradient_angle_label">कोण</string>
+    <string name="color_selection_gradient_main_color">मुख्य</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">कुछ सेटिंग्स के अधिक सुव्यवस्थित अनुप्रयोग की अनुमति देता है</string>

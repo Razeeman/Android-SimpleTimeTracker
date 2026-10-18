@@ -225,6 +225,7 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <!--  Color selection  -->
     <string name="color_selection_gradient">Gradien</string>
     <string name="color_selection_gradient_angle_label">Sudut</string>
+    <string name="color_selection_gradient_main_color">Utama</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Memungkinkan penerapan beberapa pengaturan yang lebih baik</string>

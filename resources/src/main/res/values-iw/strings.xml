@@ -225,6 +225,7 @@
     <!--  Color selection  -->
     <string name="color_selection_gradient">מעבר צבע</string>
     <string name="color_selection_gradient_angle_label">זווית</string>
+    <string name="color_selection_gradient_main_color">ראשי</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">מאפשר יישום מכוונן יותר של כמה הגדרות</string>

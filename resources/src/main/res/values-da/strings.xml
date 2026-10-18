@@ -222,6 +222,11 @@ Så kan du se, hvor meget tid du samlet bruger på produktive og mindre produkti
     <string name="change_record_type_more_fields">Flere</string>
     <string name="change_record_type_less_fields">Færre</string>
 
+    <!--  Color selection  -->
+    <string name="color_selection_gradient">Farveovergang</string>
+    <string name="color_selection_gradient_angle_label">Vinkel</string>
+    <string name="color_selection_gradient_main_color">Primær</string>
+
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Giver mulighed for mere præcis anvendelse af visse indstillinger</string>
     <string name="complex_rules_disable">Deaktiver</string>
@@ -453,7 +458,12 @@ Hvis indstillingen <b>\"%s\"</b> er aktiveret, svarer appen med data på foresp�
     <string name="settings_automated_tracking_extras_description">Beskrivelse:</string>
     <string name="settings_automated_tracking_extra_name">med navnet på den aktivitet, der skal startes eller stoppes.</string>
     <string name="settings_automated_tracking_extra_tag">med navnet på et registreringsmærke eller en kommasepareret liste med mærkenavne.</string>
+    <string name="settings_automated_tracking_extra_color">i RGB-hexformat, f.eks. #29A674 eller 29A674.</string>
     <string name="settings_automated_tracking_extra_time">i formatet \"yyyy-MM-dd HH:mm:ss\" eller som et UTC-tidsstempel.</string>
+    <string name="settings_automated_tracking_extra_request_id">valgfri tekststreng, der sendes med en start- eller stophandling og returneres i de resulterende aktivitetshændelser.</string>
+    <string name="settings_automated_tracking_extra_request_response">valgfri boolesk værdi for start- og stophandlinger. Sæt den til true for at modtage et svar efter behandling, også når intet ændres</string>
+    <string name="settings_automated_tracking_extra_command_action">den oprindelige start- eller stophandling i et kommandosvar.</string>
+    <string name="settings_automated_tracking_extra_status">kommandoens resultat.</string>
     <string name="settings_automated_tracking_find_record_mode">vælger, hvilken registrering der skal ændres.</string>
     <string name="settings_automated_tracking_comment_mode">vælger, hvordan kommentaren til den valgte registrering skal ændres.</string>
     <string name="settings_automated_tracking_find_with_activity">vælger desuden registrering efter aktivitetsnavn, hvis der er flere aktuelle eller seneste registreringer.</string>
@@ -577,6 +587,7 @@ Eksempel:<br/>
     <string name="statistics_detail_goals_hint">Over- eller underskridelse af mål</string>
     <string name="statistics_detail_goals_excess">Overskud</string>
     <string name="statistics_detail_goals_deficit">Underskud</string>
+    <string name="statistics_detail_goals_balance">Balance</string>
     <string name="statistics_detail_tag_values_hint">Mærkeværdier</string>
     <string name="statistics_detail_tag_values_multiply_duration">Gang med varigheden</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Udfyld tomme perioder med tidligere data</string>

@@ -159,7 +159,7 @@ class RunningRecordsViewModel @Inject constructor(
                 preview = ChangeRecordTypeParams.Change.Preview(
                     name = item.name,
                     iconId = item.iconId.toParams(),
-                    color = item.color.primaryColor,
+                    color = item.color.toParams(),
                 ),
             ),
             sharedElements = mapOf(sharedElements),

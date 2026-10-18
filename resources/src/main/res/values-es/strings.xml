@@ -225,6 +225,7 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <!--  Color selection  -->
     <string name="color_selection_gradient">Degradado</string>
     <string name="color_selection_gradient_angle_label">Ángulo</string>
+    <string name="color_selection_gradient_main_color">Principal</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Permite una aplicación más precisa de algunas configuraciones</string>

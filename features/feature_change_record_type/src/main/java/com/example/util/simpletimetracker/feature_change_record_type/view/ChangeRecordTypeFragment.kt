@@ -62,6 +62,7 @@ import com.example.util.simpletimetracker.feature_views.drawable.AngleGradientDr
 import com.example.util.simpletimetracker.feature_views.drawable.HorizontalFadeDrawable
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.toData
 import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -331,13 +332,13 @@ class ChangeRecordTypeFragment :
             (params as? ChangeRecordTypeParams.Change)?.preview?.let {
                 itemName = it.name
                 itemIcon = it.iconId.toViewData()
-                // TODO GRADIENT fix shared transition
-                itemColor = ColorStyle.Solid(it.color)
+                itemColor = it.color.toViewData()
 
                 updateColorPreview(itemColor)
-                updateIconPreview(it.iconId.toViewData(), it.color)
-                binding.layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(it.color)
-                binding.layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(it.color)
+                // TODO GRADIENT?
+                updateIconPreview(it.iconId.toViewData(), itemColor.primaryColor)
+                binding.layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(itemColor.primaryColor)
+                binding.layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(itemColor.primaryColor)
             }
         }
     }
@@ -454,16 +455,11 @@ class ChangeRecordTypeFragment :
             }
             is ColorStyle.LinearGradient -> {
                 colorPreviewGradient.setGradient(
-                    startColor = color.start,
-                    endColor = color.end,
-                    angleDegrees = color.angleDegrees.toFloat(),
+                    data = color.toData(),
                     cornerRadius = layoutChangeRecordTypeColorPreview.radius,
                 )
-                // TODO GRADIENT pass data class
                 colorLongPreviewGradient.setGradient(
-                    startColor = color.start,
-                    endColor = color.end,
-                    angleDegrees = color.angleDegrees.toFloat(),
+                    data = color.toData(),
                     cornerRadius = 0f,
                 )
                 viewChangeRecordTypeColorPreview.background = colorPreviewGradient

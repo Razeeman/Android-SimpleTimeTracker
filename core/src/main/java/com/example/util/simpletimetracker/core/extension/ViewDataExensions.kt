@@ -10,10 +10,12 @@ import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.recordShortcut.RecordShortcutViewData
 import com.example.util.simpletimetracker.feature_base_adapter.runningRecord.GoalTimeViewData
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRecordDateTimeStateParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeRunningRecordParams
 import com.example.util.simpletimetracker.navigation.params.screen.ChangeShortcutParams
+import com.example.util.simpletimetracker.navigation.params.screen.ColorStyleParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeLengthParams
 import com.example.util.simpletimetracker.navigation.params.screen.RangeParams
 import com.example.util.simpletimetracker.navigation.params.screen.RecordTagParam
@@ -32,6 +34,20 @@ fun RecordTypeIcon.toParams(): RecordTypeIconParams {
     return when (this) {
         is RecordTypeIcon.Image -> RecordTypeIconParams.Image(this.iconId)
         is RecordTypeIcon.Text -> RecordTypeIconParams.Text(this.text)
+    }
+}
+
+fun ColorStyleParams.toViewData(): ColorStyle {
+    return when (this) {
+        is ColorStyleParams.Solid -> ColorStyle.Solid(color)
+        is ColorStyleParams.LinearGradient -> ColorStyle.LinearGradient(start, end, angleDegrees)
+    }
+}
+
+fun ColorStyle.toParams(): ColorStyleParams {
+    return when (this) {
+        is ColorStyle.Solid -> ColorStyleParams.Solid(color)
+        is ColorStyle.LinearGradient -> ColorStyleParams.LinearGradient(start, end, angleDegrees)
     }
 }
 

@@ -54,14 +54,10 @@ class ArchiveViewDataInteractor @Inject constructor(
                 isSearching = isSearching,
                 searchText = searchText,
             ).map { type ->
-                // TODO GRADIENT why mapFiltered with isFiltered false?
-                recordTypeViewDataMapper.mapFiltered(
+                recordTypeViewDataMapper.map(
                     recordType = type,
                     numberOfCards = numberOfCards,
                     isDarkTheme = isDarkTheme,
-                    isFiltered = false,
-                    checkStates = emptyList(),
-                    isComplete = false,
                 )
             }
             result += HintViewData(resourceRepo.getString(R.string.activity_hint))

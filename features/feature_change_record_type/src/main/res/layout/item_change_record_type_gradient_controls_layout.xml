@@ -33,7 +33,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/change_record_date_time_start" />
+            android:maxLines="2"
+            android:text="@string/color_selection_gradient_main_color" />
 
     </LinearLayout>
 
@@ -63,7 +64,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/change_record_date_time_end" />
+            android:maxLines="2"
+            android:text="@string/color_selection_gradient" />
 
     </LinearLayout>
 

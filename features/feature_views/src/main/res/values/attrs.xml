@@ -62,6 +62,7 @@
         <attr name="itemIconAlpha" />
         <attr name="itemName" format="string" />
         <attr name="itemColor" format="color" />
+        <attr name="itemGradientEndColor" format="color" />
         <attr name="itemIsRow" format="boolean" />
         <attr name="itemIsComplete" format="boolean" />
         <attr name="itemCompleteIsAnimated" format="boolean" />

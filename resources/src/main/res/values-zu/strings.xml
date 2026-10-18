@@ -225,6 +225,7 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <!--  Color selection  -->
     <string name="color_selection_gradient">Ukushintsha kombala</string>
     <string name="color_selection_gradient_angle_label">I-engeli</string>
+    <string name="color_selection_gradient_main_color">Oyinhloko</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Ivumela ukusetshenziswa okunembile kwezinye izilungiselelo</string>

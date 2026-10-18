@@ -1,7 +1,6 @@
 package com.example.util.simpletimetracker.navigation.params.screen
 
 import android.os.Parcelable
-import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
 
 sealed class ChangeRecordTypeParams : ScreenParams, Parcelable {
@@ -19,7 +18,7 @@ sealed class ChangeRecordTypeParams : ScreenParams, Parcelable {
         data class Preview(
             val name: String,
             val iconId: RecordTypeIconParams,
-            @ColorInt val color: Int,
+            val color: ColorStyleParams,
         ) : Parcelable
     }
 

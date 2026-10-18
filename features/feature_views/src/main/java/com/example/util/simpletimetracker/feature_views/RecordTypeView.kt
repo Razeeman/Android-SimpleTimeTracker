@@ -16,6 +16,7 @@ import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import androidx.core.content.withStyledAttributes
+import com.example.util.simpletimetracker.feature_views.extension.toData
 import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 
 class RecordTypeView @JvmOverloads constructor(
@@ -43,10 +44,15 @@ class RecordTypeView @JvmOverloads constructor(
                     itemName = getString(R.styleable.RecordTypeView_itemName).orEmpty()
                 }
 
-                // TODO GRADIENT add xml attr for gradient end color
                 if (hasValue(R.styleable.RecordTypeView_itemColor)) {
-                    itemColor = getColor(R.styleable.RecordTypeView_itemColor, Color.BLACK)
-                        .let { ColorStyle.Solid(it) }
+                    val color = getColor(R.styleable.RecordTypeView_itemColor, Color.BLACK)
+                    val end = getColor(R.styleable.RecordTypeView_itemGradientEndColor, color)
+                    val isGradient = hasValue(R.styleable.RecordTypeView_itemGradientEndColor)
+                    itemColor = if (isGradient) {
+                        ColorStyle.LinearGradient(start = color, end = end, angleDegrees = 45)
+                    } else {
+                        ColorStyle.Solid(color)
+                    }
                 }
 
                 if (hasValue(R.styleable.RecordTypeView_itemIcon)) {
@@ -97,9 +103,7 @@ class RecordTypeView @JvmOverloads constructor(
                 }
                 is ColorStyle.LinearGradient -> {
                     gradientDrawable.setGradient(
-                        startColor = value.start,
-                        endColor = value.end,
-                        angleDegrees = value.angleDegrees.toFloat(),
+                        data = value.toData(),
                         // TODO GRADIENT only used for the grid widget?
                         cornerRadius = binding.containerRecordTypeItem.radius,
                     )

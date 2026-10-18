@@ -3,4 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewRecordTypeItem"
     style="@style/RecordTypeItem"
+    tools:itemColor="@color/red_400"
+    tools:itemGradientEndColor="@color/blue_400"
     tools:itemName="Item name" />

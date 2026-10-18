@@ -225,6 +225,7 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <!--  Color selection  -->
     <string name="color_selection_gradient">Kleurverloop</string>
     <string name="color_selection_gradient_angle_label">Hoek</string>
+    <string name="color_selection_gradient_main_color">Hoofdkleur</string>
 
     <!--  Complex rules  -->
     <string name="complex_rules_hint">Maakt een meer verfijnde toepassing van sommige instellingen mogelijk</string>

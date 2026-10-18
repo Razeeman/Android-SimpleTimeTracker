@@ -17,28 +17,20 @@ import kotlin.math.sin
 class AngleGradientDrawable : Drawable() {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var startColor: Int = Color.TRANSPARENT
-    private var endColor: Int = Color.TRANSPARENT
-    private var angleDegrees: Float = 0f
+    private var data: Data = Data(
+        startColor = Color.TRANSPARENT,
+        endColor = Color.TRANSPARENT,
+        angleDegrees = 0f,
+    )
     private var cornerRadius: Float = 0f
 
     fun setGradient(
-        @ColorInt startColor: Int,
-        @ColorInt endColor: Int,
-        angleDegrees: Float,
+        data: Data,
         cornerRadius: Float,
     ) {
-        if (this.startColor == startColor &&
-            this.endColor == endColor &&
-            this.angleDegrees == angleDegrees &&
-            this.cornerRadius == cornerRadius
-        ) {
-            return
-        }
+        if (this.data == data && this.cornerRadius == cornerRadius) return
 
-        this.startColor = startColor
-        this.endColor = endColor
-        this.angleDegrees = angleDegrees
+        this.data = data
         this.cornerRadius = cornerRadius
         updateShader()
         invalidateSelf()
@@ -83,7 +75,7 @@ class AngleGradientDrawable : Drawable() {
             return
         }
 
-        val radians = Math.toRadians((angleDegrees % 360f).toDouble())
+        val radians = Math.toRadians((data.angleDegrees % 360f).toDouble())
         val dx = cos(radians).toFloat()
         val dy = -sin(radians).toFloat()
         val cx = bounds.exactCenterX()
@@ -97,9 +89,15 @@ class AngleGradientDrawable : Drawable() {
             cy - dy * halfLength,
             cx + dx * halfLength,
             cy + dy * halfLength,
-            startColor,
-            endColor,
+            data.startColor,
+            data.endColor,
             Shader.TileMode.CLAMP,
         )
     }
+
+    data class Data(
+        @ColorInt val startColor: Int,
+        @ColorInt val endColor: Int,
+        val angleDegrees: Float,
+    )
 }
