@@ -346,6 +346,8 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="settings_reverse_order_in_calendar">Omgekeerde volgorde van records</string>
     <string name="settings_days_in_calendar">Dagen in kalender</string>
     <string name="settings_widget_transparency">Widgetachtergrondtransparantie</string>
+    <string name="settings_always_show_widget_activity_colors">Activiteitskleuren altijd weergeven in widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Activiteitskleuren weergeven in activiteitswidgets, ook wanneer de activiteiten inactief zijn.</string>
     <string name="settings_show_activity_filters">Activiteitsfilters weergeven op hoofdscherm</string>
     <string name="settings_allow_multiple_activity_filters">Sta meerdere activiteitsfilters toe</string>
     <string name="settings_allow_multiple_activity_filters_hint">Indien uitgeschakeld, zal het selecteren van een filter andere activiteitsfilters uitschakelen.</string>
@@ -451,7 +453,12 @@ Als de instelling <b>\"%s\"</b> is ingeschakeld, reageert de app met gegevens op
     <string name="settings_automated_tracking_extras_description">Beschrijving:</string>
     <string name="settings_automated_tracking_extra_name">met de naam van de activiteit die moet worden gestart of gestopt.</string>
     <string name="settings_automated_tracking_extra_tag">met de naam van een recordtag. Of een lijst met tagnamen, gescheiden door een komma.</string>
+    <string name="settings_automated_tracking_extra_color">in hexadecimaal RGB-formaat, bijvoorbeeld #29A674 of 29A674.</string>
     <string name="settings_automated_tracking_extra_time">in de notatie \"jjjj-MM-dd HH:mm:ss\" of UTC-tijdstempel.</string>
+    <string name="settings_automated_tracking_extra_request_id">optionele tekenreeks die wordt meegegeven met een start- of stopactie en wordt teruggestuurd in de resulterende activiteitsgebeurtenissen.</string>
+    <string name="settings_automated_tracking_extra_request_response">optionele booleaanse waarde voor start- en stopacties. Stel deze in op true om na verwerking een antwoord te ontvangen, ook als er niets verandert</string>
+    <string name="settings_automated_tracking_extra_command_action">de oorspronkelijke start- of stopactie in een antwoord op een opdracht.</string>
+    <string name="settings_automated_tracking_extra_status">resultaat van de opdracht.</string>
     <string name="settings_automated_tracking_find_record_mode">selecteert welke record gewijzigd moet worden.</string>
     <string name="settings_automated_tracking_comment_mode">selecteert hoe de opmerking van het geselecteerde record moet worden gewijzigd.</string>
     <string name="settings_automated_tracking_find_with_activity">selecteert bovendien records op basis van de activiteitsnaam, als er meerdere huidige of laatste records zijn.</string>
@@ -575,6 +582,7 @@ Voorbeeld:<br/>
     <string name="statistics_detail_goals_hint">Doeloverschot of -tekort</string>
     <string name="statistics_detail_goals_excess">Overmaat</string>
     <string name="statistics_detail_goals_deficit">Tekort</string>
+    <string name="statistics_detail_goals_balance">Saldo</string>
     <string name="statistics_detail_tag_values_hint">Tagwaarden</string>
     <string name="statistics_detail_tag_values_multiply_duration">Vermenigvuldig met duur</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Lege periodes vullen met vorige gegevens</string>

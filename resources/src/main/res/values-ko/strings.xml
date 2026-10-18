@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">순서 뒤집기</string>
     <string name="settings_days_in_calendar">표시할 일 수</string>
     <string name="settings_widget_transparency">위젯 배경 투명도</string>
+    <string name="settings_always_show_widget_activity_colors">위젯에 항상 활동 색상 표시</string>
+    <string name="settings_always_show_widget_activity_colors_hint">활동이 비활성 상태일 때도 활동 위젯에 활동 색상을 표시합니다.</string>
     <string name="settings_show_activity_filters">메인 화면에 활동 필터 표시</string>
     <string name="settings_allow_multiple_activity_filters">여러 활동 필터 허용</string>
     <string name="settings_allow_multiple_activity_filters_hint">비활성화된 경우 필터를 선택하면 다른 활동 필터가 비활성화됩니다.</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">설명:</string>
     <string name="settings_automated_tracking_extra_name">시작 또는 정지할 앱의 이름.</string>
     <string name="settings_automated_tracking_extra_tag">기록 태그. 또는 쉼표로 구분된 태그 이름 목록입니다.</string>
+    <string name="settings_automated_tracking_extra_color">RGB 16진수 형식으로, 예를 들어 #29A674 또는 29A674.</string>
     <string name="settings_automated_tracking_extra_time">형식은 \"yyyy-MM-dd HH:mm:ss\" 또는 UTC 타임스탬프입니다.</string>
+    <string name="settings_automated_tracking_extra_request_id">시작 또는 중지 동작과 함께 전달되는 선택적 문자열로, 해당 동작으로 발생하는 활동 이벤트에 동일한 값이 포함됩니다.</string>
+    <string name="settings_automated_tracking_extra_request_response">시작 및 중지 작업에 사용하는 선택적 불리언 값입니다. true로 설정하면 변경 사항이 없는 경우에도 처리 후 응답을 받습니다</string>
+    <string name="settings_automated_tracking_extra_command_action">명령 응답에 포함된 원래 시작 또는 중지 작업입니다.</string>
+    <string name="settings_automated_tracking_extra_status">명령 결과입니다.</string>
     <string name="settings_automated_tracking_find_record_mode">어떤 레코드를 변경할지 선택합니다.</string>
     <string name="settings_automated_tracking_comment_mode">선택한 레코드의 주석을 변경하는 방법을 선택합니다.</string>
     <string name="settings_automated_tracking_find_with_activity">현재 또는 마지막 레코드가 여러 개 있는 경우, 활동 이름으로 레코드를 추가로 선택합니다.</string>
@@ -575,6 +582,7 @@ csv 파일은 다음과 같은 열(column)들을 가져야합니다:<br/>
     <string name="statistics_detail_goals_hint">목표 초과 또는 적자</string>
     <string name="statistics_detail_goals_excess">과잉</string>
     <string name="statistics_detail_goals_deficit">부족</string>
+    <string name="statistics_detail_goals_balance">차액</string>
     <string name="statistics_detail_tag_values_hint">태그 값</string>
     <string name="statistics_detail_tag_values_multiply_duration">기간으로 곱하기</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">빈 기간을 이전 데이터로 채우기</string>

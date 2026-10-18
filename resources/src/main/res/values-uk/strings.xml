@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">Зворотний порядок записів</string>
     <string name="settings_days_in_calendar">Днів в календарі</string>
     <string name="settings_widget_transparency">Прозорість фону віджета</string>
+    <string name="settings_always_show_widget_activity_colors">Завжди показувати кольори активностей у віджетах</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Показувати кольори активностей у віджетах активностей, навіть коли активності не запущені.</string>
     <string name="settings_show_activity_filters">Показувати фільтри активності на головному екрані</string>
     <string name="settings_allow_multiple_activity_filters">Дозволити вибір декількох фільтрів активності</string>
     <string name="settings_allow_multiple_activity_filters_hint">Якщо вимкнено, вибір фільтра призведе до вимкнення інших фільтрів активності.</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">Опис:</string>
     <string name="settings_automated_tracking_extra_name">із назвою дії, яку потрібно розпочати або зупинити.</string>
     <string name="settings_automated_tracking_extra_tag">з назвою тегу запису. Або список імен тегів, розділених комами.</string>
+    <string name="settings_automated_tracking_extra_color">у шістнадцятковому форматі RGB, наприклад #29A674 або 29A674.</string>
     <string name="settings_automated_tracking_extra_time">у форматі \"рррр-ММ-дд ГГ:хх:сс\" або у форматі часової позначки UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">необов’язковий рядок, що передається з командою запуску або зупинки та повертається у відповідних подіях дій.</string>
+    <string name="settings_automated_tracking_extra_request_response">необов’язкове логічне значення для команд запуску та зупинки. Установіть true, щоб отримати відповідь після обробки, зокрема коли нічого не змінилося</string>
+    <string name="settings_automated_tracking_extra_command_action">початкова команда запуску або зупинки у відповіді на команду.</string>
+    <string name="settings_automated_tracking_extra_status">результат команди.</string>
     <string name="settings_automated_tracking_find_record_mode">вибирає, який запис змінити.</string>
     <string name="settings_automated_tracking_comment_mode">вибирає спосіб зміни коментаря вибраного запису.</string>
     <string name="settings_automated_tracking_find_with_activity">додатково вибирає запис за назвою дії, якщо поточних або останніх записів декілька.</string>
@@ -575,6 +582,7 @@
     <string name="statistics_detail_goals_hint">Перевищення або дефіцит цілі</string>
     <string name="statistics_detail_goals_excess">Перевищення</string>
     <string name="statistics_detail_goals_deficit">Дефіцит</string>
+    <string name="statistics_detail_goals_balance">Баланс</string>
     <string name="statistics_detail_tag_values_hint">Значення тегів</string>
     <string name="statistics_detail_tag_values_multiply_duration">Помножити на тривалість</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Заповнювати порожні періоди попередніми даними</string>

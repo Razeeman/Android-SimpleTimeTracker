@@ -346,6 +346,8 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="settings_reverse_order_in_calendar">Reverse order of records</string>
     <string name="settings_days_in_calendar">Days in calendar</string>
     <string name="settings_widget_transparency">Widget background transparency</string>
+    <string name="settings_always_show_widget_activity_colors">Always show activity colors in widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Show activity colors even when inactive in activity widgets.</string>
     <string name="settings_show_activity_filters">Show activity filters on main screen</string>
     <string name="settings_allow_multiple_activity_filters">Allow multiple activity filters</string>
     <string name="settings_allow_multiple_activity_filters_hint">If disabled, selecting a filter will disable other activity filters.</string>
@@ -451,7 +453,12 @@ If <b>\"%s\"</b> setting is enabled, app will respond with data to query broadca
     <string name="settings_automated_tracking_extras_description">Description:</string>
     <string name="settings_automated_tracking_extra_name">with activity name that should be started or stopped.</string>
     <string name="settings_automated_tracking_extra_tag">with the name of a record tag. Or list of tag names separated by comma.</string>
+    <string name="settings_automated_tracking_extra_color">in RGB hex format, for example #29A674 or 29A674.</string>
     <string name="settings_automated_tracking_extra_time">in the format \"yyyy-MM-dd HH:mm:ss\" or UTC timestamp.</string>
+    <string name="settings_automated_tracking_extra_request_id">optional string supplied with a start or stop action and echoed in the resulting activity events.</string>
+    <string name="settings_automated_tracking_extra_request_response">optional boolean for start and stop actions. Set to true to receive response after processing, including when nothing changes</string>
+    <string name="settings_automated_tracking_extra_command_action">the original start or stop action in a command response.</string>
+    <string name="settings_automated_tracking_extra_status">command result.</string>
     <string name="settings_automated_tracking_find_record_mode">selects which record to change.</string>
     <string name="settings_automated_tracking_comment_mode">selects how to change comment of the selected record.</string>
     <string name="settings_automated_tracking_find_with_activity">additionally selects record by activity name, if there are several current or last records.</string>
@@ -575,6 +582,7 @@ Example:<br/>
     <string name="statistics_detail_goals_hint">Goal excess or deficit</string>
     <string name="statistics_detail_goals_excess">Excess</string>
     <string name="statistics_detail_goals_deficit">Deficit</string>
+    <string name="statistics_detail_goals_balance">Balance</string>
     <string name="statistics_detail_tag_values_hint">Tag values</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiply by duration</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Fill empty periods with previous data</string>

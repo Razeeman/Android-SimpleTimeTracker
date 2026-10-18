@@ -443,6 +443,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_WIDGET_TRANSPARENCY_PERCENT, 60,
     )
 
+    override var alwaysShowWidgetActivityColors: Boolean by prefs.delegate(
+        KEY_ALWAYS_SHOW_WIDGET_ACTIVITY_COLORS, false,
+    )
+
     override var defaultTypesHidden: Boolean by prefs.delegate(
         KEY_DEFAULT_TYPES_HIDDEN, false,
     )
@@ -831,6 +835,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES = "automatedTrackingReceiveQueries"
         const val KEY_REPEAT_BUTTON_TYPE = "repeatButtonType"
         const val KEY_WIDGET_TRANSPARENCY_PERCENT = "widgetTransparencyPercent"
+        const val KEY_ALWAYS_SHOW_WIDGET_ACTIVITY_COLORS = "alwaysShowWidgetActivityColors"
         const val KEY_DEFAULT_TYPES_HIDDEN = "defaultTypesHidden"
         const val KEY_IS_NAV_BAR_AT_THE_BOTTOM = "isNavBarAtTheBottom"
         const val KEY_IS_CATEGORIES_SEARCH_ENABLED = "isCategoriesSearchEnabled"

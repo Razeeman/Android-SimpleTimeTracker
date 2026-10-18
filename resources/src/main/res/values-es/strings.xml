@@ -346,6 +346,8 @@ Esto te permite ver cuánto tiempo estás dedicando a actividades productivas fr
     <string name="settings_reverse_order_in_calendar">Orden inverso de registros</string>
     <string name="settings_days_in_calendar">Días en el calendario</string>
     <string name="settings_widget_transparency">Transparencia del fondo del widget</string>
+    <string name="settings_always_show_widget_activity_colors">Mostrar siempre los colores de las actividades en los widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Mostrar los colores de las actividades en los widgets de actividad incluso cuando las actividades estén inactivas.</string>
     <string name="settings_show_activity_filters">Mostrar filtros de actividad en la pantalla principal</string>
     <string name="settings_allow_multiple_activity_filters">Permitir múltiples filtros de actividad</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si está deshabilitado, al seleccionar un filtro se deshabilitarán otros filtros de actividad.</string>
@@ -451,7 +453,12 @@ Si la configuración <b>\"%s\"</b> está habilitada, la aplicación responderá 
     <string name="settings_automated_tracking_extras_description">Descripción:</string>
     <string name="settings_automated_tracking_extra_name">con el nombre de la actividad que debe iniciarse o detenerse.</string>
     <string name="settings_automated_tracking_extra_tag">con el nombre de una etiqueta de registro. O lista de nombres de etiquetas separados por coma.</string>
+    <string name="settings_automated_tracking_extra_color">en formato hexadecimal RGB, por ejemplo #29A674 o 29A674.</string>
     <string name="settings_automated_tracking_extra_time">en el formato \"yyyy-MM-dd HH:mm:ss\" o marca de tiempo UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">cadena de texto opcional que se envía con una acción de inicio o parada y se devuelve en los eventos de actividad resultantes.</string>
+    <string name="settings_automated_tracking_extra_request_response">valor booleano opcional para las acciones de inicio y parada. Establécelo en true para recibir una respuesta tras el procesamiento, incluso cuando no cambie nada</string>
+    <string name="settings_automated_tracking_extra_command_action">la acción original de inicio o parada en una respuesta al comando.</string>
+    <string name="settings_automated_tracking_extra_status">resultado del comando.</string>
     <string name="settings_automated_tracking_find_record_mode">selecciona qué registro cambiar.</string>
     <string name="settings_automated_tracking_comment_mode">selecciona cómo cambiar el comentario del registro seleccionado.</string>
     <string name="settings_automated_tracking_find_with_activity">además, selecciona el registro por nombre de actividad, si hay varios registros actuales o últimos.</string>
@@ -575,6 +582,7 @@ Ejemplo:<br/>
     <string name="statistics_detail_goals_hint">Exceso o déficit de goles</string>
     <string name="statistics_detail_goals_excess">Exceso</string>
     <string name="statistics_detail_goals_deficit">Déficit</string>
+    <string name="statistics_detail_goals_balance">Balance</string>
     <string name="statistics_detail_tag_values_hint">Valores de etiqueta</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplicar por la duración</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Rellenar períodos vacíos con datos anteriores</string>

@@ -449,6 +449,13 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
+    suspend fun onWidgetActivityColorsChange() {
+        runUpdates(
+            Update.WidgetSingleTypes,
+            Update.WidgetGrid,
+        )
+    }
+
     suspend fun onShowUntrackedInStatisticsChange() {
         runUpdates(
             Update.WidgetStatistics,

@@ -346,6 +346,8 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="settings_reverse_order_in_calendar">Urutan terbalik catatan</string>
     <string name="settings_days_in_calendar">Hari dalam kalender</string>
     <string name="settings_widget_transparency">Transparansi latar belakang widget</string>
+    <string name="settings_always_show_widget_activity_colors">Selalu tampilkan warna aktivitas di widget</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Tampilkan warna aktivitas di widget aktivitas meskipun aktivitas tidak aktif.</string>
     <string name="settings_show_activity_filters">Tampilkan filter aktivitas di layar utama</string>
     <string name="settings_allow_multiple_activity_filters">Izinkan beberapa filter aktivitas</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jika dinonaktifkan, memilih filter akan menonaktifkan filter aktivitas lainnya.</string>
@@ -451,7 +453,12 @@ Jika pengaturan <b>\"%s\"</b> diaktifkan, aplikasi akan merespons dengan data te
     <string name="settings_automated_tracking_extras_description">Keterangan:</string>
     <string name="settings_automated_tracking_extra_name">dengan nama aktivitas yang harus dimulai atau dihentikan.</string>
     <string name="settings_automated_tracking_extra_tag">dengan nama tag rekaman. Atau daftar nama tag dipisahkan dengan koma.</string>
+    <string name="settings_automated_tracking_extra_color">dalam format heksadesimal RGB, misalnya #29A674 atau 29A674.</string>
     <string name="settings_automated_tracking_extra_time">dalam format \"yyyy-MM-dd HH:mm:ss\" atau stempel waktu UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">string opsional yang dikirim bersama tindakan mulai atau berhenti dan dikembalikan dalam peristiwa aktivitas yang dihasilkan.</string>
+    <string name="settings_automated_tracking_extra_request_response">nilai boolean opsional untuk tindakan mulai dan berhenti. Atur ke true untuk menerima respons setelah pemrosesan, termasuk saat tidak ada perubahan</string>
+    <string name="settings_automated_tracking_extra_command_action">tindakan mulai atau berhenti asli dalam respons perintah.</string>
+    <string name="settings_automated_tracking_extra_status">hasil perintah.</string>
     <string name="settings_automated_tracking_find_record_mode">memilih rekaman mana yang akan diubah.</string>
     <string name="settings_automated_tracking_comment_mode">memilih cara mengubah komentar pada rekaman yang dipilih.</string>
     <string name="settings_automated_tracking_find_with_activity">selain itu memilih rekaman berdasarkan nama aktivitas, jika ada beberapa rekaman saat ini atau terakhir.</string>
@@ -575,6 +582,7 @@ Contoh:<br/>
     <string name="statistics_detail_goals_hint">Kelebihan atau kekurangan gol</string>
     <string name="statistics_detail_goals_excess">Kelebihan</string>
     <string name="statistics_detail_goals_deficit">Defisit</string>
+    <string name="statistics_detail_goals_balance">Saldo</string>
     <string name="statistics_detail_tag_values_hint">Nilai tag</string>
     <string name="statistics_detail_tag_values_multiply_duration">Kalikan dengan durasi</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Isi periode kosong dengan data sebelumnya</string>

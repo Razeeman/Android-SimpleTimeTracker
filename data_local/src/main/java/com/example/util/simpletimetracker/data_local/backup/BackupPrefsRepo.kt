@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ACTIVITY_REMINDER_RECURRENT
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ALLOW_MULTIPLE_ACTIVITY_FILTERS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ALLOW_MULTITASKING
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_ALWAYS_SHOW_WIDGET_ACTIVITY_COLORS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOMATED_TRACKING_SEND_EVENTS
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOSTART_POMODORO_ACTIVITIES
@@ -252,6 +253,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_AUTOMATED_TRACKING_RECEIVE_QUERIES, ::automatedTrackingReceiveQueries),
             PrefsProcessor(KEY_REPEAT_BUTTON_TYPE, ::repeatButtonType),
             PrefsProcessor(KEY_WIDGET_TRANSPARENCY_PERCENT, ::widgetBackgroundTransparencyPercent),
+            PrefsProcessor(KEY_ALWAYS_SHOW_WIDGET_ACTIVITY_COLORS, ::alwaysShowWidgetActivityColors),
             PrefsProcessor(KEY_DEFAULT_TYPES_HIDDEN, ::defaultTypesHidden),
             PrefsProcessor(KEY_IS_NAV_BAR_AT_THE_BOTTOM, ::isNavBarAtTheBottom),
             PrefsProcessor(KEY_IS_CATEGORIES_SEARCH_ENABLED, ::isCategoriesSearchEnabled),

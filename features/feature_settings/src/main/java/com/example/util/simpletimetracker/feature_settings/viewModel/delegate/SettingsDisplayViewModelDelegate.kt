@@ -96,6 +96,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             SettingsBlock.DisplayMilitaryFormat -> onUseMilitaryTimeClicked()
             SettingsBlock.DisplayMonthDayFormat -> onUseMonthDayTimeClicked()
             SettingsBlock.DisplayShowSeconds -> onShowSecondsClicked()
+            SettingsBlock.DisplayWidgetActivityColors -> onWidgetActivityColorsClicked()
             else -> {
                 // Do nothing
             }
@@ -179,6 +180,15 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             prefsInteractor.setWidgetBackgroundTransparencyPercent(newValue.value)
             parent?.updateContent()
             externalViewsInteractor.onWidgetsTransparencyChange()
+        }
+    }
+
+    private fun onWidgetActivityColorsClicked() {
+        delegateScope.launch {
+            val newValue = !prefsInteractor.getAlwaysShowWidgetActivityColors()
+            prefsInteractor.setAlwaysShowWidgetActivityColors(newValue)
+            parent?.updateContent()
+            externalViewsInteractor.onWidgetActivityColorsChange()
         }
     }
 

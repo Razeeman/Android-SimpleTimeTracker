@@ -346,6 +346,8 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_reverse_order_in_calendar">Orde inversa de rexistros</string>
     <string name="settings_days_in_calendar">Días no calendario</string>
     <string name="settings_widget_transparency">Transparencia do fondo do widget</string>
+    <string name="settings_always_show_widget_activity_colors">Amosar sempre as cores das actividades nos widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Amosar as cores das actividades nos widgets de actividade mesmo cando as actividades estean inactivas.</string>
     <string name="settings_show_activity_filters">Amosar filtros de actividade na pantalla principal</string>
     <string name="settings_allow_multiple_activity_filters">Permitir múltiples filtros de actividade</string>
     <string name="settings_allow_multiple_activity_filters_hint">Se está desactivado, ao escoller un filtro desactivaranse outros filtros de actividade.</string>
@@ -451,7 +453,12 @@ Se a configuración <b>\"%s\"</b> está activada, a aplicación responderá con 
     <string name="settings_automated_tracking_extras_description">Descrición:</string>
     <string name="settings_automated_tracking_extra_name">co nome da actividade que debe iniciarse ou deterse.</string>
     <string name="settings_automated_tracking_extra_tag">co nome dunha etiqueta de rexistro ou unha lista de nomes separados por comas.</string>
+    <string name="settings_automated_tracking_extra_color">en formato hexadecimal RGB, por exemplo #29A674 ou 29A674.</string>
     <string name="settings_automated_tracking_extra_time">no formato \"yyyy-MM-dd HH:mm:ss\" ou marca de tempo UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">cadea de texto opcional que se envía cunha acción de inicio ou de parada e se devolve nos eventos de actividade resultantes.</string>
+    <string name="settings_automated_tracking_extra_request_response">valor booleano opcional para as accións de inicio e de parada. Establéceo en true para recibir unha resposta despois do procesamento, mesmo cando non cambie nada</string>
+    <string name="settings_automated_tracking_extra_command_action">a acción orixinal de inicio ou de parada nunha resposta ao comando.</string>
+    <string name="settings_automated_tracking_extra_status">resultado do comando.</string>
     <string name="settings_automated_tracking_find_record_mode">selecciona que rexistro trocar.</string>
     <string name="settings_automated_tracking_comment_mode">selecciona como trocar o comentario do rexistro seleccionado.</string>
     <string name="settings_automated_tracking_find_with_activity">ademais, selecciona o rexistro polo nome da actividade, se hai varios rexistros actuais ou recentes.</string>
@@ -575,6 +582,7 @@ Exemplo:<br/>
     <string name="statistics_detail_goals_hint">Exceso ou déficit de obxectivos</string>
     <string name="statistics_detail_goals_excess">Exceso</string>
     <string name="statistics_detail_goals_deficit">Déficit</string>
+    <string name="statistics_detail_goals_balance">Saldo</string>
     <string name="statistics_detail_tag_values_hint">Valores de etiqueta</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplicar pola duración</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Encher períodos baleiros con datos anteriores</string>

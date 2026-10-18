@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ACTIVI
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_ALL_ACTIVITIES
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_LONGEST_ACTIVITY
 import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_STOP_SHORTEST_ACTIVITY
+import com.example.util.simpletimetracker.core.utils.EXTERNAL_ACTIONS
 import com.example.util.simpletimetracker.core.utils.EXTRA_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_FILTER_TYPE
@@ -26,10 +27,13 @@ import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_MODE
 import com.example.util.simpletimetracker.core.utils.EXTRA_FIND_RECORD_WITH_ACTIVITY_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_COMMENT_MODE
+import com.example.util.simpletimetracker.core.utils.EXTRA_COLOR
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TAG_NAME
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_ENDED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TIME_STARTED
 import com.example.util.simpletimetracker.core.utils.EXTRA_RECORD_TYPE_ICON
+import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_ID
+import com.example.util.simpletimetracker.core.utils.EXTRA_REQUEST_RESPONSE
 import com.example.util.simpletimetracker.core.utils.EXTRA_SHIFT
 import com.example.util.simpletimetracker.feature_notification.automaticBackup.controller.AutomaticBackupBroadcastController
 import com.example.util.simpletimetracker.feature_notification.automaticExport.controller.AutomaticExportBroadcastController
@@ -75,21 +79,29 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
                 val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                    ?.splitTagNames().orEmpty()
+                    ?.splitNames().orEmpty()
                 val timeStarted = intent.getStringExtra(EXTRA_RECORD_TIME_STARTED)
+                val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
+                val requestResponse = intent.getBooleanExtra(EXTRA_REQUEST_RESPONSE, false)
                 externalController.onActionExternalActivityStart(
                     name = name,
                     comment = comment,
                     tagNames = tagNames,
                     timeStarted = timeStarted,
+                    requestId = requestId,
+                    requestResponse = requestResponse,
                 )
             }
             ACTION_EXTERNAL_STOP_ACTIVITY -> {
                 val name = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
                 val timeEnded = intent.getStringExtra(EXTRA_RECORD_TIME_ENDED)
+                val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
+                val requestResponse = intent.getBooleanExtra(EXTRA_REQUEST_RESPONSE, false)
                 externalController.onActionExternalActivityStop(
                     name = name,
                     timeEnded = timeEnded,
+                    requestId = requestId,
+                    requestResponse = requestResponse,
                 )
             }
             ACTION_EXTERNAL_STOP_ALL_ACTIVITIES -> {
@@ -104,7 +116,7 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
             ACTION_EXTERNAL_RESTART_ACTIVITY -> {
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
                 val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                    ?.splitTagNames().orEmpty()
+                    ?.splitNames().orEmpty()
                 externalController.onActionExternalActivityRestart(
                     comment = comment,
                     tagNames = tagNames,
@@ -116,7 +128,7 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
                 val timeEnded = intent.getStringExtra(EXTRA_RECORD_TIME_ENDED)
                 val comment = intent.getStringExtra(EXTRA_RECORD_COMMENT)
                 val tagNames = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
-                    ?.splitTagNames().orEmpty()
+                    ?.splitNames().orEmpty()
                 externalController.onActionExternalRecordAdd(
                     name = name,
                     timeStarted = timeStarted,
@@ -140,9 +152,14 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
             ACTION_EXTERNAL_CREATE_RECORD_TAG -> {
                 val name = intent.getStringExtra(EXTRA_RECORD_TAG_NAME)
                 val icon = intent.getStringExtra(EXTRA_RECORD_TYPE_ICON)
+                val activityNames = intent.getStringExtra(EXTRA_ACTIVITY_NAME)
+                    ?.splitNames().orEmpty()
+                val color = intent.getStringExtra(EXTRA_COLOR)
                 externalController.onActionExternalRecordTagAdd(
                     name = name,
                     icon = icon,
+                    activityNames = activityNames,
+                    color = color,
                 )
             }
             ACTION_EXTERNAL_QUERY_ACTIVITIES -> {
@@ -173,27 +190,7 @@ class ExternalNotificationReceiver : BroadcastReceiver() {
         return asString ?: getIntExtra(EXTRA_SHIFT, 0)
     }
 
-    private fun String.splitTagNames(): List<String> {
+    private fun String.splitNames(): List<String> {
         return split(',').map(String::trim)
-    }
-
-    private companion object {
-        val EXTERNAL_ACTIONS = setOf(
-            ACTION_EXTERNAL_START_ACTIVITY,
-            ACTION_EXTERNAL_STOP_ACTIVITY,
-            ACTION_EXTERNAL_STOP_ALL_ACTIVITIES,
-            ACTION_EXTERNAL_STOP_SHORTEST_ACTIVITY,
-            ACTION_EXTERNAL_STOP_LONGEST_ACTIVITY,
-            ACTION_EXTERNAL_RESTART_ACTIVITY,
-            ACTION_EXTERNAL_ADD_RECORD,
-            ACTION_EXTERNAL_CHANGE_RECORD,
-            ACTION_EXTERNAL_CREATE_RECORD_TAG,
-            ACTION_EXTERNAL_AUTOMATIC_BACKUP,
-            ACTION_EXTERNAL_AUTOMATIC_EXPORT,
-            ACTION_EXTERNAL_QUERY_ACTIVITIES,
-            ACTION_EXTERNAL_QUERY_RUNNING,
-            ACTION_EXTERNAL_QUERY_RECORDS,
-            ACTION_EXTERNAL_QUERY_STATISTICS,
-        )
     }
 }

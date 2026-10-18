@@ -346,6 +346,8 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_reverse_order_in_calendar">Inversează ordinea înregistrărilor</string>
     <string name="settings_days_in_calendar">Zile în calendar</string>
     <string name="settings_widget_transparency">Transparență fundal Widget</string>
+    <string name="settings_always_show_widget_activity_colors">Afișează întotdeauna culorile activităților în widgeturi</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Afișează culorile activităților în widgeturile de activitate chiar și atunci când activitățile sunt inactive.</string>
     <string name="settings_show_activity_filters">Afișează filtrele de activitate pe ecranul principal</string>
     <string name="settings_allow_multiple_activity_filters">Permite mai multe filtre de activitate</string>
     <string name="settings_allow_multiple_activity_filters_hint">Dacă este dezactivată, selectarea unui filtru va dezactiva alte filtre de activitate.</string>
@@ -451,7 +453,12 @@ Dacă setarea <b>\"%s\"</b> este activată, aplicația va răspunde cu date la d
     <string name="settings_automated_tracking_extras_description">Descriere:</string>
     <string name="settings_automated_tracking_extra_name">cu numele activității care trebuie începută sau oprită.</string>
     <string name="settings_automated_tracking_extra_tag">cu numele etichetei înregistrării. Sau o listă de nume de etichete separate prin virgulă.</string>
+    <string name="settings_automated_tracking_extra_color">în format hexazecimal RGB, de exemplu #29A674 sau 29A674.</string>
     <string name="settings_automated_tracking_extra_time">în formatul \"aaaa-ll-zz HH:mm:ss\" sau marcaj orar UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">șir de caractere opțional trimis cu o acțiune de pornire sau oprire și returnat în evenimentele de activitate rezultate.</string>
+    <string name="settings_automated_tracking_extra_request_response">valoare booleană opțională pentru acțiunile de pornire și oprire. Setează la true pentru a primi un răspuns după procesare, inclusiv când nu se schimbă nimic</string>
+    <string name="settings_automated_tracking_extra_command_action">acțiunea inițială de pornire sau oprire într-un răspuns la comandă.</string>
+    <string name="settings_automated_tracking_extra_status">rezultatul comenzii.</string>
     <string name="settings_automated_tracking_find_record_mode">selectează ce înregistrare să schimbe.</string>
     <string name="settings_automated_tracking_comment_mode">selectează modul de modificare a comentariului înregistrării selectate.</string>
     <string name="settings_automated_tracking_find_with_activity">selectează suplimentar înregistrarea după numele activității, dacă există mai multe înregistrări curente sau ultime.</string>
@@ -575,6 +582,7 @@ Examplu:<br/>
     <string name="statistics_detail_goals_hint">Exces sau deficit de obiectiv</string>
     <string name="statistics_detail_goals_excess">Exces</string>
     <string name="statistics_detail_goals_deficit">Deficit</string>
+    <string name="statistics_detail_goals_balance">Bilanț</string>
     <string name="statistics_detail_tag_values_hint">Valori etichetă</string>
     <string name="statistics_detail_tag_values_multiply_duration">Înmulțește cu durata</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Completează perioadele goale cu datele anterioare</string>

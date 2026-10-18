@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">अभिलेखों का उल्टा क्रम</string>
     <string name="settings_days_in_calendar">कैलेंडर में दिन</string>
     <string name="settings_widget_transparency">विजेट पृष्ठभूमि पारदर्शिता</string>
+    <string name="settings_always_show_widget_activity_colors">विजेट में हमेशा गतिविधियों के रंग दिखाएँ</string>
+    <string name="settings_always_show_widget_activity_colors_hint">गतिविधि विजेट में गतिविधियों के निष्क्रिय होने पर भी उनके रंग दिखाएँ।</string>
     <string name="settings_show_activity_filters">मुख्य स्क्रीन पर गतिविधि फ़िल्टर दिखाएं</string>
     <string name="settings_allow_multiple_activity_filters">एकाधिक गतिविधि फ़िल्टर की अनुमति दें</string>
     <string name="settings_allow_multiple_activity_filters_hint">यदि अक्षम किया गया है, तो फ़िल्टर का चयन करने से अन्य गतिविधि फ़िल्टर अक्षम हो जाएंगे।</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">विवरण:</string>
     <string name="settings_automated_tracking_extra_name">गतिविधि के नाम के साथ जिसे शुरू या बंद किया जाना चाहिए। </string>
     <string name="settings_automated_tracking_extra_tag">एक रिकॉर्ड टैग के नाम के साथ। या अल्पविराम से अलग किए गए टैग नामों की सूची।</string>
+    <string name="settings_automated_tracking_extra_color">RGB हेक्साडेसिमल प्रारूप में, उदाहरण के लिए #29A674 या 29A674।</string>
     <string name="settings_automated_tracking_extra_time">प्रारूप में \"yyyy-MM-dd HH:mm:ss\" या UTC टाइमस्टैम्प।</string>
+    <string name="settings_automated_tracking_extra_request_id">वैकल्पिक टेक्स्ट स्ट्रिंग जो शुरू या बंद करने की क्रिया के साथ भेजी जाती है और उससे उत्पन्न गतिविधि इवेंट में वापस दी जाती है।</string>
+    <string name="settings_automated_tracking_extra_request_response">शुरू और बंद करने की क्रियाओं के लिए वैकल्पिक बूलियन मान। प्रोसेसिंग के बाद उत्तर पाने के लिए इसे true पर सेट करें, तब भी जब कुछ न बदले</string>
+    <string name="settings_automated_tracking_extra_command_action">कमांड के उत्तर में शामिल मूल शुरू या बंद करने की क्रिया।</string>
+    <string name="settings_automated_tracking_extra_status">कमांड का परिणाम।</string>
     <string name="settings_automated_tracking_find_record_mode">चयन करता है कि कौन सा रिकॉर्ड बदलना है.</string>
     <string name="settings_automated_tracking_comment_mode">चयनित रिकॉर्ड की टिप्पणी को बदलने का तरीका चुनता है.</string>
     <string name="settings_automated_tracking_find_with_activity">इसके अतिरिक्त, यदि कई वर्तमान या अंतिम रिकॉर्ड हैं, तो गतिविधि नाम से रिकॉर्ड का चयन करता है।</string>
@@ -575,6 +582,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_goals_hint">लक्ष्य की अधिकता या कमी</string>
     <string name="statistics_detail_goals_excess">अधिकता</string>
     <string name="statistics_detail_goals_deficit">घाटा</string>
+    <string name="statistics_detail_goals_balance">शेष</string>
     <string name="statistics_detail_tag_values_hint">टैग मान</string>
     <string name="statistics_detail_tag_values_multiply_duration">अवधि से गुणा करें</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">खाली अवधियों को पिछले डेटा से भरें</string>

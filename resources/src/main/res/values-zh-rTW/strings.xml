@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">反轉記錄順序</string>
     <string name="settings_days_in_calendar">日曆中的天數</string>
     <string name="settings_widget_transparency">小部件背景透明度</string>
+    <string name="settings_always_show_widget_activity_colors">一律在小部件中顯示活動顏色</string>
+    <string name="settings_always_show_widget_activity_colors_hint">即使活動未在進行，也在活動小部件中顯示活動顏色。</string>
     <string name="settings_show_activity_filters">主視窗上顯示活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters">允許多個活動過濾器</string>
     <string name="settings_allow_multiple_activity_filters_hint">如果停用，選擇一個過濾器將停用其他活動過濾器。</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">描述：</string>
     <string name="settings_automated_tracking_extra_name">具有應啟動或停止的活動名稱。</string>
     <string name="settings_automated_tracking_extra_tag">帶有記錄標籤的名稱。或以逗號分隔的標籤名稱清單。</string>
+    <string name="settings_automated_tracking_extra_color">採用 RGB 十六進位格式，例如 #29A674 或 29A674。</string>
     <string name="settings_automated_tracking_extra_time">格式為 \"yyyy-MM-dd HH:mm:ss\" 或 UTC 時間戳記。</string>
+    <string name="settings_automated_tracking_extra_request_id">隨啟動或停止操作傳送的選用字串，會原樣傳回於該操作所產生的活動事件中。</string>
+    <string name="settings_automated_tracking_extra_request_response">用於啟動和停止操作的選用布林值。設為 true 可在處理後收到回應，即使沒有任何變更</string>
+    <string name="settings_automated_tracking_extra_command_action">命令回應中包含的原始啟動或停止操作。</string>
+    <string name="settings_automated_tracking_extra_status">命令結果。</string>
     <string name="settings_automated_tracking_find_record_mode">選擇要變更的記錄。</string>
     <string name="settings_automated_tracking_comment_mode">選擇如何變更所選記錄的註釋。</string>
     <string name="settings_automated_tracking_find_with_activity">如果有多個目前或最後的記錄，則也可以按活動名稱選擇記錄。</string>
@@ -575,6 +582,7 @@ csv 文件必須包含以逗號分隔的這些列：<br/>
     <string name="statistics_detail_goals_hint">目標超額或不足</string>
     <string name="statistics_detail_goals_excess">過量的</string>
     <string name="statistics_detail_goals_deficit">赤字</string>
+    <string name="statistics_detail_goals_balance">淨差額</string>
     <string name="statistics_detail_tag_values_hint">標籤值</string>
     <string name="statistics_detail_tag_values_multiply_duration">按時長相乘</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">用先前的資料填補空白期間</string>

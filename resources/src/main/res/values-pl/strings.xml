@@ -346,6 +346,8 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_reverse_order_in_calendar">Odwrotna kolejność zapisów</string>
     <string name="settings_days_in_calendar">Dni w kalendarzu</string>
     <string name="settings_widget_transparency">Przezroczystość tła widgetu</string>
+    <string name="settings_always_show_widget_activity_colors">Zawsze pokazuj kolory aktywności w widgetach</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Pokazuj kolory aktywności w widgetach aktywności, nawet gdy aktywności są nieaktywne.</string>
     <string name="settings_show_activity_filters">Pokaż filtry aktywności na ekranie głównym</string>
     <string name="settings_allow_multiple_activity_filters">Zezwalaj na wiele filtrów aktywności</string>
     <string name="settings_allow_multiple_activity_filters_hint">Jeśli opcja jest wyłączona, wybranie filtra spowoduje wyłączenie innych filtrów aktywności.</string>
@@ -451,7 +453,12 @@ Jeśli ustawienie <b>\"%s\"</b> jest włączone, aplikacja odpowie danymi na tra
     <string name="settings_automated_tracking_extras_description">Opis:</string>
     <string name="settings_automated_tracking_extra_name">z nazwą działania, które należy rozpocząć lub zatrzymać.</string>
     <string name="settings_automated_tracking_extra_tag">z nazwą taga dla rekordu. Lub lista nazw znaczników oddzielonych przecinkami.</string>
+    <string name="settings_automated_tracking_extra_color">w szesnastkowym formacie RGB, na przykład #29A674 lub 29A674.</string>
     <string name="settings_automated_tracking_extra_time">w formacie \"rrrr-mm-dd gg:mm:ss\" lub sygnatura czasowa UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">opcjonalny ciąg znaków przekazywany wraz z akcją rozpoczęcia lub zatrzymania i zwracany w wynikowych zdarzeniach aktywności.</string>
+    <string name="settings_automated_tracking_extra_request_response">opcjonalna wartość logiczna dla akcji rozpoczęcia i zatrzymania. Ustaw na true, aby otrzymać odpowiedź po przetworzeniu, również gdy nic się nie zmieni</string>
+    <string name="settings_automated_tracking_extra_command_action">pierwotna akcja rozpoczęcia lub zatrzymania w odpowiedzi na polecenie.</string>
+    <string name="settings_automated_tracking_extra_status">wynik polecenia.</string>
     <string name="settings_automated_tracking_find_record_mode">wybiera rekord, który ma zostać zmieniony.</string>
     <string name="settings_automated_tracking_comment_mode">wybiera sposób zmiany komentarza wybranego rekordu.</string>
     <string name="settings_automated_tracking_find_with_activity">dodatkowo wybiera rekord według nazwy aktywności, jeśli istnieje kilka bieżących lub ostatnich rekordów.</string>
@@ -575,6 +582,7 @@ Przykład:<br/>
     <string name="statistics_detail_goals_hint">Nadmiar lub niedobór celu</string>
     <string name="statistics_detail_goals_excess">Nadmiar</string>
     <string name="statistics_detail_goals_deficit">Deficyt</string>
+    <string name="statistics_detail_goals_balance">Bilans</string>
     <string name="statistics_detail_tag_values_hint">Wartości tagu</string>
     <string name="statistics_detail_tag_values_multiply_duration">Pomnóż przez czas trwania</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Wypełnij puste okresy poprzednimi danymi</string>

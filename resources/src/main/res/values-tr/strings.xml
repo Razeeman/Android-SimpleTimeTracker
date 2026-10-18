@@ -346,6 +346,8 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_reverse_order_in_calendar">Kayıtların ters sırası</string>
     <string name="settings_days_in_calendar">Takvimdeki günler</string>
     <string name="settings_widget_transparency">Widget arka plan şeffaflığı</string>
+    <string name="settings_always_show_widget_activity_colors">Widgetlarda aktivite renklerini her zaman göster</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Aktiviteler etkin değilken bile aktivite widgetlarında aktivite renklerini göster.</string>
     <string name="settings_show_activity_filters">Aktivite filtrelerini ana ekranda göster</string>
     <string name="settings_allow_multiple_activity_filters">Birden fazla etkinlik filtresine izin ver</string>
     <string name="settings_allow_multiple_activity_filters_hint">Devre dışı bırakılırsa, bir filtre seçildiğinde diğer etkinlik filtreleri devre dışı bırakılır.</string>
@@ -451,7 +453,12 @@ Bu davranışı etkinleştirmek için bu uygulamaların şu parametrelerle \"int
     <string name="settings_automated_tracking_extras_description">Tanım:</string>
     <string name="settings_automated_tracking_extra_name">başlatılması veya durdurulması gereken etkinlik adıyla.</string>
     <string name="settings_automated_tracking_extra_tag">bir kayıt etiketi adıyla. Veya virgülle ayrılmış etiket adlarının listesi.</string>
+    <string name="settings_automated_tracking_extra_color">onaltılık RGB biçiminde, örneğin #29A674 veya 29A674.</string>
     <string name="settings_automated_tracking_extra_time">veya UTC zaman damgası biçiminde.</string>
+    <string name="settings_automated_tracking_extra_request_id">başlatma veya durdurma eylemiyle birlikte gönderilen ve bunun sonucunda oluşan etkinlik olaylarında geri döndürülen isteğe bağlı metin dizisi.</string>
+    <string name="settings_automated_tracking_extra_request_response">başlatma ve durdurma eylemleri için isteğe bağlı mantıksal değer. Hiçbir şey değişmese bile işlemden sonra yanıt almak için true olarak ayarlayın</string>
+    <string name="settings_automated_tracking_extra_command_action">komut yanıtındaki özgün başlatma veya durdurma eylemi.</string>
+    <string name="settings_automated_tracking_extra_status">komutun sonucu.</string>
     <string name="settings_automated_tracking_find_record_mode">hangi kaydın değiştirileceğini seçer.</string>
     <string name="settings_automated_tracking_comment_mode">seçili kaydın yorumunun nasıl değiştirileceğini seçer.</string>
     <string name="settings_automated_tracking_find_with_activity">ayrica, birden fazla geçerli veya son kayıt varsa, aktivite adına göre kaydı seçer.</string>
@@ -575,6 +582,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_goals_hint">Hedef fazlası veya açığı</string>
     <string name="statistics_detail_goals_excess">Aşırı</string>
     <string name="statistics_detail_goals_deficit">Açık</string>
+    <string name="statistics_detail_goals_balance">Bakiye</string>
     <string name="statistics_detail_tag_values_hint">Etiket değerleri</string>
     <string name="statistics_detail_tag_values_multiply_duration">Süre ile çarp</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Boş dönemleri önceki verilerle doldur</string>

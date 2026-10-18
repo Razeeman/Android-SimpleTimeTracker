@@ -262,7 +262,7 @@ class StatisticsDetailGoalsViewDataMapper @Inject constructor(
                 value = formatInterval(total),
                 valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                 secondValue = "",
-                description = resourceRepo.getString(R.string.statistics_detail_total_duration),
+                description = resourceRepo.getString(R.string.statistics_detail_goals_balance),
                 titleTextSizeSp = 14,
                 subtitleTextSizeSp = 12,
             ),

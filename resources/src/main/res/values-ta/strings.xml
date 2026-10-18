@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">பதிவுகளின் வரிசையைத் தலைகீழாக்கு</string>
     <string name="settings_days_in_calendar">நாட்காட்டியில் உள்ள நாட்கள்</string>
     <string name="settings_widget_transparency">விட்ஜெட் பின்னணி வெளிப்படைத்தன்மை</string>
+    <string name="settings_always_show_widget_activity_colors">விட்ஜெட்களில் எப்போதும் செயல்பாடுகளின் வண்ணங்களைக் காட்டு</string>
+    <string name="settings_always_show_widget_activity_colors_hint">செயல்பாடுகள் செயலில் இல்லாதபோதும் செயல்பாட்டு விட்ஜெட்களில் அவற்றின் வண்ணங்களைக் காட்டு.</string>
     <string name="settings_show_activity_filters">முதன்மைத் திரையில் செயல்பாட்டு வடிகட்டிகளைக் காட்டு</string>
     <string name="settings_allow_multiple_activity_filters">பல செயல்பாட்டு வடிகட்டிகளை அனுமதி</string>
     <string name="settings_allow_multiple_activity_filters_hint">முடக்கப்பட்டால், ஒரு வடிகட்டியைத் தேர்ந்தெடுத்தால் மற்ற செயல்பாட்டு வடிகட்டிகள் முடக்கப்படும்.</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">விளக்கம்:</string>
     <string name="settings_automated_tracking_extra_name">தொடங்கப்பட வேண்டிய அல்லது நிறுத்தப்பட வேண்டிய செயல்பாட்டின் பெயருடன்.</string>
     <string name="settings_automated_tracking_extra_tag">ஒரு பதிவுக் குறிச்சொல்லின் பெயருடன். அல்லது கமாவால் பிரிக்கப்பட்ட குறிச்சொல் பெயர்களின் பட்டியல்.</string>
+    <string name="settings_automated_tracking_extra_color">RGB ஹெக்ஸாடெசிமல் வடிவத்தில், எடுத்துக்காட்டாக #29A674 அல்லது 29A674.</string>
     <string name="settings_automated_tracking_extra_time">\"yyyy-MM-dd HH:mm:ss\" வடிவத்தில் அல்லது யூடிசி நேர முத்திரை.</string>
+    <string name="settings_automated_tracking_extra_request_id">தொடங்கும் அல்லது நிறுத்தும் செயலுடன் அனுப்பப்பட்டு, அதன் விளைவாக உருவாகும் செயல்பாட்டு நிகழ்வுகளில் திருப்பி அனுப்பப்படும் விருப்பத் தேர்வான உரைச் சரம்.</string>
+    <string name="settings_automated_tracking_extra_request_response">தொடங்கும் மற்றும் நிறுத்தும் செயல்களுக்கான விருப்பத் தேர்வான பூலியன் மதிப்பு. எந்த மாற்றமும் இல்லாதபோதும், செயலாக்கத்திற்குப் பிறகு பதிலைப் பெற இதை true என அமைக்கவும்</string>
+    <string name="settings_automated_tracking_extra_command_action">கட்டளைக்கான பதிலில் உள்ள அசல் தொடங்கும் அல்லது நிறுத்தும் செயல்.</string>
+    <string name="settings_automated_tracking_extra_status">கட்டளையின் முடிவு.</string>
     <string name="settings_automated_tracking_find_record_mode">எந்தப் பதிவை மாற்ற வேண்டும் என்பதைத் தேர்ந்தெடுக்கிறது.</string>
     <string name="settings_automated_tracking_comment_mode">தேர்ந்தெடுக்கப்பட்ட பதிவின் கருத்தை எப்படி மாற்றுவது என்பதைத் தேர்ந்தெடுக்கிறது.</string>
     <string name="settings_automated_tracking_find_with_activity">பல தற்போதைய அல்லது கடைசிப் பதிவுகள் இருந்தால், செயல்பாட்டுப் பெயரால் பதிவைக் கூடுதலாகத் தேர்ந்தெடுக்கிறது.</string>
@@ -575,6 +582,7 @@
     <string name="statistics_detail_goals_hint">இலக்கு உபரி அல்லது பற்றாக்குறை</string>
     <string name="statistics_detail_goals_excess">உபரி</string>
     <string name="statistics_detail_goals_deficit">பற்றாக்குறை</string>
+    <string name="statistics_detail_goals_balance">நிகர இருப்பு</string>
     <string name="statistics_detail_tag_values_hint">குறிச்சொல் மதிப்புகள்</string>
     <string name="statistics_detail_tag_values_multiply_duration">கால அளவால் பெருக்கு</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">காலியான காலங்களை முந்தைய தரவால் நிரப்பு</string>

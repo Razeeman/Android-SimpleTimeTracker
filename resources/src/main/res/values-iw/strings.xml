@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">סדר הפוך של רשומות</string>
     <string name="settings_days_in_calendar">ימים בלוח שנה</string>
     <string name="settings_widget_transparency">שקיפות רקע יישומון</string>
+    <string name="settings_always_show_widget_activity_colors">הצג תמיד צבעי פעילויות ביישומונים</string>
+    <string name="settings_always_show_widget_activity_colors_hint">הצג צבעי פעילויות ביישומוני פעילות גם כשהפעילויות אינן פעילות.</string>
     <string name="settings_show_activity_filters">הצג מסנני פעילות במסך ראשי</string>
     <string name="settings_allow_multiple_activity_filters">אפשר מסנני פעילות מרובים</string>
     <string name="settings_allow_multiple_activity_filters_hint">אם מושבת, בחירת מסנן תשבית מסנני פעילות אחרים.</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">תֵאוּר:</string>
     <string name="settings_automated_tracking_extra_name">עם שם פעילות שיש להתחיל או לעצור.</string>
     <string name="settings_automated_tracking_extra_tag">עם השם של תג רשומה. או רשימה של שמות תגים מופרדים בפסיק.</string>
+    <string name="settings_automated_tracking_extra_color">בפורמט הקסדצימלי RGB, לדוגמה #29A674 או 29A674.</string>
     <string name="settings_automated_tracking_extra_time">בפורמט \"yyyy-MM-dd HH:mm:ss\" או חותמת זמן UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">מחרוזת אופציונלית שנשלחת עם פעולת התחלה או עצירה ומוחזרת באירועי הפעילות שנוצרים בעקבותיה.</string>
+    <string name="settings_automated_tracking_extra_request_response">ערך בוליאני אופציונלי לפעולות התחלה ועצירה. יש להגדיר אותו ל-true כדי לקבל תגובה לאחר העיבוד, גם כשאין שינוי</string>
+    <string name="settings_automated_tracking_extra_command_action">פעולת ההתחלה או העצירה המקורית בתגובה לפקודה.</string>
+    <string name="settings_automated_tracking_extra_status">תוצאת הפקודה.</string>
     <string name="settings_automated_tracking_find_record_mode">בוחר איזו רשומה לשנות.</string>
     <string name="settings_automated_tracking_comment_mode">בוחר כיצד לשנות את ההערה של הרשומה שנבחרה.</string>
     <string name="settings_automated_tracking_find_with_activity">בוחר בנוסף רשומה לפי שם פעילות, אם יש כמה רשומות נוכחיות או אחרונות.</string>
@@ -575,6 +582,7 @@
     <string name="statistics_detail_goals_hint">עודף או גירעון יעד</string>
     <string name="statistics_detail_goals_excess">עוֹדֶף</string>
     <string name="statistics_detail_goals_deficit">גֵרָעוֹן</string>
+    <string name="statistics_detail_goals_balance">מאזן</string>
     <string name="statistics_detail_tag_values_hint">ערכי תג</string>
     <string name="statistics_detail_tag_values_multiply_duration">הכפל במשך הזמן</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">מלא תקופות ריקות בנתונים קודמים</string>

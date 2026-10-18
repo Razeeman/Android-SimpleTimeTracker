@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="day_of_week_monday">Man</string>
+    <string name="day_of_week_tuesday">Tir</string>
+    <string name="day_of_week_wednesday">Ons</string>
+    <string name="day_of_week_thursday">Tor</string>
+    <string name="day_of_week_friday">Fre</string>
+    <string name="day_of_week_saturday">Lør</string>
+    <string name="day_of_week_sunday">Søn</string>
+
+    <string name="activity_hint">Aktiviteter</string>
+    <string name="category_hint">Kategorier</string>
+    <string name="record_tag_hint">Registreringsmærker</string>
+    <string name="record_tag_hint_short">Mærker</string>
+    <string name="nothing_selected">Intet valgt</string>
+    <string name="something_selected">Valgt</string>
+    <string name="something_available">Tilgængelig</string>
+    <string name="something_preselected">Forhåndsvalgt</string>
+    <string name="select_all">Vælg alle</string>
+    <string name="select_nothing">Fravælg alle</string>
+    <string name="no_data">Ingen data</string>
+    <string name="general_error">Noget gik galt. Prøv igen, eller genstart appen.</string>
+    <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
+    <string name="search_hint">Søg</string>
+    <string name="enable_search_hint">Aktivér søgning</string>
+    <string name="help">Hjælp</string>
+
+    <!--  Range selection  -->
+    <string name="title_yesterday">I går</string>
+    <string name="title_today">I dag</string>
+    <string name="title_tomorrow">I morgen</string>
+    <string name="title_this_week">Denne uge</string>
+    <string name="title_this_month">Denne måned</string>
+    <string name="title_this_year">Dette år</string>
+
+    <string name="range_day">Dag</string>
+    <string name="range_week">Uge</string>
+    <string name="range_month">Måned</string>
+    <string name="range_year">År</string>
+    <string name="range_overall">I alt</string>
+    <string name="range_custom">Periode</string>
+    <string name="range_select_day">Vælg dato</string>
+    <string name="range_select_week">Vælg uge</string>
+    <string name="range_select_month">Vælg måned</string>
+    <string name="range_select_year">Vælg år</string>
+    <string name="range_select_range">Vælg periode</string>
+    <string name="range_back_to_today">Tilbage til i dag</string>
+
+    <plurals name="range_last">
+        <item quantity="zero">Seneste %s dage</item>
+        <item quantity="one">Seneste %s dag</item>
+        <item quantity="two">Seneste %s dage</item>
+        <item quantity="few">Seneste %s dage</item>
+        <item quantity="many">Seneste %s dage</item>
+        <item quantity="other">Seneste %s dage</item>
+    </plurals>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Annuller</string>
+
+    <string name="time_day">d</string>
+    <string name="time_hour">t</string>
+    <string name="time_minute">min</string>
+    <string name="time_second">s</string>
+
+    <string name="days">Dage</string>
+    <string name="hours">Timer</string>
+    <string name="minutes">Minutter</string>
+
+    <string name="untracked_time_name">Ikke registreret</string>
+    <string name="uncategorized_time_name">Ukategoriseret</string>
+    <string name="multitask_time_name">Multitasking</string>
+    <string name="record_types_empty">Ingen aktiviteter tilføjet</string>
+    <string name="record_tag_selection_hint">Vælg registreringsmærke</string>
+    <string name="time_now">Nu</string>
+    <string name="cannot_be_in_the_future">Tidspunktet kan ikke ligge i fremtiden</string>
+
+    <!--  Records  -->
+    <string name="record_removed">Registrering %s fjernet</string>
+    <string name="record_removed_undo">Fortryd</string>
+    <string name="records_hint">Tryk på en registrering for at redigere den</string>
+    <string name="records_add_record">Tilføj registrering</string>
+    <string name="records_switch_to_calendar">Skift til kalendervisning</string>
+    <string name="records_switch_to_list">Skift til listevisning</string>
+    <string name="no_records_exist">Registreringer vises her</string>
+    <string name="record_add_hint">Tryk på %s for at tilføje en registrering</string>
+    <string name="record_date_hint">Tryk på datoknappen for at vælge dato</string>
+
+    <!--  Statistics  -->
+    <string name="statistics_total_tracked">Registreret i alt</string>
+    <string name="statistics_total_tracked_short">I alt</string>
+    <string name="statistics_hint">Tryk på et kort for at se detaljeret statistik</string>
+    <string name="statistics_daily_calendar_hint">Dagskalender</string>
+    <string name="no_statistics_exist">Statistik vises her</string>
+
+    <!--  Goals  -->
+    <string name="no_goals_exist">Mål vises her</string>
+    <string name="all_goals_finished">Alle mål er nået</string>
+    <string name="hide_finished_goals">Skjul opnåede mål</string>
+    <string name="goal_add_hint">Rediger en aktivitet eller kategori for at tildele den et mål</string>
+
+    <!--  Categories  -->
+    <string name="categories_title">Kategorier og mærker</string>
+    <string name="categories_edit_hint">Tryk på et kort for at redigere</string>
+    <string name="categories_record_type_hint">Tildel den samme kategori til forskellige aktiviteter for at se samlet statistik</string>
+    <string name="categories_record_hint">Tildel forskellige mærker til registreringer for at skelne mellem dem</string>
+    <string name="categories_add_category">Tilføj kategori</string>
+    <string name="categories_add_record_tag">Tilføj registreringsmærke</string>
+    <string name="categories_show_relations">Vis relationer</string>
+    <string name="categories_and_tags_hint"><![CDATA[
+<b>Kategorier</b> hjælper dig med at gruppere relaterede aktiviteter. For eksempel:<br><br>
+• Kategorien <custom-color-3>Produktiv</custom-color-3> kan indeholde <custom-color-3>Læsning</custom-color-3> og <custom-color-3>Træning</custom-color-3>.<br><br>
+• Kategorien <custom-color-1>Fritid</custom-color-1> kan indeholde <custom-color-1>TV</custom-color-1> og <custom-color-1>Spil</custom-color-1>.<br><br>
+Så kan du se, hvor meget tid du samlet bruger på produktive og mindre produktive aktiviteter.<br><br>
+<b>Mærker</b> giver dig mulighed for at tilføje flere detaljer til en bestemt aktivitet. For eksempel:<br><br>
+• Til aktiviteten <custom-color-3>Læsning</custom-color-3> kan du bruge mærker som <custom-color-3>1984</custom-color-3> eller <custom-color-3>Harry Potter</custom-color-3> til at registrere tid brugt på hver bog.<br><br>
+• Til aktiviteten <custom-color-10>Arbejde</custom-color-10> kan du bruge mærker som <custom-color-10>Hjemme</custom-color-10> og <custom-color-10>Kontor</custom-color-10> for at skelne mellem, hvor arbejdet blev udført.<br>
+    ]]></string>
+
+    <!--  Change category  -->
+    <string name="change_category_removed">Kategori fjernet</string>
+    <string name="change_category_color_hint">Farve</string>
+    <string name="change_category_types_hint">Aktiviteter</string>
+    <string name="change_category_save">Gem</string>
+    <string name="change_category_message_choose_name">Vælg et navn</string>
+
+    <!--  Change record tag  -->
+    <string name="change_record_tag_archived">Mærke arkiveret</string>
+    <string name="change_record_tag_default_hint">Tildeles som standard</string>
+    <string name="change_record_tag_type_general">Generelt</string>
+    <string name="change_record_tag_type_general_hint">Kan tildeles registreringer for alle aktiviteter</string>
+    <string name="change_record_tag_type_typed_hint">Kan kun tildeles registreringer for en bestemt aktivitet</string>
+    <string name="change_record_tag_select_activity_hint">Brug aktivitetens farve og ikon</string>
+    <string name="change_record_tag_default_types_hint">Mærket tildeles som standard, når en timer startes for de valgte aktiviteter</string>
+    <string name="change_record_type_value_type_field">Værdi</string>
+    <string name="change_record_type_value_type_hint">Tildel en værdi, når en registrering mærkes med dette mærke. Nyttigt til at følge humør, produktivitet, læste sider, gåede skridt osv.</string>
+    <string name="change_record_type_value_suffix">Suffiks</string>
+    <string name="change_record_type_value_selection_hint">Indtast ny værdi</string>
+
+    <!--  Change record  -->
+    <string name="change_record_message_choose_type">Vælg aktivitet</string>
+    <string name="change_record_type_field">Aktivitet</string>
+    <string name="change_record_tag_field">Mærke</string>
+    <string name="change_record_comment_field">Kommentar</string>
+    <string name="change_record_comment_hint">Indtast en ny kommentar</string>
+    <string name="change_record_actions_hint">Handlinger</string>
+    <string name="change_record_last_comments_hint">Seneste kommentarer</string>
+    <string name="change_record_favourite_comments_hint">Favorit</string>
+    <string name="change_record_favourite_comments_hint_long">Favoritkommentarer</string>
+    <string name="change_record_favourite_activity_selection">Kun favorit for valgte aktiviteter</string>
+    <string name="change_record_similar_comments_hint">Lignende kommentarer</string>
+    <string name="change_record_categories_empty">Ingen registreringsmærker tilføjet</string>
+    <string name="change_record_save">Gem</string>
+    <string name="change_record_untagged">Uden mærke</string>
+    <string name="change_record_tag_from_other_activity">Tildelt andre aktiviteter</string>
+    <string name="change_running_record_removed">Aktivitet under registrering fjernet</string>
+    <string name="change_record_split">Opdel</string>
+    <string name="change_record_split_hint">Opdeler den aktuelle registrering i to på det angivne tidspunkt</string>
+    <string name="change_record_continue">Fortsæt</string>
+    <string name="change_record_continue_hint">Fjerner den aktuelle registrering og fortsætter registreringen af denne aktivitet</string>
+    <string name="change_record_repeat">@string/running_records_repeat</string>
+    <string name="change_record_repeat_hint">Gentager registreringen af denne aktivitet</string>
+    <string name="change_record_duplicate">Dupliker</string>
+    <string name="change_record_duplicate_hint">Opretter en kopi af denne registrering</string>
+    <string name="change_record_move">Flyt</string>
+    <string name="change_record_move_hint">Ændrer starttidspunktet uden at ændre varigheden</string>
+    <string name="change_record_merge">Sammenlæg</string>
+    <string name="change_record_merge_hint">Føjer denne tid til den forrige registrering</string>
+    <string name="change_record_multiselect">Flere valg</string>
+    <string name="change_record_multiselect_hint">Vælg flere registreringer, og åbn menuen Handlinger igen</string>
+    <string name="change_record_adjust">Rediger</string>
+    <string name="change_record_shortcut">Genvej</string>
+    <string name="change_record_shortcut_hint">Opretter en genvej på hovedfanen med forvalgte mærker og en kommentar for hurtigere adgang</string>
+    <string name="change_record_change_prev_record">Ændr også tidspunktet for den forrige registrering</string>
+    <string name="change_record_change_adjacent_records">Ændr også tidspunktet for tilstødende registreringer</string>
+    <string name="change_record_change_prev">Forrige</string>
+    <string name="change_record_change_next">Næste</string>
+    <string name="change_record_change_overlapped">Overlappet</string>
+    <string name="change_record_change_overlapped_hint">Registreringerne overlapper helt og vil blive fjernet</string>
+    <string name="change_record_untracked_time_hint">Ikke-registreret tid er tid, hvor ingen aktivitet blev registreret.</string>
+    <string name="change_record_previous_not_found">Fandt ikke den forrige registrering</string>
+    <string name="change_record_next_not_found">Fandt ikke den næste registrering</string>
+    <string name="change_record_date_time_start">Start</string>
+    <string name="change_record_date_time_end">Slut</string>
+    <string name="change_record_date_time_duration">Varighed</string>
+
+    <!--  Change record type  -->
+    <string name="change_record_type_archived">Aktivitet arkiveret</string>
+    <string name="change_record_type_name_hint">Indtast et nyt navn</string>
+    <string name="change_record_type_new_icon_text_hint">Indtast ny tekst</string>
+    <string name="change_record_type_color_hint">Farve</string>
+    <string name="change_record_favourite_colors_hint">Favoritfarver</string>
+    <string name="change_record_type_icon_image_hint">Ikon</string>
+    <string name="change_record_type_icon_text_hint">Tekst</string>
+    <string name="change_record_type_icon_emoji_hint">Emoji</string>
+    <string name="change_record_type_icon_search_hint">Søg (på engelsk)</string>
+    <string name="change_record_type_no_icon">Intet ikon</string>
+    <string name="change_record_favourite_icons_hint">Favoritikoner</string>
+    <string name="change_record_type_save">Gem</string>
+    <string name="change_record_message_choose_name">Vælg et navn</string>
+    <string name="change_record_message_name_exist">Navnet er allerede i brug</string>
+    <string name="change_record_type_note_hint">Note</string>
+    <string name="change_record_type_categories_empty">Ingen kategorier tilføjet</string>
+    <string name="change_record_type_goal_time_disabled">Deaktiveret</string>
+    <string name="change_record_type_goal_time_hint">Mål</string>
+    <string name="change_record_type_limit_time_hint">Grænse</string>
+    <string name="change_record_type_additional_hint">Yderligere</string>
+    <string name="change_record_type_default_duration">Standardvarighed</string>
+    <string name="change_record_type_default_duration_hint">Aktiviteter med en standardvarighed registreres straks, når du trykker på dem.</string>
+    <string name="change_record_type_goal_time_description">Der vises en notifikation, når målet er nået</string>
+    <string name="change_record_type_duplicate_hint">Opretter en kopi af denne aktivitet</string>
+    <string name="change_record_type_session_goal_time">Session</string>
+    <string name="change_record_type_daily_goal_time">@string/range_day</string>
+    <string name="change_record_type_weekly_goal_time">@string/range_week</string>
+    <string name="change_record_type_monthly_goal_time">@string/range_month</string>
+    <string name="change_record_type_yealy_goal_time">@string/range_year</string>
+    <string name="change_record_type_overall_goal_time">@string/range_overall</string>
+    <string name="change_record_type_goal_duration">Varighed</string>
+    <string name="change_record_type_goal_count">Antal</string>
+    <string name="change_record_type_delete_alert">Slet?</string>
+    <string name="change_record_type_more_fields">Flere</string>
+    <string name="change_record_type_less_fields">Færre</string>
+
+    <!--  Complex rules  -->
+    <string name="complex_rules_hint">Giver mulighed for mere præcis anvendelse af visse indstillinger</string>
+    <string name="complex_rules_disable">Deaktiver</string>
+    <string name="complex_rules_enable">Aktiver</string>
+    <string name="complex_rules_action_disallow_only_previous_detail">Kun forrige</string>
+
+    <!--  Change complex rules  -->
+    <string name="change_complex_actions_title">Handling</string>
+    <string name="change_complex_actions_hint">Anvendes på den aktivitet, der startes</string>
+    <string name="change_complex_action_assign_tag">Tildel mærke</string>
+    <string name="change_complex_conditions_title">Betingelser</string>
+    <string name="change_complex_starting_activity">Startende aktivitet</string>
+    <string name="change_complex_previous_activity">Forrige aktivitet</string>
+    <string name="change_complex_disallow_only_previous">Stop kun valgte aktiviteter</string>
+    <string name="change_complex_rule_removed">Regel fjernet</string>
+    <string name="change_complex_rule_choose_action">Vælg handling</string>
+    <string name="change_complex_rule_choose_condition">Vælg betingelser</string>
+    <string name="change_complex_tag_value_dialog_message">Vælg, hvornår værdien skal angives</string>
+    <string name="change_complex_tag_value_set_later">Ved start</string>
+
+    <!--  Activity suggestions  -->
+    <string name="activity_suggestions_hint">Viser forslag til den næste aktivitet baseret på den aktuelle eller seneste aktivitet</string>
+    <string name="activity_suggestions_calculate">Beregn ud fra statistik</string>
+    <string name="activity_suggestions_select_activity_hint">Der vises forslag til de valgte aktiviteter</string>
+
+    <!--  Activity filters  -->
+    <string name="change_activity_filters_hint">Aktivitetsfiltre</string>
+    <string name="change_activity_filter_removed">Filter fjernet</string>
+    <string name="change_activity_filter_save">Gem</string>
+    <string name="change_activity_filter_type">Filtertype</string>
+
+    <!--  Dialogs  -->
+    <string name="date_time_dialog_date">Dato</string>
+    <string name="date_time_dialog_time">Tid</string>
+    <string name="date_time_dialog_seconds">Sekunder</string>
+
+    <string name="card_size_default">Standardbredde</string>
+    <string name="card_size_hint">Antal kort på en række</string>
+
+    <string name="card_order_hint">Træk og slip for at ændre rækkefølgen</string>
+
+    <string name="chart_filter_hint">Filter</string>
+    <string name="types_compare_hint">Sammenligning</string>
+    <string name="types_filter_show_all">Vis alle</string>
+    <string name="types_filter_hide_all">Skjul alle</string>
+    <string name="show">Vis</string>
+    <string name="hide">Skjul</string>
+    <string name="chart_filter_type_hint">Filtertype</string>
+    <string name="chart_filter_categories_empty">Ingen mærker tilføjet</string>
+
+    <string name="duration_dialog_save">Gem</string>
+    <string name="duration_dialog_disable">Deaktiver</string>
+
+    <string name="color_selection_base_color_hint">Vælg grundfarve</string>
+    <string name="color_selection_adjust_color_hint">Juster farve</string>
+    <string name="color_selection_final_color_hint">Endelig farve</string>
+
+    <string name="csv_export_settings_filename_hint">Brugerdefineret filnavn</string>
+    <string name="csv_export_settings_filename_default">Standard</string>
+    <string name="csv_export_settings_hint">Vælg en tidsperiode, eller eksportér alle registreringer</string>
+
+    <string name="schedule_exact_alarms">Denne systemindstilling skal være aktiveret for appen, så præcise alarmer kan planlægges</string>
+    <string name="post_notifications">Denne systemindstilling skal være aktiveret for appen, så notifikationer kan vises</string>
+    <string name="schedule_exact_alarms_open_settings">Åbn</string>
+
+    <string name="default_types_selection_title">Vælg aktiviteter, der skal tilføjes</string>
+    <string name="default_types_selection_hide">Vis ikke igen</string>
+
+    <string name="record_tag_selection_exclude_activities_title">Udeluk aktiviteter</string>
+    <string name="record_tag_selection_exclude_activities_hint">Dialogen vises ikke for de valgte aktiviteter.</string>
+
+    <string name="select_activities_to_autostart_pomodoro_title">Vælg aktiviteter</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro startes automatisk, når de valgte aktiviteter startes.</string>
+
+    <!--  Records all  -->
+    <string name="records_all_sort_order">Sortér registreringer</string>
+    <string name="records_all_sort_time_started">Starttidspunkt</string>
+    <string name="records_all_sort_duration">Varighed</string>
+    <string name="records_all_days_without_records">Dage uden registreringer – %s</string>
+
+    <!--  Running records  -->
+    <string name="running_records_types_empty">Tilføj aktiviteter ved at trykke på knappen %s for at begynde registreringen, eller brug standardvalg ved at trykke på knappen %s</string>
+    <string name="running_records_empty">Tryk på en aktivitet for at starte registreringen</string>
+    <string name="running_records_empty_inverted">Tryk længe på en aktivitet for at starte registreringen</string>
+    <string name="running_records_has_timers">Tryk på et kort for at stoppe registreringen</string>
+    <string name="running_records_has_timers_inverted">Tryk længe på et kort for at stoppe registreringen</string>
+    <string name="running_records_empty_hint">Tryk længe for at redigere</string>
+    <string name="running_records_empty_hint_inverted">Tryk for at redigere</string>
+    <string name="running_records_add_type">Tilføj</string>
+    <string name="running_records_add_filter">Tilføj filter</string>
+    <string name="running_records_add_default">Standard</string>
+    <string name="running_records_repeat">Gentag</string>
+    <string name="running_records_repeat_no_prev_record">Ingen tidligere registrering at genstarte</string>
+    <string name="running_records_repeat_already_tracking">Denne aktivitet registreres allerede</string>
+
+    <!--  Settings  -->
+    <string name="settings_display_title">Skærmindstillinger</string>
+    <string name="settings_additional_title">Yderligere indstillinger</string>
+    <string name="settings_notification_title">Notifikationsindstillinger</string>
+    <string name="settings_backup_title">Sikkerhedskopi</string>
+    <string name="settings_export_title">Eksport og import</string>
+    <string name="settings_sort_order">Sortér aktiviteter</string>
+    <string name="settings_sort_order_category">Sortér kategorier</string>
+    <string name="settings_sort_order_tag">Sortér mærker</string>
+    <string name="settings_sort_by_name">Navn</string>
+    <string name="settings_sort_by_color">Farve</string>
+    <string name="settings_sort_manually">Manuelt</string>
+    <string name="settings_sort_activity">Aktivitetsrækkefølge</string>
+    <string name="settings_first_day_of_week">Ugens første dag</string>
+    <string name="settings_show_repeat_button">Vis gentagelsesknap på hovedskærmen</string>
+    <string name="settings_repeat_button_type">Tilstand</string>
+    <string name="settings_repeat_last_record">Gentag seneste registrering</string>
+    <string name="settings_repeat_one_before_last">Gentag næstseneste registrering</string>
+    <string name="settings_show_untracked_time">Vis ikke-registreret tid i registreringer</string>
+    <string name="settings_show_untracked_time_statistics">Vis ikke-registreret tid i statistikken</string>
+    <string name="settings_ignore_short_untracked">Ignorer korte perioder uden registrering</string>
+    <string name="settings_ignore_short_untracked_hint">Vis ikke perioder uden registrering, der er kortere end den angivne tid.</string>
+    <string name="settings_untracked_days_hint">Medregn kun perioder uden registrering på de valgte dage.</string>
+    <string name="settings_untracked_range">Periode uden registrering</string>
+    <string name="settings_untracked_range_hint">Vis kun tid uden registrering inden for den valgte periode.</string>
+    <string name="settings_show_records_calendar">Vis registreringer i kalendervisning</string>
+    <string name="settings_reverse_order_in_calendar">Vend rækkefølgen af registreringer</string>
+    <string name="settings_days_in_calendar">Dage i kalenderen</string>
+    <string name="settings_widget_transparency">Widgetbaggrundens gennemsigtighed</string>
+    <string name="settings_always_show_widget_activity_colors">Vis altid aktivitetsfarver i widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Vis aktivitetsfarver, selv når aktiviteterne er inaktive, i widgetsene Gitter og Enkelt aktivitet. Aktive aktiviteter viser en timer.</string>
+    <string name="settings_show_activity_filters">Vis aktivitetsfiltre på hovedskærmen</string>
+    <string name="settings_allow_multiple_activity_filters">Tillad flere aktivitetsfiltre</string>
+    <string name="settings_allow_multiple_activity_filters_hint">Hvis deaktiveret, deaktiveres andre aktivitetsfiltre, når du vælger et filter.</string>
+    <string name="settings_show_categories_as_predefined_filters">Vis kategorier som foruddefinerede filtre</string>
+    <string name="settings_enable_pomodoro_mode">Vis Pomodoro-knap på hovedskærmen</string>
+    <string name="settings_show_goals_separately">Vis mål på en separat fane</string>
+    <string name="settings_show_nav_bar_at_the_bottom">Vis navigationslinjen nederst</string>
+    <string name="settings_enable_search_on_main">Aktivér søgning på hovedskærmen</string>
+    <string name="settings_allow_multitasking">Tillad multitasking</string>
+    <string name="settings_disallow_multitasking">Tillad ikke multitasking</string>
+    <string name="settings_allow_multitasking_hint">Hvis deaktiveret, stoppes andre aktiviteter automatisk, når en ny timer startes.</string>
+    <string name="settings_show_notifications">Vis timernotifikationer</string>
+    <string name="settings_show_notifications_hint">Vis notifikationer, mens timere kører.</string>
+    <string name="settings_show_notifications_controls">Aktivér aktivitetskift fra notifikationer</string>
+    <string name="settings_show_notifications_controls_hint">Kan også bruges til at skifte aktivitet fra låseskærmen.</string>
+    <string name="settings_show_notification_even_with_no_timers">Vis også, når ingen timere kører</string>
+    <string name="settings_keep_statistics_range">Behold statistikperioden</string>
+    <string name="settings_keep_statistics_range_hint">Hvis aktiveret, åbnes detaljeret statistik med den samme periode, som er valgt i statistikken.</string>
+    <string name="settings_retroactive_tracking_mode">Aktivér efterfølgende tidsregistrering</string>
+    <string name="settings_retroactive_tracking_mode_hint">Registrer tid ved at vælge, hvilke aktiviteter du har udført siden sidst, i stedet for hvilken aktivitet du går i gang med nu.</string>
+    <string name="settings_retroactive_multitasking_hint">Multitasking er aktiveret. Alle seneste aktiviteter registreres også, når en aktivitet registreres.</string>
+    <string name="settings_start_of_day">Forskydning af dagens start</string>
+    <string name="settings_start_of_day_hint">Dagens start forskydes med den angivne tid frem eller tilbage, afhængigt af fortegnet.</string>
+    <string name="settings_start_of_day_hint_value">I dag starter kl. %s</string>
+    <string name="settings_inactivity_reminder">Vis påmindelse ved inaktivitet</string>
+    <string name="settings_inactivity_reminder_hint">Vis en notifikation efter den angivne tid, hvis ingen timere kører.</string>
+    <string name="settings_inactivity_reminder_recurrent">Gentagende</string>
+    <string name="settings_reminder_active_days">Aktive dage</string>
+    <string name="settings_activity_reminder">Vis aktivitetspåmindelse</string>
+    <string name="settings_activity_reminder_hint">Vis en notifikation efter den angivne tid, hvis timere kører.</string>
+    <string name="settings_do_not_disturb">Forstyr ikke</string>
+    <string name="settings_notifications_system_settings">Systemindstillinger</string>
+    <string name="settings_notifications_system_settings_hint">Lyd, vibration, blink og andet</string>
+    <string name="settings_reminders_title">Påmindelser</string>
+    <string name="settings_reminders_hint">Administrer planlagte påmindelser</string>
+    <string name="settings_ignore_short_records">Ignorer korte registreringer</string>
+    <string name="settings_ignore_short_records_hint">Registrer ikke aktiviteter, der er kortere end den angivne tid.</string>
+    <string name="settings_inactivity_reminder_disabled">Deaktiveret</string>
+    <string name="settings_dark_mode">Mørkt tema</string>
+    <string name="settings_dark_mode_system">System</string>
+    <string name="settings_dark_mode_enabled">Aktiveret</string>
+    <string name="settings_language">Sprog</string>
+    <string name="settings_use_military_time">Brug 24-timersformat</string>
+    <string name="settings_use_monthday_time">Brug datoformatet måned/dag</string>
+    <string name="settings_duration_format">Varighedsformat</string>
+    <string name="settings_duration_format_proportional">Proportionalt</string>
+    <string name="settings_show_seconds">Vis sekunder</string>
+    <string name="settings_keep_screen_on">Hold skærmen tændt</string>
+    <string name="settings_customize_options_menu">Tilpas indstillingsmenuen</string>
+    <string name="settings_detailed_statistics">Detaljeret statistik</string>
+    <string name="settings_start_timer_by_long_click">Start og stop timere med et langt tryk</string>
+    <string name="settings_change_card_size">Ændr størrelsen på aktivitetskort</string>
+    <string name="settings_archive">Arkiv</string>
+    <string name="settings_data_edit">Redigering af data</string>
+    <string name="settings_complex_rules">Avancerede regler</string>
+    <string name="settings_activity_suggestions">Aktivitetsforslag</string>
+    <string name="settings_edit_categories">Rediger kategorier og mærker</string>
+    <string name="settings_edit_categories_hint">Tildel kategorier til aktiviteter og mærker til registreringer.</string>
+    <string name="settings_show_record_tag_selection">Vis valg af registreringsmærke</string>
+    <string name="settings_show_record_tag_selection_hint">Hvis en aktivitet har registreringsmærker, vises en valgboks, når timeren startes.</string>
+    <string name="settings_show_record_tag_close_hint">Luk efter valg af ét mærke</string>
+    <string name="settings_show_comment_input">Vis kommentarfelt</string>
+    <string name="settings_show_comment_input_hint">Der vises en dialog til indtastning af kommentar, når en timer startes.</string>
+    <string name="settings_show_comment_suggestions">Vis forslag</string>
+    <string name="settings_rate">Bedøm appen</string>
+    <string name="settings_rate_description">Bedøm appen, og skriv en anmeldelse.</string>
+    <string name="settings_support_development">Støt udviklingen</string>
+    <string name="settings_support_development_hint">Giver ikke adgang til digitalt indhold eller tjenester.</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_description">Har du et forslag? Har du fundet en fejl? Vil du tale med os? Skriv til os!</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_email_chooser_title">Send med…</string>
+    <string name="settings_translators">Oversættere</string>
+    <string name="settings_contributors">Andre bidragydere</string>
+    <string name="settings_automated_tracking">Automatisk registrering</string>
+    <string name="settings_automated_tracking_text"><![CDATA[
+Automatisk registrering er mulig gennem integration med tredjepartsapps, der kan automatisere handlinger baseret på bestemte hændelser. Når en sådan hændelse indtræffer, kan disse apps sende en besked til appen for at starte eller stoppe aktivitetens timer.<br/>
+<br/>
+Eksempler på hændelser:<br/>
+- Start af en bestemt app.<br/>
+- Scanning af et NFC-mærke.<br/>
+- Ankomst til et bestemt sted.<br/>
+- Bestemte tidspunkter på dagen.<br/>
+- Tilslutning til Bluetooth eller Wi-Fi.<br/>
+<br/>
+For at aktivere denne funktion skal disse apps understøtte afsendelse af \"intent\" eller \"broadcast intent\" med følgende parametre:<br/>
+<br/>
+<b>Handling</b> – \"%s\" eller \"%s\".<br/>
+<b>Ekstra</b> – \"%s\" med navnet på den aktivitet, der skal startes eller stoppes.<br/>
+<b>Pakke</b> – \"%s\".<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_send_events">Send hændelser</string>
+    <string name="settings_automated_tracking_send_events_text"><![CDATA[
+Hvis indstillingen <b>\"%s\"</b> er aktiveret, sender appen hændelser til tredjepartsapps, når en aktivitet startes eller stoppes, så registreringen kan automatiseres.<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_receive_queries">Besvar forespørgsler</string>
+    <string name="settings_automated_tracking_receive_queries_text"><![CDATA[
+Hvis indstillingen <b>\"%s\"</b> er aktiveret, svarer appen med data på forespørgsler, som tredjepartsapps sender via broadcast til automatisk registrering.<br/>
+    ]]></string>
+    <string name="settings_automated_tracking_available_actions">Tilgængelige handlinger:</string>
+    <string name="settings_automated_tracking_available_events">Tilgængelige hændelser:</string>
+    <string name="settings_automated_tracking_available_queries">Tilgængelige forespørgsler:</string>
+    <string name="settings_automated_tracking_extras_description">Beskrivelse:</string>
+    <string name="settings_automated_tracking_extra_name">med navnet på den aktivitet, der skal startes eller stoppes.</string>
+    <string name="settings_automated_tracking_extra_tag">med navnet på et registreringsmærke eller en kommasepareret liste med mærkenavne.</string>
+    <string name="settings_automated_tracking_extra_time">i formatet \"yyyy-MM-dd HH:mm:ss\" eller som et UTC-tidsstempel.</string>
+    <string name="settings_automated_tracking_find_record_mode">vælger, hvilken registrering der skal ændres.</string>
+    <string name="settings_automated_tracking_comment_mode">vælger, hvordan kommentaren til den valgte registrering skal ændres.</string>
+    <string name="settings_automated_tracking_find_with_activity">vælger desuden registrering efter aktivitetsnavn, hvis der er flere aktuelle eller seneste registreringer.</string>
+    <string name="settings_automated_tracking_goal_type">typen af mål.</string>
+    <string name="settings_automated_tracking_goal_value">målværdien: varighed i sekunder eller antal registreringer.</string>
+    <string name="settings_automated_tracking_extra_answer_type">vælger formatet på svardataene, der sendes sammen med svarhandlingen.</string>
+    <string name="settings_automated_tracking_extra_data"><![CDATA[
+svar-data.<br/>
+Hvis \"simple\" – en kommasepareret liste med \"navn:værdi\"-par, f.eks. \"work:ff00ff,reading:aabbcc\" (aktivitetsnavn og farve) for aktiviteter eller \"work:1772789225,reading:1772789225\" (aktivitetsnavn og starttidspunkt som UTC-tidsstempel i sekunder) for aktive aktiviteter. Aktivitetsnavne er procentkodede.<br/>
+Hvis \"json\" – en JSON-kodet liste med yderligere data, som svarer til formatet, der bruges til kommunikation med Wear OS-appen.
+    ]]></string>
+
+    <string name="settings_save_backup">Gem sikkerhedskopi</string>
+    <string name="settings_save_description">Sørg for, at den nyeste version af appen er installeret, før du gemmer, så du undgår konflikter.</string>
+    <string name="settings_automatic_backup">Aktivér automatisk sikkerhedskopiering</string>
+    <string name="settings_automatic_export">Aktivér automatisk regnearkseksport</string>
+    <string name="settings_automatic_description">Filen gemmes på den valgte placering hver dag ved midnat og overskriver den tidligere gemte fil.</string>
+    <string name="settings_automatic_last_save">Senest gemt:</string>
+    <string name="settings_automatic_save_time">Tidspunkt for lagring</string>
+    <string name="settings_export_csv_format">Tidsformat i regneark</string>
+    <string name="settings_date_time_format_local">Lokal tid</string>
+    <string name="settings_date_time_format_utc">UTC</string>
+    <string name="settings_date_time_format_timezone">Tidszone</string>
+    <string name="settings_restore_backup">Gendan sikkerhedskopi</string>
+    <string name="settings_restore_description">De aktuelle data går tabt.</string>
+    <string name="settings_backup_options">Avancerede indstillinger</string>
+    <string name="settings_dialog_message">Gendan sikkerhedskopi?</string>
+    <string name="settings_export_csv">Regnearkseksport</string>
+    <string name="settings_export_csv_description">Eksportér aktivitetsregistreringer som en CSV-fil, der kan åbnes i dit foretrukne regnearksprogram.</string>
+    <string name="settings_import_csv">Regnearksimport</string>
+    <string name="settings_import_csv_description">Importér aktivitetsregistreringer fra en CSV-fil. De aktuelle data går ikke tabt.</string>
+    <string name="settings_import_csv_help"><![CDATA[
+CSV-filen skal indeholde følgende kolonner adskilt af kommaer:<br/>
+<br/>
+- Aktivitetsnavn i anførselstegn.<br/>
+- Registreringens starttidspunkt i formatet \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Registreringens sluttidspunkt i formatet \"yyyy-MM-dd HH:mm:ss\"<br/>
+- Kommentar i anførselstegn.<br/>
+<br/>
+Eksempel:<br/>
+<br/>
+\"Reading\",2023-05-30 14:45:21,2023-05-30 15:45:21,\"Comment, comment\"
+    ]]></string>
+    <string name="settings_export_ics">ICS-eksport</string>
+    <string name="settings_export_warning">Denne fil kan ikke bruges som sikkerhedskopi.</string>
+    <string name="settings_file_open_error">Fejl ved åbning af fil</string>
+    <string name="settings_file_create_error">Fejl ved oprettelse af fil</string>
+
+    <string name="message_backup_saved">Sikkerhedskopi gemt</string>
+    <string name="message_backup_restored">Sikkerhedskopi gendannet</string>
+    <string name="message_save_error">Fejl ved lagring af sikkerhedskopi</string>
+    <string name="message_restore_error">Fejl ved gendannelse af sikkerhedskopi</string>
+    <string name="message_app_not_found">Programmet blev ikke fundet</string>
+    <string name="message_export_complete">Eksport fuldført</string>
+    <string name="message_export_error">Eksportfejl</string>
+    <string name="message_import_complete">Import fuldført</string>
+    <string name="message_import_complete_hint">Tilføjede registreringer: %s</string>
+    <string name="message_import_error">Importfejl</string>
+    <string name="message_action_share">Del</string>
+    <string name="message_automatic_backup_error">Der opstod en fejl under den automatiske sikkerhedskopiering.</string>
+    <string name="message_automatic_export_error">Der opstod en fejl under den automatiske eksport.</string>
+    <string name="message_automatic_error_hint">Prøv at vælge en anden placering</string>
+
+    <!--  Backup options  -->
+    <string name="backup_options_import">Importér</string>
+    <string name="backup_options_save_without_records">Gem sikkerhedskopi uden registreringer</string>
+    <string name="backup_options_save_without_records_hint">Kan bruges til at dele opsætningen.</string>
+    <string name="backup_options_full_restore">Fuld gendannelse</string>
+    <string name="backup_options_full_restore_hint">Gendanner data og indstillinger. Appen skal genstartes.</string>
+    <string name="backup_options_partial_restore">Importér data fra sikkerhedskopi</string>
+    <string name="backup_options_partial_restore_hint">Giver mulighed for at vælge, hvilke data der skal importeres. De aktuelle data går ikke tabt.</string>
+    <string name="backup_options_trigger_auto_backup">Kør automatisk sikkerhedskopiering nu</string>
+    <string name="backup_options_trigger_auto_export">Kør automatisk eksport nu</string>
+
+    <!--  Partial restore  -->
+    <string name="partial_restore_filter_hint">Vælg, hvilke data der skal importeres fra filen.</string>
+
+    <!--  Statistics detail  -->
+    <string name="statistics_detail_chart_hourly">timevis</string>
+    <string name="statistics_detail_chart_daily">dagligt</string>
+    <string name="statistics_detail_chart_weekly">ugentligt</string>
+    <string name="statistics_detail_chart_monthly">månedligt</string>
+    <string name="statistics_detail_chart_yearly">årligt</string>
+    <string name="statistics_detail_length_ten">10</string>
+    <string name="statistics_detail_length_fifty">50</string>
+    <string name="statistics_detail_length_hundred">100</string>
+    <string name="statistics_detail_legend_minute_suffix">min</string>
+    <string name="statistics_detail_legend_hour_suffix">t</string>
+    <string name="statistics_detail_chart_split">Opdel efter aktivitet</string>
+
+    <string name="statistics_detail_range_averages_title">Gennemsnit for perioden: %s</string>
+    <string name="statistics_detail_range_averages">For hele perioden</string>
+    <string name="statistics_detail_range_averages_non_empty">Uden tomme perioder</string>
+
+    <string name="statistics_detail_total_duration">I alt</string>
+    <string name="statistics_detail_record_length">Registreringens varighed</string>
+    <string name="statistics_detail_shortest_record">Korteste</string>
+    <string name="statistics_detail_average_record">Gennemsnit</string>
+    <string name="statistics_detail_longest_record">Længste</string>
+    <string name="statistics_detail_record_time">Registreringstidspunkt</string>
+    <string name="statistics_detail_first_record">Første</string>
+    <string name="statistics_detail_last_record">Seneste</string>
+    <string name="statistics_detail_record_span">Tidsrum</string>
+    <string name="statistics_detail_time_since">Tid siden</string>
+    <string name="statistics_detail_streaks">Serier</string>
+    <string name="statistics_detail_streaks_longest">Længste</string>
+    <string name="statistics_detail_streaks_current">Aktuel</string>
+    <string name="statistics_detail_streaks_completion">Fuldførelsesgrad</string>
+    <string name="statistics_detail_streaks_completion_percentage">Procent</string>
+    <string name="statistics_detail_streaks_completion_count">Antal</string>
+    <string name="statistics_detail_streaks_latest">Seneste</string>
+    <string name="statistics_detail_streaks_any">Alle varigheder</string>
+    <string name="statistics_detail_streaks_goal">@string/change_record_type_goal_time_hint</string>
+    <string name="statistics_detail_data_split_hint">Fordeling</string>
+    <string name="statistics_detail_data_split_pie_chart">Cirkeldiagram</string>
+    <string name="statistics_detail_data_split_bar_chart">Søjlediagram</string>
+    <string name="statistics_detail_day_split_hint">Daglig fordeling</string>
+    <string name="statistics_detail_duration_split_hint">Fordeling af registreringernes varighed</string>
+    <string name="statistics_detail_next_activities_hint">Hyppigste næste aktiviteter</string>
+    <string name="statistics_detail_multitasking_activities_hint">Mest udførte samtidig</string>
+    <string name="statistics_detail_goals_hint">Over- eller underskridelse af mål</string>
+    <string name="statistics_detail_goals_excess">Overskud</string>
+    <string name="statistics_detail_goals_deficit">Underskud</string>
+    <string name="statistics_detail_tag_values_hint">Mærkeværdier</string>
+    <string name="statistics_detail_tag_values_multiply_duration">Gang med varigheden</string>
+    <string name="statistics_detail_tag_values_fill_empty_periods">Udfyld tomme perioder med tidligere data</string>
+    <string name="statistics_detail_tag_values_zoom_y_axis">Zoom på Y-aksen</string>
+
+    <plurals name="statistics_detail_times_tracked">
+        <item quantity="zero">Registreringer</item>
+        <item quantity="one">Registrering</item>
+        <item quantity="two">Registreringer</item>
+        <item quantity="few">Registreringer</item>
+        <item quantity="many">Registreringer</item>
+        <item quantity="other">Registreringer</item>
+    </plurals>
+
+    <!--  Widget  -->
+    <string name="widget_name">Enkelt aktivitet</string>
+    <string name="widget_grid_name">Gitter</string>
+    <string name="widget_universal_name">Universel</string>
+    <string name="widget_statistics_chart_name">Statistikdiagram</string>
+    <string name="widget_quick_settings_name">Hurtigindstillinger</string>
+    <string name="widget_load_error">Ikke fundet</string>
+    <string name="widget_statistics_ignore_new_items">Ignorer senere tilføjede elementer</string>
+    <string name="widget_universal_open_app">Åbn app</string>
+
+    <!--  Notification  -->
+    <string name="notification_inactivity_title">Påmindelse om inaktivitet</string>
+    <string name="notification_inactivity_text">Husk at registrere din tid</string>
+    <string name="notification_activity_title">Aktivitetspåmindelse</string>
+    <string name="notification_activity_text">Er du stadig i gang med: %s?</string>
+    <string name="notification_goal_time_description">mål nået</string>
+    <string name="notification_limit_time_description">grænse nået</string>
+    <string name="notification_time_started">Startede kl. %s</string>
+    <string name="notification_time_ended">Afsluttet kl. %s</string>
+    <string name="notification_record_type_stop">Stop</string>
+    <string name="notification_pomodoro_subtitle">Starter: %s (%s)</string>
+
+    <!--  Archive  -->
+    <string name="something_was_archived_hint">Åbn arkivet for at fjerne det helt</string>
+    <string name="archive_hint">Tryk på et kort for at se detaljer</string>
+    <string name="archive_dialog_delete">Slet</string>
+    <string name="archive_dialog_restore">Gendan</string>
+    <string name="archive_empty">Arkivet er tomt</string>
+    <string name="archive_activity_restored">Aktivitet gendannet</string>
+    <string name="archive_tag_restored">Mærke gendannet</string>
+    <string name="archive_activity_deleted">Aktivitet slettet</string>
+    <string name="archive_tag_deleted">Mærke slettet</string>
+    <string name="archive_activity_deletion_message">Alle registreringer for denne aktivitet slettes også</string>
+    <string name="archive_tag_deletion_message">Alle registreringer med dette mærke bliver uden mærke</string>
+    <string name="archive_deletion_alert">Er du sikker? Denne handling kan ikke fortrydes.</string>
+    <string name="archive_records_count">Registreringer</string>
+    <string name="archive_tagged_records_count">Mærkede registreringer</string>
+
+    <!--  Data edit  -->
+    <string name="data_edit_hint">Disse ændringer kan ikke fortrydes. Sørg for at oprette en sikkerhedskopi, før du fortsætter.</string>
+    <string name="data_edit_select_records">Vælg registreringer</string>
+    <string name="data_edit_change_activity">Skift aktivitet</string>
+    <string name="data_edit_change_tag">Skift mærker</string>
+    <string name="data_edit_change_activity_hint">Mærker for den aktuelle aktivitet fjernes.</string>
+    <string name="data_edit_change_comment">Skift kommentar</string>
+    <string name="data_edit_change_add_tag">Tilføj mærker</string>
+    <string name="data_edit_change_remove_tag">Fjern mærker</string>
+    <string name="data_edit_button_change">Rediger</string>
+    <string name="data_edit_button_delete_records">Slet alle registreringer</string>
+    <string name="data_edit_button_delete_data">Slet alle data</string>
+    <string name="data_edit_success_message">Data ændret</string>
+
+    <!--  Records filter  -->
+    <string name="records_filter_duplications">Dubletter</string>
+    <string name="records_filter_select_tags">Vælg mærker</string>
+    <string name="records_filter_manually_filtered">Filtreret</string>
+    <string name="records_filter_no_comment">Ingen kommentar</string>
+    <string name="records_filter_any_comment">Enhver kommentar</string>
+    <string name="records_filter_select">Vælg</string>
+    <string name="records_filter_exclude">Udeluk</string>
+    <string name="records_filter_exclude_other">Udeluk andre</string>
+    <string name="records_filter_invert_selection">Vend markeringen</string>
+    <string name="records_filter_duration_min">Minimum</string>
+    <string name="records_filter_duration_max">Maksimum</string>
+    <string name="records_filter_duplications_same_activity">Samme aktivitet</string>
+    <string name="records_filter_duplications_same_times">Samme tidspunkt</string>
+    <string name="records_filter_duplications_manually_fitler">Filtrer dubletter</string>
+    <string name="records_filter_save_filter">Gem filter</string>
+    <string name="records_filter_filter_not_available">Ikke tilgængelig</string>
+
+    <!--  Pomodoro  -->
+    <string name="pomodoro_state_focus">Fokus</string>
+    <string name="pomodoro_state_break">Pause</string>
+    <string name="pomodoro_state_long_break">Lang pause</string>
+    <string name="pomodoro_settings_periods_until_long_break">Perioder indtil lang pause</string>
+    <string name="pomodoro_settings_show_more_controls">Vis flere betjeningsknapper</string>
+
+    <!--  Retroactive tracking mode  -->
+    <string name="retroactive_tracking_mode_hint">Vælg, hvad du har lavet</string>
+
+    <!--  Icon emoji category  -->
+    <string name="emojiGroupSmileys">Smileys og følelser</string>
+    <string name="emojiGroupPeople">Mennesker og krop</string>
+    <string name="emojiGroupAnimals">Dyr og natur</string>
+    <string name="emojiGroupFood">Mad og drikke</string>
+    <string name="emojiGroupTravel">Rejser og steder</string>
+    <string name="emojiGroupActivities">Aktiviteter</string>
+    <string name="emojiGroupObjects">Genstande</string>
+    <string name="emojiGroupSymbols">Symboler</string>
+    <string name="emojiGroupFlags">Flag</string>
+
+    <!--  Icon image category  -->
+    <string name="imageGroupMaps">Kort</string>
+    <string name="imageGroupPlaces">Steder</string>
+    <string name="imageGroupSocial">Socialt</string>
+    <string name="imageGroupAction">Handling</string>
+    <string name="imageGroupHardware">Hardware</string>
+    <string name="imageGroupAlert">Advarsel</string>
+    <string name="imageGroupAv">Lyd og video</string>
+    <string name="imageGroupCommunication">Kommunikation</string>
+    <string name="imageGroupContent">Indhold</string>
+    <string name="imageGroupDevice">Enhed</string>
+    <string name="imageGroupEditor">Redigering</string>
+    <string name="imageGroupFile">Fil</string>
+    <string name="imageGroupImage">Billede</string>
+    <string name="imageGroupNavigation">Navigation</string>
+    <string name="imageGroupNotification">Notifikation</string>
+    <string name="imageGroupToggle">Til/fra</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_navigation_timers">Timere</string>
+    <string name="shortcut_navigation_records">Registreringer</string>
+    <string name="shortcut_navigation_statistics">Statistik</string>
+    <string name="shortcut_navigation_settings">Indstillinger</string>
+
+    <!--  Reminders  -->
+    <string name="reminders_schedule_daily">Dagligt</string>
+    <string name="reminders_schedule_weekly">Ugentligt</string>
+    <string name="reminders_schedule_one_time">Én gang</string>
+    <string name="reminders_schedule_monthly">Månedligt</string>
+    <string name="reminders_schedule_hourly">Hver time</string>
+    <string name="reminders_schedule_record_started">Når timeren starter</string>
+    <string name="reminders_schedule_record_stopped">Når timeren stopper</string>
+    <string name="reminders_condition_records_not_tracked">Registreringer ikke fulgt i dag</string>
+    <string name="activity_reminders_hint">Tilsidesætter den globale indstilling for aktivitetspåmindelser</string>
+    <string name="activity_reminder_mode">Påmindelsestilstand</string>
+    <string name="activity_reminder_mode_disabled">Deaktiveret</string>
+    <string name="activity_reminder_mode_custom">Brugerdefineret</string>
+    <string name="activity_reminder_disabled_summary">Påmindelser er slået fra for denne aktivitet</string>
+    <string name="activity_reminder_positive_duration_required">Angiv en påmindelsesvarighed, der er større end nul</string>
+
+    <!--  Change reminders  -->
+    <string name="change_reminder_message">Besked</string>
+    <string name="change_reminder_schedule">Planlægning</string>
+    <string name="change_reminder_day_of_month">Dag i måneden</string>
+    <string name="change_reminder_interval">Interval</string>
+    <string name="change_reminder_condition">Visningsbetingelse</string>
+    <string name="change_reminder_condition_always">Altid</string>
+    <string name="change_reminder_message_prefill">Husk at %s.</string>
+    <string name="change_reminder_message_required">Indtast en påmindelse</string>
+    <string name="change_reminder_future_required">Vælg et tidspunkt i fremtiden</string>
+    <string name="change_reminder_interval_required">Angiv et interval, der er større end nul</string>
+    <string name="change_reminder_removed">Påmindelse fjernet</string>
+
+    <!--  Wear  -->
+    <string name="wear_loading_error">Kontrollér forbindelsen, og prøv igen</string>
+    <string name="wear_open_on_phone">Åbn på telefonen</string>
+    <string name="wear_update_required">Opdater appen på telefonen og uret til den nyeste version</string>
+    <string name="wear_settings_title">Indstillinger</string>
+    <string name="wear_settings_title_show_compact_list">Vis kompakt liste</string>
+
+</resources>

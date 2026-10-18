@@ -185,6 +185,12 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 processSameItemSelected = false,
             )
             result += SettingsCheckboxViewData(
+                block = SettingsBlock.DisplayWidgetActivityColors,
+                title = resourceRepo.getString(R.string.settings_always_show_widget_activity_colors),
+                subtitle = resourceRepo.getString(R.string.settings_always_show_widget_activity_colors_hint),
+                isChecked = prefsInteractor.getAlwaysShowWidgetActivityColors(),
+            )
+            result += SettingsCheckboxViewData(
                 block = SettingsBlock.DisplayMilitaryFormat,
                 title = resourceRepo.getString(R.string.settings_use_military_time),
                 subtitle = loadUseMilitaryTimeViewData(),

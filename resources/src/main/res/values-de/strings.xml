@@ -346,6 +346,8 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="settings_reverse_order_in_calendar">Umgekehrte Reihenfolge der Aufzeichnungen</string>
     <string name="settings_days_in_calendar">Tage im Kalender</string>
     <string name="settings_widget_transparency">Widget-Hintergrundtransparenz</string>
+    <string name="settings_always_show_widget_activity_colors">Aktivitätsfarben immer in Widgets anzeigen</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Aktivitätsfarben in Aktivitätswidgets auch dann anzeigen, wenn die Aktivitäten inaktiv sind.</string>
     <string name="settings_show_activity_filters">Aktivitätsfilter auf dem Hauptbildschirm anzeigen</string>
     <string name="settings_allow_multiple_activity_filters">Erlauben Sie mehrere Aktivitätsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Wenn die Option deaktiviert ist, werden durch die Auswahl eines Filters andere Aktivitätsfilter deaktiviert.</string>
@@ -451,7 +453,12 @@ Wenn die Einstellung <b>\"%s\"</b> aktiviert ist, antwortet die App mit Daten au
     <string name="settings_automated_tracking_extras_description">Beschreibung:</string>
     <string name="settings_automated_tracking_extra_name">mit Name der Aktivität, die gestartet oder gestoppt werden soll.</string>
     <string name="settings_automated_tracking_extra_tag">mit dem Namen eines Datensatz-Tags. Oder durch Komma getrennte Liste von Tag-Namen.</string>
+    <string name="settings_automated_tracking_extra_color">im hexadezimalen RGB-Format, zum Beispiel #29A674 oder 29A674.</string>
     <string name="settings_automated_tracking_extra_time">im Format „jjjj-MM-tt HH:mm:ss“ oder UTC-Zeitstempel.</string>
+    <string name="settings_automated_tracking_extra_request_id">optionale Zeichenfolge, die mit einer Start- oder Stoppaktion übergeben und in den daraus resultierenden Aktivitätsereignissen zurückgegeben wird.</string>
+    <string name="settings_automated_tracking_extra_request_response">optionaler boolescher Wert für Start- und Stoppaktionen. Auf true setzen, um nach der Verarbeitung eine Antwort zu erhalten, auch wenn sich nichts ändert</string>
+    <string name="settings_automated_tracking_extra_command_action">die ursprüngliche Start- oder Stoppaktion in einer Befehlsantwort.</string>
+    <string name="settings_automated_tracking_extra_status">Ergebnis des Befehls.</string>
     <string name="settings_automated_tracking_find_record_mode">wählt aus, welcher Datensatz geändert werden soll.</string>
     <string name="settings_automated_tracking_comment_mode">wählt aus, wie der Kommentar des ausgewählten Datensatzes geändert wird.</string>
     <string name="settings_automated_tracking_find_with_activity">wählt Datensätze zusätzlich nach Aktivitätsnamen aus, wenn mehrere aktuelle oder letzte Datensätze vorhanden sind.</string>
@@ -575,6 +582,7 @@ Beispiel:<br/>
     <string name="statistics_detail_goals_hint">Zielüberschreitung oder -defizit</string>
     <string name="statistics_detail_goals_excess">Überschuss</string>
     <string name="statistics_detail_goals_deficit">Defizit</string>
+    <string name="statistics_detail_goals_balance">Bilanz</string>
     <string name="statistics_detail_tag_values_hint">Tag-Werte</string>
     <string name="statistics_detail_tag_values_multiply_duration">Mit Dauer multiplizieren</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Leere Zeiträume mit vorherigen Daten füllen</string>

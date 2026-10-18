@@ -346,6 +346,8 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_reverse_order_in_calendar">Inverser l\'ordre des enregistrements</string>
     <string name="settings_days_in_calendar">Jours du calendrier</string>
     <string name="settings_widget_transparency">Transparence de l\'arrière-plan du widget</string>
+    <string name="settings_always_show_widget_activity_colors">Toujours afficher les couleurs des activités dans les widgets</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Afficher les couleurs des activités dans les widgets d\'activité même lorsque les activités sont inactives.</string>
     <string name="settings_show_activity_filters">Afficher les filtres d\'activité sur l\'écran principal</string>
     <string name="settings_allow_multiple_activity_filters">Autoriser plusieurs filtres d\'activité</string>
     <string name="settings_allow_multiple_activity_filters_hint">Si désactivé, le choix d\'un filtre annulera les autres filtres.</string>
@@ -451,7 +453,12 @@ Si le paramètre <b>\"%s\"</b> est activé, l\'application répondra avec des do
     <string name="settings_automated_tracking_extras_description">Description</string>
     <string name="settings_automated_tracking_extra_name">le nom de l\'activité à démarrer ou arrêter.</string>
     <string name="settings_automated_tracking_extra_tag">le nom d\'une étiquette d\'enregistrement. Ou une liste de noms d\'étiquettes séparés par des virgules.</string>
+    <string name="settings_automated_tracking_extra_color">au format hexadécimal RGB, par exemple #29A674 ou 29A674.</string>
     <string name="settings_automated_tracking_extra_time">format \"aaaa-MM-jj HH:mm:ss\" ou horodatage UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">chaîne de caractères facultative fournie avec une action de démarrage ou d\'arrêt et renvoyée dans les événements d\'activité qui en résultent.</string>
+    <string name="settings_automated_tracking_extra_request_response">valeur booléenne facultative pour les actions de démarrage et d’arrêt. Définissez-la sur true pour recevoir une réponse après le traitement, même si rien ne change</string>
+    <string name="settings_automated_tracking_extra_command_action">l’action initiale de démarrage ou d’arrêt dans une réponse à une commande.</string>
+    <string name="settings_automated_tracking_extra_status">résultat de la commande.</string>
     <string name="settings_automated_tracking_find_record_mode">indique l\'enregistrement à modifier.</string>
     <string name="settings_automated_tracking_comment_mode">indique comment modifier le commentaire de l\'enregistrement.</string>
     <string name="settings_automated_tracking_find_with_activity">précise l\'enregistrement par nom d\'activité, s\'il existe plusieurs enregistrements.</string>
@@ -575,6 +582,7 @@ Exemple :<br/>
     <string name="statistics_detail_goals_hint">Avance ou retard par rapport à l\'objectif</string>
     <string name="statistics_detail_goals_excess">Avance</string>
     <string name="statistics_detail_goals_deficit">Retard</string>
+    <string name="statistics_detail_goals_balance">Solde</string>
     <string name="statistics_detail_tag_values_hint">Valeurs de l\'étiquette</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplier par la durée</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Remplir les périodes vides avec les données précédentes</string>

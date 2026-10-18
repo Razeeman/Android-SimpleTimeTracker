@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">Đảo ngược thứ tự các bản ghi</string>
     <string name="settings_days_in_calendar">Ngày trong lịch</string>
     <string name="settings_widget_transparency">Độ trong suốt của nền tiện ích</string>
+    <string name="settings_always_show_widget_activity_colors">Luôn hiển thị màu của các hoạt động trong tiện ích</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Hiển thị màu của các hoạt động trong tiện ích hoạt động ngay cả khi chúng không diễn ra.</string>
     <string name="settings_show_activity_filters">Hiển thị bộ lọc hoạt động trên màn hình chính</string>
     <string name="settings_allow_multiple_activity_filters">Cho phép nhiều bộ lọc hoạt động</string>
     <string name="settings_allow_multiple_activity_filters_hint">Nếu bị tắt, việc chọn bộ lọc sẽ tắt các bộ lọc hoạt động khác.</string>
@@ -451,7 +453,12 @@ Nếu cài đặt <b>\"%s\"</b> được bật, ứng dụng sẽ phản hồi b
     <string name="settings_automated_tracking_extras_description">Sự miêu tả:</string>
     <string name="settings_automated_tracking_extra_name">với tên hoạt động sẽ được bắt đầu hoặc dừng.</string>
     <string name="settings_automated_tracking_extra_tag">với tên của thẻ bản ghi. Hoặc danh sách tên thẻ cách nhau bằng dấu phẩy.</string>
+    <string name="settings_automated_tracking_extra_color">ở định dạng thập lục phân RGB, ví dụ #29A674 hoặc 29A674.</string>
     <string name="settings_automated_tracking_extra_time">ở định dạng \"yyyy-MM-dd HH:mm:ss\" hoặc dấu thời gian UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">chuỗi tùy chọn được gửi cùng hành động bắt đầu hoặc dừng và được trả lại trong các sự kiện hoạt động phát sinh.</string>
+    <string name="settings_automated_tracking_extra_request_response">giá trị boolean tùy chọn cho các thao tác bắt đầu và dừng. Đặt thành true để nhận phản hồi sau khi xử lý, kể cả khi không có gì thay đổi</string>
+    <string name="settings_automated_tracking_extra_command_action">thao tác bắt đầu hoặc dừng ban đầu trong phản hồi lệnh.</string>
+    <string name="settings_automated_tracking_extra_status">kết quả của lệnh.</string>
     <string name="settings_automated_tracking_find_record_mode">chọn bản ghi cần thay đổi.</string>
     <string name="settings_automated_tracking_comment_mode">chọn cách thay đổi bình luận của bản ghi đã chọn.</string>
     <string name="settings_automated_tracking_find_with_activity">ngoài ra còn chọn bản ghi theo tên hoạt động, nếu có nhiều bản ghi hiện tại hoặc bản ghi cuối cùng.</string>
@@ -575,6 +582,7 @@ Ví dụ:<br/>
     <string name="statistics_detail_goals_hint">Mục tiêu vượt quá hoặc thâm hụt</string>
     <string name="statistics_detail_goals_excess">Thặng dư</string>
     <string name="statistics_detail_goals_deficit">Thâm hụt</string>
+    <string name="statistics_detail_goals_balance">Số dư</string>
     <string name="statistics_detail_tag_values_hint">Giá trị thẻ</string>
     <string name="statistics_detail_tag_values_multiply_duration">Nhân với thời lượng</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Điền các kỳ trống bằng dữ liệu trước đó</string>

@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">レコードの逆順</string>
     <string name="settings_days_in_calendar">カレンダーの日数</string>
     <string name="settings_widget_transparency">ウィジェットの背景の透明度</string>
+    <string name="settings_always_show_widget_activity_colors">ウィジェットにアクティビティの色を常に表示する</string>
+    <string name="settings_always_show_widget_activity_colors_hint">アクティビティが実行中でない場合でも、アクティビティウィジェットにアクティビティの色を表示します。</string>
     <string name="settings_show_activity_filters">メイン画面にアクティビティ フィルタを表示する</string>
     <string name="settings_allow_multiple_activity_filters">複数のアクティビティフィルターを許可する</string>
     <string name="settings_allow_multiple_activity_filters_hint">無効にした場合、フィルターを選択すると他のアクティビティ フィルターが無効になります。</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">説明：</string>
     <string name="settings_automated_tracking_extra_name">を開始または停止する必要があるアクティビティ名で指定します。</string>
     <string name="settings_automated_tracking_extra_tag">にレコード タグの名前を付けます。または、カンマで区切られたタグ名のリスト。</string>
+    <string name="settings_automated_tracking_extra_color">RGBの16進数形式で、例えば #29A674 または 29A674。</string>
     <string name="settings_automated_tracking_extra_time">形式は 「yyyy-MM-dd HH:mm:ss」 または UTC タイムスタンプです。</string>
+    <string name="settings_automated_tracking_extra_request_id">開始または停止アクションとともに渡す任意の文字列で、その結果発生するアクティビティイベントに同じ値が含まれます。</string>
+    <string name="settings_automated_tracking_extra_request_response">開始および停止アクション用の任意のブール値です。true に設定すると、変更がない場合も含め、処理後に応答を受け取れます</string>
+    <string name="settings_automated_tracking_extra_command_action">コマンドへの応答に含まれる元の開始または停止アクションです。</string>
+    <string name="settings_automated_tracking_extra_status">コマンドの結果です。</string>
     <string name="settings_automated_tracking_find_record_mode">変更するレコードを選択します。</string>
     <string name="settings_automated_tracking_comment_mode">選択したレコードのコメントを変更する方法を選択します。</string>
     <string name="settings_automated_tracking_find_with_activity">現在のレコードまたは最後のレコードが複数ある場合は、アクティビティ名でレコードをさらに選択します。</string>
@@ -575,6 +582,7 @@ CSV ファイルには、カンマで区切られた次の列が含まれてい�
     <string name="statistics_detail_goals_hint">目標超過または不足</string>
     <string name="statistics_detail_goals_excess">過剰</string>
     <string name="statistics_detail_goals_deficit">赤字</string>
+    <string name="statistics_detail_goals_balance">差し引き</string>
     <string name="statistics_detail_tag_values_hint">タグ値</string>
     <string name="statistics_detail_tag_values_multiply_duration">時間で掛け算</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">空の期間を前のデータで埋める</string>

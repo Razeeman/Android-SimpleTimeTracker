@@ -346,6 +346,8 @@
     <string name="settings_reverse_order_in_calendar">Обратный порядок записей</string>
     <string name="settings_days_in_calendar">Дней в календаре</string>
     <string name="settings_widget_transparency">Прозрачность фона виджета</string>
+    <string name="settings_always_show_widget_activity_colors">Всегда показывать цвета активностей в виджетах</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Показывать цвета активностей в виджетах активностей, даже когда активности не запущены.</string>
     <string name="settings_show_activity_filters">Показывать фильтры активности на главном экране</string>
     <string name="settings_allow_multiple_activity_filters">Разрешить выбор нескольких фильтров активности</string>
     <string name="settings_allow_multiple_activity_filters_hint">Если отключено, выбор фильтра приведет к отключению других фильтров активности.</string>
@@ -451,7 +453,12 @@
     <string name="settings_automated_tracking_extras_description">Описание:</string>
     <string name="settings_automated_tracking_extra_name">с именем действия, которое следует запустить или остановить.</string>
     <string name="settings_automated_tracking_extra_tag">с названием тега записи. Или список названий тегов, разделенных запятой.</string>
+    <string name="settings_automated_tracking_extra_color">в шестнадцатеричном формате RGB, например #29A674 или 29A674.</string>
     <string name="settings_automated_tracking_extra_time">в формате \"гггг-ММ-дд ЧЧ:мм:сс\" или временной метке UTC.</string>
+    <string name="settings_automated_tracking_extra_request_id">необязательная строка, передаваемая с командой запуска или остановки и возвращаемая в соответствующих событиях действий.</string>
+    <string name="settings_automated_tracking_extra_request_response">необязательное логическое значение для команд запуска и остановки. Установите true, чтобы получить ответ после обработки, в том числе когда ничего не изменилось</string>
+    <string name="settings_automated_tracking_extra_command_action">исходная команда запуска или остановки в ответе на команду.</string>
+    <string name="settings_automated_tracking_extra_status">результат команды.</string>
     <string name="settings_automated_tracking_find_record_mode">выбирает, какую запись изменить.</string>
     <string name="settings_automated_tracking_comment_mode">выбирает способ изменения комментария выбранной записи.</string>
     <string name="settings_automated_tracking_find_with_activity">дополнительно выбирает запись по названию действия, если есть несколько текущих или последних записей.</string>
@@ -575,6 +582,7 @@ CSV-файл должен содержать следующие столбцы, 
     <string name="statistics_detail_goals_hint">Превышение или дефицит цели</string>
     <string name="statistics_detail_goals_excess">Превышение</string>
     <string name="statistics_detail_goals_deficit">Дефицит</string>
+    <string name="statistics_detail_goals_balance">Баланс</string>
     <string name="statistics_detail_tag_values_hint">Значения тегов</string>
     <string name="statistics_detail_tag_values_multiply_duration">Умножить на длительность</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Заполнять пустые периоды предыдущими данными</string>

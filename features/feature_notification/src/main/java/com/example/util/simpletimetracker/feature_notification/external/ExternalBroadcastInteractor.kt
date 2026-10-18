@@ -12,11 +12,14 @@ import com.example.util.simpletimetracker.domain.record.interactor.RemoveRunning
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionCommentMode
 import com.example.util.simpletimetracker.domain.notifications.model.ExternalActionFindRecordMode
+import com.example.util.simpletimetracker.domain.notifications.model.ExternalCommandStatus
 import com.example.util.simpletimetracker.domain.record.model.Record
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
+import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTypeToTagInteractor
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTagValueType
+import com.example.util.simpletimetracker.domain.recordType.model.RecordType
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -31,6 +34,7 @@ class ExternalBroadcastInteractor @Inject constructor(
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordsUpdateInteractor: RecordsUpdateInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val recordTypeToTagInteractor: RecordTypeToTagInteractor,
 ) {
 
     suspend fun onActionActivityStart(
@@ -38,10 +42,11 @@ class ExternalBroadcastInteractor @Inject constructor(
         comment: String?,
         tagNames: List<String>,
         timeStarted: String?,
-    ) {
-        val typeId = getTypeIdByName(name) ?: return
+        requestId: String?,
+    ): ExternalCommandStatus {
+        val typeId = getTypeIdByName(name) ?: return ExternalCommandStatus.UNKNOWN_ACTIVITY
         val runningRecord = runningRecordInteractor.get(typeId)
-        if (runningRecord != null) return // Already running.
+        if (runningRecord != null) return ExternalCommandStatus.ALREADY_RUNNING
         val tagIds = findTagIdByName(tagNames, typeId)
         val newTimeStarted = timeStarted?.let(::parseTimestamp)
 
@@ -54,22 +59,27 @@ class ExternalBroadcastInteractor @Inject constructor(
             } else {
                 AddRunningRecordMediator.StartTime.TakeCurrent
             },
+            requestId = requestId,
         )
+        return ExternalCommandStatus.STARTED
     }
 
     suspend fun onActionActivityStopByName(
         name: String,
         timeEnded: String?,
-    ) {
-        val typeId = getTypeIdByName(name) ?: return
+        requestId: String?,
+    ): ExternalCommandStatus {
+        val typeId = getTypeIdByName(name) ?: return ExternalCommandStatus.UNKNOWN_ACTIVITY
         val newTimeEnded = timeEnded?.let(::parseTimestamp)
         val runningRecord = runningRecordInteractor.get(typeId)
-            ?: return // Not running.
+            ?: return ExternalCommandStatus.NOT_RUNNING
 
         removeRunningRecordMediator.removeWithRecordAdd(
             runningRecord = runningRecord,
             timeEnded = newTimeEnded,
+            requestId = requestId,
         )
+        return ExternalCommandStatus.STOPPED
     }
 
     suspend fun onActionActivityStopAll() {
@@ -203,6 +213,8 @@ class ExternalBroadcastInteractor @Inject constructor(
     suspend fun onRecordTagAdd(
         name: String?,
         icon: String?,
+        activityNames: List<String>,
+        color: String?,
     ) {
         if (name == null) return
 
@@ -210,17 +222,39 @@ class ExternalBroadcastInteractor @Inject constructor(
 
         if (tagExists) return
 
+        val typeIds = if (activityNames.isNotEmpty()) {
+            recordTypeInteractor.getAll()
+                .filter { it.name in activityNames }
+                .map(RecordType::id)
+                .distinct()
+        } else {
+            emptyList()
+        }
+
         RecordTag(
             name = name,
             icon = icon.orEmpty(),
-            color = AppColor(0, ""),
+            color = parseColor(color),
             iconColorSource = 0,
             note = "",
             valueType = RecordTagValueType.NONE,
             valueSuffix = "",
         ).let {
-            recordTagInteractor.add(it)
+            val tagId = recordTagInteractor.add(it)
+            if (typeIds.isNotEmpty()) {
+                recordTypeToTagInteractor.addTypes(tagId, typeIds)
+            }
         }
+    }
+
+    private fun parseColor(color: String?): AppColor {
+        val hex = color?.trim()?.removePrefix("#")
+        val colorInt = hex
+            ?.takeIf { it.matches(Regex("[0-9a-fA-F]{6}")) }
+            ?.toLong(16)
+            ?.or(0xFF000000)
+            ?.toInt()?.toString().orEmpty()
+        return AppColor(0, colorInt)
     }
 
     private suspend fun getTypeIdByName(name: String): Long? {

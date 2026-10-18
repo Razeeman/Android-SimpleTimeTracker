@@ -346,6 +346,8 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_reverse_order_in_calendar">Byt ordning på händelser</string>
     <string name="settings_days_in_calendar">Dagar i kalendern</string>
     <string name="settings_widget_transparency">Transparens för widgetbakgrund</string>
+    <string name="settings_always_show_widget_activity_colors">Visa alltid aktivitetsfärger i widgetar</string>
+    <string name="settings_always_show_widget_activity_colors_hint">Visa aktivitetsfärger i aktivitetswidgetar även när aktiviteterna är inaktiva.</string>
     <string name="settings_show_activity_filters">Visa aktivitetsfilter på huvudskärmen</string>
     <string name="settings_allow_multiple_activity_filters">Tillåt flera aktivitetsfilter</string>
     <string name="settings_allow_multiple_activity_filters_hint">Om det är inaktiverat kommer andra aktivitetsfilter att inaktiveras om du väljer ett filter.</string>
@@ -451,7 +453,12 @@ Om inställningen <b>\"%s\"</b> är aktiverad svarar appen med data på fråges�
     <string name="settings_automated_tracking_extras_description">Beskrivning:</string>
     <string name="settings_automated_tracking_extra_name">med namnet på aktiviteten som ska startas eller stoppas.</string>
     <string name="settings_automated_tracking_extra_tag">med namnet på en händelsetagg. Eller lista över taggnamn separerade med kommatecken.</string>
+    <string name="settings_automated_tracking_extra_color">i hexadecimalt RGB-format, till exempel #29A674 eller 29A674.</string>
     <string name="settings_automated_tracking_extra_time">i formatet \"åååå-MM-dd HH:mm:ss\" eller UTC-tidsstämpel.</string>
+    <string name="settings_automated_tracking_extra_request_id">valfri sträng som skickas med en start- eller stoppåtgärd och returneras i de resulterande aktivitetshändelserna.</string>
+    <string name="settings_automated_tracking_extra_request_response">valfritt booleskt värde för start- och stoppåtgärder. Ange true för att få ett svar efter bearbetningen, även när inget ändras</string>
+    <string name="settings_automated_tracking_extra_command_action">den ursprungliga start- eller stoppåtgärden i ett kommandosvar.</string>
+    <string name="settings_automated_tracking_extra_status">resultatet av kommandot.</string>
     <string name="settings_automated_tracking_find_record_mode">väljer vilken post som ska ändras.</string>
     <string name="settings_automated_tracking_comment_mode">väljer hur kommentaren för den valda posten ska ändras.</string>
     <string name="settings_automated_tracking_find_with_activity">väljer dessutom post efter aktivitetsnamn, om det finns flera aktuella eller senaste poster.</string>
@@ -575,6 +582,7 @@ Exempel:<br/>
     <string name="statistics_detail_goals_hint">Målöverskott eller underskott</string>
     <string name="statistics_detail_goals_excess">Överskott</string>
     <string name="statistics_detail_goals_deficit">Underskott</string>
+    <string name="statistics_detail_goals_balance">Balans</string>
     <string name="statistics_detail_tag_values_hint">Taggvärden</string>
     <string name="statistics_detail_tag_values_multiply_duration">Multiplicera med varaktighet</string>
     <string name="statistics_detail_tag_values_fill_empty_periods">Fyll tomma perioder med tidigare data</string>
