@@ -42,6 +42,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.hint.createHintAd
 import com.example.util.simpletimetracker.feature_base_adapter.hintBig.createHintBigAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.info.createInfoAdapterDelegate
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
 import com.example.util.simpletimetracker.feature_change_goals.api.viewDelegate.GoalsViewDelegateProvider
 import com.example.util.simpletimetracker.feature_change_record_type.R
@@ -288,20 +289,21 @@ class ChangeRecordTypeFragment :
             itemName = item.name
             itemIcon = item.iconId
 
+            // TODO GRADIENT
             typeColorAnimator?.cancel()
             typeColorAnimator = animateColor(
-                from = itemColor,
-                to = item.color,
+                from = itemColor.primaryColor,
+                to = item.color.primaryColor,
                 doOnUpdate = { value ->
-                    itemColor = value
+                    itemColor = ColorStyle.Solid(value)
                     updateColorPreview(value)
                 },
             )
         }
         with(binding) {
-            updateIconPreview(item.iconId, item.color)
-            layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(item.color)
-            layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(item.color)
+            updateIconPreview(item.iconId, item.color.primaryColor)
+            layoutChangeRecordTypeCategoriesPreview.setCardBackgroundColor(item.color.primaryColor)
+            layoutChangeRecordTypeGoalPreview.setCardBackgroundColor(item.color.primaryColor)
         }
     }
 
@@ -316,7 +318,8 @@ class ChangeRecordTypeFragment :
             (params as? ChangeRecordTypeParams.Change)?.preview?.let {
                 itemName = it.name
                 itemIcon = it.iconId.toViewData()
-                itemColor = it.color
+                // TODO GRADIENT
+                itemColor = ColorStyle.Solid(it.color)
 
                 updateColorPreview(it.color)
                 updateIconPreview(it.iconId.toViewData(), it.color)

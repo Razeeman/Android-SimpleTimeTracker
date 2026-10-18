@@ -254,7 +254,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
             itemId = recordTypeId,
             itemName = preview.name,
             itemIcon = preview.iconId,
-            itemColor = preview.color,
+            itemColor = preview.color.primaryColor,
         )
     }
 

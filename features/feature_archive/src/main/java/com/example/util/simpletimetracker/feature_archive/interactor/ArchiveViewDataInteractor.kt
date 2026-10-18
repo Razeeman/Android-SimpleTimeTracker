@@ -54,6 +54,7 @@ class ArchiveViewDataInteractor @Inject constructor(
                 isSearching = isSearching,
                 searchText = searchText,
             ).map { type ->
+                // TODO GRADIENT why mapFiltered with isFiltered false?
                 recordTypeViewDataMapper.mapFiltered(
                     recordType = type,
                     numberOfCards = numberOfCards,

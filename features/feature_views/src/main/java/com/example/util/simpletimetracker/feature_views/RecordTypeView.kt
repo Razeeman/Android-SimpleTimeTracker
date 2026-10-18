@@ -10,10 +10,13 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
 import com.example.util.simpletimetracker.feature_views.databinding.RecordTypeViewLayoutBinding
+import com.example.util.simpletimetracker.feature_views.drawable.AngleGradientDrawable
 import com.example.util.simpletimetracker.feature_views.extension.animateAlpha
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
 import com.example.util.simpletimetracker.feature_views.extension.setMargins
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
+import androidx.core.content.withStyledAttributes
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 
 class RecordTypeView @JvmOverloads constructor(
     context: Context,
@@ -26,17 +29,24 @@ class RecordTypeView @JvmOverloads constructor(
 ) {
 
     private val binding = RecordTypeViewLayoutBinding.inflate(layoutInflater, this)
+    private val gradientDrawable by lazy { AngleGradientDrawable() }
 
     init {
-
-        context.obtainStyledAttributes(attrs, R.styleable.RecordTypeView, defStyleAttr, 0)
-            .run {
+        context
+            .withStyledAttributes(
+                set = attrs,
+                attrs = R.styleable.RecordTypeView,
+                defStyleAttr = defStyleAttr,
+                defStyleRes = 0,
+            ) {
                 if (hasValue(R.styleable.RecordTypeView_itemName)) {
                     itemName = getString(R.styleable.RecordTypeView_itemName).orEmpty()
                 }
 
+                // TODO GRADIENT add xml attr for gradient end color
                 if (hasValue(R.styleable.RecordTypeView_itemColor)) {
                     itemColor = getColor(R.styleable.RecordTypeView_itemColor, Color.BLACK)
+                        .let { ColorStyle.Solid(it) }
                 }
 
                 if (hasValue(R.styleable.RecordTypeView_itemIcon)) {
@@ -69,7 +79,6 @@ class RecordTypeView @JvmOverloads constructor(
                     itemCompleteIsAnimated = getBoolean(R.styleable.RecordTypeView_itemCompleteIsAnimated, false)
                 }
 
-                recycle()
             }
     }
 
@@ -79,10 +88,26 @@ class RecordTypeView @JvmOverloads constructor(
             field = value
         }
 
-    var itemColor: Int = 0
+    var itemColor: ColorStyle = ColorStyle.Solid(0)
         set(value) {
-            binding.containerRecordTypeItem.setCardBackgroundColor(value)
             field = value
+            when (value) {
+                is ColorStyle.Solid -> {
+                    binding.container.constraintRecordTypeItem.background = null
+                    binding.containerRecordTypeItem.setCardBackgroundColor(value.color)
+                }
+                is ColorStyle.LinearGradient -> {
+                    gradientDrawable.setGradient(
+                        startColor = value.start,
+                        endColor = value.end,
+                        angleDegrees = value.angleDegrees.toFloat(),
+                        // TODO GRADIENT only used for the grid widget?
+                        cornerRadius = binding.containerRecordTypeItem.radius,
+                    )
+                    binding.container.constraintRecordTypeItem.background = gradientDrawable
+                    binding.containerRecordTypeItem.setCardBackgroundColor(Color.TRANSPARENT)
+                }
+            }
         }
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)

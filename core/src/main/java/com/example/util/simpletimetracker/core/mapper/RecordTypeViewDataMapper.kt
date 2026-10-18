@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.core.mapper
 
-import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
@@ -19,6 +18,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.empty.EmptyViewDa
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
 import com.example.util.simpletimetracker.feature_base_adapter.recordTypeSpecial.RunningRecordTypeSpecialViewData
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -61,7 +61,7 @@ class RecordTypeViewDataMapper @Inject constructor(
             name = recordType.name,
             iconId = iconMapper.mapIcon(recordType.icon),
             iconColor = colorMapper.toIconColor(isDarkTheme),
-            color = mapColor(recordType.color, isDarkTheme),
+            color = colorMapper.mapToColorStyle(recordType.color, isDarkTheme),
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
@@ -88,7 +88,8 @@ class RecordTypeViewDataMapper @Inject constructor(
 
         return if (isFiltered) {
             default.copy(
-                color = colorMapper.toFilteredColor(isDarkTheme),
+                color = colorMapper.toFilteredColor(isDarkTheme)
+                    .let { ColorStyle.Solid(it) },
                 iconColor = colorMapper.toFilteredIconColor(isDarkTheme),
                 iconAlpha = colorMapper.toIconAlpha(default.iconId, true),
                 itemIsFiltered = true,
@@ -175,7 +176,7 @@ class RecordTypeViewDataMapper @Inject constructor(
                 colorMapper.toActiveColor(isDarkTheme)
             } else {
                 colorMapper.toInactiveColor(isDarkTheme)
-            },
+            }.let { ColorStyle.Solid(it) },
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),
@@ -248,16 +249,12 @@ class RecordTypeViewDataMapper @Inject constructor(
             type = type,
             name = name.let(resourceRepo::getString),
             iconId = icon,
-            color = colorMapper.toInactiveColor(isDarkTheme),
+            color = colorMapper.toInactiveColor(isDarkTheme)
+                .let { ColorStyle.Solid(it) },
             width = numberOfCards.let(recordTypeCardSizeMapper::toCardWidth),
             height = numberOfCards.let(recordTypeCardSizeMapper::toCardHeight),
             asRow = numberOfCards.let(recordTypeCardSizeMapper::toCardAsRow).orFalse(),
             checkStates = checkStates,
         )
-    }
-
-    @ColorInt
-    private fun mapColor(color: AppColor, isDarkTheme: Boolean): Int {
-        return colorMapper.mapToColorInt(color, isDarkTheme)
     }
 }

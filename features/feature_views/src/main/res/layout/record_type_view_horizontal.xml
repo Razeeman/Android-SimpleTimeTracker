@@ -5,7 +5,7 @@
     android:id="@+id/constraintRecordTypeItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?selectableItemBackground"
+    android:foreground="?selectableItemBackground"
     android:paddingStart="2dp"
     android:paddingTop="8dp"
     android:paddingEnd="2dp"

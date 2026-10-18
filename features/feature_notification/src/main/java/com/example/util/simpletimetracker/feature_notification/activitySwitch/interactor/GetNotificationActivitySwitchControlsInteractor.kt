@@ -288,7 +288,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         return NotificationControlsParams.Type.Present(
             action = NotificationControlsParams.Type.Action.Repeat,
             icon = viewData.iconId,
-            color = viewData.color,
+            color = viewData.color.primaryColor,
             checkStates = emptyList(),
             isComplete = false,
         ).let(::listOf)

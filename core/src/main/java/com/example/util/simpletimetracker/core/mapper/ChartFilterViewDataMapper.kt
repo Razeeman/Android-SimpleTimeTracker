@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.recordType.RecordTypeViewData
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class ChartFilterViewDataMapper @Inject constructor(
             color = colorMapper.toFilteredUntrackedColor(
                 isDarkTheme = isDarkTheme,
                 isFiltered = UNTRACKED_ITEM_ID in typeIdsFiltered,
-            ),
+            ).let { ColorStyle.Solid(it) },
             width = recordTypeCardSizeMapper.toCardWidth(numberOfCards),
             height = recordTypeCardSizeMapper.toCardHeight(numberOfCards),
             asRow = recordTypeCardSizeMapper.toCardAsRow(numberOfCards),

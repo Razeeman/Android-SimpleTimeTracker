@@ -30,6 +30,7 @@ import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInterac
 import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.RecordTypeView
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
@@ -204,7 +205,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
                         ?.let(iconMapper::mapIcon),
                     recordTypeName = recordType?.name,
                     recordTypeColor = recordType?.color
-                        ?.let { colorMapper.mapToColorInt(it, isDarkTheme) },
+                        ?.let { colorMapper.mapToColorStyle(it, isDarkTheme) },
                     isColored = isColored,
                     checkStates = checkStates,
                     isComplete = recordTypeId in completeTypesStateInteractor.widgetTypeIds,
@@ -231,7 +232,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
         context: Context,
         recordTypeIcon: RecordTypeIcon?,
         recordTypeName: String?,
-        recordTypeColor: Int?,
+        recordTypeColor: ColorStyle?,
         isColored: Boolean,
         checkStates: List<GoalCheckmarkView.CheckState>,
         isComplete: Boolean,
@@ -255,7 +256,7 @@ class WidgetSingleProvider : AppWidgetProvider() {
             ColorUtils.changeAlpha(
                 color = resourceRepo.getColor(R.color.widget_universal_background_color),
                 alpha = 1f - backgroundTransparency / 100f,
-            )
+            ).let { ColorStyle.Solid(it) }
         }
 
         val view = getView(context).apply {

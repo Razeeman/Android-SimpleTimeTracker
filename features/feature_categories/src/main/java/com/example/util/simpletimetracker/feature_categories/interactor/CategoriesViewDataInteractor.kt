@@ -566,7 +566,8 @@ class CategoriesViewDataInteractor @Inject constructor(
                 ),
                 text = it.name,
                 icon = it.iconId,
-                color = it.color,
+                // TODO GRADIENT
+                color = it.color.primaryColor,
             )
         }
     }

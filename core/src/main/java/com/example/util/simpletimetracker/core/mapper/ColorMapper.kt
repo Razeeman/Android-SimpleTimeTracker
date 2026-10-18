@@ -5,7 +5,9 @@ import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.color.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.color.model.AppColor
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.ColorUtils.darkenColorByFactor
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -18,6 +20,16 @@ class ColorMapper @Inject constructor(
         return appColorMapper.mapToColorInt(color).let {
             if (isDarkTheme) darkenColorByFactor(it) else it
         }
+    }
+
+    // TODO GRADIENT remove mock
+    fun mapToColorStyle(color: AppColor, isDarkTheme: Boolean): ColorStyle {
+        val color = mapToColorInt(color, isDarkTheme)
+        return ColorStyle.LinearGradient(
+            start = color,
+            end = ColorUtils.normalizeLightness(color, 0.4f),
+            angleDegrees = 45,
+        )
     }
 
     fun toUntrackedColor(isDarkTheme: Boolean): Int {

@@ -146,7 +146,8 @@ class ActivitySuggestionsViewDataInteractor @Inject constructor(
                 ),
                 text = it.name,
                 icon = it.iconId,
-                color = it.color,
+                // TODO GRADIENT
+                color = it.color.primaryColor,
             )
         }
     }
@@ -169,7 +170,8 @@ class ActivitySuggestionsViewDataInteractor @Inject constructor(
                     id = ActivitySuggestionListViewData.Id(0, 0),
                     text = it.name,
                     icon = it.iconId,
-                    color = it.color,
+                    // TODO GRADIENT
+                    color = it.color.primaryColor,
                 ),
             )
         }
@@ -195,7 +197,8 @@ class ActivitySuggestionsViewDataInteractor @Inject constructor(
                     id = ActivitySuggestionListViewData.Id(0, 0),
                     text = it.name,
                     icon = it.iconId,
-                    color = it.color,
+                    // TODO GRADIENT
+                    color = it.color.primaryColor,
                 ),
             )
         }
