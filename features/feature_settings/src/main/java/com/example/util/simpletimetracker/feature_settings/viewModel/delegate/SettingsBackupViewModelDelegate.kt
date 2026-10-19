@@ -86,6 +86,18 @@ class SettingsBackupViewModelDelegate @Inject constructor(
         }
     }
 
+    override fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
+        when (block) {
+            SettingsBlock.BackupAutomaticInterval ->
+                onAutoBackupIntervalSelected(position)
+            SettingsBlock.ExportSpreadsheetAutomaticInterval ->
+                onAutoExportIntervalSelected(position)
+            else -> {
+                // Do nothing
+            }
+        }
+    }
+
     override fun onDateTimeSet(timestamp: Long, tag: String?) {
         onDateTimeSetDelegate(timestamp, tag)
     }
@@ -131,6 +143,20 @@ class SettingsBackupViewModelDelegate @Inject constructor(
                 useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
         }
+    }
+
+    private fun onAutoBackupIntervalSelected(position: Int) = delegateScope.launch {
+        val newValue = settingsMapper.toAutomaticSaveInterval(position)
+        prefsInteractor.setAutomaticBackupInterval(newValue)
+        automaticBackupInteractor.schedule()
+        parent?.updateContent()
+    }
+
+    private fun onAutoExportIntervalSelected(position: Int) = delegateScope.launch {
+        val newValue = settingsMapper.toAutomaticSaveInterval(position)
+        prefsInteractor.setAutomaticExportInterval(newValue)
+        automaticExportInteractor.schedule()
+        parent?.updateContent()
     }
 
     private fun onDateTimeSetDelegate(timestamp: Long, tag: String?) = delegateScope.launch {

@@ -419,6 +419,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_AUTOMATIC_BACKUP_TRIGGER_TIME, 0,
     )
 
+    override var automaticBackupInterval: Long by prefs.delegate(
+        KEY_AUTOMATIC_BACKUP_INTERVAL, AUTOMATIC_SAVE_INTERVAL_DEFAULT,
+    )
+
     override var automaticExportUri: String by prefs.delegate(
         KEY_AUTOMATIC_EXPORT_URI, "",
     )
@@ -433,6 +437,10 @@ class PrefsRepoImpl @Inject constructor(
 
     override var automaticExportTriggerTime: Long by prefs.delegate(
         KEY_AUTOMATIC_EXPORT_TRIGGER_TIME, 0,
+    )
+
+    override var automaticExportInterval: Long by prefs.delegate(
+        KEY_AUTOMATIC_EXPORT_INTERVAL, AUTOMATIC_SAVE_INTERVAL_DEFAULT,
     )
 
     override var repeatButtonType: Int by prefs.delegate(
@@ -743,6 +751,7 @@ class PrefsRepoImpl @Inject constructor(
         private const val POMODORO_DEFAULT_LONG_BREAK_TIME_SEC: Long = 60 * 15 // 15 min
         private const val POMODORO_DEFAULT_UNTIL_LONG_BREAK: Long = 4
         private const val RANGE_LAST_DAYS_DEFAULT: Int = 7
+        private const val AUTOMATIC_SAVE_INTERVAL_DEFAULT: Long = 1000 * 60 * 60 * 24 // 1 day
 
         const val KEY_RECORD_TYPES_FILTERED_ON_LIST = "recordTypesFilteredOnList"
         const val KEY_CATEGORIES_TYPES_FILTERED_ON_LIST = "categoriesFilteredOnList"
@@ -858,10 +867,12 @@ class PrefsRepoImpl @Inject constructor(
         private const val KEY_AUTOMATIC_BACKUP_ERROR = "automaticBackupError"
         private const val KEY_AUTOMATIC_BACKUP_LAST_SAVE_TIME = "automaticBackupLastSaveTime"
         private const val KEY_AUTOMATIC_BACKUP_TRIGGER_TIME = "automaticBackupTriggerTime"
+        private const val KEY_AUTOMATIC_BACKUP_INTERVAL = "automaticBackupInterval"
         private const val KEY_AUTOMATIC_EXPORT_URI = "automaticExportUri"
         private const val KEY_AUTOMATIC_EXPORT_ERROR = "automaticExportError"
         private const val KEY_AUTOMATIC_EXPORT_LAST_SAVE_TIME = "automaticExportLastSaveTime"
         private const val KEY_AUTOMATIC_EXPORT_TRIGGER_TIME = "automaticExportTriggerTime"
+        private const val KEY_AUTOMATIC_EXPORT_INTERVAL = "automaticExportInterval"
         private const val KEY_POMODORO_MODE_STARTED_TIMESTAMP = "pomodoroModeStartedTimestamp"
         private const val KEY_POMODORO_MODE_PAUSED_TIMESTAMP = "pomodoroModePausedTimestamp"
         private const val KEY_WIDGET = "widget_"

@@ -20,7 +20,8 @@ class AutomaticExportInteractorImpl @Inject constructor(
 
     override suspend fun schedule() {
         val triggerTime = prefsInteractor.getAutomaticExportTriggerTime()
-        val timestamp = getTimeLeftToTimestampInteractor.execute(triggerTime)
+        val interval = prefsInteractor.getAutomaticExportInterval()
+        val timestamp = getTimeLeftToTimestampInteractor.execute(triggerTime, interval)
         scheduler.schedule(timestamp)
     }
 
