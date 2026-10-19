@@ -480,9 +480,10 @@ If \"json\" - a json encoded list with additional data, same as used in the Wear
     <string name="settings_save_description">Before saving, make sure that you have the latest version of the app installed to avoid conflicts.</string>
     <string name="settings_automatic_backup">Enable automatic backup</string>
     <string name="settings_automatic_export">Enable automatic spreadsheet export</string>
-    <string name="settings_automatic_description">File will be saved in the selected location overwriting previously saved file every day at midnight.</string>
+    <string name="settings_automatic_description">File will be saved in the selected location overwriting previously saved file.</string>
     <string name="settings_automatic_last_save">Last save:</string>
     <string name="settings_automatic_save_time">Save time</string>
+    <string name="settings_automatic_save_interval">Repeat every</string>
     <string name="settings_export_csv_format">Spreadsheet time format</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -21,6 +21,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.CardOrderViewData
 import com.example.util.simpletimetracker.feature_settings.api.SettingsCardOrderMapper
 import com.example.util.simpletimetracker.feature_settings.model.CustomizeOptionsMenuListItem
+import com.example.util.simpletimetracker.feature_settings.viewData.AutomaticSaveIntervalViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DarkModeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DurationFormatViewData
@@ -105,6 +106,10 @@ class SettingsMapper @Inject constructor(
 
     private val exportDateTimeFormatList: List<ExportDateTimeFormat> =
         fileExportDateTimeFormatMapper.getAvailableFormats()
+
+    // Should divide a day evenly.
+    private val automaticSaveIntervalList: List<Long> = listOf(1L, 2, 3, 4, 6, 8, 12, 24)
+        .map(TimeUnit.HOURS::toMillis)
 
     override fun toCardOrderViewData(currentOrder: CardOrder): CardOrderViewData {
         return CardOrderViewData(
@@ -256,6 +261,20 @@ class SettingsMapper @Inject constructor(
 
     fun toCsvExportDateTimeFormat(position: Int): ExportDateTimeFormat {
         return exportDateTimeFormatList.getOrNull(position) ?: exportDateTimeFormatList.first()
+    }
+
+    fun toAutomaticSaveIntervalViewData(currentValue: Long): AutomaticSaveIntervalViewData {
+        return AutomaticSaveIntervalViewData(
+            items = automaticSaveIntervalList
+                .map { timeMapper.formatDuration(TimeUnit.MILLISECONDS.toSeconds(it)) }
+                .map(CustomSpinner::CustomSpinnerTextItem),
+            selectedPosition = automaticSaveIntervalList.indexOf(currentValue)
+                .takeUnless { it == -1 } ?: automaticSaveIntervalList.lastIndex,
+        )
+    }
+
+    fun toAutomaticSaveInterval(position: Int): Long {
+        return automaticSaveIntervalList.getOrNull(position) ?: automaticSaveIntervalList.last()
     }
 
     fun toDurationViewData(duration: Long): SettingsDurationViewData {

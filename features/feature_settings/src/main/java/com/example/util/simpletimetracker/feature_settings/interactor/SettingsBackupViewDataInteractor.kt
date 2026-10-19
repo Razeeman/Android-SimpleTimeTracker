@@ -6,11 +6,13 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.viewData.AutomaticSaveIntervalViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCollapseViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsHintViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsSelectorViewData
+import com.example.util.simpletimetracker.feature_settings.views.SettingsSpinnerViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextColor
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTextViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsTopViewData
@@ -86,7 +88,18 @@ class SettingsBackupViewDataInteractor @Inject constructor(
                     subtitle = "",
                     selectedValue = loadAutomaticBackupTriggerTime(),
                     bottomSpaceIsVisible = true,
-                    dividerIsVisible = true,
+                    dividerIsVisible = false,
+                )
+                val automaticBackupIntervalViewData = loadAutomaticBackupIntervalViewData()
+                result += SettingsSpinnerViewData(
+                    block = SettingsBlock.BackupAutomaticInterval,
+                    title = resourceRepo.getString(R.string.settings_automatic_save_interval),
+                    value = automaticBackupIntervalViewData.items
+                        .getOrNull(automaticBackupIntervalViewData.selectedPosition)?.text.orEmpty(),
+                    items = automaticBackupIntervalViewData.items,
+                    selectedPosition = automaticBackupIntervalViewData.selectedPosition,
+                    processSameItemSelected = false,
+                    topSpaceIsVisible = false,
                 )
             }
 
@@ -124,5 +137,10 @@ class SettingsBackupViewDataInteractor @Inject constructor(
             startOfDayShift = prefsInteractor.getAutomaticBackupTriggerTime(),
             useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
         )
+    }
+
+    private suspend fun loadAutomaticBackupIntervalViewData(): AutomaticSaveIntervalViewData {
+        return prefsInteractor.getAutomaticBackupInterval()
+            .let(settingsMapper::toAutomaticSaveIntervalViewData)
     }
 }
