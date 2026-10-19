@@ -975,6 +975,14 @@ class PrefsInteractor @Inject constructor(
         prefsRepo.automaticBackupTriggerTime
     }
 
+    suspend fun setAutomaticBackupInterval(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupInterval = value
+    }
+
+    suspend fun getAutomaticBackupInterval(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.automaticBackupInterval
+    }
+
     suspend fun setAutomaticExportUri(uri: String) = withContext(Dispatchers.IO) {
         prefsRepo.automaticExportUri = uri
     }
@@ -1005,6 +1013,14 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun getAutomaticExportTriggerTime(): Long = withContext(Dispatchers.IO) {
         prefsRepo.automaticExportTriggerTime
+    }
+
+    suspend fun setAutomaticExportInterval(value: Long) = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportInterval = value
+    }
+
+    suspend fun getAutomaticExportInterval(): Long = withContext(Dispatchers.IO) {
+        prefsRepo.automaticExportInterval
     }
 
     suspend fun getRepeatButtonType(): RepeatButtonType = withContext(Dispatchers.IO) {

@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.viewData.AutomaticSaveIntervalViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.ExportDateTimeFormatViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsBottomViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxViewData
@@ -84,7 +85,18 @@ class SettingsExportViewDataInteractor @Inject constructor(
                     subtitle = "",
                     selectedValue = loadAutomaticExportTriggerTime(),
                     bottomSpaceIsVisible = true,
-                    dividerIsVisible = true,
+                    dividerIsVisible = false,
+                )
+                val automaticExportIntervalViewData = loadAutomaticExportIntervalViewData()
+                result += SettingsSpinnerViewData(
+                    block = SettingsBlock.ExportSpreadsheetAutomaticInterval,
+                    title = resourceRepo.getString(R.string.settings_automatic_save_interval),
+                    value = automaticExportIntervalViewData.items
+                        .getOrNull(automaticExportIntervalViewData.selectedPosition)?.text.orEmpty(),
+                    items = automaticExportIntervalViewData.items,
+                    selectedPosition = automaticExportIntervalViewData.selectedPosition,
+                    processSameItemSelected = false,
+                    topSpaceIsVisible = false,
                 )
             }
 
@@ -172,6 +184,11 @@ class SettingsExportViewDataInteractor @Inject constructor(
             startOfDayShift = prefsInteractor.getAutomaticExportTriggerTime(),
             useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
         )
+    }
+
+    private suspend fun loadAutomaticExportIntervalViewData(): AutomaticSaveIntervalViewData {
+        return prefsInteractor.getAutomaticExportInterval()
+            .let(settingsMapper::toAutomaticSaveIntervalViewData)
     }
 
     private suspend fun loadDateTimeFormatViewData(): ExportDateTimeFormatViewData {
