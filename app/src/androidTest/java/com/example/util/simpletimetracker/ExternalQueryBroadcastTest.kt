@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.core.utils.ACTION_EXTERNAL_RESPONSE_RU
 import com.example.util.simpletimetracker.core.utils.EXTRA_ANSWER_TYPE
 import com.example.util.simpletimetracker.core.utils.EXTRA_DATA
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import dagger.hilt.android.testing.HiltAndroidTest
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
@@ -28,6 +29,7 @@ import org.junit.runner.RunWith
  * end to end: sends the query broadcast and asserts on the actual response broadcast content,
  * instead of only checking the settings toggle.
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ExternalQueryBroadcastTest : BaseUiTest() {
 

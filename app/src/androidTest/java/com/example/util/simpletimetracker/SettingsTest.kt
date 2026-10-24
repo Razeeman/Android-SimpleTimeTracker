@@ -2900,6 +2900,7 @@ class SettingsTest : BaseUiTest() {
 
         // Change setting back
         NavUtils.openSettingsScreen()
+        NavUtils.openSettingsAdditional()
         scrollSettingsRecyclerToText(coreR.string.settings_automated_tracking_receive_queries)
         checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries))
         clickOnSettingsCheckboxBesideText(coreR.string.settings_automated_tracking_receive_queries)

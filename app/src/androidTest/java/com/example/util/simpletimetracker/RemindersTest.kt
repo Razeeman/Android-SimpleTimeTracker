@@ -182,6 +182,8 @@ class RemindersTest : BaseUiTest() {
             itemTextResId = R.string.reminders_schedule_monthly,
         )
 
+        // Selecting a condition target prefills the message.
+        typeTextIntoView(changeReminderR.id.etChangeReminderMessage, "")
         clickOnView(withId(changeReminderR.id.btnChangeReminderSave))
         checkViewIsDisplayed(withText(R.string.change_reminder_message_required))
 

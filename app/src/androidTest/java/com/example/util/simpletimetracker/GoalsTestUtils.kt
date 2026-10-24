@@ -438,6 +438,7 @@ object GoalsTestUtils {
             is RecordTypeGoal.Range.Weekly -> R.string.change_record_type_weekly_goal_time
             is RecordTypeGoal.Range.Monthly -> R.string.change_record_type_monthly_goal_time
             is RecordTypeGoal.Range.Yearly -> R.string.change_record_type_yealy_goal_time
+            is RecordTypeGoal.Range.Overall -> R.string.range_overall
         }
     }
 }

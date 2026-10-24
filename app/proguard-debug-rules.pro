@@ -9,6 +9,10 @@
 -keepclassmembers class com.example.util.simpletimetracker.feature_settings.viewModel.delegate.SettingsFileWorkDelegate$Companion { void setRestartAppIsBlocked(boolean); }
 -keepclassmembers class com.example.util.simpletimetracker.core.base.DelayLoadHandler$Companion { void setDisableForTest(boolean); }
 -keepclassmembers class com.example.util.simpletimetracker.core.mapper.ColorMapper$Companion { synthetic java.util.List getAvailableColors$default(com.example.util.simpletimetracker.core.mapper.ColorMapper$Companion,boolean,int,java.lang.Object); }
+-keepclassmembers class androidx.core.content.ContextCompat { public static android.content.Intent registerReceiver(android.content.Context,android.content.BroadcastReceiver,android.content.IntentFilter,int); }
+-keepclassmembers class kotlin.text.StringsKt** { public static java.lang.String substringAfter$default(java.lang.String,java.lang.String,java.lang.String,int,java.lang.Object); }
+-keepclassmembers class kotlin.text.Regex { public static kotlin.text.MatchResult find$default(kotlin.text.Regex,java.lang.CharSequence,int,int,java.lang.Object); }
+-keepclassmembers class kotlin.text.** { public java.util.List getGroupValues(); }
 -keep class com.example.util.simpletimetracker.core.utils.CountingIdlingResourceProvider { *; }
 -keep class com.example.util.simpletimetracker.core.utils.TestUtils { *; }
 -keep class kotlin.collections.CollectionsKt { *; }

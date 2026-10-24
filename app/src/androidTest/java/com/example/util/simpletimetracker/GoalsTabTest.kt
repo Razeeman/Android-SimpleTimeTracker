@@ -575,6 +575,7 @@ class GoalsTabTest : BaseUiTest() {
             is RecordTypeGoal.Range.Weekly -> timeMapper.toWeekDateTitle(shift, startOfDayShift, firstDayOfWeek)
             is RecordTypeGoal.Range.Monthly -> timeMapper.toMonthDateTitle(shift, startOfDayShift)
             is RecordTypeGoal.Range.Yearly -> timeMapper.toYearDateTitle(shift, startOfDayShift)
+            is RecordTypeGoal.Range.Overall -> getString(R.string.range_overall)
         }
     }
 }
