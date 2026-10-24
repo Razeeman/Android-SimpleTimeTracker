@@ -12,6 +12,9 @@ import android.view.View
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.IconView
+import com.example.util.simpletimetracker.feature_views.drawable.AngleGradientDrawable
+import com.example.util.simpletimetracker.feature_views.extension.toData
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import kotlin.math.ceil
@@ -40,6 +43,7 @@ class IconStackView @JvmOverloads constructor(
 
     private var data: List<IconStackData> = emptyList()
     private val iconBackgroundPaint: Paint = Paint()
+    private val gradientDrawable by lazy { AngleGradientDrawable() }
     private val iconView: IconView = IconView(ContextThemeWrapper(context, R.style.AppTheme))
 
     init {
@@ -147,10 +151,27 @@ class IconStackView @JvmOverloads constructor(
     private fun drawIcon(data: IconStackData, canvas: Canvas, radius: Float) {
         val backgroundRadius = radius - iconBackgroundPadding
         val maxIconSize = 2 * backgroundRadius.toInt()
-        iconBackgroundPaint.color = data.iconBackgroundColor
 
         // Draw background
-        canvas.drawCircle(0f, 0f, backgroundRadius, iconBackgroundPaint)
+        when (val color = data.iconBackgroundColor) {
+            is ColorStyle.Solid -> {
+                iconBackgroundPaint.color = color.color
+                canvas.drawCircle(0f, 0f, backgroundRadius, iconBackgroundPaint)
+            }
+            is ColorStyle.LinearGradient -> {
+                gradientDrawable.setBounds(
+                    -backgroundRadius.toInt(),
+                    -backgroundRadius.toInt(),
+                    backgroundRadius.toInt(),
+                    backgroundRadius.toInt(),
+                )
+                gradientDrawable.setGradient(
+                    data = color.toData(),
+                    cornerRadius = backgroundRadius,
+                )
+                gradientDrawable.draw(canvas)
+            }
+        }
 
         // Draw icon
         getIconDrawable(data.icon, maxIconSize).apply {
@@ -204,7 +225,7 @@ class IconStackView @JvmOverloads constructor(
             (0 until segments).map {
                 IconStackData(
                     icon = RecordTypeIcon.Image(R.drawable.ic_desktop_windows_24px),
-                    iconBackgroundColor = Color.RED,
+                    iconBackgroundColor = ColorStyle.Solid(Color.RED),
                 )
             }.let(::setData)
         }

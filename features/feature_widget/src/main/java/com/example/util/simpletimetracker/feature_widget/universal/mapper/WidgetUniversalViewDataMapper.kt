@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_base_adapter.button.ButtonViewData
 import com.example.util.simpletimetracker.feature_base_adapter.emptySpace.EmptySpaceViewData
 import com.example.util.simpletimetracker.feature_base_adapter.hint.HintViewData
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.universal.customView.IconStackData
@@ -37,8 +38,8 @@ class WidgetUniversalViewDataMapper @Inject constructor(
                 ?.let(iconMapper::mapIcon)
                 ?: RecordTypeIcon.Image(R.drawable.unknown)
             val color = recordType?.color
-                ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                ?: Color.BLACK
+                ?.let { colorMapper.mapToColorStyle(it, isDarkTheme) }
+                ?: ColorStyle.Solid(Color.BLACK)
 
             IconStackData(icon = icon, iconBackgroundColor = color)
         }
@@ -60,15 +61,15 @@ class WidgetUniversalViewDataMapper @Inject constructor(
         val data = listOf(
             IconStackData(
                 icon = RecordTypeIcon.Image(R.drawable.unknown),
-                iconBackgroundColor = colorMapper.toUntrackedColor(isDarkTheme),
+                iconBackgroundColor = ColorStyle.Solid(colorMapper.toUntrackedColor(isDarkTheme)),
             ),
             IconStackData(
                 icon = recordType?.icon
                     ?.let(iconMapper::mapIcon)
                     ?: RecordTypeIcon.Image(R.drawable.unknown),
                 iconBackgroundColor = recordType?.color
-                    ?.let { colorMapper.mapToColorInt(it, isDarkTheme) }
-                    ?: Color.BLACK,
+                    ?.let { colorMapper.mapToColorStyle(it, isDarkTheme) }
+                    ?: ColorStyle.Solid(Color.BLACK),
             ),
         )
 
@@ -84,7 +85,7 @@ class WidgetUniversalViewDataMapper @Inject constructor(
     ): WidgetUniversalViewData {
         val icon = RecordTypeIcon.Image(R.drawable.ic_alarm_on_24px)
         val color = R.color.transparent.let(resourceRepo::getColor)
-        val data = IconStackData(icon, color)
+        val data = IconStackData(icon, ColorStyle.Solid(color))
 
         return WidgetUniversalViewData(
             data = listOf(data),
