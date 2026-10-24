@@ -41,7 +41,10 @@ fun createChangeRecordTypeGradientControlsAdapterDelegate(
         tvChangeRecordTypeGradientAngle.text = item.angleDegrees.toString()
         // A saved angle may be between steps. Only user input changes the saved value.
         val sliderAngle = (item.angleDegrees.coerceIn(0, 360) / 5f).roundToInt() * 5f
-        if (sliderChangeRecordTypeGradientAngle.value != sliderAngle) {
+        // Async row binds must not move the thumb while the user is dragging it.
+        if (!sliderChangeRecordTypeGradientAngle.isPressed &&
+            sliderChangeRecordTypeGradientAngle.value != sliderAngle
+        ) {
             sliderChangeRecordTypeGradientAngle.value = sliderAngle
         }
 
