@@ -559,6 +559,7 @@ csv 文件必须包含以逗号分隔的这些列：<br/>
     <string name="statistics_detail_range_averages_non_empty">无间断</string>
 
     <string name="statistics_detail_total_duration">总时长</string>
+    <string name="statistics_detail_total_without_overlaps">无重叠</string>
     <string name="statistics_detail_record_length">记录长度</string>
     <string name="statistics_detail_shortest_record">最短</string>
     <string name="statistics_detail_average_record">平均</string>

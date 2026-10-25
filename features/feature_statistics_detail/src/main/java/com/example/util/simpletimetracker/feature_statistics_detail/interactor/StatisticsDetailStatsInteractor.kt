@@ -3,13 +3,14 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
+import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.extension.orZero
-import com.example.util.simpletimetracker.domain.extension.plusAssign
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.domain.statistics.mapper.StatisticsDurationWithoutOverlapsMapper
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
 import com.example.util.simpletimetracker.feature_statistics_detail.R
@@ -29,6 +30,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val rangeMapper: RangeMapper,
     private val resourceRepo: ResourceRepo,
+    private val durationWithoutOverlapsMapper: StatisticsDurationWithoutOverlapsMapper,
 ) {
 
     suspend fun getStatsViewData(
@@ -79,6 +81,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
         return mapToStatsViewData(
             totalDuration = "",
             compareTotalDuration = "",
+            totalDurationClickMessage = null,
             timesTracked = null,
             compareTimesTracked = "",
             timesTrackedIcon = null,
@@ -184,6 +187,21 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             return result.toString()
         }
 
+        fun getTotalDurationClickMessage(): String? {
+            return if (records.any { UNTRACKED_ITEM_ID !in it.typeIds }) {
+                val result = StringBuilder()
+                result.append(resourceRepo.getString(R.string.statistics_detail_total_without_overlaps))
+                result.append("\n")
+                // Records are already clamped. Match the detailed total's exact durations
+                // before applying the selected display precision.
+                val total = durationWithoutOverlapsMapper.map(records.asSequence())
+                result.append(formatInterval(total))
+                result.toString()
+            } else {
+                null
+            }
+        }
+
         fun getTimeSinceMessage(timestamp: Long, span: Long?): String {
             val result = StringBuilder()
             result.append(resourceRepo.getString(R.string.statistics_detail_time_since))
@@ -226,6 +244,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
             compareTotalDuration = compareDurations.sum()
                 .let(::formatInterval)
                 .let(::processComparisonString),
+            totalDurationClickMessage = getTotalDurationClickMessage(),
             timesTracked = records.size,
             compareTimesTracked = compareRecords.size.toString()
                 .let(::processComparisonString),
@@ -271,6 +290,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
     private fun mapToStatsViewData(
         totalDuration: String,
         compareTotalDuration: String,
+        totalDurationClickMessage: String?,
         timesTracked: Int?,
         compareTimesTracked: String,
         timesTrackedIcon: StatisticsDetailCardInternalViewData.Icon?,
@@ -295,6 +315,7 @@ class StatisticsDetailStatsInteractor @Inject constructor(
                 valueChange = StatisticsDetailCardInternalViewData.ValueChange.None,
                 secondValue = compareTotalDuration,
                 description = resourceRepo.getString(R.string.statistics_detail_total_duration),
+                clickable = totalDurationClickMessage?.let { StatisticsDetailClickablePopup(it) },
                 accented = true,
                 titleTextSizeSp = 22,
             ),

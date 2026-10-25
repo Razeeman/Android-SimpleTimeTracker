@@ -559,6 +559,7 @@ CSV dosyası virgülle ayrılmış şu sütunları içermelidir:<br/>
     <string name="statistics_detail_range_averages_non_empty">Boş periyotlar hariç</string>
 
     <string name="statistics_detail_total_duration">Toplam</string>
+    <string name="statistics_detail_total_without_overlaps">Çakışmalar olmadan</string>
     <string name="statistics_detail_record_length">Kayıt süresi</string>
     <string name="statistics_detail_shortest_record">En kısa</string>
     <string name="statistics_detail_average_record">Ortalama</string>

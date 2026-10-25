@@ -559,6 +559,7 @@
     <string name="statistics_detail_range_averages_non_empty">بدون گردش خالی</string>
 
     <string name="statistics_detail_total_duration">کل</string>
+    <string name="statistics_detail_total_without_overlaps">بدون همپوشانی</string>
     <string name="statistics_detail_record_length">طول تاریخچه</string>
     <string name="statistics_detail_shortest_record">کوتاه ترین</string>
     <string name="statistics_detail_average_record">متوسط</string>

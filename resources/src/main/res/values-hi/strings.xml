@@ -559,6 +559,7 @@ csv फ़ाइल में कॉमा से अलग किए गए य
     <string name="statistics_detail_range_averages_non_empty">खाली अवधि के बिना</string>
 
     <string name="statistics_detail_total_duration">कुल</string>
+    <string name="statistics_detail_total_without_overlaps">ओवरलैप के बिना</string>
     <string name="statistics_detail_record_length">अभिलेख लंबाई</string>
     <string name="statistics_detail_shortest_record">कम से कम</string>
     <string name="statistics_detail_average_record">औसत</string>

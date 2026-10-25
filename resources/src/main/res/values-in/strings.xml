@@ -559,6 +559,7 @@ Contoh:<br/>
     <string name="statistics_detail_range_averages_non_empty">Tanpa periode kosong</string>
 
     <string name="statistics_detail_total_duration">Total</string>
+    <string name="statistics_detail_total_without_overlaps">Tanpa tumpang tindih</string>
     <string name="statistics_detail_record_length">Panjang rekor</string>
     <string name="statistics_detail_shortest_record">Tersingkat</string>
     <string name="statistics_detail_average_record">Rata-Rata</string>

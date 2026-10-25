@@ -559,6 +559,7 @@ Voorbeeld:<br/>
     <string name="statistics_detail_range_averages_non_empty">Zonder lege periodes</string>
 
     <string name="statistics_detail_total_duration">Totaal</string>
+    <string name="statistics_detail_total_without_overlaps">Zonder overlappingen</string>
     <string name="statistics_detail_record_length">Record lengte</string>
     <string name="statistics_detail_shortest_record">Kortste</string>
     <string name="statistics_detail_average_record">Gemiddeld</string>

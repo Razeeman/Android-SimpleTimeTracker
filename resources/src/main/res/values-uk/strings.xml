@@ -559,6 +559,7 @@
     <string name="statistics_detail_range_averages_non_empty">Без порожніх періодів</string>
 
     <string name="statistics_detail_total_duration">Всього</string>
+    <string name="statistics_detail_total_without_overlaps">Без перекриттів</string>
     <string name="statistics_detail_record_length">Довжина запису</string>
     <string name="statistics_detail_shortest_record">Найкоротший</string>
     <string name="statistics_detail_average_record">Середній</string>

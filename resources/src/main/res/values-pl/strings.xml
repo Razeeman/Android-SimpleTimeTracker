@@ -559,6 +559,7 @@ Przykład:<br/>
     <string name="statistics_detail_range_averages_non_empty">Bez pustych okresów</string>
 
     <string name="statistics_detail_total_duration">Łącznie</string>
+    <string name="statistics_detail_total_without_overlaps">Bez nakładania się</string>
     <string name="statistics_detail_record_length">Długość rekordów</string>
     <string name="statistics_detail_shortest_record">Najkrótszy</string>
     <string name="statistics_detail_average_record">Średnio</string>
