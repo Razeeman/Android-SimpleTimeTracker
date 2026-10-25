@@ -6,10 +6,13 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.GoalsTestUtils.checkRunningGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.checkRunningMark
+import com.example.util.simpletimetracker.GoalsTestUtils.checkRunningLimitMark
 import com.example.util.simpletimetracker.GoalsTestUtils.checkNoRunningGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.durationInSeconds
 import com.example.util.simpletimetracker.feature_change_record.R
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.utils.BaseUiTest
+import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.tryAction
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -228,6 +231,103 @@ class GoalsRunningTest : BaseUiTest() {
         scrollTo(goalCount)
         checkNoRunningGoal(goalCount)
         checkRunningMark(goalCount, isVisible = false)
+    }
+
+    @Test
+    fun multipleDailyDurationGoalsAdvanceToNextTarget() {
+        val typeName = "multipleDailyGoals"
+        val daily = getString(coreR.string.change_record_type_daily_goal_time).lowercase()
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+        val currentTime = System.currentTimeMillis()
+
+        testUtils.addActivity(
+            name = typeName,
+            // Store the larger target first to verify selection by target, rather than insertion order.
+            goals = listOf(
+                GoalsTestUtils.getDailyDurationGoal(2 * durationInSeconds),
+                GoalsTestUtils.getDailyDurationGoal(durationInSeconds),
+            ),
+        )
+        fun addMinutes(minutes: Long) {
+            testUtils.addRecord(
+                typeName = typeName,
+                timeStarted = currentTime - TimeUnit.MINUTES.toMillis(minutes),
+                timeEnded = currentTime,
+            )
+        }
+        addMinutes(5)
+        testUtils.addRunningRecord(typeName, timeStarted = currentTime - TimeUnit.SECONDS.toMillis(1))
+
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$goal · $daily 4$minuteString")
+        checkRunningMark(typeName, isVisible = false)
+
+        // Reaching ten minutes moves progress to the twenty minute target.
+        NavUtils.openRecordsScreen()
+        addMinutes(5)
+        NavUtils.openRunningRecordsScreen()
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$goal · $daily 9$minuteString")
+        checkRunningMark(typeName, isVisible = false)
+
+        // The completion mark appears only after both targets are reached.
+        NavUtils.openRecordsScreen()
+        addMinutes(10)
+        NavUtils.openRunningRecordsScreen()
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$goal · $daily")
+        checkRunningMark(typeName, isVisible = true)
+    }
+
+    @Test
+    fun dailyGoalAndLimitHaveSeparateRowsAndRespectLimitBoundary() {
+        val typeName = "dailyGoalAndLimit"
+        val daily = getString(coreR.string.change_record_type_daily_goal_time).lowercase()
+        val goal = getString(coreR.string.change_record_type_goal_time_hint).lowercase()
+        val limit = getString(coreR.string.change_record_type_limit_time_hint).lowercase()
+
+        testUtils.addActivity(
+            name = typeName,
+            goals = listOf(
+                GoalsTestUtils.getDailyCountGoal(2),
+                GoalsTestUtils.getDailyCountGoal(3).copy(subtype = RecordTypeGoal.Subtype.Limit),
+            ),
+        )
+        testUtils.addRunningRecord(typeName)
+
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$goal · $daily 1 Record")
+        checkRunningMark(typeName, isVisible = false)
+        checkRunningGoal(typeName, "$limit · $daily 2 Records", isSecondRow = true)
+        checkRunningMark(typeName, isVisible = false, isSecondRow = true)
+
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(typeName)
+        NavUtils.openRunningRecordsScreen()
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$goal · $daily")
+        checkRunningMark(typeName, isVisible = true)
+        checkRunningGoal(typeName, "$limit · $daily 1 Record", isSecondRow = true)
+        checkRunningMark(typeName, isVisible = false, isSecondRow = true)
+
+        // The running record counts toward the total: two saved records reach the limit of three.
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(typeName)
+        NavUtils.openRunningRecordsScreen()
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$limit · $daily 0 Records", isSecondRow = true)
+        checkRunningMark(typeName, isVisible = false, isSecondRow = true)
+        checkRunningMark(typeName, isVisible = true)
+
+        // Only exceeding the limit shows its cross; the goal remains complete.
+        NavUtils.openRecordsScreen()
+        testUtils.addRecord(typeName)
+        NavUtils.openRunningRecordsScreen()
+        scrollTo(typeName)
+        checkRunningGoal(typeName, "$goal · $daily")
+        checkRunningMark(typeName, isVisible = true)
+        checkRunningGoal(typeName, "$limit · $daily", isSecondRow = true)
+        checkRunningLimitMark(typeName)
     }
 
     private fun scrollTo(typeName: String) {

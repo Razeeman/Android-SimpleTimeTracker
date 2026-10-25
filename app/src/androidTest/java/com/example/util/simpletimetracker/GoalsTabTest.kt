@@ -5,11 +5,13 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.PickerActions.setDate
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.util.simpletimetracker.GoalsTestUtils.addOverallRecords
 import com.example.util.simpletimetracker.GoalsTestUtils.addRecords
 import com.example.util.simpletimetracker.GoalsTestUtils.addYearlyRecords
 import com.example.util.simpletimetracker.GoalsTestUtils.checkNoStatisticsGoal
@@ -21,6 +23,8 @@ import com.example.util.simpletimetracker.GoalsTestUtils.getDailyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getDailyDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getMonthlyDurationGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getOverallCountGoal
+import com.example.util.simpletimetracker.GoalsTestUtils.getOverallDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getSessionDurationGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyCountGoal
 import com.example.util.simpletimetracker.GoalsTestUtils.getWeeklyDurationGoal
@@ -34,12 +38,15 @@ import com.example.util.simpletimetracker.feature_dialogs.dateTime.CustomDatePic
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
 import com.example.util.simpletimetracker.utils.checkViewIsDisplayed
+import com.example.util.simpletimetracker.utils.checkViewDoesNotExist
+import com.example.util.simpletimetracker.utils.recyclerViewHolderCount
 import com.example.util.simpletimetracker.utils.clickOnCurrentDate
 import com.example.util.simpletimetracker.utils.clickOnCurrentSelectedDate
 import com.example.util.simpletimetracker.utils.clickOnView
 import com.example.util.simpletimetracker.utils.clickOnViewWithId
 import com.example.util.simpletimetracker.utils.clickOnViewWithText
 import com.example.util.simpletimetracker.utils.longClickOnView
+import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.nestedScrollTo
 import com.example.util.simpletimetracker.utils.scrollRecyclerToView
 import com.example.util.simpletimetracker.utils.selectTabAtPosition
@@ -55,6 +62,9 @@ import com.example.util.simpletimetracker.core.R as coreR
 import com.example.util.simpletimetracker.feature_base_adapter.R as baseR
 import com.example.util.simpletimetracker.feature_change_goals.R as changeGoalsR
 import com.example.util.simpletimetracker.feature_change_goals.api.R as changeGoalsApiR
+import com.example.util.simpletimetracker.feature_change_goals.api.ChangeRecordTypeGoalsViewData
+import com.example.util.simpletimetracker.feature_change_record_type.R as changeRecordTypeR
+import com.example.util.simpletimetracker.feature_dialogs.R as dialogsR
 import com.example.util.simpletimetracker.feature_goals.R as goalsR
 import com.example.util.simpletimetracker.feature_main.R as mainR
 import com.example.util.simpletimetracker.feature_statistics_detail.R as featureStatisticsDetailR
@@ -90,12 +100,16 @@ class GoalsTabTest : BaseUiTest() {
             listOf(getMonthlyCountGoal(10)),
             listOf(getYearlyDurationGoal(durationInSeconds)),
             listOf(getYearlyCountGoal(10)),
+            listOf(getOverallDurationGoal(durationInSeconds)),
+            listOf(getOverallCountGoal(10)),
             listOf(
                 getSessionDurationGoal(durationInSeconds),
                 getDailyCountGoal(10),
                 getWeeklyDurationGoal(2 * durationInSeconds),
                 getMonthlyCountGoal(20),
                 getYearlyDurationGoal(3 * durationInSeconds),
+                getOverallDurationGoal(4 * durationInSeconds),
+                getOverallCountGoal(30),
             ),
         )
 
@@ -204,6 +218,10 @@ class GoalsTabTest : BaseUiTest() {
         val goalYearlyTimeFinished = "goalYearlyTimeFinished"
         val goalYearlyCountNotFinished = "goalYearlyCountNotFinished"
         val goalYearlyCountFinished = "goalYearlyCountFinished"
+        val goalOverallTimeNotFinished = "goalOverallTimeNotFinished"
+        val goalOverallTimeFinished = "goalOverallTimeFinished"
+        val goalOverallCountNotFinished = "goalOverallCountNotFinished"
+        val goalOverallCountFinished = "goalOverallCountFinished"
 
         // Add data
         // Daily
@@ -314,6 +332,33 @@ class GoalsTabTest : BaseUiTest() {
         testUtils.addRecord(goalYearlyCountFinished)
         addYearlyRecords(testUtils, goalYearlyCountFinished)
 
+        // Overall
+        testUtils.addActivity(
+            goalOverallTimeNotFinished,
+            goals = listOf(getOverallDurationGoal(4 * durationInSeconds)),
+        )
+        addOverallRecords(testUtils, goalOverallTimeNotFinished)
+
+        testUtils.addActivity(
+            goalOverallTimeFinished,
+            goals = listOf(getOverallDurationGoal(3 * durationInSeconds)),
+        )
+        addOverallRecords(testUtils, goalOverallTimeFinished)
+
+        testUtils.addActivity(
+            goalOverallCountNotFinished,
+            goals = listOf(getOverallCountGoal(4)),
+        )
+        addOverallRecords(testUtils, goalOverallCountNotFinished)
+
+        testUtils.addActivity(
+            goalOverallCountFinished,
+            goals = listOf(getOverallCountGoal(3)),
+        )
+        testUtils.addRecord(goalOverallCountFinished)
+        testUtils.addRecord(goalOverallCountFinished)
+        addOverallRecords(testUtils, goalOverallCountFinished)
+
         // Open tab
         NavUtils.openGoalsScreen()
 
@@ -408,6 +453,29 @@ class GoalsTabTest : BaseUiTest() {
         scrollTo(goalYearlyCountFinished)
         checkStatisticsGoal(goalYearlyCountFinished, "5 Records", "$goal - 3 Records")
         checkStatisticsMark(goalYearlyCountFinished, isVisible = true)
+
+        // Overall
+        // Goal time not finished
+        scrollTo(goalOverallTimeNotFinished)
+        checkStatisticsGoal(goalOverallTimeNotFinished, "30$minuteString", "$goal - 40$minuteString")
+        checkStatisticsPercent(goalOverallTimeNotFinished, "75%")
+        checkStatisticsMark(goalOverallTimeNotFinished, isVisible = false)
+
+        // Goal time finished
+        scrollTo(goalOverallTimeFinished)
+        checkStatisticsGoal(goalOverallTimeFinished, "30$minuteString", "$goal - 30$minuteString")
+        checkStatisticsMark(goalOverallTimeFinished, isVisible = true)
+
+        // Goal count not finished
+        scrollTo(goalOverallCountNotFinished)
+        checkStatisticsGoal(goalOverallCountNotFinished, "3 Records", "$goal - 4 Records")
+        checkStatisticsPercent(goalOverallCountNotFinished, "75%")
+        checkStatisticsMark(goalOverallCountNotFinished, isVisible = false)
+
+        // Goal count finished
+        scrollTo(goalOverallCountFinished)
+        checkStatisticsGoal(goalOverallCountFinished, "5 Records", "$goal - 3 Records")
+        checkStatisticsMark(goalOverallCountFinished, isVisible = true)
     }
 
     @Test
@@ -421,6 +489,7 @@ class GoalsTabTest : BaseUiTest() {
                 getDailyDurationGoal(durationInSeconds),
                 getMonthlyDurationGoal(2 * durationInSeconds),
                 getYearlyDurationGoal(3 * durationInSeconds),
+                getOverallDurationGoal(4 * durationInSeconds),
             ),
         )
 
@@ -428,6 +497,7 @@ class GoalsTabTest : BaseUiTest() {
         val dailyGoalValue = "$goalHint - 10$minuteString"
         val monthlyGoalValue = "$goalHint - 20$minuteString"
         val yearlyGoalValue = "$goalHint - 30$minuteString"
+        val overallGoalValue = "$goalHint - 40$minuteString"
 
         val startOfDayShift = runBlocking { prefsInteractor.getStartOfDayShift() }
         val firstDayOfWeek = runBlocking { prefsInteractor.getFirstDayOfWeek() }
@@ -513,12 +583,14 @@ class GoalsTabTest : BaseUiTest() {
         checkRange(todayTitle, "1$minuteString", dailyGoalValue)
         checkRange(todayMonthTitle, "1$minuteString", monthlyGoalValue)
         checkRange(todayYearTitle, "1$minuteString", yearlyGoalValue)
+        checkRange(getString(R.string.range_overall), "3$minuteString", overallGoalValue)
 
         // Check prev day
         clickOnCurrentDate(shiftToFirstDay - 1)
         checkRange(prevTitle, "2$minuteString", dailyGoalValue)
         checkRange(prevMonthTitle, "2$minuteString", monthlyGoalValue)
         checkRange(prevYearTitle, "2$minuteString", yearlyGoalValue)
+        checkRange(getString(R.string.range_overall), "3$minuteString", overallGoalValue)
     }
 
     @Test
@@ -548,6 +620,91 @@ class GoalsTabTest : BaseUiTest() {
                 hasDescendant(withText(typeName)),
             ),
         )
+    }
+
+    @Test
+    fun multipleDailyGoals() {
+        val typeName = "multipleDailyGoals"
+        val firstGoal = getDailyDurationGoal(durationInSeconds)
+        val secondGoal = getDailyDurationGoal(2 * durationInSeconds)
+        val editedDuration = TimeUnit.MINUTES.toSeconds(15)
+
+        fun card(duration: Long): Matcher<View> {
+            return GoalsTestUtils.goalCard(
+                range = RecordTypeGoal.Range.Daily,
+                type = RecordTypeGoal.Type.Duration(duration),
+                value = timeMapper.formatDuration(duration),
+            )
+        }
+
+        fun openGoals() {
+            val activityCard = allOf(
+                withId(baseR.id.viewRecordTypeItem),
+                hasDescendant(withText(typeName)),
+            )
+            tryAction {
+                scrollRecyclerToView(R.id.rvRunningRecordsList, activityCard)
+                longClickOnView(allOf(activityCard, isCompletelyDisplayed()))
+            }
+            tryAction {
+                checkViewIsDisplayed(
+                    allOf(withId(changeRecordTypeR.id.etChangeRecordTypeName), withText(typeName)),
+                )
+            }
+            onView(withId(changeRecordTypeR.id.fieldChangeRecordTypeGoalTime)).perform(nestedScrollTo())
+            clickOnViewWithId(changeRecordTypeR.id.fieldChangeRecordTypeGoalTime)
+        }
+
+        fun checkGoals(vararg durations: Long) {
+            onView(withId(changeGoalsApiR.id.rvChangeRecordTypeGoals))
+                .check(recyclerViewHolderCount<ChangeRecordTypeGoalsViewData.GoalViewData>(durations.size))
+            durations.forEach { duration ->
+                scrollRecyclerToView(changeGoalsApiR.id.rvChangeRecordTypeGoals, card(duration))
+                checkViewIsDisplayed(card(duration))
+            }
+        }
+
+        testUtils.addActivity(typeName)
+        openGoals()
+        NavUtils.addGoalToActivity(firstGoal)
+        NavUtils.addGoalToActivity(secondGoal)
+        clickOnViewWithText(coreR.string.change_record_type_save)
+
+        // Both goals survive saving and reopening, despite sharing a range and type.
+        openGoals()
+        checkGoals(firstGoal.value, secondGoal.value)
+        GoalsTestUtils.expandGoal(firstGoal.range, firstGoal.type, timeMapper.formatDuration(firstGoal.value))
+        clickOnView(GoalsTestUtils.visibleGoalField(changeGoalsR.id.fieldChangeRecordTypeGoalDuration))
+        // Clear the existing duration before entering 00:15:00.
+        longClickOnViewWithId(dialogsR.id.btnNumberKeyboardDelete)
+        listOf(
+            dialogsR.id.tvNumberKeyboard0,
+            dialogsR.id.tvNumberKeyboard0,
+            dialogsR.id.tvNumberKeyboard1,
+            dialogsR.id.tvNumberKeyboard5,
+            dialogsR.id.tvNumberKeyboard0,
+            dialogsR.id.tvNumberKeyboard0,
+        ).forEach(::clickOnViewWithId)
+        clickOnViewWithText(coreR.string.duration_dialog_save)
+        clickOnViewWithText(coreR.string.change_record_type_save)
+
+        // Editing the first target leaves the second target intact.
+        openGoals()
+        checkGoals(editedDuration, secondGoal.value)
+        checkViewDoesNotExist(card(firstGoal.value))
+        GoalsTestUtils.expandGoal(firstGoal.range, firstGoal.type, timeMapper.formatDuration(editedDuration))
+        clickOnView(
+            allOf(
+                withId(changeGoalsR.id.btnChangeRecordTypeGoalDelete),
+                isDescendantOfA(card(editedDuration)),
+            ),
+        )
+        clickOnViewWithText(coreR.string.change_record_type_save)
+
+        // Deleting the edited goal preserves the other goal after reopening.
+        openGoals()
+        checkGoals(secondGoal.value)
+        checkViewDoesNotExist(card(editedDuration))
     }
 
     private fun scrollTo(
