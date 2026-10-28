@@ -556,7 +556,7 @@ Exemple :<br/>
 
     <string name="statistics_detail_range_averages_title">Moyenne : %s</string>
     <string name="statistics_detail_range_averages">Sur tous les éléments de la plage</string>
-    <string name="statistics_detail_range_averages_non_empty">Uniquement sur les éléments de la plage ayant un enregistrement</string>
+    <string name="statistics_detail_range_averages_non_empty">Sur les éléments de la plage ayant un enregistrement</string>
 
     <string name="statistics_detail_total_duration">Total</string>
     <string name="statistics_detail_total_without_overlaps">Sans chevauchements</string>
