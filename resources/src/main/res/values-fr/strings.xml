@@ -79,12 +79,12 @@
     <!--  Records  -->
     <string name="record_removed">Enregistrement %s supprimé</string>
     <string name="record_removed_undo">Restaurer</string>
-    <string name="records_hint"> sur un enregistrement pour le modifier</string>
+    <string name="records_hint">Appui sur un enregistrement pour le modifier</string>
     <string name="records_add_record">Ajouter un enregistrement</string>
     <string name="records_switch_to_calendar">Affichage Calendrier</string>
     <string name="records_switch_to_list">Affichage Liste</string>
     <string name="no_records_exist">Les enregistrements s\'afficheront ici</string>
-    <string name="record_add_hint"> sur %s pour ajouter un nouvel enregistrement</string>
+    <string name="record_add_hint">Appui sur %s pour ajouter un nouvel enregistrement</string>
     <string name="record_date_hint">Appuyez sur la frise chronologique pour aller à une date</string>
 
     <!--  Statistics  -->
