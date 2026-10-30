@@ -19,6 +19,7 @@ import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.OverScroller
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.drawable.toDrawable
@@ -80,6 +81,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     private var swipeStartOffset: Float = 0f
     private var swipeStartPanFactor: Float = 0f
     private var shouldRebaseSwipeAfterScaleStop: Boolean = false
+    private var isFlingStoppedOnTouch: Boolean = false
+    private var isScaledDuringTouch: Boolean = false
     private var legendTextWidth: Float = 0f
     private var legendTextHeight: Float = 0f
     private var legendTopTextHeight: Float = 0f
@@ -185,7 +188,9 @@ class RecordsCalendarView @JvmOverloads constructor(
         onSlideStart = ::onEventSwipeStart,
         onSlide = ::onEventSwipe,
         onSlideStop = ::onEventSwipeStop,
+        onFling = ::onEventFling,
     )
+    private val flingScroller = OverScroller(context)
 
     init {
         initArgs(context, attrs, defStyleAttr)
@@ -243,13 +248,28 @@ class RecordsCalendarView @JvmOverloads constructor(
         var handled = false
 
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> handled = true
+            MotionEvent.ACTION_DOWN -> {
+                // Touch during fling only stops it, same as in regular lists.
+                isFlingStoppedOnTouch = !flingScroller.isFinished
+                isScaledDuringTouch = false
+                flingScroller.forceFinished(true)
+                handled = true
+            }
         }
 
         return handled or
             singleTapDetector.onTouchEvent(event) or
             swipeDetector.onTouchEvent(event) or
             scaleDetector.onTouchEvent(event)
+    }
+
+    override fun computeScroll() {
+        if (flingScroller.computeScrollOffset()) {
+            panFactor = flingScroller.currY.toFloat()
+            coercePan()
+            lastPanFactor = panFactor
+            postInvalidateOnAnimation()
+        }
     }
 
     fun setClickListener(listener: (ViewHolderType) -> Unit) {
@@ -274,6 +294,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     fun reset() {
+        flingScroller.forceFinished(true)
         scaleFactor = 1f
         lastScaleFactor = 1f
         panFactor = 0f
@@ -925,6 +946,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun onEventClick(event: MotionEvent) {
+        if (isFlingStoppedOnTouch) return
         val selected = findDataPoint(x = event.x, y = event.y)
             ?.point?.data ?: return
         resetSelectedRecordRunnable?.let(::removeCallbacks)
@@ -942,6 +964,7 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun onEventLongClick(event: MotionEvent) {
+        if (isFlingStoppedOnTouch) return
         val selected = findDataPoint(x = event.x, y = event.y)
             ?.point?.data ?: return
         resetSelectedRecordRunnable?.let(::removeCallbacks)
@@ -952,6 +975,8 @@ class RecordsCalendarView @JvmOverloads constructor(
     }
 
     private fun onEventScaleStart() {
+        flingScroller.forceFinished(true)
+        isScaledDuringTouch = true
         isScaling = true
         if (isSwiping) lastPanFactor = panFactor
     }
@@ -1009,9 +1034,27 @@ class RecordsCalendarView @JvmOverloads constructor(
         lastPanFactor = panFactor
     }
 
+    private fun onEventFling(
+        velocity: Float,
+        direction: SwipeDetector.Direction,
+    ) {
+        // After a pinch, finger speed comes from zooming, not scrolling.
+        if (direction.isHorizontal() || isScaledDuringTouch) return
+        flingScroller.fling(
+            0, panFactor.toInt(), // Start x, y.
+            0, velocity.toInt(), // Velocity x, y.
+            0, 0, // Min, max x.
+            -getMaxPanAvailable().toInt(), 0, // Min, max y.
+        )
+        postInvalidateOnAnimation()
+    }
+
     private fun coercePan() {
-        val maxPanAvailable = chartHeight * scaleFactor - chartHeight
-        panFactor = panFactor.coerceIn(-maxPanAvailable, 0f)
+        panFactor = panFactor.coerceIn(-getMaxPanAvailable(), 0f)
+    }
+
+    private fun getMaxPanAvailable(): Float {
+        return chartHeight * scaleFactor - chartHeight
     }
 
     private fun findDataPoint(
