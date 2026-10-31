@@ -480,9 +480,10 @@ Si és \"json\", una llista codificada en json amb dades addicionals, igual que 
     <string name="settings_save_description">Abans de desar, assegureu-vos de tenir l\'última versió de l\'aplicació instal·lada per evitar conflictes.</string>
     <string name="settings_automatic_backup">Activa la còpia de seguretat automàtica</string>
     <string name="settings_automatic_export">Activa l\'exportació a full de càlcul automàtica</string>
-    <string name="settings_automatic_description">L\'arxiu es desarà a la ubicació seleccionada sobreescrivint l\'arxiu anterior cada dia a mitjanit.</string>
+    <string name="settings_automatic_description">L\'arxiu es desarà a la ubicació seleccionada sobreescrivint l\'arxiu anterior.</string>
     <string name="settings_automatic_last_save">Últim desat:</string>
     <string name="settings_automatic_save_time">Hora de desament</string>
+    <string name="settings_automatic_save_interval">Repeteix cada</string>
     <string name="settings_export_csv_format">Format d\'hora del full de càlcul</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -480,9 +480,10 @@
     <string name="settings_save_description">保存する前に競合を避けるため、最新バージョンのアプリがインストールされていることを確認してください。</string>
     <string name="settings_automatic_backup">自動バックアップを有効にする</string>
     <string name="settings_automatic_export">スプレッドシートの自動エクスポートを有効にする</string>
-    <string name="settings_automatic_description">ファイルは、毎日午前 0 時に以前に保存されたファイルを上書きして、選択した場所に保存されます。</string>
+    <string name="settings_automatic_description">ファイルは、以前に保存されたファイルを上書きして、選択した場所に保存されます。</string>
     <string name="settings_automatic_last_save">最後の保存:</string>
     <string name="settings_automatic_save_time">保存時間</string>
+    <string name="settings_automatic_save_interval">繰り返し間隔</string>
     <string name="settings_export_csv_format">スプレッドシートの時間形式</string>
     <string name="settings_date_time_format_local">ローカル</string>
     <string name="settings_date_time_format_utc">UTC</string>

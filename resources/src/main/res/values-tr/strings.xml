@@ -480,9 +480,10 @@ yanıt verileri.<br/>
     <string name="settings_save_description">Kaydetmeden önce, uyuşmazlık yaşamamak için uygulamanın güncel olduğundan emin olun.</string>
     <string name="settings_automatic_backup">Otomatik yedeklemeyi etkinleştir</string>
     <string name="settings_automatic_export">Otomatik e-tablo dışa aktarmayı etkinleştir</string>
-    <string name="settings_automatic_description">Dosya, her gün gece yarısında önceden kaydedilmiş dosyanın üzerine yazılarak seçilen konuma kaydedilecektir.</string>
+    <string name="settings_automatic_description">Dosya, önceden kaydedilmiş dosyanın üzerine yazılarak seçilen konuma kaydedilecektir.</string>
     <string name="settings_automatic_last_save">Son kaydetme:</string>
     <string name="settings_automatic_save_time">Kayıt zamanı</string>
+    <string name="settings_automatic_save_interval">Tekrarlama aralığı</string>
     <string name="settings_export_csv_format">Elektronik tablo saat biçimi</string>
     <string name="settings_date_time_format_local">Yerel</string>
     <string name="settings_date_time_format_utc">UTC</string>

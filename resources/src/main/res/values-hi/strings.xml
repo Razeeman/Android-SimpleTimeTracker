@@ -480,9 +480,10 @@
     <string name="settings_save_description">सहेजने से पहले, सुनिश्चित करें कि आपके पास संघर्षों से बचने के लिए इंस्टॉल किए गए ऐप का नवीनतम संस्करण है।</string>
     <string name="settings_automatic_backup">स्वचालित बैकअप सक्षम करें</string>
     <string name="settings_automatic_export">स्वचालित स्प्रेडशीट निर्यात सक्षम करें</string>
-    <string name="settings_automatic_description">फ़ाइल हर दिन आधी रात को पहले से सहेजी गई फ़ाइल को ओवरराइड करते हुए चयनित स्थान में सहेजी जाएगी।</string>
+    <string name="settings_automatic_description">फ़ाइल पहले से सहेजी गई फ़ाइल को ओवरराइड करते हुए चयनित स्थान में सहेजी जाएगी।</string>
     <string name="settings_automatic_last_save">अंतिम बचत:</string>
     <string name="settings_automatic_save_time">सहेजने का समय</string>
+    <string name="settings_automatic_save_interval">दोहराने का अंतराल</string>
     <string name="settings_export_csv_format">स्प्रेडशीट समय प्रारूप</string>
     <string name="settings_date_time_format_local">स्थानीय</string>
     <string name="settings_date_time_format_utc">UTC</string>

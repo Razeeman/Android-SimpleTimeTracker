@@ -480,9 +480,10 @@ Se for \"json\", uma lista codificada em json com dados adicionais, igual à uti
     <string name="settings_save_description">Antes de guardar, verificar se a aplicação tem a versão mais recente para evitar conflitos.</string>
     <string name="settings_automatic_backup">Ativar cópia de segurança automática</string>
     <string name="settings_automatic_export">Ativar exportação automática da tabela</string>
-    <string name="settings_automatic_description">O ficheiro será guardado no local selecionado, substituindo o ficheiro guardado anteriormente todos os dias à meia-noite.</string>
+    <string name="settings_automatic_description">O ficheiro será guardado no local selecionado, substituindo o ficheiro guardado anteriormente.</string>
     <string name="settings_automatic_last_save">Última gravação:</string>
     <string name="settings_automatic_save_time">Hora de gravação</string>
+    <string name="settings_automatic_save_interval">Repetir a cada</string>
     <string name="settings_export_csv_format">Formato de hora da folha de cálculo</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

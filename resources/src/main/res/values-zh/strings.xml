@@ -480,9 +480,10 @@
     <string name="settings_save_description">保存前，请确保已安装最新版本的应用程序，以避免冲突</string>
     <string name="settings_automatic_backup">启用自动备份</string>
     <string name="settings_automatic_export">启用自动电子表格导出</string>
-    <string name="settings_automatic_description">文件将在每天午夜覆盖之前选定位置的文件</string>
+    <string name="settings_automatic_description">文件将保存在选定位置，覆盖之前保存的文件</string>
     <string name="settings_automatic_last_save">最近保存：</string>
     <string name="settings_automatic_save_time">保存时间</string>
+    <string name="settings_automatic_save_interval">重复间隔</string>
     <string name="settings_export_csv_format">电子表格时间格式</string>
     <string name="settings_date_time_format_local">本地</string>
     <string name="settings_date_time_format_utc">UTC</string>

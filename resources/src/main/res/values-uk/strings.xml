@@ -480,9 +480,10 @@
     <string name="settings_save_description">Перед збереженням переконайтесь, що у вас встановлена остання версія додатку, щоб уникнути конфліктів.</string>
     <string name="settings_automatic_backup">Увімкнути автоматичне резервне копіювання</string>
     <string name="settings_automatic_export">Увімкнути автоматичний експорт таблиці</string>
-    <string name="settings_automatic_description">Файл буде збережено у вибраному місці, замінюючи попередньо збережений файл щодня опівночі.</string>
+    <string name="settings_automatic_description">Файл буде збережено у вибраному місці, замінюючи попередньо збережений файл.</string>
     <string name="settings_automatic_last_save">Останнє збереження:</string>
     <string name="settings_automatic_save_time">Час збереження</string>
+    <string name="settings_automatic_save_interval">Повторювати кожні</string>
     <string name="settings_export_csv_format">Формат часу електронної таблиці</string>
     <string name="settings_date_time_format_local">Місцевий</string>
     <string name="settings_date_time_format_utc">UTC</string>

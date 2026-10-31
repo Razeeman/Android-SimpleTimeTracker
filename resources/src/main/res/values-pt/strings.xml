@@ -480,9 +480,10 @@ Se for \"json\", uma lista codificada em json com dados adicionais, igual à usa
     <string name="settings_save_description">Antes de salvar, verifique se você tem a versão mais recente do aplicativo instalada para evitar conflitos.</string>
     <string name="settings_automatic_backup">Ativar backup automático</string>
     <string name="settings_automatic_export">Ativar exportação automática de planilha</string>
-    <string name="settings_automatic_description">O arquivo será salvo no local selecionado substituindo o arquivo salvo anteriormente todos os dias à meia-noite.</string>
+    <string name="settings_automatic_description">O arquivo será salvo no local selecionado substituindo o arquivo salvo anteriormente.</string>
     <string name="settings_automatic_last_save">Último salvamento:</string>
     <string name="settings_automatic_save_time">Hora de salvamento</string>
+    <string name="settings_automatic_save_interval">Repetir a cada</string>
     <string name="settings_export_csv_format">Formato de hora da planilha</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

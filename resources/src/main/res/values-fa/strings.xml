@@ -480,9 +480,10 @@
     <string name="settings_save_description">قبل از ذخیره کردن، از اینکه آخرین نسخه برنامه را نصب کرده اید مطمئن شوید تا از ناسازگاری جلوگیری شود.</string>
     <string name="settings_automatic_backup">فعال کردن نسخه پشتیبان خودکار.</string>
     <string name="settings_automatic_export">فعال کردن خروجی اکسل خودکار.</string>
-    <string name="settings_automatic_description">فایل در محل قبلی ذخیره خواهد شد و هر روز ساعت 12 بامداد فایل قبلی را بازنویسی خواهد کرد.</string>
+    <string name="settings_automatic_description">فایل در محل قبلی ذخیره خواهد شد و فایل قبلی را بازنویسی خواهد کرد.</string>
     <string name="settings_automatic_last_save">فایل ذخیره شده قبلی:</string>
     <string name="settings_automatic_save_time">زمان ذخیره</string>
+    <string name="settings_automatic_save_interval">تکرار هر</string>
     <string name="settings_export_csv_format">قالب زمان صفحه‌گسترده</string>
     <string name="settings_date_time_format_local">محلی</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -480,9 +480,10 @@ Als de waarde \"json\" is: een json-gecodeerde lijst met aanvullende gegevens, d
     <string name="settings_save_description">Zorg ervoor dat je de nieuwste versie van de app hebt geïnstalleerd voordat je opslaat om conflicten te voorkomen.</string>
     <string name="settings_automatic_backup">Schakel automatische back-up in</string>
     <string name="settings_automatic_export">Schakel automatische spreadsheetexport in</string>
-    <string name="settings_automatic_description">Het bestand wordt elke dag om middernacht op de geselecteerde locatie opgeslagen en vervangt het eerder opgeslagen bestand.</string>
+    <string name="settings_automatic_description">Het bestand wordt op de geselecteerde locatie opgeslagen en vervangt het eerder opgeslagen bestand.</string>
     <string name="settings_automatic_last_save">Laatste opslag:</string>
     <string name="settings_automatic_save_time">Opslagtijd</string>
+    <string name="settings_automatic_save_interval">Herhaal elke</string>
     <string name="settings_export_csv_format">Spreadsheet-tijdnotatie</string>
     <string name="settings_date_time_format_local">Lokaal</string>
     <string name="settings_date_time_format_utc">UTC</string>

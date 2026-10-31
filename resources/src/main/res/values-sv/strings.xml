@@ -480,9 +480,10 @@ Om värdet är \"json\": en json-kodad lista med ytterligare data, samma som anv
     <string name="settings_save_description">Innan du sparar, se till att du har den senaste versionen av appen för att förhindra datakonflikter.</string>
     <string name="settings_automatic_backup">Aktivera automatisk säkerhetskopiering</string>
     <string name="settings_automatic_export">Aktivera automatisk export av kalkylblad</string>
-    <string name="settings_automatic_description">Filen kommer att sparas på den valda platsen och åsidosätter tidigare sparad fil varje dag vid midnatt.</string>
+    <string name="settings_automatic_description">Filen kommer att sparas på den valda platsen och åsidosätter tidigare sparad fil.</string>
     <string name="settings_automatic_last_save">Senast sparad:</string>
     <string name="settings_automatic_save_time">Sparningstid</string>
+    <string name="settings_automatic_save_interval">Upprepa var</string>
     <string name="settings_export_csv_format">Kalkylbladets tidsformat</string>
     <string name="settings_date_time_format_local">Lokal</string>
     <string name="settings_date_time_format_utc">UTC</string>

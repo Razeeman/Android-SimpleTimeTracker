@@ -480,9 +480,10 @@ Jika \"json\", daftar yang dikodekan dalam json dengan data tambahan, sama seper
     <string name="settings_save_description">Sebelum menyimpan, pastikan Anda memiliki versi terbaru aplikasi terinstal untuk menghindari masalah teknis.</string>
     <string name="settings_automatic_backup">Aktifkan pencadangan otomatis</string>
     <string name="settings_automatic_export">Aktifkan ekspor spreadsheet otomatis</string>
-    <string name="settings_automatic_description">File akan disimpan di lokasi yang dipilih menggantikan file yang disimpan sebelumnya setiap hari pada tengah malam.</string>
+    <string name="settings_automatic_description">File akan disimpan di lokasi yang dipilih menggantikan file yang disimpan sebelumnya.</string>
     <string name="settings_automatic_last_save">Penyimpanan terakhir:</string>
     <string name="settings_automatic_save_time">Waktu simpan</string>
+    <string name="settings_automatic_save_interval">Ulangi setiap</string>
     <string name="settings_export_csv_format">Format waktu spreadsheet</string>
     <string name="settings_date_time_format_local">Lokal</string>
     <string name="settings_date_time_format_utc">UTC</string>

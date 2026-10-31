@@ -480,9 +480,10 @@
     <string name="settings_save_description">לפני השמירה, יש לוודא שהגרסה העדכנית ביותר של היישום מותקנת כדי להימנע מקונפליקטים.</string>
     <string name="settings_automatic_backup">הפעל גיבוי אוטומטי</string>
     <string name="settings_automatic_export">הפעל ייצוא גיליון אלקטרוני אוטומטי</string>
-    <string name="settings_automatic_description">הקובץ יישמר במיקום שנבחר ויחליף את הקובץ שנשמר בעבר מדי יום בחצות.</string>
+    <string name="settings_automatic_description">הקובץ יישמר במיקום שנבחר ויחליף את הקובץ שנשמר בעבר.</string>
     <string name="settings_automatic_last_save">שמירה אחרונה:</string>
     <string name="settings_automatic_save_time">זמן שמירה</string>
+    <string name="settings_automatic_save_interval">חזרה כל</string>
     <string name="settings_export_csv_format">תבנית זמן של גיליון אלקטרוני</string>
     <string name="settings_date_time_format_local">מקומי</string>
     <string name="settings_date_time_format_utc">UTC</string>

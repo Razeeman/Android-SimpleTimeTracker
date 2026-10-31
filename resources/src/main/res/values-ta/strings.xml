@@ -480,9 +480,10 @@
     <string name="settings_save_description">முரண்பாடுகளைத் தவிர்க்க, சேமிப்பதற்கு முன், செயலியின் சமீபத்திய பதிப்பை நிறுவியுள்ளீர்கள் என்பதை உறுதிசெய்யுங்கள்.</string>
     <string name="settings_automatic_backup">தானியங்கி காப்புப்பிரதியை இயக்கு</string>
     <string name="settings_automatic_export">தானியங்கி விரிதாள் ஏற்றுமதியை இயக்கு</string>
-    <string name="settings_automatic_description">தேர்ந்தெடுக்கப்பட்ட இடத்தில் ஒவ்வொரு நாளும் நள்ளிரவில் முன்பு சேமித்த கோப்பை மேலெழுதி கோப்பு சேமிக்கப்படும்.</string>
+    <string name="settings_automatic_description">தேர்ந்தெடுக்கப்பட்ட இடத்தில் முன்பு சேமித்த கோப்பை மேலெழுதி கோப்பு சேமிக்கப்படும்.</string>
     <string name="settings_automatic_last_save">கடைசி சேமிப்பு:</string>
     <string name="settings_automatic_save_time">சேமிக்கும் நேரம்</string>
+    <string name="settings_automatic_save_interval">மீண்டும் செய்யும் இடைவெளி</string>
     <string name="settings_export_csv_format">விரிதாள் நேர வடிவம்</string>
     <string name="settings_date_time_format_local">உள்ளூர்</string>
     <string name="settings_date_time_format_utc">யூடிசி</string>

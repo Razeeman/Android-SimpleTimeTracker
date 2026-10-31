@@ -480,9 +480,10 @@
     <string name="settings_save_description">저장 전, 충돌을 방지하기 위해 앱이 최신 버전인지 확인하세요.</string>
     <string name="settings_automatic_backup">자동 백업 활성화</string>
     <string name="settings_automatic_export">자동 스프레드시트로 내보내기 활성화</string>
-    <string name="settings_automatic_description">파일은 매 새벽에 선택된 경로에 기존 파일에 덮어쓰일 것 입니다.</string>
+    <string name="settings_automatic_description">파일은 선택된 경로에 기존 파일에 덮어쓰일 것 입니다.</string>
     <string name="settings_automatic_last_save">마지막 저장:</string>
     <string name="settings_automatic_save_time">저장 시간</string>
+    <string name="settings_automatic_save_interval">반복 간격</string>
     <string name="settings_export_csv_format">스프레드시트 시간 형식</string>
     <string name="settings_date_time_format_local">로컬</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -480,9 +480,10 @@ Hvis \"json\" – en JSON-kodet liste med yderligere data, som svarer til format
     <string name="settings_save_description">Sørg for, at den nyeste version af appen er installeret, før du gemmer, så du undgår konflikter.</string>
     <string name="settings_automatic_backup">Aktivér automatisk sikkerhedskopiering</string>
     <string name="settings_automatic_export">Aktivér automatisk regnearkseksport</string>
-    <string name="settings_automatic_description">Filen gemmes på den valgte placering hver dag ved midnat og overskriver den tidligere gemte fil.</string>
+    <string name="settings_automatic_description">Filen gemmes på den valgte placering og overskriver den tidligere gemte fil.</string>
     <string name="settings_automatic_last_save">Senest gemt:</string>
     <string name="settings_automatic_save_time">Tidspunkt for lagring</string>
+    <string name="settings_automatic_save_interval">Gentag hver</string>
     <string name="settings_export_csv_format">Tidsformat i regneark</string>
     <string name="settings_date_time_format_local">Lokal tid</string>
     <string name="settings_date_time_format_utc">UTC</string>

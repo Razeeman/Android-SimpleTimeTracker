@@ -480,9 +480,10 @@
     <string name="settings_save_description">قبل الحفظ، تأكد من تثبيت أحدث إصدار من التطبيق لتجنب التعارضات.</string>
     <string name="settings_automatic_backup">تفعيل الحفظ الاحتياطي التلقائي</string>
     <string name="settings_automatic_export">تفعيل التصدير التلقائي لجدول البيانات</string>
-    <string name="settings_automatic_description">سيحفظ الملف في المكان المحدد كل يوم عند منتصف الليل متجاوزاً الملف المحفوظ مسبقًا.</string>
+    <string name="settings_automatic_description">سيحفظ الملف في المكان المحدد متجاوزاً الملف المحفوظ مسبقًا.</string>
     <string name="settings_automatic_last_save">آخر المحفوظات:</string>
     <string name="settings_automatic_save_time">وقت الحفظ</string>
+    <string name="settings_automatic_save_interval">تكرار كل</string>
     <string name="settings_export_csv_format">تنسيق الوقت لجداول البيانات</string>
     <string name="settings_date_time_format_local">محلي</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -480,9 +480,10 @@ Se é \"json\", unha lista codificada en json con datos adicionais, igual que a 
     <string name="settings_save_description">Antes de gardar, asegúrate de ter a última versión da aplicación instalada para evitar conflitos.</string>
     <string name="settings_automatic_backup">Activar copia de seguridade automática</string>
     <string name="settings_automatic_export">Activar exportación automática de follas de cálculo</string>
-    <string name="settings_automatic_description">O ficheiro gardarase na localización escollida sobrescribindo o ficheiro gardado previamente todolos días á medianoite.</string>
+    <string name="settings_automatic_description">O ficheiro gardarase na localización escollida sobrescribindo o ficheiro gardado previamente.</string>
     <string name="settings_automatic_last_save">Derradeiro gardado:</string>
     <string name="settings_automatic_save_time">Hora de gardado</string>
+    <string name="settings_automatic_save_interval">Repetir cada</string>
     <string name="settings_export_csv_format">Formato de hora da folla de cálculo</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

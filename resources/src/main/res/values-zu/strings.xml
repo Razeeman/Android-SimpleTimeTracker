@@ -480,9 +480,10 @@ Uma kungu-\"json\", uhlu olubhalwe ngekhodi ye-json olunedatha eyengeziwe, olufa
     <string name="settings_save_description">Ngaphambi kokulondoloza, qinisekisa ukuthi unayo inguqulo yakamuva yohlelo lokusebenza ukuvimbela ukungqubuzana.</string>
     <string name="settings_automatic_backup">Vumela isipele esizenzakalelayo</string>
     <string name="settings_automatic_export">Vumela ukuthunyelwa okuzenzakalelayo kwe-spreadsheet</string>
-    <string name="settings_automatic_description">Ifayela lizogcinwa endaweni ekhethiwe, lishintshe ifayela langaphambilini nsuku zonke ngo-00:00.</string>
+    <string name="settings_automatic_description">Ifayela lizogcinwa endaweni ekhethiwe, lishintshe ifayela langaphambilini.</string>
     <string name="settings_automatic_last_save">Ukugcina kokulondoloza:</string>
     <string name="settings_automatic_save_time">Isikhathi sokugcina</string>
+    <string name="settings_automatic_save_interval">Phinda njalo</string>
     <string name="settings_export_csv_format">Ifomethi yesikhathi se-spreadsheet</string>
     <string name="settings_date_time_format_local">Lendawo</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -480,9 +480,10 @@ Dacă este \"json\", o listă codificată în json cu date suplimentare, aceeaș
     <string name="settings_save_description">Înainte de a salva, asigură-te ca ai ultima versiune a aplicației pentru a evita conflictele.</string>
     <string name="settings_automatic_backup">Activează backup-ul automat</string>
     <string name="settings_automatic_export">Activează exportul automat către o foaie de calcul</string>
-    <string name="settings_automatic_description">Fișierul va fi salvat în locația aleasă, suprascriind fișierul salvat anterior, în fiecare zi la miezul nopții.</string>
+    <string name="settings_automatic_description">Fișierul va fi salvat în locația aleasă, suprascriind fișierul salvat anterior.</string>
     <string name="settings_automatic_last_save">Ultima salvare:</string>
     <string name="settings_automatic_save_time">Ora de salvare</string>
+    <string name="settings_automatic_save_interval">Repetă la fiecare</string>
     <string name="settings_export_csv_format">Format orar al foii de calcul</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

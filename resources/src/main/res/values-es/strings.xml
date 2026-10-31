@@ -480,9 +480,10 @@ Si es \"json\", una lista codificada en json con datos adicionales, igual que la
     <string name="settings_save_description">Antes de guardar, asegúrese de que tiene la última versión de la aplicación instalada para evitar conflictos.</string>
     <string name="settings_automatic_backup">Habilitar copia de seguridad automática</string>
     <string name="settings_automatic_export">Habilitar la exportación automática de hojas de cálculo</string>
-    <string name="settings_automatic_description">El archivo se guardará en la ubicación seleccionada anulando el archivo guardado previamente todos los días a la medianoche.</string>
+    <string name="settings_automatic_description">El archivo se guardará en la ubicación seleccionada anulando el archivo guardado previamente.</string>
     <string name="settings_automatic_last_save">Último guardado:</string>
     <string name="settings_automatic_save_time">Hora de guardado</string>
+    <string name="settings_automatic_save_interval">Repetir cada</string>
     <string name="settings_export_csv_format">Formato de hora de hoja de cálculo</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

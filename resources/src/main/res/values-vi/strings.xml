@@ -480,9 +480,10 @@ Nếu là \"json\", danh sách được mã hóa json có dữ liệu bổ sung,
     <string name="settings_save_description">Trước khi lưu, hãy đảm bảo rằng bạn đã cài đặt phiên bản mới nhất của ứng dụng để tránh xung đột.</string>
     <string name="settings_automatic_backup">Bật sao lưu tự động</string>
     <string name="settings_automatic_export">Bật tính năng xuất bảng tính tự động</string>
-    <string name="settings_automatic_description">Tệp sẽ được lưu ở vị trí đã chọn ghi đè tệp đã lưu trước đó vào lúc nửa đêm hàng ngày.</string>
+    <string name="settings_automatic_description">Tệp sẽ được lưu ở vị trí đã chọn ghi đè tệp đã lưu trước đó.</string>
     <string name="settings_automatic_last_save">Lần lưu cuối cùng:</string>
     <string name="settings_automatic_save_time">Thời gian lưu</string>
+    <string name="settings_automatic_save_interval">Lặp lại mỗi</string>
     <string name="settings_export_csv_format">Định dạng thời gian bảng tính</string>
     <string name="settings_date_time_format_local">Cục bộ</string>
     <string name="settings_date_time_format_utc">UTC</string>

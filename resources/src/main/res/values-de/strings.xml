@@ -480,9 +480,10 @@ Bei \"json\": eine json-kodierte Liste mit zusätzlichen Daten, wie sie auch fü
     <string name="settings_save_description">Stelle vor dem Speichern sicher, dass die neueste Version der App installiert ist, um Konflikte zu vermeiden.</string>
     <string name="settings_automatic_backup">Aktivieren Sie die automatische Sicherung</string>
     <string name="settings_automatic_export">Aktivieren Sie den automatischen Tabellenexport</string>
-    <string name="settings_automatic_description">Die Datei wird am ausgewählten Ort gespeichert und überschreibt die zuvor gespeicherte Datei jeden Tag um Mitternacht.</string>
+    <string name="settings_automatic_description">Die Datei wird am ausgewählten Ort gespeichert und überschreibt die zuvor gespeicherte Datei.</string>
     <string name="settings_automatic_last_save">Zuletzt gespeichert:</string>
     <string name="settings_automatic_save_time">Speicherzeit</string>
+    <string name="settings_automatic_save_interval">Wiederholen alle</string>
     <string name="settings_export_csv_format">Tabellenkalkulations-Zeitformat</string>
     <string name="settings_date_time_format_local">Lokal</string>
     <string name="settings_date_time_format_utc">UTC</string>

@@ -480,9 +480,10 @@ Si la valeur est \"json\", une liste encodée en json avec des données supplém
     <string name="settings_save_description">Avant de créer une sauvegarde, assurez-vous que la dernière version de l\'application est installée pour éviter tout conflit.</string>
     <string name="settings_automatic_backup">Activer la sauvegarde automatique</string>
     <string name="settings_automatic_export">Activer l\'export automatique de la feuille de calcul</string>
-    <string name="settings_automatic_description">Le fichier sera enregistré à l\'emplacement sélectionné en remplaçant le fichier précédemment enregistré tous les jours à minuit.</string>
+    <string name="settings_automatic_description">Le fichier sera enregistré à l\'emplacement sélectionné en remplaçant le fichier précédemment enregistré.</string>
     <string name="settings_automatic_last_save">Dernière sauvegarde:</string>
     <string name="settings_automatic_save_time">Heure d\'enregistrement</string>
+    <string name="settings_automatic_save_interval">Répéter toutes les</string>
     <string name="settings_export_csv_format">Format horaire dans la feuille de calcul</string>
     <string name="settings_date_time_format_local">Local</string>
     <string name="settings_date_time_format_utc">UTC</string>

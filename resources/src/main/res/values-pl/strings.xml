@@ -480,9 +480,10 @@ Jeśli wartość to \"json\" — zakodowana w json lista z dodatkowymi danymi, t
     <string name="settings_save_description">Przed zapisaniem upewnij się, że masz zainstalowaną najnowszą wersję aplikacji, aby uniknąć błędów.</string>
     <string name="settings_automatic_backup">Włącz automatyczną kopię zapasową</string>
     <string name="settings_automatic_export">Włącz automatyczny eksport do arkusza kalkulacyjnego</string>
-    <string name="settings_automatic_description">Plik zostanie zapisany w wybranej lokalizacji, zastępując poprzednio zapisany plik codziennie o północy.</string>
+    <string name="settings_automatic_description">Plik zostanie zapisany w wybranej lokalizacji, zastępując poprzednio zapisany plik.</string>
     <string name="settings_automatic_last_save">Ostatni zapis:</string>
     <string name="settings_automatic_save_time">Czas zapisu</string>
+    <string name="settings_automatic_save_interval">Powtarzaj co</string>
     <string name="settings_export_csv_format">Format czasu arkusza kalkulacyjnego</string>
     <string name="settings_date_time_format_local">Lokalny</string>
     <string name="settings_date_time_format_utc">UTC</string>

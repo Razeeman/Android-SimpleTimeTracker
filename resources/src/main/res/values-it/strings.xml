@@ -480,9 +480,10 @@ Se è \"json\", un elenco codificato in json con dati aggiuntivi, uguale a quell
     <string name="settings_save_description">Prima di salvare, assicurati di avere l\'ultima versione dell\'app per evitare conflitti.</string>
     <string name="settings_automatic_backup">Abilita il backup automatico</string>
     <string name="settings_automatic_export">Abilita l\'esportazione automatica del foglio di lavoro</string>
-    <string name="settings_automatic_description">Il file verrà salvato nella posizione selezionata sovrascrivendo il file salvato in precedenza ogni giorno a mezzanotte.</string>
+    <string name="settings_automatic_description">Il file verrà salvato nella posizione selezionata sovrascrivendo il file salvato in precedenza.</string>
     <string name="settings_automatic_last_save">Ultimo salvataggio:</string>
     <string name="settings_automatic_save_time">Ora di salvataggio</string>
+    <string name="settings_automatic_save_interval">Ripeti ogni</string>
     <string name="settings_export_csv_format">Formato orario del foglio di calcolo</string>
     <string name="settings_date_time_format_local">Locale</string>
     <string name="settings_date_time_format_utc">UTC</string>
