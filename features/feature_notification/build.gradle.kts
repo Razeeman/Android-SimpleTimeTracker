@@ -20,4 +20,7 @@ dependencies {
     implementation(libs.google.gson)
     implementation(libs.google.dagger)
     ksp(libs.kapt.dagger)
+
+    testImplementation(libs.test.junit)
+    testImplementation(libs.test.mockito)
 }

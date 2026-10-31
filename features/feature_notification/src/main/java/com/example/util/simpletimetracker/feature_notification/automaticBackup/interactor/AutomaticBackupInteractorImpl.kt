@@ -21,7 +21,8 @@ class AutomaticBackupInteractorImpl @Inject constructor(
 
     override suspend fun schedule() {
         val triggerTime = prefsInteractor.getAutomaticBackupTriggerTime()
-        val timestamp = getTimeLeftToTimestampInteractor.execute(triggerTime)
+        val interval = prefsInteractor.getAutomaticBackupInterval()
+        val timestamp = getTimeLeftToTimestampInteractor.execute(triggerTime, interval)
         scheduler.schedule(timestamp)
     }
 
