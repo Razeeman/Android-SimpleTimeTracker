@@ -1,0 +1,9 @@
+- Add multiple goals per period, yearly and overall goals
+- Add gradient activity colors
+- Add reminders for timer start or stop and category or tag conditions
+- Show total duration without overlaps in detailed statistics on click on Total
+- Add records list on Wear OS
+- Add option to always show activity colors in widgets
+- Expand automation actions and add data queries
+- Add some translations
+- General bug fixes and improvements
