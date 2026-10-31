@@ -12,7 +12,7 @@ class ColorSelectionMapper @Inject constructor(
     fun createDefaultGradient(startColor: AppColor): AppColor.Gradient {
         val endColor = if (startColor.colorInt.isEmpty()) {
             AppColor(
-                colorId = (startColor.colorId + 1) % ColorMapper.getAvailableColors().size,
+                colorId = (startColor.colorId + 2) % ColorMapper.getAvailableColors().size,
                 colorInt = "",
                 gradient = null,
             )
