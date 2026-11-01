@@ -103,6 +103,7 @@ class SwipeDetector(
     private val onSlideStart: () -> Unit = {},
     onSlide: (offset: Float, initialDirection: Direction, event: MotionEvent) -> Unit = { _, _, _ -> },
     private val onSlideStop: () -> Unit = {},
+    onFling: (velocity: Float, initialDirection: Direction) -> Unit = { _, _ -> },
 ) {
 
     enum class Direction {
@@ -163,6 +164,20 @@ class SwipeDetector(
                 }
 
                 return false
+            }
+
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+                val velocity = when (initialDirection) {
+                    Direction.LEFT,
+                    Direction.RIGHT,
+                    -> velocityX
+
+                    Direction.UP,
+                    Direction.DOWN,
+                    -> velocityY
+                }
+                onFling(velocity, initialDirection)
+                return super.onFling(e1, e2, velocityX, velocityY)
             }
 
             private fun doSlide(e1: MotionEvent, e2: MotionEvent) {
