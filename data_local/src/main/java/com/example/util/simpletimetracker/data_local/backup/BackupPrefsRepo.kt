@@ -109,6 +109,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_USE_MILITARY_TIME_FORMAT
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_USE_MONTH_DAY_TIME_FORMAT
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_WIDGET_TRANSPARENCY_PERCENT
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CALENDAR_TYPE
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty0
 
@@ -238,6 +239,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_NUMBER_OF_CARDS, ::numberOfCards),
             PrefsProcessor(KEY_USE_MILITARY_TIME_FORMAT, ::useMilitaryTimeFormat),
             PrefsProcessor(KEY_USE_MONTH_DAY_TIME_FORMAT, ::useMonthDayTimeFormat),
+            PrefsProcessor(KEY_CALENDAR_TYPE, ::calendarType),
             PrefsProcessor(KEY_DURATION_PRESENTATION_FORMAT, ::durationFormat),
             PrefsProcessor(KEY_SHOW_SECONDS, ::showSeconds),
             PrefsProcessor(KEY_KEEP_SCREEN_ON, ::keepScreenOn),

@@ -149,6 +149,8 @@ interface PrefsRepo {
 
     var useMonthDayTimeFormat: Boolean
 
+    var calendarType: String
+
     var durationFormat: Int
 
     var showSeconds: Boolean

@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.data_local.prefs
 
 import android.content.SharedPreferences
+import com.example.util.simpletimetracker.domain.calendar.mapper.CalendarTypeMapper
 import com.example.util.simpletimetracker.data_local.base.delegate
 import com.example.util.simpletimetracker.data_local.base.logPrefsDataAccess
 import com.example.util.simpletimetracker.domain.widget.model.StatisticsWidgetData
@@ -349,6 +350,10 @@ class PrefsRepoImpl @Inject constructor(
 
     override var useMonthDayTimeFormat: Boolean by prefs.delegate(
         KEY_USE_MONTH_DAY_TIME_FORMAT, false,
+    )
+
+    override var calendarType: String by prefs.delegate(
+        KEY_CALENDAR_TYPE, CalendarTypeMapper.STORED_GREGORIAN,
     )
 
     override var durationFormat: Int by prefs.delegate(
@@ -829,6 +834,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_NUMBER_OF_CARDS = "numberOfCards" // 0 - default width
         const val KEY_USE_MILITARY_TIME_FORMAT = "useMilitaryTimeFormat"
         const val KEY_USE_MONTH_DAY_TIME_FORMAT = "useMonthDayTimeFormat"
+        const val KEY_CALENDAR_TYPE = "calendarType"
         const val KEY_DURATION_PRESENTATION_FORMAT = "durationPresentationFormat"
         const val KEY_SHOW_SECONDS = "showSeconds"
         const val KEY_KEEP_SCREEN_ON = "keepScreenOn"

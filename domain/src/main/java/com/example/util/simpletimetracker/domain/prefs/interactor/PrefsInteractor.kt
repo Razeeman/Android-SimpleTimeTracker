@@ -3,6 +3,8 @@ package com.example.util.simpletimetracker.domain.prefs.interactor
 import com.example.util.simpletimetracker.domain.base.CommentFilterType
 import com.example.util.simpletimetracker.domain.base.ContainerOptionsModel
 import com.example.util.simpletimetracker.domain.base.DurationFormat
+import com.example.util.simpletimetracker.domain.calendar.mapper.CalendarTypeMapper
+import com.example.util.simpletimetracker.domain.calendar.model.CalendarType
 import com.example.util.simpletimetracker.domain.fileExport.ExportDateTimeFormat
 import com.example.util.simpletimetracker.domain.darkMode.interactor.IsSystemInDarkModeInteractor
 import com.example.util.simpletimetracker.domain.darkMode.model.DarkMode
@@ -33,6 +35,7 @@ class PrefsInteractor @Inject constructor(
     private val isSystemInDarkModeInteractor: IsSystemInDarkModeInteractor,
     private val isExportFormatAvailableInteractor: IsExportFormatAvailableInteractor,
     private val daysOfWeekDataLocalMapper: DaysOfWeekDataLocalMapper,
+    private val calendarTypeMapper: CalendarTypeMapper,
 ) {
 
     suspend fun getFilteredTypesOnList(): List<Long> = withContext(Dispatchers.IO) {
@@ -734,6 +737,14 @@ class PrefsInteractor @Inject constructor(
 
     suspend fun setUseMonthDayTimeFormat(isUsed: Boolean) = withContext(Dispatchers.IO) {
         prefsRepo.useMonthDayTimeFormat = isUsed
+    }
+
+    suspend fun getCalendarType(): CalendarType = withContext(Dispatchers.IO) {
+        calendarTypeMapper.map(prefsRepo.calendarType)
+    }
+
+    suspend fun setCalendarType(calendarType: CalendarType) = withContext(Dispatchers.IO) {
+        prefsRepo.calendarType = calendarTypeMapper.map(calendarType)
     }
 
     suspend fun getDurationFormat(): DurationFormat = withContext(Dispatchers.IO) {
