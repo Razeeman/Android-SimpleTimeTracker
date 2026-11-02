@@ -67,6 +67,7 @@ enum class SettingsBlock {
     DisplayWidgetActivityColors,
     DisplayMilitaryFormat,
     DisplayMonthDayFormat,
+    DisplayCalendarType,
     DisplayDurationFormat,
     DisplayDurationFormatHint,
     DisplayShowSeconds,

@@ -48,6 +48,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
 
     private var parent: SettingsParent? = null
     private var isCollapsed: Boolean = true
+    private var calendarChangeInProgress: Boolean = false
 
     override fun init(parent: SettingsParent) {
         this.parent = parent
@@ -106,6 +107,7 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
     override fun onSpinnerPositionSelected(block: SettingsBlock, position: Int) {
         when (block) {
             SettingsBlock.DisplayDaysInCalendar -> onDaysInCalendarSelected(position)
+            SettingsBlock.DisplayCalendarType -> onCalendarTypeSelected(position)
             SettingsBlock.DisplayWidgetBackground -> onWidgetTransparencySelected(position)
             SettingsBlock.DisplayDurationFormat -> onDurationFormatSelected(position)
             SettingsBlock.DisplaySortActivities -> onRecordTypeOrderSelected(position)
@@ -168,6 +170,23 @@ class SettingsDisplayViewModelDelegate @Inject constructor(
             prefsInteractor.setDaysInCalendar(newValue)
             parent?.updateContent()
             recordsContainerUpdateInteractor.sendCalendarDaysUpdated()
+        }
+    }
+
+    private fun onCalendarTypeSelected(position: Int) {
+        delegateScope.launch {
+            if (calendarChangeInProgress) return@launch
+            calendarChangeInProgress = true
+            try {
+                val newValue = settingsMapper.toCalendarType(position)
+                val currentValue = prefsInteractor.getCalendarType()
+                if (newValue == currentValue) return@launch
+                prefsInteractor.setCalendarType(newValue)
+                externalViewsInteractor.onCalendarChange()
+                router.restartApp()
+            } finally {
+                calendarChangeInProgress = false
+            }
         }
     }
 

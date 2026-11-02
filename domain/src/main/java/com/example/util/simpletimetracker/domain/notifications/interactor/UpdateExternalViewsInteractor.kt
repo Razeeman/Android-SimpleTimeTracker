@@ -361,6 +361,18 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
+    suspend fun onCalendarChange() {
+        runUpdates(
+            Update.WidgetStatistics,
+            Update.WidgetSingleTypes,
+            Update.NotificationTypes,
+            Update.NotificationWithControls,
+            Update.WidgetGrid,
+            Update.GoalReschedule(),
+            Update.GoalTagReschedule(),
+        )
+    }
+
     suspend fun onUseMilitaryChange() {
         runUpdates(
             Update.NotificationTypes,

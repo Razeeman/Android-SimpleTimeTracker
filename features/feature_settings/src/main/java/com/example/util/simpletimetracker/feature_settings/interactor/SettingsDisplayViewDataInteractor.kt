@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.views.SettingsCheckboxWithRangeViewData.RangeViewData
 import com.example.util.simpletimetracker.feature_settings.views.SettingsSpinnerEvenViewData
 import com.example.util.simpletimetracker.feature_settings.mapper.SettingsMapper
+import com.example.util.simpletimetracker.feature_settings.viewData.CalendarTypeViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DaysInCalendarViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.DurationFormatViewData
 import com.example.util.simpletimetracker.feature_settings.viewData.RepeatButtonViewData
@@ -202,6 +203,16 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
                 subtitle = loadUseMonthDayTimeViewData(),
                 isChecked = prefsInteractor.getUseMonthDayTimeFormat(),
             )
+            val calendarTypeViewData = loadCalendarTypeViewData()
+            result += SettingsSpinnerViewData(
+                block = SettingsBlock.DisplayCalendarType,
+                title = resourceRepo.getString(R.string.settings_calendar),
+                value = calendarTypeViewData.items
+                    .getOrNull(calendarTypeViewData.selectedPosition)?.text.orEmpty(),
+                items = calendarTypeViewData.items,
+                selectedPosition = calendarTypeViewData.selectedPosition,
+                processSameItemSelected = false,
+            )
             val durationFormatViewData = loadDurationFormatViewData()
             result += SettingsSpinnerViewData(
                 block = SettingsBlock.DisplayDurationFormat,
@@ -367,6 +378,11 @@ class SettingsDisplayViewDataInteractor @Inject constructor(
     private suspend fun loadDaysInCalendarViewData(): DaysInCalendarViewData {
         return prefsInteractor.getDaysInCalendar()
             .let(settingsMapper::toDaysInCalendarViewData)
+    }
+
+    private suspend fun loadCalendarTypeViewData(): CalendarTypeViewData {
+        return prefsInteractor.getCalendarType()
+            .let(settingsMapper::toCalendarTypeViewData)
     }
 
     private suspend fun loadWidgetTransparencyViewData(): WidgetTransparencyViewData {

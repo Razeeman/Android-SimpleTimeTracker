@@ -397,6 +397,9 @@ This allows you to see how much time you\'re spending on productive versus unpro
     <string name="settings_language">Language</string>
     <string name="settings_use_military_time">Use 24-hour format</string>
     <string name="settings_use_monthday_time">Use Month/Day date format</string>
+    <string name="settings_calendar">Calendar</string>
+    <string name="calendar_gregorian">Gregorian</string>
+    <string name="calendar_persian">Persian (Solar Hijri)</string>
     <string name="settings_duration_format">Duration format</string>
     <string name="settings_duration_format_proportional">Proportional</string>
     <string name="settings_show_seconds">Show seconds</string>
