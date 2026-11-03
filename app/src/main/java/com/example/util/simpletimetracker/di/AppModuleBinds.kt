@@ -7,7 +7,9 @@ import com.example.util.simpletimetracker.core.interactor.GetUntrackedRecordsInt
 import com.example.util.simpletimetracker.core.interactor.IsExportFormatAvailableInteractorImpl
 import com.example.util.simpletimetracker.core.mapper.AppColorMapperImpl
 import com.example.util.simpletimetracker.core.provider.ApplicationDataProvider
+import com.example.util.simpletimetracker.core.provider.CalendarTypeProviderImpl
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
+import com.example.util.simpletimetracker.domain.calendar.CalendarTypeProvider
 import com.example.util.simpletimetracker.domain.color.mapper.AppColorMapper
 import com.example.util.simpletimetracker.domain.daysOfWeek.interactor.GetCurrentDayInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.GetUntrackedRecordsInteractor
@@ -23,6 +25,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface AppModuleBinds {
+
+    @Binds
+    fun bindCalendarTypeProvider(impl: CalendarTypeProviderImpl): CalendarTypeProvider
 
     @Binds
     @Singleton

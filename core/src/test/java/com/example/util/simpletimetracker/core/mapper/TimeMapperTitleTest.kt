@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subjec
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.resourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.MutableCalendarTypeProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import org.junit.AfterClass
@@ -51,7 +52,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -127,7 +128,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[3] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -260,7 +261,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -354,7 +355,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",

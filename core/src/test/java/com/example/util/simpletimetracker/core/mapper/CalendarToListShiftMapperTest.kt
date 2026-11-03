@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapperT
 import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapperTest.Subject.timeMapper
 import com.example.util.simpletimetracker.core.mapper.CalendarToListShiftMapperTest.Subject.tuesday
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.MutableCalendarTypeProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.daysOfWeek.mapper.DaysInCalendarMapper
@@ -33,7 +34,7 @@ class CalendarToListShiftMapperTest {
         val resourceRepo: ResourceRepo = Mockito.mock(ResourceRepo::class.java)
         val localeProvider: LocaleProvider = Mockito.mock(LocaleProvider::class.java)
         val currentTimestampProvider: CurrentTimestampProvider = Mockito.mock(CurrentTimestampProvider::class.java)
-        val timeMapper: TimeMapper = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+        val timeMapper: TimeMapper = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
         val daysInCalendarMapper: DaysInCalendarMapper = DaysInCalendarMapper()
     }
 

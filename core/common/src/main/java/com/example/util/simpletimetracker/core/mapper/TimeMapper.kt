@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.repo.BaseResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.base.DurationFormat
+import com.example.util.simpletimetracker.domain.calendar.CalendarTypeProvider
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.extension.padDuration
@@ -26,6 +27,7 @@ class TimeMapper @Inject constructor(
     localeProvider: LocaleProvider,
     private val resourceRepo: BaseResourceRepo,
     private val currentTimestampProvider: CurrentTimestampProvider,
+    private val calendarTypeProvider: CalendarTypeProvider,
 ) {
 
     private val locale: Locale by lazy { localeProvider.get() }

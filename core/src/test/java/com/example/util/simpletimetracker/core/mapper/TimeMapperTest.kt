@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.res
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTest.Subject.secondInMs
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.MutableCalendarTypeProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import org.junit.After
@@ -71,6 +72,7 @@ class TimeMapperTest {
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
                 currentTimestampProvider = currentTimestampProvider,
+                calendarTypeProvider = MutableCalendarTypeProvider(),
             )
 
             assertEquals(
@@ -106,6 +108,7 @@ class TimeMapperTest {
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
                 currentTimestampProvider = currentTimestampProvider,
+                calendarTypeProvider = MutableCalendarTypeProvider(),
             )
 
             assertEquals(
@@ -170,6 +173,7 @@ class TimeMapperTest {
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
                 currentTimestampProvider = currentTimestampProvider,
+                calendarTypeProvider = MutableCalendarTypeProvider(),
             )
 
             assertEquals(
@@ -234,6 +238,7 @@ class TimeMapperTest {
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
                 currentTimestampProvider = currentTimestampProvider,
+                calendarTypeProvider = MutableCalendarTypeProvider(),
             )
 
             assertEquals(
@@ -298,6 +303,7 @@ class TimeMapperTest {
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
                 currentTimestampProvider = currentTimestampProvider,
+                calendarTypeProvider = MutableCalendarTypeProvider(),
             )
 
             assertEquals(
@@ -376,6 +382,7 @@ class TimeMapperTest {
                 localeProvider = localeProvider,
                 resourceRepo = resourceRepo,
                 currentTimestampProvider = currentTimestampProvider,
+                calendarTypeProvider = MutableCalendarTypeProvider(),
             )
 
             assertEquals(

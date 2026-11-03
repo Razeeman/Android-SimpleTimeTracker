@@ -7,6 +7,8 @@ package com.example.util.simpletimetracker.di
 
 import com.example.util.simpletimetracker.core.repo.BaseResourceRepo
 import com.example.util.simpletimetracker.data.WearResourceRepo
+import com.example.util.simpletimetracker.domain.calendar.CalendarTypeProvider
+import com.example.util.simpletimetracker.provider.WearCalendarTypeProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,6 +18,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface AppModuleBinds {
+
+    @Binds
+    fun bindCalendarTypeProvider(impl: WearCalendarTypeProvider): CalendarTypeProvider
 
     @Binds
     @Singleton

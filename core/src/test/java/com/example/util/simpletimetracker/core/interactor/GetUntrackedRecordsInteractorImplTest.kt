@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.core.interactor
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.mapper.UntrackedRangeMapper
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.MutableCalendarTypeProvider
 import com.example.util.simpletimetracker.core.repo.BaseResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
@@ -45,6 +46,7 @@ class GetUntrackedRecordsInteractorImplTest {
             localeProvider = mock(LocaleProvider::class.java),
             resourceRepo = mock(BaseResourceRepo::class.java),
             currentTimestampProvider = mock(CurrentTimestampProvider::class.java),
+            calendarTypeProvider = MutableCalendarTypeProvider(),
         )
         val range = Range(timestamp(1, 7, 55), timestamp(1, 8, 5))
         val firstRecord = Record(

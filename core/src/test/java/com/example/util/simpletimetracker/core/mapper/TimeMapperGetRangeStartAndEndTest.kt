@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAnd
 import com.example.util.simpletimetracker.core.mapper.TimeMapperGetRangeStartAndEndTest.Subject.resourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.MutableCalendarTypeProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import com.example.util.simpletimetracker.domain.record.model.Range
@@ -44,7 +45,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -132,7 +133,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -304,7 +305,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -446,7 +447,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
@@ -588,7 +589,7 @@ class TimeMapperGetRangeStartAndEndTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[4] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider)
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
 
             assertEquals(
                 "Test failed for params $input",
