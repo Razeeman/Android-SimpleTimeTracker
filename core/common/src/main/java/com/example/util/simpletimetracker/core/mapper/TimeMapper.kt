@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
 import com.example.util.simpletimetracker.core.extension.shift
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.TimeZoneProvider
 import com.example.util.simpletimetracker.core.repo.BaseResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.domain.base.DurationFormat
@@ -18,7 +19,6 @@ import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -28,6 +28,7 @@ class TimeMapper @Inject constructor(
     private val resourceRepo: BaseResourceRepo,
     private val currentTimestampProvider: CurrentTimestampProvider,
     private val calendarTypeProvider: CalendarTypeProvider,
+    private val timeZoneProvider: TimeZoneProvider,
 ) {
 
     private val locale: Locale by lazy { localeProvider.get() }
@@ -37,29 +38,41 @@ class TimeMapper @Inject constructor(
     private val timeFormatMilitary by lazy { SimpleDateFormat("HH:mm", locale) }
     private val timeFormatMilitaryWithSeconds by lazy { SimpleDateFormat("HH:mm:ss", locale) }
 
-    private val dateFormat by lazy { SimpleDateFormat("MMM d", locale) }
+    private val dateFormat = "MMM d"
 
-    private val dateTimeFormat by lazy { SimpleDateFormat("MMM d h:mm a", locale) }
-    private val dateTimeFormatWithSeconds by lazy { SimpleDateFormat("MMM d h:mm:ss a", locale) }
-    private val dateTimeFormatMilitary by lazy { SimpleDateFormat("MMM d HH:mm", locale) }
-    private val dateTimeFormatMilitaryWithSeconds by lazy { SimpleDateFormat("MMM d HH:mm:ss", locale) }
+    private val dateTimeFormat = "MMM d h:mm a"
+    private val dateTimeFormatWithSeconds = "MMM d h:mm:ss a"
+    private val dateTimeFormatMilitary = "MMM d HH:mm"
+    private val dateTimeFormatMilitaryWithSeconds = "MMM d HH:mm:ss"
 
-    private val dateTimeYearFormat by lazy { SimpleDateFormat("MMM d yyyy h:mm a", locale) }
-    private val dateTimeYearFormatMilitary by lazy { SimpleDateFormat("MMM d yyyy HH:mm", locale) }
+    private val dateTimeYearFormat = "MMM d yyyy h:mm a"
+    private val dateTimeYearFormatMilitary = "MMM d yyyy HH:mm"
 
-    private val dayDateYearFormat by lazy { SimpleDateFormat("E, MMM d yyyy", locale) }
-    private val dateYearFormat by lazy { SimpleDateFormat("MMM d yyyy", locale) }
-    private val shortDayFormatMMDD by lazy { SimpleDateFormat("MM.dd", locale) }
-    private val shortDayFormatDDMM by lazy { SimpleDateFormat("dd.MM", locale) }
-    private val shortMonthFormat by lazy { SimpleDateFormat("MMM", locale) }
-    private val shortYearFormat by lazy { SimpleDateFormat("yy", locale) }
+    private val dayDateYearFormat = "E, MMM d yyyy"
+    private val dateYearFormat = "MMM d yyyy"
+    private val shortDayFormatMMDD = "MM.dd"
+    private val shortDayFormatDDMM = "dd.MM"
+    private val shortMonthFormat = "MMM"
+    private val shortYearFormat = "yy"
 
-    private val dayTitleFormat by lazy { SimpleDateFormat("E, MMM d", locale) }
-    private val weekTitleFormat by lazy { SimpleDateFormat("MMM d", locale) }
-    private val monthTitleFormat by lazy { SimpleDateFormat("MMMM", locale) }
-    private val yearTitleFormat by lazy { SimpleDateFormat("yyyy", locale) }
+    private val dayTitleFormat = "E, MMM d"
+    private val weekTitleFormat = "MMM d"
+    private val monthTitleFormat = "MMMM"
+    private val yearTitleFormat = "yyyy"
+
+    // Locale and calendar selection changes restart the app, so only the pattern varies.
+    private val calendarFormats = mutableMapOf<String, SimpleDateFormat>()
 
     private val lock = Any()
+
+    private fun formatCalendarField(
+        timestamp: Long,
+        pattern: String,
+    ): String = synchronized(lock) {
+        return calendarFormats.getOrPut(pattern) {
+            SimpleDateFormat(pattern, locale)
+        }.formatInCurrentTimeZone(timestamp)
+    }
 
     // 12:21
     fun formatTime(
@@ -77,8 +90,8 @@ class TimeMapper @Inject constructor(
     // Mar 11
     fun formatDate(
         time: Long,
-    ): String = synchronized(lock) {
-        return dateFormat.formatInCurrentTimeZone(time)
+    ): String {
+        return formatCalendarField(time, dateFormat)
     }
 
     // Mar 11 12:21
@@ -86,50 +99,45 @@ class TimeMapper @Inject constructor(
         time: Long,
         useMilitaryTime: Boolean,
         showSeconds: Boolean,
-    ): String = synchronized(lock) {
-        return if (useMilitaryTime) {
+    ): String {
+        val pattern = if (useMilitaryTime) {
             if (showSeconds) dateTimeFormatMilitaryWithSeconds else dateTimeFormatMilitary
         } else {
             if (showSeconds) dateTimeFormatWithSeconds else dateTimeFormat
-        }.formatInCurrentTimeZone(time)
+        }
+        return formatCalendarField(time, pattern)
     }
 
     // Mar 12 2021 12:21
-    fun formatDateTimeYear(time: Long, useMilitaryTime: Boolean): String = synchronized(lock) {
-        return if (useMilitaryTime) {
-            dateTimeYearFormatMilitary
-        } else {
-            dateTimeYearFormat
-        }.formatInCurrentTimeZone(time)
+    fun formatDateTimeYear(time: Long, useMilitaryTime: Boolean): String {
+        val pattern = if (useMilitaryTime) dateTimeYearFormatMilitary else dateTimeYearFormat
+        return formatCalendarField(time, pattern)
     }
 
     // Mar 12 2021
-    fun formatDateYear(time: Long): String = synchronized(lock) {
-        return dateYearFormat.formatInCurrentTimeZone(time)
+    fun formatDateYear(time: Long): String {
+        return formatCalendarField(time, dateYearFormat)
     }
 
     // Tue, Mar 12 2021
-    fun formatDayDateYear(time: Long): String = synchronized(lock) {
-        return dayDateYearFormat.formatInCurrentTimeZone(time)
+    fun formatDayDateYear(time: Long): String {
+        return formatCalendarField(time, dayDateYearFormat)
     }
 
     // 12.03
-    fun formatShortDay(time: Long, useMonthDayTimeFormat: Boolean): String = synchronized(lock) {
-        if (useMonthDayTimeFormat) {
-            return shortDayFormatMMDD.formatInCurrentTimeZone(time)
-        } else {
-            return shortDayFormatDDMM.formatInCurrentTimeZone(time)
-        }
+    fun formatShortDay(time: Long, useMonthDayTimeFormat: Boolean): String {
+        val pattern = if (useMonthDayTimeFormat) shortDayFormatMMDD else shortDayFormatDDMM
+        return formatCalendarField(time, pattern)
     }
 
     // Mar
-    fun formatShortMonth(time: Long): String = synchronized(lock) {
-        return shortMonthFormat.formatInCurrentTimeZone(time)
+    fun formatShortMonth(time: Long): String {
+        return formatCalendarField(time, shortMonthFormat)
     }
 
     // 21
-    fun formatShortYear(time: Long): String = synchronized(lock) {
-        return shortYearFormat.formatInCurrentTimeZone(time)
+    fun formatShortYear(time: Long): String {
+        return formatCalendarField(time, shortYearFormat)
     }
 
     fun toTimestampShifted(
@@ -579,17 +587,17 @@ class TimeMapper @Inject constructor(
     fun toDayDateTitle(
         daysFromToday: Int,
         startOfDayShift: Long,
-    ): String = synchronized(lock) {
+    ): String {
         val calendar = toDayDateTimestamp(daysFromToday, startOfDayShift)
-        return dayTitleFormat.formatInCurrentTimeZone(calendar)
+        return formatCalendarField(calendar, dayTitleFormat)
     }
 
     fun toDayShortDateTitle(
         daysFromToday: Int,
         startOfDayShift: Long,
-    ): String = synchronized(lock) {
+    ): String {
         val calendar = toDayDateTimestamp(daysFromToday, startOfDayShift)
-        return weekTitleFormat.formatInCurrentTimeZone(calendar)
+        return formatCalendarField(calendar, weekTitleFormat)
     }
 
     fun toWeekDateTimestamp(
@@ -617,52 +625,62 @@ class TimeMapper @Inject constructor(
         weeksFromToday: Int,
         startOfDayShift: Long,
         firstDayOfWeek: DayOfWeek,
-    ): String = synchronized(lock) {
+    ): String {
         val (rangeStart, rangeEnd) = toWeekDateTimestamp(weeksFromToday, startOfDayShift, firstDayOfWeek)
-        return weekTitleFormat.formatInCurrentTimeZone(rangeStart) +
-            " - " + weekTitleFormat.formatInCurrentTimeZone(rangeEnd)
+        return formatCalendarField(rangeStart, weekTitleFormat) +
+            " - " + formatCalendarField(rangeEnd, weekTitleFormat)
     }
 
     fun toMonthDateTimestamp(
         monthsFromToday: Int,
         startOfDayShift: Long,
     ): Long {
-        val calendar = Calendar.getInstance()
-
-        return calendar.apply {
-            timeInMillis = currentTimestampProvider.get()
-            shift(-startOfDayShift)
-            add(Calendar.MONTH, monthsFromToday)
-        }.timeInMillis
+        return toCalendarDateTimestamp(
+            amount = monthsFromToday,
+            startOfDayShift = startOfDayShift,
+            field = Calendar.MONTH
+        )
     }
 
     fun toMonthDateTitle(
         monthsFromToday: Int,
         startOfDayShift: Long,
-    ): String = synchronized(lock) {
+    ): String {
         val calendar = toMonthDateTimestamp(monthsFromToday, startOfDayShift)
-        return monthTitleFormat.formatInCurrentTimeZone(calendar)
+        return formatCalendarField(calendar, monthTitleFormat)
     }
 
     fun toYearDateTimestamp(
         yearsFromToday: Int,
         startOfDayShift: Long,
     ): Long {
-        val calendar = Calendar.getInstance()
-
-        return calendar.apply {
-            timeInMillis = currentTimestampProvider.get()
-            shift(-startOfDayShift)
-            add(Calendar.YEAR, yearsFromToday)
-        }.timeInMillis
+        return toCalendarDateTimestamp(
+            amount = yearsFromToday,
+            startOfDayShift = startOfDayShift,
+            field = Calendar.YEAR
+        )
     }
 
     fun toYearDateTitle(
         yearsFromToday: Int,
         startOfDayShift: Long,
-    ): String = synchronized(lock) {
+    ): String {
         val calendar = toYearDateTimestamp(yearsFromToday, startOfDayShift)
-        return yearTitleFormat.formatInCurrentTimeZone(calendar)
+        return formatCalendarField(calendar, yearTitleFormat)
+    }
+
+    private fun toCalendarDateTimestamp(
+        amount: Int,
+        startOfDayShift: Long,
+        field: Int,
+    ): Long {
+        val calendar = Calendar.getInstance()
+
+        return calendar.apply {
+            timeInMillis = currentTimestampProvider.get()
+            shift(-startOfDayShift)
+            add(field, amount)
+        }.timeInMillis
     }
 
     fun getStartOfDayTimeStamp(
@@ -775,7 +793,7 @@ class TimeMapper @Inject constructor(
     }
 
     private fun SimpleDateFormat.formatInCurrentTimeZone(time: Long): String {
-        val currentTimeZone = TimeZone.getDefault()
+        val currentTimeZone = timeZoneProvider.get()
         if (timeZone.id != currentTimeZone.id) {
             timeZone = currentTimeZone
         }
