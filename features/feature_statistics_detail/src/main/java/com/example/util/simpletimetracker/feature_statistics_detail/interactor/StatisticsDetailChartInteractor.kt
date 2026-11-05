@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.feature_statistics_detail.interactor
 
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.extension.setWeekToFirstDay
+import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
@@ -477,8 +478,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift,
+                rangeStart = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                rangeEnd = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }
@@ -507,8 +508,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift,
+                rangeStart = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                rangeEnd = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }
@@ -534,8 +535,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift,
+                rangeStart = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                rangeEnd = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }
@@ -561,8 +562,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = rangeStart + startOfDayShift,
-                rangeEnd = rangeEnd + startOfDayShift,
+                rangeStart = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                rangeEnd = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }

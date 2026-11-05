@@ -5,6 +5,7 @@ import com.example.util.simpletimetracker.core.extension.shiftTimeStamp
 import com.example.util.simpletimetracker.core.interactor.LanguageInteractor
 import com.example.util.simpletimetracker.core.mapper.FileExportDateTimeFormatMapper
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
+import com.example.util.simpletimetracker.core.model.CalendarDate
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.calendar.model.CalendarType
@@ -382,10 +383,8 @@ class SettingsMapper @Inject constructor(
     }
 
     fun toUseMonthDayTimeHint(useMonthDay: Boolean): String {
-        val hintTime = Calendar.getInstance().apply {
-            set(Calendar.DAY_OF_MONTH, 13)
-            set(Calendar.MONTH, 6)
-        }.timeInMillis
+        val year = timeMapper.toCalendarDate(System.currentTimeMillis()).year
+        val hintTime = timeMapper.toTimestamp(CalendarDate(year = year, month = 7, day = 13))
 
         return timeMapper.formatShortDay(
             time = hintTime,
