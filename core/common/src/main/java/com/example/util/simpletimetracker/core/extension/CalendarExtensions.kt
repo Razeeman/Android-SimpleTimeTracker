@@ -10,7 +10,10 @@ fun Calendar.setToStartOfDay() {
 }
 
 fun Calendar.setWeekToFirstDay() {
-    val another = Calendar.getInstance()
+    val another = Calendar.getInstance(timeZone)
+    // Match week rules to avoid jumping forward into a skipped date (e.g. Apia, Dec 30, 2011),
+    // where subtracting seven days afterward can land on the wrong weekday.
+    another.firstDayOfWeek = this@setWeekToFirstDay.firstDayOfWeek
     another.timeInMillis = timeInMillis
 
     val currentTime = another.timeInMillis

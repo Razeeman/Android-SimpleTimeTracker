@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.util.simpletimetracker.core.base.BaseFragment
+import com.example.util.simpletimetracker.core.model.CalendarDate
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.extension.orZero
 import java.util.Calendar
@@ -18,7 +19,7 @@ class DateDialogFragment : BaseFragment<Binding>() {
         InsetConfiguration.DoNotApply
 
     interface OnDateSetListener {
-        fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int)
+        fun onDateSet(date: CalendarDate)
     }
 
     var listener: OnDateSetListener? = null
@@ -41,12 +42,12 @@ class DateDialogFragment : BaseFragment<Binding>() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH),
         ) { _, year, monthOfYear, dayOfMonth ->
-            listener?.onDateSet(year, monthOfYear, dayOfMonth)
+            listener?.onDateSet(CalendarDate(year, monthOfYear + 1, dayOfMonth))
         }
     }
 
-    fun getSelectedDate(): Triple<Int, Int, Int> = with(binding) {
-        return Triple(datePicker.year, datePicker.month, datePicker.dayOfMonth)
+    fun getSelectedDate(): CalendarDate = with(binding) {
+        return CalendarDate(datePicker.year, datePicker.month + 1, datePicker.dayOfMonth)
     }
 
     companion object {

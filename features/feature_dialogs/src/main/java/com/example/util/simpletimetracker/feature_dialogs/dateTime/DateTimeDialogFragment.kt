@@ -26,7 +26,6 @@ import com.example.util.simpletimetracker.navigation.params.screen.DateTimeDialo
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,6 +53,7 @@ class DateTimeDialogFragment :
         key = ARGS_PARAMS, default = DateTimeDialogParams(),
     )
     private var newTimestamp: Long = 0
+    private var resultDelivered: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,8 +81,7 @@ class DateTimeDialogFragment :
         _binding = null
     }
 
-    override fun onDateSet(year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val date = CalendarDate(year = year, month = monthOfYear + 1, day = dayOfMonth)
+    override fun onDateSet(date: CalendarDate) {
         newTimestamp = timeMapper.replaceDate(newTimestamp, date)
     }
 
@@ -99,12 +98,12 @@ class DateTimeDialogFragment :
 
     private fun initUx() {
         binding.btnDateTimeDialogPositive.setOnClickListener {
+            if (resultDelivered) return@setOnClickListener
             timeDialogFragment?.getSelectedTime()?.let { (hour, minute, seconds) ->
                 onTimeSet(hour, minute, seconds)
             }
-            dateDialogFragment?.getSelectedDate()?.let { (year, month, day) ->
-                onDateSet(year, month, day)
-            }
+            dateDialogFragment?.getSelectedDate()?.let(::onDateSet)
+            resultDelivered = true
             dateTimeDialogListeners.forEach {
                 // Drop milliseconds.
                 it.onDateTimeSet((newTimestamp / 1000) * 1000, params.tag)

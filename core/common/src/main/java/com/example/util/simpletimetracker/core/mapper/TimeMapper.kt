@@ -449,13 +449,14 @@ class TimeMapper @Inject constructor(
         shift: Int,
         firstDayOfWeek: DayOfWeek,
         startOfDayShift: Long,
+        referenceTimestamp: Long = currentTimestampProvider.get(),
     ): Range {
         val dayOfWeek = toCalendarDayOfWeek(firstDayOfWeek)
         val rangeStart: Long
         val rangeEnd: Long
         val calendar = Calendar.getInstance().apply {
             this.firstDayOfWeek = dayOfWeek
-            timeInMillis = currentTimestampProvider.get()
+            timeInMillis = referenceTimestamp
 
             shift(-startOfDayShift)
             when (rangeLength) {

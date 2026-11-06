@@ -52,7 +52,7 @@ class TimeDialogFragment : BaseFragment<Binding>() {
         }
 
         inputTimePickerSeconds.isVisible = showSeconds
-        inputTimePickerSeconds.requestFocus()
+        if (showSeconds) inputTimePickerSeconds.requestFocus()
         etTimePickerSeconds.filters = listOf(MinMaxFilter(0, 59)).toTypedArray()
         etTimePickerSeconds.setText(calendar.get(Calendar.SECOND).toString())
         etTimePickerSeconds.doAfterTextChanged {
@@ -62,6 +62,7 @@ class TimeDialogFragment : BaseFragment<Binding>() {
     }
 
     fun getSelectedTime(): Triple<Int, Int, Int> = with(binding) {
+        timePicker.clearFocus()
         return Triple(timePicker.currentHour, timePicker.currentMinute, getSeconds())
     }
 
