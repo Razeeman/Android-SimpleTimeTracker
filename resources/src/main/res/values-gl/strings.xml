@@ -3,9 +3,9 @@
 
     <string name="day_of_week_monday">Lun</string>
     <string name="day_of_week_tuesday">Mar</string>
-    <string name="day_of_week_wednesday">Mié</string>
-    <string name="day_of_week_thursday">Jue</string>
-    <string name="day_of_week_friday">Vie</string>
+    <string name="day_of_week_wednesday">Mér</string>
+    <string name="day_of_week_thursday">Xov</string>
+    <string name="day_of_week_friday">Ven</string>
     <string name="day_of_week_saturday">Sáb</string>
     <string name="day_of_week_sunday">Dom</string>
 
@@ -40,10 +40,10 @@
     <string name="range_year">Ano</string>
     <string name="range_overall">Global</string>
     <string name="range_custom">Intervalo</string>
-    <string name="range_select_day">Seleccione unha data</string>
-    <string name="range_select_week">Seleccione una semana</string>
-    <string name="range_select_month">Seleccione un mes</string>
-    <string name="range_select_year">Seleccione un ano</string>
+    <string name="range_select_day">Selecciona unha data</string>
+    <string name="range_select_week">Selecciona unha semana</string>
+    <string name="range_select_month">Selecciona un mes</string>
+    <string name="range_select_year">Selecciona un ano</string>
     <string name="range_select_range">Seleccionar intervalo</string>
     <string name="range_back_to_today">Voltar a hoxe</string>
 
@@ -72,7 +72,7 @@
     <string name="uncategorized_time_name">Sen categorizar</string>
     <string name="multitask_time_name">Multitarefa</string>
     <string name="record_types_empty">Non se engadiron actividades</string>
-    <string name="record_tag_selection_hint">Seleccione etiqueta</string>
+    <string name="record_tag_selection_hint">Escolle etiqueta</string>
     <string name="time_now">Agora</string>
     <string name="cannot_be_in_the_future">O tempo non pode estar no futuro</string>
 
@@ -91,12 +91,12 @@
     <string name="statistics_total_tracked">Total rexistrado</string>
     <string name="statistics_total_tracked_short">Total</string>
     <string name="statistics_hint">Fai clic na tarxeta para ver estatísticas detalladas</string>
-    <string name="statistics_daily_calendar_hint">Almanaque diario</string>
+    <string name="statistics_daily_calendar_hint">Calendario diario</string>
     <string name="no_statistics_exist">As estatísticas amosaranse aquí</string>
 
     <!--  Goals  -->
     <string name="no_goals_exist">Os obxectivos amosaranse aquí</string>
-    <string name="all_goals_finished">Todos os obxectivos están completados</string>
+    <string name="all_goals_finished">Tódolos obxectivos están completados</string>
     <string name="hide_finished_goals">Agochar os obxectivos completados</string>
     <string name="goal_add_hint">Edita a actividade ou categoría para asignarlle un obxectivo</string>
 
@@ -123,7 +123,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_category_color_hint">Cor</string>
     <string name="change_category_types_hint">Actividades</string>
     <string name="change_category_save">Gardar</string>
-    <string name="change_category_message_choose_name">Escolla un nome</string>
+    <string name="change_category_message_choose_name">Escolle un nome</string>
 
     <!--  Change record tag  -->
     <string name="change_record_tag_archived">Etiqueta arquivada</string>
@@ -161,10 +161,10 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_record_continue_hint">Eliminará o rexistro actual e continuará rexistrando esta actividade</string>
     <string name="change_record_repeat">@string/running_records_repeat</string>
     <string name="change_record_repeat_hint">Repetirá o rexistro desta actividade</string>
-    <string name="change_record_duplicate">Duplicada</string>
-    <string name="change_record_duplicate_hint">Creará una copia deste rexistro</string>
+    <string name="change_record_duplicate">Duplicar</string>
+    <string name="change_record_duplicate_hint">Creará unha copia deste rexistro</string>
     <string name="change_record_move">Mover</string>
-    <string name="change_record_move_hint">Trocará a hora de comenzo sen trocar a duración</string>
+    <string name="change_record_move_hint">Trocará a hora de comezo sen trocar a duración</string>
     <string name="change_record_merge">Unir</string>
     <string name="change_record_merge_hint">Engadirá este tempo ao rexistro anterior</string>
     <string name="change_record_multiselect">Selección múltiple</string>
@@ -181,16 +181,16 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_record_untracked_time_hint">O tempo sen seguimento é o tempo no que non se rexistrou ningunha actividade.</string>
     <string name="change_record_previous_not_found">Non se atopou o rexistro anterior</string>
     <string name="change_record_next_not_found">Non se atopou o seguinte rexistro</string>
-    <string name="change_record_date_time_start">Comenzar</string>
+    <string name="change_record_date_time_start">Comezar</string>
     <string name="change_record_date_time_end">Fin</string>
     <string name="change_record_date_time_duration">Duración</string>
 
     <!--  Change record type  -->
     <string name="change_record_type_archived">Actividade arquivada</string>
-    <string name="change_record_type_name_hint">Insira un novo nome</string>
-    <string name="change_record_type_new_icon_text_hint">Insira novo texto</string>
+    <string name="change_record_type_name_hint">Insire un nome novo</string>
+    <string name="change_record_type_new_icon_text_hint">Insire texto novo</string>
     <string name="change_record_type_color_hint">Cor</string>
-    <string name="change_record_favourite_colors_hint">Cores favoritos</string>
+    <string name="change_record_favourite_colors_hint">Cores favoritas</string>
     <string name="change_record_type_icon_image_hint">Icona</string>
     <string name="change_record_type_icon_text_hint">Texto</string>
     <string name="change_record_type_icon_emoji_hint">Emoji</string>
@@ -198,7 +198,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_record_type_no_icon">Sen icona</string>
     <string name="change_record_favourite_icons_hint">Iconas favoritas</string>
     <string name="change_record_type_save">Gardar</string>
-    <string name="change_record_message_choose_name">Escolla un nome</string>
+    <string name="change_record_message_choose_name">Escolle un nome</string>
     <string name="change_record_message_name_exist">Nome xa usado</string>
     <string name="change_record_type_note_hint">Nota</string>
     <string name="change_record_type_categories_empty">Non se engadiron categorías</string>
@@ -208,7 +208,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_record_type_additional_hint">Adicional</string>
     <string name="change_record_type_default_duration">Duración predeterminada</string>
     <string name="change_record_type_default_duration_hint">As actividades con duración predeterminada rexístranse inmediatamente ao facer clic.</string>
-    <string name="change_record_type_goal_time_description">A notificación mostrarase despois de acadar o obxectivo.</string>
+    <string name="change_record_type_goal_time_description">A notificación amosarase despois de acadar o obxectivo.</string>
     <string name="change_record_type_duplicate_hint">Creará unha copia desta actividade</string>
     <string name="change_record_type_session_goal_time">Sesión</string>
     <string name="change_record_type_daily_goal_time">@string/range_day</string>
@@ -217,7 +217,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_record_type_yealy_goal_time">@string/range_year</string>
     <string name="change_record_type_overall_goal_time">@string/range_overall</string>
     <string name="change_record_type_goal_duration">Duración</string>
-    <string name="change_record_type_goal_count">Contar</string>
+    <string name="change_record_type_goal_count">Cantidade</string>
     <string name="change_record_type_delete_alert">Eliminar?</string>
     <string name="change_record_type_more_fields">Máis</string>
     <string name="change_record_type_less_fields">Menos</string>
@@ -242,9 +242,9 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="change_complex_previous_activity">Actividade previa</string>
     <string name="change_complex_disallow_only_previous">Só deter actividades escollidas</string>
     <string name="change_complex_rule_removed">Regra eliminada</string>
-    <string name="change_complex_rule_choose_action">Elige Acción</string>
-    <string name="change_complex_rule_choose_condition">Elixe condicións</string>
-    <string name="change_complex_tag_value_dialog_message">Elixe cando establecer o valor</string>
+    <string name="change_complex_rule_choose_action">Elixe acción</string>
+    <string name="change_complex_rule_choose_condition">Escolle condicións</string>
+    <string name="change_complex_tag_value_dialog_message">Escolle cando establecer o valor</string>
     <string name="change_complex_tag_value_set_later">Ao comezar</string>
 
     <!--  Activity suggestions  -->
@@ -264,21 +264,21 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="date_time_dialog_seconds">Segundos</string>
 
     <string name="card_size_default">Anchura por defecto</string>
-    <string name="card_size_hint">Número de cartas por fila</string>
+    <string name="card_size_hint">Número de tarxetas por fila</string>
 
-    <string name="card_order_hint">Arrastre e solte para reorganizar</string>
+    <string name="card_order_hint">Arrastra e solta para reorganizar</string>
 
     <string name="chart_filter_hint">Filtro</string>
     <string name="types_compare_hint">Comparación</string>
     <string name="types_filter_show_all">Amosar todo</string>
-    <string name="types_filter_hide_all">Ocultar todo</string>
+    <string name="types_filter_hide_all">Agochar todo</string>
     <string name="show">Amosar</string>
-    <string name="hide">Ocultar</string>
+    <string name="hide">Agochar</string>
     <string name="chart_filter_type_hint">Tipo de filtro</string>
     <string name="chart_filter_categories_empty">Non se engadiron etiquetas</string>
 
     <string name="duration_dialog_save">Gardar</string>
-    <string name="duration_dialog_disable">Deshabilitar</string>
+    <string name="duration_dialog_disable">Desactivar</string>
 
     <string name="color_selection_base_color_hint">Escoller cor base</string>
     <string name="color_selection_adjust_color_hint">Axustar a cor</string>
@@ -286,24 +286,24 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
 
     <string name="csv_export_settings_filename_hint">Nome de ficheiro personalizado</string>
     <string name="csv_export_settings_filename_default">Por defecto</string>
-    <string name="csv_export_settings_hint">Escolla un intervalo de tempo ou exporte todolos rexistros</string>
+    <string name="csv_export_settings_hint">Escolle un intervalo de tempo ou exporta tódolos rexistros</string>
 
     <string name="schedule_exact_alarms">A configuración do sistema debe estar habilitada para esta aplicación para programar alarmas exactas</string>
     <string name="post_notifications">A configuración do sistema debe estar habilitada para esta aplicación para amosar notificacións</string>
-    <string name="schedule_exact_alarms_open_settings">Aberto</string>
+    <string name="schedule_exact_alarms_open_settings">Abrir</string>
 
     <string name="default_types_selection_title">Escoller actividades para engadir</string>
     <string name="default_types_selection_hide">Non voltar a amosar</string>
 
     <string name="record_tag_selection_exclude_activities_title">Excluir actividades</string>
-    <string name="record_tag_selection_exclude_activities_hint">O recadro de diálogo non se amosará para as actividades escollidas.</string>
+    <string name="record_tag_selection_exclude_activities_hint">O cadro de diálogo non se amosará para as actividades escollidas.</string>
 
     <string name="select_activities_to_autostart_pomodoro_title">Escoller actividades</string>
-    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro iniciarase automáticamente cando se comencen as actividades escollidas.</string>
+    <string name="select_activities_to_autostart_pomodoro_hint">Pomodoro iniciarase automaticamente cando se comencen as actividades escollidas.</string>
 
     <!--  Records all  -->
     <string name="records_all_sort_order">Ordenar os rexistros</string>
-    <string name="records_all_sort_time_started">Tempo de comenzo</string>
+    <string name="records_all_sort_time_started">Tempo de comezo</string>
     <string name="records_all_sort_duration">Duración</string>
     <string name="records_all_days_without_records">Días sen rexistros - %s</string>
 
@@ -341,7 +341,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_repeat_last_record">Repetir derradeiro rexistro</string>
     <string name="settings_repeat_one_before_last">Repetir o rexistro anterior ao derradeiro</string>
     <string name="settings_show_untracked_time">Amosar o tempo non rexistrado nos rexistros</string>
-    <string name="settings_show_untracked_time_statistics">Mostrar o tempo non rexistrado nas estatísticas</string>
+    <string name="settings_show_untracked_time_statistics">Amosar o tempo non rexistrado nas estatísticas</string>
     <string name="settings_ignore_short_untracked">Ignorar tempo curto sen seguimento</string>
     <string name="settings_ignore_short_untracked_hint">Non amosar un tempo sen seguimento que sexa máis curto ca o tempo especificado.</string>
     <string name="settings_untracked_days_hint">Contar o tempo sen seguimento só nos días seleccionados.</string>
@@ -360,7 +360,7 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_enable_pomodoro_mode">Amosar o botón Pomodoro na pantalla principal</string>
     <string name="settings_show_goals_separately">Amosar obxectivos nunha pestana separada</string>
     <string name="settings_show_nav_bar_at_the_bottom">Amosar barra de navegación na parte inferior</string>
-    <string name="settings_enable_search_on_main">Activar a busca na pantalla principal</string>
+    <string name="settings_enable_search_on_main">Activar a procura na pantalla principal</string>
     <string name="settings_allow_multitasking">Permitir rexistro multitarefa</string>
     <string name="settings_disallow_multitasking">Non permitir multitarefa</string>
     <string name="settings_allow_multitasking_hint">Se está desactivado, ao iniciar un novo temporizador deterase automaticamente o das outras actividades.</string>
@@ -374,8 +374,8 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_retroactive_tracking_mode">Activar seguimento retroactivo do tempo</string>
     <string name="settings_retroactive_tracking_mode_hint">Rexistra o tempo escollendo que actividade se realizou desde a última vez en lugar de cal se realizará a partir de agora.</string>
     <string name="settings_retroactive_multitasking_hint">A multitarefa está activada. Todas as actividades recentes tamén se rexistrarán cando se rexistre algunha actividade.</string>
-    <string name="settings_start_of_day">Troco de comenzo do día</string>
-    <string name="settings_start_of_day_hint">O comenzo do día desprazarase a cantidade de tempo especificada, cara adiante ou cara atrás.</string>
+    <string name="settings_start_of_day">Desprazar o comezo do día</string>
+    <string name="settings_start_of_day_hint">O comezo do día desprazarase a cantidade de tempo especificada, cara adiante ou cara atrás.</string>
     <string name="settings_start_of_day_hint_value">Hoxe comeza ás %s</string>
     <string name="settings_inactivity_reminder">Amosar recordatorio de inactividade</string>
     <string name="settings_inactivity_reminder_hint">Amosar unha notificación se non se iniciou ningún temporizador tras o tempo especificado.</string>
@@ -397,6 +397,9 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_language">Idioma</string>
     <string name="settings_use_military_time">Usar formato de 24 horas</string>
     <string name="settings_use_monthday_time">Usar formato de data Mes/Día</string>
+    <string name="settings_calendar">Calendario</string>
+    <string name="calendar_gregorian">Gregoriano</string>
+    <string name="calendar_persian">Persa (Héxira solar)</string>
     <string name="settings_duration_format">Formato de duración</string>
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Amosar segundos</string>
@@ -426,8 +429,8 @@ Isto permíteche ver canto tempo estás dedicando a actividades produtivas front
     <string name="settings_version">Versión</string>
     <string name="settings_email_chooser_title">Enviar con…</string>
     <string name="settings_translators">Tradutores</string>
-    <string name="settings_contributors">Outros contribuíntes</string>
-    <string name="settings_automated_tracking">Seguimiento automatizado</string>
+    <string name="settings_contributors">Outros colaboradores</string>
+    <string name="settings_automated_tracking">Seguimento automatizado</string>
     <string name="settings_automated_tracking_text"><![CDATA[
 O seguimento automático é posible mediante a integración con aplicacións de terceiros que permiten automatizar accións en función de determinados eventos. Estas aplicacións, cando ocorre un evento concreto, poden enviar unha mensaxe á aplicación para iniciar ou deter o temporizador de actividade.<br/>
 <br/>
@@ -491,7 +494,7 @@ Se é \"json\", unha lista codificada en json con datos adicionais, igual que a 
     <string name="settings_restore_backup">Restaurar copia de seguridade</string>
     <string name="settings_restore_description">Os datos actuais serán eliminados.</string>
     <string name="settings_backup_options">Opcións avanzadas</string>
-    <string name="settings_dialog_message">Desexa restaurar a copia de seguridade?</string>
+    <string name="settings_dialog_message">Desexas restaurar a copia de seguridade?</string>
     <string name="settings_export_csv">Exportar folla de cálculo</string>
     <string name="settings_export_csv_description">Exportar rexistros como un ficheiro CSV para visualizar os datos no seu programa de follas de cálculo preferido.</string>
     <string name="settings_import_csv">Importación de folla de cálculo</string>
@@ -513,7 +516,7 @@ Exemplo:<br/>
     <string name="settings_file_open_error">Erro ao abrir o ficheiro</string>
     <string name="settings_file_create_error">Erro ao crear o ficheiro</string>
 
-    <string name="message_backup_saved">opia de seguridade gardada</string>
+    <string name="message_backup_saved">Copia de seguridade gardada</string>
     <string name="message_backup_restored">Copia de seguridade restaurada</string>
     <string name="message_save_error">Erro ao gardar a copia de seguridade</string>
     <string name="message_restore_error">Erro ao restaurar a copia de seguridade</string>
@@ -570,7 +573,7 @@ Exemplo:<br/>
     <string name="statistics_detail_last_record">Derradeiro</string>
     <string name="statistics_detail_record_span">Período</string>
     <string name="statistics_detail_time_since">Tempo transcorrido</string>
-    <string name="statistics_detail_streaks">Racha</string>
+    <string name="statistics_detail_streaks">Serie</string>
     <string name="statistics_detail_streaks_longest">Máis longa</string>
     <string name="statistics_detail_streaks_current">Actual</string>
     <string name="statistics_detail_streaks_completion">Taxa de finalización</string>
@@ -616,9 +619,9 @@ Exemplo:<br/>
 
     <!--  Notification  -->
     <string name="notification_inactivity_title">Recordatorio de inactividade</string>
-    <string name="notification_inactivity_text">Non esqueza rexistrar o seu tempo</string>
+    <string name="notification_inactivity_text">Non esquezas rexistrar o teu tempo</string>
     <string name="notification_activity_title">Recordatorio de actividade</string>
-    <string name="notification_activity_text">Segues facendo: %s?</string>
+    <string name="notification_activity_text">Segues a facer: %s?</string>
     <string name="notification_goal_time_description">obxectivo acadado</string>
     <string name="notification_limit_time_description">límite acadado</string>
     <string name="notification_time_started">Comezou ás %s</string>
@@ -627,23 +630,23 @@ Exemplo:<br/>
     <string name="notification_pomodoro_subtitle">Inicio: %s (%s)</string>
 
     <!--  Archive  -->
-    <string name="something_was_archived_hint">Para eliminar completamente: abre o ficheiro</string>
+    <string name="something_was_archived_hint">Para eliminar completamente: abre o arquivo</string>
     <string name="archive_hint">Fai clic na tarxeta para ver os detalles</string>
     <string name="archive_dialog_delete">Eliminar</string>
     <string name="archive_dialog_restore">Restaurar</string>
-    <string name="archive_empty">O ficheiro está baleiro</string>
+    <string name="archive_empty">O arquivo está baleiro</string>
     <string name="archive_activity_restored">Actividade restaurada</string>
     <string name="archive_tag_restored">Etiqueta restaurada</string>
     <string name="archive_activity_deleted">Actividade eliminada</string>
     <string name="archive_tag_deleted">Etiqueta eliminada</string>
-    <string name="archive_activity_deletion_message">Todos os rexistros desta actividade tamén serán eliminados.</string>
-    <string name="archive_tag_deletion_message">Todos os rexistros con esta etiqueta quedarán sen etiqueta</string>
-    <string name="archive_deletion_alert">Está seguro? Esta acción non se pode desfacer.</string>
+    <string name="archive_activity_deletion_message">Tódolos rexistros desta actividade tamén serán eliminados.</string>
+    <string name="archive_tag_deletion_message">Tódolos rexistros con esta etiqueta quedarán sen etiqueta</string>
+    <string name="archive_deletion_alert">Estás seguro? Esta acción non se pode desfacer.</string>
     <string name="archive_records_count">Rexistros</string>
     <string name="archive_tagged_records_count">Rexistros etiquetados</string>
 
     <!--  Data edit  -->
-    <string name="data_edit_hint">Estes trocos non se poden desfacer. Asegúrese de crear unha copia de seguridade antes de facer nada.</string>
+    <string name="data_edit_hint">Estes trocos non se poden desfacer. Asegúrate de crear unha copia de seguridade antes de facer nada.</string>
     <string name="data_edit_select_records">Seleccionar rexistros</string>
     <string name="data_edit_change_activity">Trocar actividade</string>
     <string name="data_edit_change_tag">Trocar etiquetas</string>
@@ -711,7 +714,7 @@ Exemplo:<br/>
     <string name="imageGroupImage">Imaxe</string>
     <string name="imageGroupNavigation">Navegación</string>
     <string name="imageGroupNotification">Notificación</string>
-    <string name="imageGroupToggle">Conexións</string>
+    <string name="imageGroupToggle">Controis</string>
 
     <!--  Shortcuts  -->
     <string name="shortcut_navigation_timers">Temporizadores</string>
@@ -750,7 +753,7 @@ Exemplo:<br/>
 
     <!--  Wear  -->
     <string name="wear_loading_error">Comproba a túa conexión e volta tentalo.</string>
-    <string name="wear_open_on_phone">Aberto no teléfono</string>
+    <string name="wear_open_on_phone">Abrir no teléfono</string>
     <string name="wear_update_required">Actualiza as aplicacións do teléfono e do reloxo á derradeira versión</string>
     <string name="wear_settings_title">Axustes</string>
     <string name="wear_settings_title_show_compact_list">Amosar lista compacta</string>
