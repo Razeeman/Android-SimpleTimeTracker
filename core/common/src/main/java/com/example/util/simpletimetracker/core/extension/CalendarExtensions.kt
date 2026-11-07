@@ -1,12 +1,20 @@
 package com.example.util.simpletimetracker.core.extension
 
 import java.util.Calendar
+import android.icu.util.Calendar as IcuCalendar
 
 fun Calendar.setToStartOfDay() {
     set(Calendar.HOUR_OF_DAY, 0)
     set(Calendar.MINUTE, 0)
     set(Calendar.SECOND, 0)
     set(Calendar.MILLISECOND, 0)
+}
+
+fun IcuCalendar.setToStartOfDay() {
+    set(IcuCalendar.HOUR_OF_DAY, 0)
+    set(IcuCalendar.MINUTE, 0)
+    set(IcuCalendar.SECOND, 0)
+    set(IcuCalendar.MILLISECOND, 0)
 }
 
 fun Calendar.setWeekToFirstDay() {
@@ -41,16 +49,31 @@ fun Calendar.shift(shift: Long): Calendar {
 
     // Compensate.
     val dstChange = dstOffsetBefore - dstOffsetAfter
-    dstOffsetBefore = dstOffsetAfter
     timeInMillis += dstChange
-    dstOffsetAfter = get(Calendar.DST_OFFSET)
 
     // If dst fix causes another dst change - rollback,
     // it means timestamp after shift falls right on the dst change period,
     // for example 30 March 2025 Germany 02:00 -> 03:00,
     // otherwise 00:00 + 2h would be 01:00 after compensation,
     // and 01:00 - 2h would be different date.
-    if (dstOffsetBefore != dstOffsetAfter) {
+    if (dstOffsetAfter != get(Calendar.DST_OFFSET)) {
+        timeInMillis -= dstChange
+    }
+    return this
+}
+
+/** Applies the same DST compensation and gap rollback as [Calendar.shift]. */
+fun IcuCalendar.shift(shift: Long): IcuCalendar {
+    if (shift == 0L) return this
+    val dstOffsetBefore = get(IcuCalendar.DST_OFFSET)
+    timeInMillis += shift
+    val dstOffsetAfter = get(IcuCalendar.DST_OFFSET)
+
+    val dstChange = dstOffsetBefore - dstOffsetAfter
+    timeInMillis += dstChange
+
+    // Roll back compensation if it crosses the DST transition again.
+    if (dstOffsetAfter != get(IcuCalendar.DST_OFFSET)) {
         timeInMillis -= dstChange
     }
     return this

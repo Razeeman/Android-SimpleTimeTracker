@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">تاریخ</string>
     <string name="date_time_dialog_time">زمان</string>
     <string name="date_time_dialog_seconds">ثانیه</string>
+    <string name="date_picker_previous">قبلی</string>
+    <string name="date_picker_next">بعدی</string>
+    <string name="date_picker_select">انتخاب</string>
+    <string name="date_picker_selected">انتخاب‌شده</string>
 
     <string name="card_size_default">عرض پیش فرض</string>
     <string name="card_size_hint">تعداد کارت ها در یک ردیف</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">زبان</string>
     <string name="settings_use_military_time">استفاده از فرمت 24 ساعته</string>
     <string name="settings_use_monthday_time">از قالب تاریخ ماه/روز استفاده کنید</string>
+    <string name="settings_calendar">تقویم</string>
+    <string name="calendar_gregorian">میلادی</string>
+    <string name="calendar_persian">فارسی (هجری شمسی)</string>
     <string name="settings_duration_format">قالب مدت‌زمان</string>
     <string name="settings_duration_format_proportional">تناسبی</string>
     <string name="settings_show_seconds">نمایش ثانیه ها</string>

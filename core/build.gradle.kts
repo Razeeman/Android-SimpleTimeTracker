@@ -12,6 +12,23 @@ applyAndroidLibrary()
 
 android {
     namespace = "${Base.namespace}.core"
+
+    testOptions {
+        unitTests.all {
+            // Allow Robolectric to access JDK internals through reflection on Java 17+.
+            it.jvmArgs(
+                "--add-opens=java.base/java.lang=ALL-UNNAMED",
+                "--add-opens=java.base/java.util=ALL-UNNAMED",
+                "--add-opens=java.base/java.io=ALL-UNNAMED",
+                "--add-opens=java.base/java.net=ALL-UNNAMED",
+                "--add-opens=java.base/java.security=ALL-UNNAMED",
+                "--add-opens=java.base/java.text=ALL-UNNAMED",
+                "--add-opens=java.base/jdk.internal.access=ALL-UNNAMED",
+                "--add-opens=java.desktop/java.awt.font=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+            )
+        }
+    }
 }
 
 // TODO remove api
@@ -43,4 +60,5 @@ dependencies {
 
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockito)
+    testImplementation(libs.test.robolectric)
 }

@@ -9,4 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false" />
+
+    <com.example.util.simpletimetracker.feature_dialogs.dateTime.PersianDatePickerView
+        android:id="@+id/persianDatePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
 </LinearLayout>

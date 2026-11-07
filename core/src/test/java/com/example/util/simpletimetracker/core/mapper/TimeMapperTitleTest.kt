@@ -5,9 +5,11 @@ import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subjec
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.hourInMs
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.localeProvider
 import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.resourceRepo
+import com.example.util.simpletimetracker.core.mapper.TimeMapperTitleTest.Subject.timeZoneProvider
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
 import com.example.util.simpletimetracker.core.provider.MutableCalendarTypeProvider
+import com.example.util.simpletimetracker.core.provider.TimeZoneProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.daysOfWeek.model.DayOfWeek
 import org.junit.AfterClass
@@ -17,7 +19,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.robolectric.ParameterizedRobolectricTestRunner
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import java.util.Locale
@@ -28,13 +30,16 @@ import java.util.concurrent.TimeUnit
 class TimeMapperTitleTest {
 
     private object Subject {
+        val timeZoneProvider: TimeZoneProvider = Mockito.mock(TimeZoneProvider::class.java).apply {
+            `when`(get()).thenReturn(TimeZone.getTimeZone("UTC"))
+        }
         val resourceRepo: ResourceRepo = Mockito.mock(ResourceRepo::class.java)
         val currentTimestampProvider: CurrentTimestampProvider = Mockito.mock(CurrentTimestampProvider::class.java)
         val localeProvider: LocaleProvider = Mockito.mock(LocaleProvider::class.java)
         val hourInMs = TimeUnit.HOURS.toMillis(1)
     }
 
-    @RunWith(Parameterized::class)
+    @RunWith(ParameterizedRobolectricTestRunner::class)
     class ToDayTitleTest(
         private val input: List<Any>,
         private val output: String,
@@ -52,7 +57,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider(), timeZoneProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -83,7 +88,7 @@ class TimeMapperTitleTest {
             }
 
             @JvmStatic
-            @Parameterized.Parameters
+            @ParameterizedRobolectricTestRunner.Parameters
             fun data() = listOf(
                 // days from today, start of day shift, current timestamp in ms
 
@@ -112,7 +117,7 @@ class TimeMapperTitleTest {
         }
     }
 
-    @RunWith(Parameterized::class)
+    @RunWith(ParameterizedRobolectricTestRunner::class)
     class ToWeekTitleTest(
         private val input: List<Any>,
         private val output: String,
@@ -128,7 +133,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[3] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider(), timeZoneProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -160,7 +165,7 @@ class TimeMapperTitleTest {
             }
 
             @JvmStatic
-            @Parameterized.Parameters
+            @ParameterizedRobolectricTestRunner.Parameters
             fun data() = listOf(
                 // weeks from today, start of day shift, first day of week, current timestamp in ms
 
@@ -245,7 +250,7 @@ class TimeMapperTitleTest {
         }
     }
 
-    @RunWith(Parameterized::class)
+    @RunWith(ParameterizedRobolectricTestRunner::class)
     class ToMonthTitleTest(
         private val input: List<Any>,
         private val output: String,
@@ -261,7 +266,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider(), timeZoneProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -292,7 +297,7 @@ class TimeMapperTitleTest {
             }
 
             @JvmStatic
-            @Parameterized.Parameters
+            @ParameterizedRobolectricTestRunner.Parameters
             fun data() = listOf(
                 // months from today, start of day shift, current timestamp in ms
 
@@ -339,7 +344,7 @@ class TimeMapperTitleTest {
         }
     }
 
-    @RunWith(Parameterized::class)
+    @RunWith(ParameterizedRobolectricTestRunner::class)
     class ToYearTitleTest(
         private val input: List<Any>,
         private val output: String,
@@ -355,7 +360,7 @@ class TimeMapperTitleTest {
             `when`(currentTimestampProvider.get()).thenReturn(input[2] as Long)
             `when`(localeProvider.get()).thenReturn(Locale.getDefault())
 
-            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider())
+            val subject = TimeMapper(localeProvider, resourceRepo, currentTimestampProvider, MutableCalendarTypeProvider(), timeZoneProvider)
 
             assertEquals(
                 "Test failed for params $input",
@@ -386,7 +391,7 @@ class TimeMapperTitleTest {
             }
 
             @JvmStatic
-            @Parameterized.Parameters
+            @ParameterizedRobolectricTestRunner.Parameters
             fun data() = listOf(
                 // years from today, start of day shift, current timestamp in ms
 

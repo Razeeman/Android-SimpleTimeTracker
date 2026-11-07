@@ -262,6 +262,10 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="date_time_dialog_date">Usuku</string>
     <string name="date_time_dialog_time">Isikhathi</string>
     <string name="date_time_dialog_seconds">Amasekhondi</string>
+    <string name="date_picker_previous">Okwedlule</string>
+    <string name="date_picker_next">Okulandelayo</string>
+    <string name="date_picker_select">Khetha</string>
+    <string name="date_picker_selected">Kukhethiwe</string>
 
     <string name="card_size_default">Ububanzi obujwayelekile</string>
     <string name="card_size_hint">Inani lamakhadi kulayini owodwa</string>
@@ -397,6 +401,9 @@ Lokhu kukuvumela ukuthi ubone isikhathi osichitha emisebenzini esebenzayo nezing
     <string name="settings_language">Ulimi</string>
     <string name="settings_use_military_time">Sebenzisa ifomethi yamahora angu-24</string>
     <string name="settings_use_monthday_time">Sebenzisa ifomethi yeNyanga/Usuku</string>
+    <string name="settings_calendar">Ikhalenda</string>
+    <string name="calendar_gregorian">ElikaGregory</string>
+    <string name="calendar_persian">ElasePheresiya (i-Hijri yelanga)</string>
     <string name="settings_duration_format">Ifomethi yesikhathi</string>
     <string name="settings_duration_format_proportional">Okulinganiselayo</string>
     <string name="settings_show_seconds">Bonisa amasekhondi</string>

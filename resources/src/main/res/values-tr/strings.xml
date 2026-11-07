@@ -262,6 +262,10 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="date_time_dialog_date">Tarih</string>
     <string name="date_time_dialog_time">Zaman</string>
     <string name="date_time_dialog_seconds">Saniye</string>
+    <string name="date_picker_previous">Önceki</string>
+    <string name="date_picker_next">Sonraki</string>
+    <string name="date_picker_select">Seç</string>
+    <string name="date_picker_selected">Seçildi</string>
 
     <string name="card_size_default">Varsayılan genişlik</string>
     <string name="card_size_hint">Bir satırdaki kart sayısı</string>
@@ -397,6 +401,9 @@ Bu, genel olarak verimli ve verimsiz aktivitelere ne kadar zaman harcadığını
     <string name="settings_language">Dil</string>
     <string name="settings_use_military_time">24-saat formatını kullan</string>
     <string name="settings_use_monthday_time">Ay/Gün tarih biçimini kullan</string>
+    <string name="settings_calendar">Takvim</string>
+    <string name="calendar_gregorian">Gregoryen</string>
+    <string name="calendar_persian">Fars (Hicri Şemsi)</string>
     <string name="settings_duration_format">Süre biçimi</string>
     <string name="settings_duration_format_proportional">Orantılı</string>
     <string name="settings_show_seconds">Saniye göster</string>

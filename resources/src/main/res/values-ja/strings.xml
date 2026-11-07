@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">日</string>
     <string name="date_time_dialog_time">時間</string>
     <string name="date_time_dialog_seconds">秒</string>
+    <string name="date_picker_previous">前へ</string>
+    <string name="date_picker_next">次へ</string>
+    <string name="date_picker_select">選択</string>
+    <string name="date_picker_selected">選択済み</string>
 
     <string name="card_size_default">デフォルト幅</string>
     <string name="card_size_hint">列あたりのカード数</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">言語</string>
     <string name="settings_use_military_time">24時間制で表示</string>
     <string name="settings_use_monthday_time">月/日の日付形式を使用する</string>
+    <string name="settings_calendar">暦</string>
+    <string name="calendar_gregorian">グレゴリオ暦</string>
+    <string name="calendar_persian">ペルシャ暦（太陽ヒジュラ暦）</string>
     <string name="settings_duration_format">時間形式</string>
     <string name="settings_duration_format_proportional">比例</string>
     <string name="settings_show_seconds">秒を表示</string>

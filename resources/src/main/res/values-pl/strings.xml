@@ -262,6 +262,10 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="date_time_dialog_date">Data</string>
     <string name="date_time_dialog_time">Czas</string>
     <string name="date_time_dialog_seconds">Sekundy</string>
+    <string name="date_picker_previous">Poprzedni</string>
+    <string name="date_picker_next">Następny</string>
+    <string name="date_picker_select">Wybierz</string>
+    <string name="date_picker_selected">Wybrano</string>
 
     <string name="card_size_default">Domyślna szerokość</string>
     <string name="card_size_hint">Liczba kart w rzędzie</string>
@@ -397,6 +401,9 @@ Pozwala to zobaczyć, ile czasu spędzasz na produktywnych i nieproduktywnych ak
     <string name="settings_language">Język</string>
     <string name="settings_use_military_time">Użyj formatu 24-godzinnego</string>
     <string name="settings_use_monthday_time">Użyj formatu daty miesiąc/dzień</string>
+    <string name="settings_calendar">Kalendarz</string>
+    <string name="calendar_gregorian">Gregoriański</string>
+    <string name="calendar_persian">Perski (słoneczny hidżry)</string>
     <string name="settings_duration_format">Format czasu trwania</string>
     <string name="settings_duration_format_proportional">Proporcjonalny</string>
     <string name="settings_show_seconds">Pokaż sekundy</string>

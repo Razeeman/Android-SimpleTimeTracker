@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">Ngày</string>
     <string name="date_time_dialog_time">Giờ</string>
     <string name="date_time_dialog_seconds">Giây</string>
+    <string name="date_picker_previous">Trước</string>
+    <string name="date_picker_next">Tiếp</string>
+    <string name="date_picker_select">Chọn</string>
+    <string name="date_picker_selected">Đã chọn</string>
 
     <string name="card_size_default">Chiều rộng mặc định</string>
     <string name="card_size_hint">Số thẻ trong một hàng</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">Ngôn ngữ</string>
     <string name="settings_use_military_time">Sử dụng định dạng 24 giờ</string>
     <string name="settings_use_monthday_time">Sử dụng định dạng ngày Tháng/Ngày</string>
+    <string name="settings_calendar">Lịch</string>
+    <string name="calendar_gregorian">Gregory</string>
+    <string name="calendar_persian">Ba Tư (Hijri mặt trời)</string>
     <string name="settings_duration_format">Định dạng thời lượng</string>
     <string name="settings_duration_format_proportional">Tỷ lệ</string>
     <string name="settings_show_seconds">Hiện giây</string>

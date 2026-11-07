@@ -262,6 +262,10 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="date_time_dialog_date">Datum</string>
     <string name="date_time_dialog_time">Tijd</string>
     <string name="date_time_dialog_seconds">Seconden</string>
+    <string name="date_picker_previous">Vorige</string>
+    <string name="date_picker_next">Volgende</string>
+    <string name="date_picker_select">Selecteren</string>
+    <string name="date_picker_selected">Geselecteerd</string>
 
     <string name="card_size_default">Standaardbreedte</string>
     <string name="card_size_hint">Aantal kaarten op een rij</string>
@@ -397,6 +401,9 @@ Dit stelt je in staat om te zien hoeveel tijd je in totaal besteedt aan producti
     <string name="settings_language">Taal</string>
     <string name="settings_use_military_time">Gebruik 24-uurs formaat</string>
     <string name="settings_use_monthday_time">Gebruik de datumnotatie Maand/Dag</string>
+    <string name="settings_calendar">Kalender</string>
+    <string name="calendar_gregorian">Gregoriaans</string>
+    <string name="calendar_persian">Perzisch (zonne-hidjri)</string>
     <string name="settings_duration_format">Duurformaat</string>
     <string name="settings_duration_format_proportional">Proportioneel</string>
     <string name="settings_show_seconds">Toon seconden</string>

@@ -262,6 +262,10 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="date_time_dialog_date">Dată</string>
     <string name="date_time_dialog_time">Timp</string>
     <string name="date_time_dialog_seconds">Secunde</string>
+    <string name="date_picker_previous">Anterior</string>
+    <string name="date_picker_next">Următor</string>
+    <string name="date_picker_select">Selectează</string>
+    <string name="date_picker_selected">Selectat</string>
 
     <string name="card_size_default">Lățime predefinită</string>
     <string name="card_size_hint">Numărul de carți dintr-un rând</string>
@@ -397,6 +401,9 @@ Acest lucru îți permite să vezi cât timp petreci în activități productive
     <string name="settings_language">Limbă</string>
     <string name="settings_use_military_time">Folosește format 24-ore</string>
     <string name="settings_use_monthday_time">Folosește format lună/zi pentru dată</string>
+    <string name="settings_calendar">Calendar</string>
+    <string name="calendar_gregorian">Gregorian</string>
+    <string name="calendar_persian">Persan (Hijri solar)</string>
     <string name="settings_duration_format">Format durată</string>
     <string name="settings_duration_format_proportional">Proporțional</string>
     <string name="settings_show_seconds">Arată secunde</string>

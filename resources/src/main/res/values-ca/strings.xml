@@ -262,6 +262,10 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="date_time_dialog_date">Data</string>
     <string name="date_time_dialog_time">Hora</string>
     <string name="date_time_dialog_seconds">Segons</string>
+    <string name="date_picker_previous">Anterior</string>
+    <string name="date_picker_next">Següent</string>
+    <string name="date_picker_select">Selecciona</string>
+    <string name="date_picker_selected">Seleccionat</string>
 
     <string name="card_size_default">Amplada per defecte</string>
     <string name="card_size_hint">Nombre de cartes per filera</string>
@@ -397,6 +401,9 @@ Això et permet veure quant de temps dediques a activitats productives versus no
     <string name="settings_language">Llenguatge</string>
     <string name="settings_use_military_time">Utilitza el format 24-hores</string>
     <string name="settings_use_monthday_time">Utilitzeu el format de data de mes/dia</string>
+    <string name="settings_calendar">Calendari</string>
+    <string name="calendar_gregorian">Gregorià</string>
+    <string name="calendar_persian">Persa (hègira solar)</string>
     <string name="settings_duration_format">Format de durada</string>
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Mostra segons</string>

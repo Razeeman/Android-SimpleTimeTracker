@@ -2,8 +2,11 @@ package com.example.util.simpletimetracker.feature_notification.core
 
 import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.core.provider.LocaleProvider
+import com.example.util.simpletimetracker.core.provider.TimeZoneProvider
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.CurrentTimestampProvider
+import com.example.util.simpletimetracker.domain.calendar.CalendarTypeProvider
+import com.example.util.simpletimetracker.domain.calendar.model.CalendarType
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
@@ -23,9 +26,13 @@ class GetTimeLeftToTimestampInteractorTest(
 
     private val currentTimestampProvider = mock(CurrentTimestampProvider::class.java)
     private val timeMapper = TimeMapper(
-        mock(LocaleProvider::class.java),
-        mock(ResourceRepo::class.java),
-        currentTimestampProvider,
+        localeProvider = mock(LocaleProvider::class.java),
+        resourceRepo = mock(ResourceRepo::class.java),
+        currentTimestampProvider = currentTimestampProvider,
+        calendarTypeProvider = mock(CalendarTypeProvider::class.java).apply {
+            `when`(get()).thenReturn(CalendarType.GREGORIAN)
+        },
+        timeZoneProvider = TimeZoneProvider(),
     )
 
     @Test

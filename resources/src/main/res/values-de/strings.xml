@@ -262,6 +262,10 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="date_time_dialog_date">Datum</string>
     <string name="date_time_dialog_time">Zeit</string>
     <string name="date_time_dialog_seconds">Sekunden</string>
+    <string name="date_picker_previous">Zurück</string>
+    <string name="date_picker_next">Weiter</string>
+    <string name="date_picker_select">Auswählen</string>
+    <string name="date_picker_selected">Ausgewählt</string>
 
     <string name="card_size_default">Standardbreite</string>
     <string name="card_size_hint">Anzahl der Karten in einer Reihe</string>
@@ -397,6 +401,9 @@ Dies ermöglicht es dir, zu sehen, wie viel Zeit du insgesamt für produktive ve
     <string name="settings_language">Sprache</string>
     <string name="settings_use_military_time">24-Stunden-Format benutzen</string>
     <string name="settings_use_monthday_time">Verwenden Sie das Datumsformat Monat/Tag</string>
+    <string name="settings_calendar">Kalender</string>
+    <string name="calendar_gregorian">Gregorianisch</string>
+    <string name="calendar_persian">Persisch (Solar-Hidschri)</string>
     <string name="settings_duration_format">Dauerformat</string>
     <string name="settings_duration_format_proportional">Proportional</string>
     <string name="settings_show_seconds">Sekunden anzeigen</string>

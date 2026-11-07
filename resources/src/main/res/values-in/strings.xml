@@ -262,6 +262,10 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="date_time_dialog_date">Tanggal</string>
     <string name="date_time_dialog_time">Waktu</string>
     <string name="date_time_dialog_seconds">Detik</string>
+    <string name="date_picker_previous">Sebelumnya</string>
+    <string name="date_picker_next">Berikutnya</string>
+    <string name="date_picker_select">Pilih</string>
+    <string name="date_picker_selected">Dipilih</string>
 
     <string name="card_size_default">Lebar bawaan</string>
     <string name="card_size_hint">Jumlah kartu dalam satu baris</string>
@@ -397,6 +401,9 @@ Ini memungkinkan Anda melihat berapa banyak waktu yang dihabiskan untuk aktivita
     <string name="settings_language">Bahasa</string>
     <string name="settings_use_military_time">Pakai format 24-jam</string>
     <string name="settings_use_monthday_time">Gunakan format tanggal Bulan/Hari</string>
+    <string name="settings_calendar">Kalender</string>
+    <string name="calendar_gregorian">Gregorian</string>
+    <string name="calendar_persian">Persia (Hijriah Syamsiah)</string>
     <string name="settings_duration_format">Format durasi</string>
     <string name="settings_duration_format_proportional">Proporsional</string>
     <string name="settings_show_seconds">Tampilkan detik</string>

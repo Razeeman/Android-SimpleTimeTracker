@@ -262,6 +262,10 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="date_time_dialog_date">Date</string>
     <string name="date_time_dialog_time">Heure</string>
     <string name="date_time_dialog_seconds">Secondes</string>
+    <string name="date_picker_previous">Précédent</string>
+    <string name="date_picker_next">Suivant</string>
+    <string name="date_picker_select">Sélectionner</string>
+    <string name="date_picker_selected">Sélectionné</string>
 
     <string name="card_size_default">Largeur par défaut</string>
     <string name="card_size_hint">Nombre de cartes par ligne</string>
@@ -397,6 +401,9 @@ Les <b>Étiquettes</b> permettent d\'ajouter plus de détails sur un enregistrem
     <string name="settings_language">Langue</string>
     <string name="settings_use_military_time">Utiliser le format 24 heures</string>
     <string name="settings_use_monthday_time">Utiliser le format de date Mois/Jour</string>
+    <string name="settings_calendar">Calendrier</string>
+    <string name="calendar_gregorian">Grégorien</string>
+    <string name="calendar_persian">Persan (hégirien solaire)</string>
     <string name="settings_duration_format">Format de durée</string>
     <string name="settings_duration_format_proportional">Décimal</string>
     <string name="settings_show_seconds">Afficher les secondes</string>

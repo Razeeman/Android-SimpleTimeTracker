@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">التاريخ</string>
     <string name="date_time_dialog_time">التوقيت</string>
     <string name="date_time_dialog_seconds">الثواني</string>
+    <string name="date_picker_previous">السابق</string>
+    <string name="date_picker_next">التالي</string>
+    <string name="date_picker_select">اختيار</string>
+    <string name="date_picker_selected">تم الاختيار</string>
 
     <string name="card_size_default">العرض الافتراضي</string>
     <string name="card_size_hint">عدد البطاقات في الصف الواحد</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">لغة</string>
     <string name="settings_use_military_time">استخدام تنسيق 24 ساعة</string>
     <string name="settings_use_monthday_time">استخدم تنسيق تاريخ الشهر / اليوم</string>
+    <string name="settings_calendar">التقويم</string>
+    <string name="calendar_gregorian">الميلادي</string>
+    <string name="calendar_persian">الفارسي (الهجري الشمسي)</string>
     <string name="settings_duration_format">تنسيق المدة</string>
     <string name="settings_duration_format_proportional">نسبي</string>
     <string name="settings_show_seconds">إظهار الثواني</string>

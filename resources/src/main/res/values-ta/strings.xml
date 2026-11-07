@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">தேதி</string>
     <string name="date_time_dialog_time">நேரம்</string>
     <string name="date_time_dialog_seconds">வினாடிகள்</string>
+    <string name="date_picker_previous">முந்தையது</string>
+    <string name="date_picker_next">அடுத்தது</string>
+    <string name="date_picker_select">தேர்ந்தெடு</string>
+    <string name="date_picker_selected">தேர்ந்தெடுக்கப்பட்டது</string>
 
     <string name="card_size_default">இயல்புநிலை அகலம்</string>
     <string name="card_size_hint">ஒரு வரிசையில் உள்ள கார்டுகளின் எண்ணிக்கை</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">மொழி</string>
     <string name="settings_use_military_time">24-மணிநேர வடிவத்தைப் பயன்படுத்து</string>
     <string name="settings_use_monthday_time">மாதம்/நாள் தேதி வடிவத்தைப் பயன்படுத்து</string>
+    <string name="settings_calendar">நாட்காட்டி</string>
+    <string name="calendar_gregorian">கிரிகோரியன்</string>
+    <string name="calendar_persian">பாரசீக (சூரிய ஹிஜ்ரி)</string>
     <string name="settings_duration_format">கால அளவு வடிவம்</string>
     <string name="settings_duration_format_proportional">விகிதாசாரம்</string>
     <string name="settings_show_seconds">வினாடிகளைக் காட்டு</string>

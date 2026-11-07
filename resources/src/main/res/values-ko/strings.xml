@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">날짜</string>
     <string name="date_time_dialog_time">시간</string>
     <string name="date_time_dialog_seconds">초</string>
+    <string name="date_picker_previous">이전</string>
+    <string name="date_picker_next">다음</string>
+    <string name="date_picker_select">선택</string>
+    <string name="date_picker_selected">선택됨</string>
 
     <string name="card_size_default">기본 폭</string>
     <string name="card_size_hint">한 줄에 들어갈 카드의 수</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">언어</string>
     <string name="settings_use_military_time">24시간 포맷 사용</string>
     <string name="settings_use_monthday_time">월/일 포맷 사용</string>
+    <string name="settings_calendar">달력</string>
+    <string name="calendar_gregorian">그레고리력</string>
+    <string name="calendar_persian">페르시아력(태양 히즈라력)</string>
     <string name="settings_duration_format">시간 형식</string>
     <string name="settings_duration_format_proportional">비례</string>
     <string name="settings_show_seconds">초 표시</string>

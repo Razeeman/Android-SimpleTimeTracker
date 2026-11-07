@@ -262,6 +262,10 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="date_time_dialog_date">Data</string>
     <string name="date_time_dialog_time">Ora</string>
     <string name="date_time_dialog_seconds">Secondi</string>
+    <string name="date_picker_previous">Precedente</string>
+    <string name="date_picker_next">Successivo</string>
+    <string name="date_picker_select">Seleziona</string>
+    <string name="date_picker_selected">Selezionato</string>
 
     <string name="card_size_default">Larghezza predefinita</string>
     <string name="card_size_hint">Numero di carte in una riga</string>
@@ -397,6 +401,9 @@ I <b>tag</b> ti permettono di aggiungere maggiori dettagli a un\'attività speci
     <string name="settings_language">Lingua</string>
     <string name="settings_use_military_time">Use il formato a 24 ore</string>
     <string name="settings_use_monthday_time">Usa il formato data Mese/Giorno</string>
+    <string name="settings_calendar">Calendario</string>
+    <string name="calendar_gregorian">Gregoriano</string>
+    <string name="calendar_persian">Persiano (egira solare)</string>
     <string name="settings_duration_format">Formato durata</string>
     <string name="settings_duration_format_proportional">Proporzionale</string>
     <string name="settings_show_seconds">Mostra secondi</string>

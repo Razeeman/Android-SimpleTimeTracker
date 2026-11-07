@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">תאריך</string>
     <string name="date_time_dialog_time">זמן</string>
     <string name="date_time_dialog_seconds">שניות</string>
+    <string name="date_picker_previous">הקודם</string>
+    <string name="date_picker_next">הבא</string>
+    <string name="date_picker_select">בחר</string>
+    <string name="date_picker_selected">נבחר</string>
 
     <string name="card_size_default">רוחב ברירת מחדל</string>
     <string name="card_size_hint">מספר כרטיסים בשורה</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">שפה</string>
     <string name="settings_use_military_time">השתמש בפורמט 24-שעות</string>
     <string name="settings_use_monthday_time">השתמש בפורמט תאריך יום/חודש</string>
+    <string name="settings_calendar">לוח שנה</string>
+    <string name="calendar_gregorian">גרגוריאני</string>
+    <string name="calendar_persian">פרסי (היג׳רי שמשי)</string>
     <string name="settings_duration_format">תבנית משך</string>
     <string name="settings_duration_format_proportional">פרופורציונלי</string>
     <string name="settings_show_seconds">הצג שניות</string>

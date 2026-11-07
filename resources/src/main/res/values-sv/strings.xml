@@ -262,6 +262,10 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="date_time_dialog_date">Datum</string>
     <string name="date_time_dialog_time">Tid</string>
     <string name="date_time_dialog_seconds">Sekunder</string>
+    <string name="date_picker_previous">Föregående</string>
+    <string name="date_picker_next">Nästa</string>
+    <string name="date_picker_select">Välj</string>
+    <string name="date_picker_selected">Vald</string>
 
     <string name="card_size_default">Standardbredd</string>
     <string name="card_size_hint">Antal kort per rad</string>
@@ -397,6 +401,9 @@ Detta gör att du kan se hur mycket tid du spenderar på produktiva kontra icke-
     <string name="settings_language">Språk</string>
     <string name="settings_use_military_time">Använd 24-timmarsklocka</string>
     <string name="settings_use_monthday_time">Använd datumformatet månad/dag</string>
+    <string name="settings_calendar">Kalender</string>
+    <string name="calendar_gregorian">Gregoriansk</string>
+    <string name="calendar_persian">Persisk (solär hijri)</string>
     <string name="settings_duration_format">Tidsformat</string>
     <string name="settings_duration_format_proportional">Proportionell</string>
     <string name="settings_show_seconds">Visa sekunder</string>

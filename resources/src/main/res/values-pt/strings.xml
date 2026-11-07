@@ -262,6 +262,10 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <string name="date_time_dialog_date">Data</string>
     <string name="date_time_dialog_time">Hora</string>
     <string name="date_time_dialog_seconds">Segundas</string>
+    <string name="date_picker_previous">Anterior</string>
+    <string name="date_picker_next">Próximo</string>
+    <string name="date_picker_select">Selecionar</string>
+    <string name="date_picker_selected">Selecionado</string>
 
     <string name="card_size_default">Largura padrão</string>
     <string name="card_size_hint">Número de cartões em uma linha</string>
@@ -397,6 +401,9 @@ Isso permite ver quanto tempo você está gastando em atividades produtivas vers
     <string name="settings_language">Linguagem</string>
     <string name="settings_use_military_time">Usar formato de 24 horas</string>
     <string name="settings_use_monthday_time">Use o formato de data Mês/Dia</string>
+    <string name="settings_calendar">Calendário</string>
+    <string name="calendar_gregorian">Gregoriano</string>
+    <string name="calendar_persian">Persa (Hégira solar)</string>
     <string name="settings_duration_format">Formato de duração</string>
     <string name="settings_duration_format_proportional">Proporcional</string>
     <string name="settings_show_seconds">Mostrar segundos</string>

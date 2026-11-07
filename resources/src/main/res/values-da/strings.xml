@@ -262,6 +262,10 @@ Så kan du se, hvor meget tid du samlet bruger på produktive og mindre produkti
     <string name="date_time_dialog_date">Dato</string>
     <string name="date_time_dialog_time">Tid</string>
     <string name="date_time_dialog_seconds">Sekunder</string>
+    <string name="date_picker_previous">Forrige</string>
+    <string name="date_picker_next">Næste</string>
+    <string name="date_picker_select">Vælg</string>
+    <string name="date_picker_selected">Valgt</string>
 
     <string name="card_size_default">Standardbredde</string>
     <string name="card_size_hint">Antal kort på en række</string>
@@ -397,6 +401,9 @@ Så kan du se, hvor meget tid du samlet bruger på produktive og mindre produkti
     <string name="settings_language">Sprog</string>
     <string name="settings_use_military_time">Brug 24-timersformat</string>
     <string name="settings_use_monthday_time">Brug datoformatet måned/dag</string>
+    <string name="settings_calendar">Kalender</string>
+    <string name="calendar_gregorian">Gregoriansk</string>
+    <string name="calendar_persian">Persisk (sol-hijri)</string>
     <string name="settings_duration_format">Varighedsformat</string>
     <string name="settings_duration_format_proportional">Proportionalt</string>
     <string name="settings_show_seconds">Vis sekunder</string>

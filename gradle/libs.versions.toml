@@ -48,6 +48,7 @@ junitUi = "1.1.4"
 espresso = "3.5.0"
 mockito = "5.14.2"
 mockitoKotlin = "5.4.0"
+robolectric = "4.17"
 coroutinesTest = "1.7.1"
 rules = "1.5.0"
 
@@ -115,6 +116,7 @@ kapt-metadata = { group = "org.jetbrains.kotlinx", name = "kotlinx-metadata-jvm"
 test-junit = { group = "junit", name = "junit", version.ref = "junit" }
 test-mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 test-mockitoKotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+test-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 
 # UiTest

@@ -262,6 +262,10 @@
     <string name="date_time_dialog_date">Дата</string>
     <string name="date_time_dialog_time">Время</string>
     <string name="date_time_dialog_seconds">Секунды</string>
+    <string name="date_picker_previous">Предыдущий</string>
+    <string name="date_picker_next">Следующий</string>
+    <string name="date_picker_select">Выбрать</string>
+    <string name="date_picker_selected">Выбрано</string>
 
     <string name="card_size_default">Ширина по умолчанию</string>
     <string name="card_size_hint">Количество карточек в ряду</string>
@@ -397,6 +401,9 @@
     <string name="settings_language">Язык</string>
     <string name="settings_use_military_time">24-часовой формат</string>
     <string name="settings_use_monthday_time">Использовать формат даты месяц/день</string>
+    <string name="settings_calendar">Календарь</string>
+    <string name="calendar_gregorian">Григорианский</string>
+    <string name="calendar_persian">Персидский (солнечная хиджра)</string>
     <string name="settings_duration_format">Формат длительности</string>
     <string name="settings_duration_format_proportional">Пропорциональный</string>
     <string name="settings_show_seconds">Показать секунды</string>
