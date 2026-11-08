@@ -541,8 +541,6 @@ class StatisticsDetailChartInteractor @Inject constructor(
         startOfDayShift: Long,
     ): List<ChartBarDataRange> {
         val calendar = timeMapper.newCalendar()
-        // TODO CALENDAR remove
-        val shiftCalendar = Calendar.getInstance()
 
         return (numberOfMonths - 1 downTo 0).map { shift ->
             calendar.timeInMillis = startDate
@@ -560,8 +558,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = shiftCalendar.shiftTimeStamp(rangeStart, startOfDayShift),
-                rangeEnd = shiftCalendar.shiftTimeStamp(rangeEnd, startOfDayShift),
+                rangeStart = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                rangeEnd = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }
@@ -572,8 +570,6 @@ class StatisticsDetailChartInteractor @Inject constructor(
         startOfDayShift: Long,
     ): List<ChartBarDataRange> {
         val calendar = timeMapper.newCalendar()
-        // TODO CALENDAR remove
-        val shiftCalendar = Calendar.getInstance()
 
         return (numberOfYears - 1 downTo 0).map { shift ->
             calendar.timeInMillis = startDate
@@ -591,8 +587,8 @@ class StatisticsDetailChartInteractor @Inject constructor(
 
             ChartBarDataRange(
                 legend = legend,
-                rangeStart = shiftCalendar.shiftTimeStamp(rangeStart, startOfDayShift),
-                rangeEnd = shiftCalendar.shiftTimeStamp(rangeEnd, startOfDayShift),
+                rangeStart = calendar.shiftTimeStamp(rangeStart, startOfDayShift),
+                rangeEnd = calendar.shiftTimeStamp(rangeEnd, startOfDayShift),
             )
         }
     }

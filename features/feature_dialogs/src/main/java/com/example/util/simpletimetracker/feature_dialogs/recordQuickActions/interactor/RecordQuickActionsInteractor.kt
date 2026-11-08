@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_dialogs.recordQuickActions.interactor
 
+import com.example.util.simpletimetracker.core.mapper.TimeMapper
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.AddRecordMediator
 import com.example.util.simpletimetracker.domain.record.interactor.AddRunningRecordMediator
@@ -12,7 +13,6 @@ import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.recordTag.interactor.GetSelectableTagsInteractor
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.navigation.params.screen.RecordQuickActionsParams.Type
-import java.util.Calendar
 import javax.inject.Inject
 
 class RecordQuickActionsInteractor @Inject constructor(
@@ -23,6 +23,7 @@ class RecordQuickActionsInteractor @Inject constructor(
     private val removeRunningRecordMediator: RemoveRunningRecordMediator,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
+    private val timeMapper: TimeMapper,
 ) {
 
     @Suppress("ComplexRedundantLet")
@@ -102,15 +103,13 @@ class RecordQuickActionsInteractor @Inject constructor(
     ) {
         val recordIds = params.filterIsInstance<Type.RecordTracked>().map { it.id }
         val records = recordIds.mapNotNull { recordInteractor.get(it) }
-        val calendar = Calendar.getInstance()
 
         records.mapNotNull { record ->
             val currentDuration = record.duration
             val newTimeStarted = if (changeOnlyDate) {
-                changeOnlyDate(
-                    currentTimestamp = record.timeStarted,
-                    timestampWithDateSelected = timestamp,
-                    calendar = calendar,
+                timeMapper.replaceDate(
+                    timestamp = record.timeStarted,
+                    date = timeMapper.toCalendarDate(timestamp),
                 )
             } else {
                 timestamp
@@ -236,25 +235,5 @@ class RecordQuickActionsInteractor @Inject constructor(
         val selectableTags = getSelectableTagsInteractor.execute(newTypeId)
             .map(RecordTag::id)
         return currentTags.filter { it.tagId in selectableTags }
-    }
-
-    private fun changeOnlyDate(
-        currentTimestamp: Long,
-        timestampWithDateSelected: Long,
-        calendar: Calendar,
-    ): Long {
-        calendar.timeInMillis = timestampWithDateSelected
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        calendar.apply {
-            timeInMillis = currentTimestamp
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, month)
-            set(Calendar.DAY_OF_MONTH, day)
-        }
-
-        return calendar.timeInMillis
     }
 }
