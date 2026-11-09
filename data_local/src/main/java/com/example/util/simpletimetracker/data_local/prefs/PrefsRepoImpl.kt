@@ -149,7 +149,7 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var keepStatisticsRange: Boolean by prefs.delegate(
-        KEY_KEEP_STATISTICS_RANGE, false,
+        KEY_KEEP_STATISTICS_RANGE, true,
     )
 
     override var retroactiveTrackingMode: Boolean by prefs.delegate(

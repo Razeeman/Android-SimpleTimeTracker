@@ -2799,7 +2799,7 @@ class SettingsTest : BaseUiTest() {
         testUtils.addActivity(name = name)
         testUtils.addRecord(name)
 
-        // Check range not transferred
+        // Check range transferred by default
         NavUtils.openStatisticsScreen()
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_week)
@@ -2813,20 +2813,24 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 dateSelectorMatcher(0),
-                withId(R.id.containerDateSelectorDay),
+                withId(R.id.containerDateSelectorRange),
             ),
         )
+
+        // Save an independent detail range
+        clickOnCurrentSelectedDate()
+        clickOnViewWithText(coreR.string.range_day)
         pressBack()
 
-        // Change setting
+        // Disable range transfer
         NavUtils.openSettingsScreen()
         NavUtils.openSettingsAdditional()
         scrollSettingsRecyclerToText(coreR.string.settings_keep_statistics_range)
-        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_keep_statistics_range))
-        clickOnSettingsCheckboxBesideText(coreR.string.settings_keep_statistics_range)
         checkCheckboxIsChecked(settingsCheckboxBesideText(coreR.string.settings_keep_statistics_range))
+        clickOnSettingsCheckboxBesideText(coreR.string.settings_keep_statistics_range)
+        checkCheckboxIsNotChecked(settingsCheckboxBesideText(coreR.string.settings_keep_statistics_range))
 
-        // Check range transfer
+        // Check the saved detail range is used
         NavUtils.openStatisticsScreen()
         checkViewIsDisplayed(
             allOf(
@@ -2838,7 +2842,7 @@ class SettingsTest : BaseUiTest() {
         checkViewIsDisplayed(
             allOf(
                 dateSelectorMatcher(0),
-                withId(R.id.containerDateSelectorRange),
+                withId(R.id.containerDateSelectorDay),
             ),
         )
         pressBack()
