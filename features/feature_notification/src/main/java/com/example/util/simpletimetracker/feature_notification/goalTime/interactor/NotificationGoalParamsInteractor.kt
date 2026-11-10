@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.color.model.AppColor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.goalTime.manager.NotificationGoalTimeParams
@@ -29,9 +30,12 @@ class NotificationGoalParamsInteractor @Inject constructor(
     private val iconMapper: IconMapper,
     private val recordTagViewDataMapper: RecordTagViewDataMapper,
     private val goalViewDataMapper: GoalViewDataMapper,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
 ) {
 
     suspend fun execute(goal: RecordTypeGoal): NotificationGoalTimeParams? {
+        if (!filterActiveGoalsInteractor.isActive(goal.idData)) return null
+
         data class DataHolder(
             val icon: String?,
             val color: AppColor,

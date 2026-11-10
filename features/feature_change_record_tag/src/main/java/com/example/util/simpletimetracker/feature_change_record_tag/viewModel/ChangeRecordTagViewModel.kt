@@ -280,7 +280,7 @@ class ChangeRecordTagViewModel @Inject constructor(
         viewModelScope.launch {
             if (recordTagId != 0L) {
                 recordTagInteractor.archive(recordTagId)
-                externalViewsInteractor.onTagArchive()
+                externalViewsInteractor.onTagArchive(recordTagId)
                 showArchivedMessage(R.string.change_record_tag_archived)
                 (keyboardVisibility as MutableLiveData).value = false
                 router.back()

@@ -10,6 +10,7 @@ import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.base.DurationFormat
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
 import com.example.util.simpletimetracker.domain.record.model.Range
@@ -36,6 +37,7 @@ import kotlin.collections.emptyList
 class GoalsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
     private val statisticsMediator: StatisticsMediator,
     private val prefsInteractor: PrefsInteractor,
     private val goalViewDataMapper: GoalViewDataMapper,
@@ -80,7 +82,7 @@ class GoalsViewDataInteractor @Inject constructor(
             startOfDayShift = prefsInteractor.getStartOfDayShift(),
             hideFinishedGoals = prefsInteractor.getHideFinishedGoals(),
             types = recordTypeInteractor.getAll().associateBy(RecordType::id),
-            goals = recordTypeGoalInteractor.getAll(),
+            goals = filterActiveGoalsInteractor.execute(recordTypeGoalInteractor.getAll()),
         )
     }
 

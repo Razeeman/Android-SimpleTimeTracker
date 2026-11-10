@@ -9,6 +9,7 @@ import com.example.util.simpletimetracker.domain.notifications.interactor.Notifi
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalTimeInteractor
 import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.notifications.interactor.ActivityStartedStoppedBroadcastInteractor
@@ -48,6 +49,7 @@ import kotlin.collections.component2
  */
 class NotificationGoalTimeInteractorImpl @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val manager: NotificationGoalTimeManager,
@@ -110,6 +112,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
     private suspend fun checkAndRescheduleType(typeId: Long) {
         cancel(RecordTypeGoal.IdData.Type(typeId))
+        if (!filterActiveGoalsInteractor.isActive(RecordTypeGoal.IdData.Type(typeId))) return
 
         val runningRecord = runningRecordInteractor.get(typeId) ?: return
         val goals = filterGoalsByDayOfWeekInteractor
@@ -177,7 +180,7 @@ class NotificationGoalTimeInteractorImpl @Inject constructor(
 
         // Find all tag duration goals.
         val goals = filterGoalsByDayOfWeekInteractor
-            .execute(recordTypeGoalInteractor.getAllTagGoals())
+            .execute(filterActiveGoalsInteractor.execute(recordTypeGoalInteractor.getAllTagGoals()))
             .filter { it.type is RecordTypeGoal.Type.Duration }
 
         if (goals.isEmpty()) return

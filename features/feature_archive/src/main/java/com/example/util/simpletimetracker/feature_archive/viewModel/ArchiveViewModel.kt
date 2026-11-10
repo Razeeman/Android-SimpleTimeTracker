@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.core.extension.set
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
+import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RemoveRecordTagMediator
 import com.example.util.simpletimetracker.domain.recordType.interactor.RemoveRecordTypeMediator
 import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
@@ -117,15 +118,16 @@ class ArchiveViewModel @Inject constructor(
             val message: String = when (params) {
                 is ArchiveDialogParams.Activity -> {
                     recordTypeInteractor.restore(params.id)
+                    externalViewsInteractor.onRestoreFromArchive(RecordTypeGoal.IdData.Type(params.id))
                     resourceRepo.getString(R.string.archive_activity_restored)
                 }
                 is ArchiveDialogParams.RecordTag -> {
                     recordTagInteractor.restore(params.id)
+                    externalViewsInteractor.onRestoreFromArchive(RecordTypeGoal.IdData.Tag(params.id))
                     resourceRepo.getString(R.string.archive_tag_restored)
                 }
             }
 
-            externalViewsInteractor.onRestoreFromArchive()
             updateViewData()
             showMessage(message)
         }

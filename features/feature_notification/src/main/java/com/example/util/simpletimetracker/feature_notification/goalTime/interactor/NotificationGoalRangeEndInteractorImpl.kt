@@ -3,6 +3,7 @@ package com.example.util.simpletimetracker.feature_notification.goalTime.interac
 import com.example.util.simpletimetracker.core.interactor.GetRangeInteractor
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalRangeEndInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.domain.recordType.model.RecordTypeGoal
 import com.example.util.simpletimetracker.feature_notification.goalTime.scheduler.NotificationRangeEndScheduler
@@ -12,12 +13,13 @@ class NotificationGoalRangeEndInteractorImpl @Inject constructor(
     private val rangeEndScheduler: NotificationRangeEndScheduler,
     private val getRangeInteractor: GetRangeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
 ) : NotificationGoalRangeEndInteractor {
 
     override suspend fun checkAndReschedule() {
         cancel()
 
-        val goals = recordTypeGoalInteractor.getAll()
+        val goals = filterActiveGoalsInteractor.execute(recordTypeGoalInteractor.getAll())
 
         val hasDailyGoals = goals.any { it.range is RecordTypeGoal.Range.Daily }
         if (hasDailyGoals) {

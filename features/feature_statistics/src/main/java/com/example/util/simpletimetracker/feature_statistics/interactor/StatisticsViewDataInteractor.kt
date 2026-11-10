@@ -11,6 +11,7 @@ import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
@@ -30,6 +31,7 @@ import com.example.util.simpletimetracker.core.mapper.StatisticsViewDataMapper a
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
     private val statisticsMediator: StatisticsMediator,
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -124,7 +126,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             emptyList()
         } else {
             val goals = filterGoalsByDayOfWeekInteractor.execute(
-                goals = recordTypeGoalInteractor.getAll(),
+                goals = filterActiveGoalsInteractor.execute(recordTypeGoalInteractor.getAll()),
                 range = range,
                 startOfDayShift = startOfDayShift,
             )

@@ -20,6 +20,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
     private val notificationInactivityInteractor: NotificationInactivityInteractor,
     private val notificationActivityInteractor: NotificationActivityInteractor,
     private val notificationGoalTimeInteractor: NotificationGoalTimeInteractor,
+    private val notificationGoalRangeEndInteractor: NotificationGoalRangeEndInteractor,
     private val scheduledReminderNotificationInteractor: ScheduledReminderNotificationInteractor,
     private val widgetInteractor: WidgetInteractor,
     private val wearInteractor: WearInteractor,
@@ -53,8 +54,10 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onTypeArchive() {
+    suspend fun onTypeArchive(typeId: Long) {
         runUpdates(
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Type(typeId))),
+            Update.GoalRangeEndReschedule,
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.Wear,
@@ -292,8 +295,10 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onTagArchive() {
+    suspend fun onTagArchive(tagId: Long) {
         runUpdates(
+            Update.GoalCancelByOwners(listOf(RecordTypeGoal.IdData.Tag(tagId))),
+            Update.GoalRangeEndReschedule,
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.Wear,
@@ -509,8 +514,10 @@ class UpdateExternalViewsInteractor @Inject constructor(
         )
     }
 
-    suspend fun onRestoreFromArchive() {
+    suspend fun onRestoreFromArchive(owner: RecordTypeGoal.IdData) {
         runUpdates(
+            Update.GoalReschedule(listOf(owner.value)).takeIf { owner is RecordTypeGoal.IdData.Type },
+            Update.GoalTagReschedule(listOf(owner.value)).takeIf { owner is RecordTypeGoal.IdData.Tag },
             Update.NotificationTypes,
             Update.NotificationWithControls,
             Update.WidgetGrid,
@@ -587,6 +594,9 @@ class UpdateExternalViewsInteractor @Inject constructor(
             is Update.GoalTagReschedule -> {
                 notificationGoalTimeInteractor.checkAndRescheduleTags(update.tagIds)
             }
+            is Update.GoalRangeEndReschedule -> {
+                notificationGoalRangeEndInteractor.checkAndReschedule()
+            }
             is Update.GoalCancelByIds -> {
                 notificationGoalTimeInteractor.cancel(update.goalIds)
             }
@@ -635,6 +645,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         data object Wear : Update
         data class GoalReschedule(val typeIds: List<Long> = emptyList()) : Update
         data class GoalTagReschedule(val tagIds: List<Long> = emptyList()) : Update
+        data object GoalRangeEndReschedule : Update
         data class GoalCancelByIds(val goalIds: List<Long>) : Update
         data class GoalCancelByOwners(val owners: List<RecordTypeGoal.IdData>) : Update
         data class ActivityReminderStarted(val activityId: Long) : Update
