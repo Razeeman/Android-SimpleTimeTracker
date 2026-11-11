@@ -2,6 +2,7 @@ package com.example.util.simpletimetracker.core.mapper
 
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.interactor.GetCurrentRecordsDurationInteractor
+import com.example.util.simpletimetracker.core.interactor.GetGoalCompletionEstimateInteractor.Estimate
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.viewData.StatisticsDataHolder
 import com.example.util.simpletimetracker.domain.base.DurationFormat
@@ -167,6 +168,8 @@ class GoalViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
+        estimates: Map<Long, Estimate>,
+        useMilitaryTime: Boolean,
     ): List<StatisticsGoalViewData> {
         val currentGoals: List<RecordTypeGoal> = when (filterType) {
             ChartFilterType.ACTIVITY -> {
@@ -215,6 +218,8 @@ class GoalViewDataMapper @Inject constructor(
                     isDarkTheme = isDarkTheme,
                     durationFormat = durationFormat,
                     showSeconds = showSeconds,
+                    estimate = estimates[goal.id],
+                    useMilitaryTime = useMilitaryTime,
                 )
             }
             .sortedBy { it.goal.percent }
@@ -227,6 +232,8 @@ class GoalViewDataMapper @Inject constructor(
         isDarkTheme: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
+        estimate: Estimate?,
+        useMilitaryTime: Boolean,
     ): StatisticsGoalViewData {
         return StatisticsGoalViewData(
             id = goal.id,
@@ -240,6 +247,8 @@ class GoalViewDataMapper @Inject constructor(
                 statistics = statistics,
                 durationFormat = durationFormat,
                 showSeconds = showSeconds,
+                estimate = estimate,
+                useMilitaryTime = useMilitaryTime,
             ),
         )
     }
@@ -249,6 +258,8 @@ class GoalViewDataMapper @Inject constructor(
         statistics: Statistics?,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
+        estimate: Estimate?,
+        useMilitaryTime: Boolean,
     ): StatisticsGoalViewData.Goal {
         fun mapDuration(goalValue: Long): String {
             return mapDuration(
@@ -299,7 +310,31 @@ class GoalViewDataMapper @Inject constructor(
             goalPercent = formatGoalPercent(goalPercent),
             goalState = goalState,
             percent = goalPercent,
+            estimate = mapEstimate(
+                estimate = estimate,
+                useMilitaryTime = useMilitaryTime,
+            ),
         )
+    }
+
+    private fun mapEstimate(
+        estimate: Estimate?,
+        useMilitaryTime: Boolean,
+    ): String? {
+        val value = when (estimate) {
+            null -> return null
+            is Estimate.NotReached -> {
+                resourceRepo.getString(R.string.goal_estimate_not_reached)
+            }
+            is Estimate.Completion -> {
+                timeMapper.formatCompletionTime(
+                    time = estimate.timestamp,
+                    currentTimestamp = estimate.currentTimestamp,
+                    useMilitaryTime = useMilitaryTime,
+                )
+            }
+        }
+        return resourceRepo.getString(R.string.goal_estimate) + " " + value
     }
 
     private fun mapDuration(

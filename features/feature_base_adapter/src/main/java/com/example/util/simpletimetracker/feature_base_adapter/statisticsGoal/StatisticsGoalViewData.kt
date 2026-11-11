@@ -23,5 +23,6 @@ data class StatisticsGoalViewData(
         val goalPercent: String,
         val goalState: GoalCheckmarkView.CheckState,
         val percent: Long,
+        val estimate: String?,
     )
 }

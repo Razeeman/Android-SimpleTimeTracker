@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Yonke imigomo isiqediwe</string>
     <string name="hide_finished_goals">Fihla imigomo eqediwe</string>
     <string name="goal_add_hint">Hlela umsebenzi noma isigaba ukuze unikeze inhloso</string>
+    <string name="goal_estimate">Isilinganiso</string>
+    <string name="goal_estimate_not_reached">Ngeke ufinyelelwe</string>
 
     <!--  Categories  -->
     <string name="categories_title">Izigaba</string>

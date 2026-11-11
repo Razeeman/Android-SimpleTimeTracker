@@ -99,6 +99,8 @@
     <string name="all_goals_finished">כל היעדים הושלמו</string>
     <string name="hide_finished_goals">הסתר יעדים שהושלמו</string>
     <string name="goal_add_hint">ערוך פעילות או קטגוריה כדי להקצות לה מטרה</string>
+    <string name="goal_estimate">הערכה</string>
+    <string name="goal_estimate_not_reached">לא יושג</string>
 
     <!--  Categories  -->
     <string name="categories_title">קטגוריות ותגיות</string>

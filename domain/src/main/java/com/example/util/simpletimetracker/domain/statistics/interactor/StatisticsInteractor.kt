@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.record.interactor.GetUntrackedR
 import com.example.util.simpletimetracker.domain.record.mapper.RangeMapper
 import com.example.util.simpletimetracker.domain.record.model.Range
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.record.model.RunningRecord
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor.GetParam
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
@@ -115,9 +116,12 @@ class StatisticsInteractor @Inject constructor(
             mapRecords(records, showSeconds)
         } else {
             // Remove parts of the record that is not in the range
-            rangeMapper.getRecordsFromRange(records, range)
-                .map { rangeMapper.clampToRange(it, range) }
-                .let { mapRanges(it, showSeconds) }
+            val recordsFromRange = rangeMapper.getRecordsFromRange(records, range)
+            mapRanges(
+                ranges = recordsFromRange.map { rangeMapper.clampToRange(it, range) },
+                showSeconds = showSeconds,
+                runningCount = recordsFromRange.count { it is RunningRecord }.toLong(),
+            )
         }
     }
 
@@ -160,12 +164,14 @@ class StatisticsInteractor @Inject constructor(
                 )
             },
             count = records.size.toLong(),
+            runningCount = records.count { it is RunningRecord }.toLong(),
         )
     }
 
     private fun mapRanges(
         ranges: List<Range>,
         showSeconds: Boolean,
+        runningCount: Long,
     ): Statistics.Data {
         return Statistics.Data(
             duration = ranges.sumOf {
@@ -176,6 +182,7 @@ class StatisticsInteractor @Inject constructor(
                 )
             },
             count = ranges.size.toLong(),
+            runningCount = runningCount,
         )
     }
 }

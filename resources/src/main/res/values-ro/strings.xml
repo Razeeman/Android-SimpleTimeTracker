@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Toate obiectivele sunt finalizate</string>
     <string name="hide_finished_goals">Ascunde obiectivele finalizate</string>
     <string name="goal_add_hint">Editează activitatea sau categoria pentru a-i atribui un obiectiv</string>
+    <string name="goal_estimate">Estimare</string>
+    <string name="goal_estimate_not_reached">Nu va fi atins</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categorii și etichete</string>

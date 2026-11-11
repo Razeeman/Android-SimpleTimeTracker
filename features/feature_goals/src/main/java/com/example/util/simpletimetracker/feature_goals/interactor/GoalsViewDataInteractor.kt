@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.feature_goals.interactor
 
 import android.text.SpannableStringBuilder
+import com.example.util.simpletimetracker.core.interactor.GetGoalCompletionEstimateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
 import com.example.util.simpletimetracker.core.mapper.GoalViewDataMapper
@@ -45,6 +46,7 @@ class GoalsViewDataInteractor @Inject constructor(
     private val timeMapper: TimeMapper,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
     private val rangeViewDataMapper: RangeViewDataMapper,
+    private val getGoalCompletionEstimateInteractor: GetGoalCompletionEstimateInteractor,
 ) {
 
     suspend fun getRangeShift(
@@ -78,6 +80,7 @@ class GoalsViewDataInteractor @Inject constructor(
             isDarkTheme = prefsInteractor.getDarkMode(),
             durationFormat = prefsInteractor.getDurationFormat(),
             showSeconds = prefsInteractor.getShowSeconds(),
+            useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
             startOfDayShift = prefsInteractor.getStartOfDayShift(),
             hideFinishedGoals = prefsInteractor.getHideFinishedGoals(),
@@ -125,6 +128,7 @@ class GoalsViewDataInteractor @Inject constructor(
             isDarkTheme = setup.isDarkTheme,
             durationFormat = setup.durationFormat,
             showSeconds = setup.showSeconds,
+            useMilitaryTime = setup.useMilitaryTime,
             hideFinishedGoals = setup.hideFinishedGoals,
         )
     }
@@ -156,6 +160,7 @@ class GoalsViewDataInteractor @Inject constructor(
         isDarkTheme: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
+        useMilitaryTime: Boolean,
         hideFinishedGoals: Boolean,
     ): RangeViewData {
         val result = mutableListOf<ViewHolderType>()
@@ -173,18 +178,26 @@ class GoalsViewDataInteractor @Inject constructor(
                 }
             }
             if (!hasGoals) return@flatMap emptyList()
+            val statistics = statisticsMediator.getStatistics(
+                filterType = filterType,
+                filteredIds = emptyList(),
+                range = range,
+                forceSeconds = true,
+            )
+            val estimates = getGoalCompletionEstimateInteractor.get(
+                goals = goals,
+                statistics = statistics,
+                filterType = filterType,
+                rangeLength = rangeLength,
+                range = range,
+            )
             goalViewDataMapper.mapStatisticsList(
                 goals = goals,
                 types = types,
                 filterType = filterType,
                 filteredIds = emptyList(),
                 rangeLength = rangeLength,
-                statistics = statisticsMediator.getStatistics(
-                    filterType = filterType,
-                    filteredIds = emptyList(),
-                    range = range,
-                    forceSeconds = true,
-                ),
+                statistics = statistics,
                 data = statisticsMediator.getDataHolders(
                     filterType = filterType,
                     types = types,
@@ -192,6 +205,8 @@ class GoalsViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 durationFormat = durationFormat,
                 showSeconds = showSeconds,
+                estimates = estimates,
+                useMilitaryTime = useMilitaryTime,
             )
         }.sortedBy { it.goal.percent }
 

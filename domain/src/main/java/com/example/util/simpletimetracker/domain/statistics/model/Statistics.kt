@@ -8,5 +8,6 @@ data class Statistics(
     data class Data(
         val duration: Long,
         val count: Long,
+        val runningCount: Long,
     )
 }

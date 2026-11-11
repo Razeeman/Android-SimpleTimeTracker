@@ -99,6 +99,8 @@
     <string name="all_goals_finished">모든 목표를 완료했습니다</string>
     <string name="hide_finished_goals">완료된 목표 숨기기</string>
     <string name="goal_add_hint">활동이나 카테고리를 편집하여 목표를 할당하세요</string>
+    <string name="goal_estimate">예상</string>
+    <string name="goal_estimate_not_reached">달성하지 못할 것으로 예상됨</string>
 
     <!--  Categories  -->
     <string name="categories_title">카테고리와 태그</string>

@@ -34,18 +34,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Keep goal values out of the first 42% to preserve space for the name and estimate. -->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStatisticsGoalValues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.42" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStatisticsGoalItemName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:textColor="?appLightTextColor"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tvStatisticsGoalItemEstimate"
                 app:layout_constraintEnd_toStartOf="@id/barrierStatisticsGoalItemGoal"
                 app:layout_constraintStart_toEndOf="@id/ivStatisticsGoalItemIcon"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Item name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStatisticsGoalItemEstimate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="?appLightTextColor"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/barrierStatisticsGoalItemGoal"
+                app:layout_constraintStart_toEndOf="@id/ivStatisticsGoalItemIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvStatisticsGoalItemName"
+                tools:text="Estimate Nov 9 18:30"
+                tools:visibility="visible" />
 
             <View
                 android:id="@+id/dividerStatisticsGoalPercent"
@@ -70,10 +96,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/guidelineStatisticsGoalValues"
                 android:textColor="?appLightTextColor"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/barrierStatisticsGoalItemGoal"
+                app:layout_constraintBottom_toTopOf="@id/tvStatisticsGoalItemGoal"
                 app:layout_constraintEnd_toStartOf="@id/dividerStatisticsGoalPercent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="1h 30m" />
@@ -84,6 +113,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/guidelineStatisticsGoalValues"
                 android:textColor="?appLightTextColor"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

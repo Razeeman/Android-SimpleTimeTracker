@@ -8,6 +8,7 @@ import com.example.util.simpletimetracker.feature_views.ColorUtils.normalizeLigh
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView.CheckState
 import com.example.util.simpletimetracker.feature_views.databinding.StatisticsGoalViewLayoutBinding
 import com.example.util.simpletimetracker.feature_views.extension.layoutInflater
+import com.example.util.simpletimetracker.feature_views.extension.setTextOptional
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 
@@ -34,6 +35,12 @@ class StatisticsGoalView @JvmOverloads constructor(
             field = value
             binding.containerStatisticsGoalItem.setCardBackgroundColor(value)
             setDividerColor()
+        }
+
+    var itemEstimate: String? = null
+        set(value) {
+            field = value
+            binding.tvStatisticsGoalItemEstimate.setTextOptional(value)
         }
 
     var itemIcon: RecordTypeIcon = RecordTypeIcon.Image(0)

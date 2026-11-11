@@ -99,6 +99,8 @@
     <string name="all_goals_finished">すべての目標が完了しました</string>
     <string name="hide_finished_goals">完了した目標を非表示</string>
     <string name="goal_add_hint">アクティビティまたはカテゴリを編集して目標を割り当てます</string>
+    <string name="goal_estimate">予測</string>
+    <string name="goal_estimate_not_reached">達成できません</string>
 
     <!--  Categories  -->
     <string name="categories_title">カテゴリとタグ</string>

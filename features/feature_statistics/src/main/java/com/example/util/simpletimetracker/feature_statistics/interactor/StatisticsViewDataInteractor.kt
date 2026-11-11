@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
+import com.example.util.simpletimetracker.core.interactor.GetGoalCompletionEstimateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
@@ -44,6 +45,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
+    private val getGoalCompletionEstimateInteractor: GetGoalCompletionEstimateInteractor,
 ) {
 
     suspend fun getViewData(
@@ -142,6 +144,14 @@ class StatisticsViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 durationFormat = durationFormat,
                 showSeconds = showSeconds,
+                estimates = getGoalCompletionEstimateInteractor.get(
+                    goals = goals,
+                    statistics = statistics,
+                    filterType = filterType,
+                    rangeLength = rangeLength,
+                    range = range,
+                ),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
         }
         val totalTracked: ViewHolderType = statisticsMediator.getStatisticsTotalTracked(

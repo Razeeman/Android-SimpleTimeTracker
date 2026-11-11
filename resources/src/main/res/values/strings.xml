@@ -99,6 +99,8 @@
     <string name="all_goals_finished">All goals are finished</string>
     <string name="hide_finished_goals">Hide finished goals</string>
     <string name="goal_add_hint">Edit activity or category to assign goal to it</string>
+    <string name="goal_estimate">Estimate</string>
+    <string name="goal_estimate_not_reached">Won\'t be reached</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categories and tags</string>

@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Semua target telah selesai</string>
     <string name="hide_finished_goals">Sembunyikan target yang selesai</string>
     <string name="goal_add_hint">Edit aktivitas atau kategori untuk menetapkan tujuan</string>
+    <string name="goal_estimate">Perkiraan</string>
+    <string name="goal_estimate_not_reached">Tidak akan tercapai</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategori dan tag</string>

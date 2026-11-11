@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Tutti gli obiettivi sono completati</string>
     <string name="hide_finished_goals">Nascondi gli obiettivi completati</string>
     <string name="goal_add_hint">Modifica l\'attività o la categoria per assegnarle un obiettivo</string>
+    <string name="goal_estimate">Stima</string>
+    <string name="goal_estimate_not_reached">Non verrà raggiunto</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categorie e tag</string>
