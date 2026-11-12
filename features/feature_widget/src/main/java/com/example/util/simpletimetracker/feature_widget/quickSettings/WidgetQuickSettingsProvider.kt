@@ -12,26 +12,40 @@ import android.widget.FrameLayout
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
+import com.example.util.simpletimetracker.core.repo.PermissionRepo
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
+import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.widget.interactor.WidgetInteractor
 import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
+import com.example.util.simpletimetracker.feature_settings.api.OnSettingChangedInteractor
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.quickSettings.customView.WidgetQuickSettingsView
+import com.example.util.simpletimetracker.navigation.Router
+import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class WidgetQuickSettingsProvider : AppWidgetProvider() {
 
     @Inject
-    lateinit var widgetInteractor: WidgetInteractor
+    lateinit var externalViewsInteractor: UpdateExternalViewsInteractor
+
+    @Inject
+    lateinit var onSettingChangedInteractor: OnSettingChangedInteractor
+
+    @Inject
+    lateinit var permissionRepo: PermissionRepo
+
+    @Inject
+    lateinit var router: Router
 
     @Inject
     lateinit var resourceRepo: ResourceRepo
@@ -42,7 +56,9 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
         if (intent?.action == ON_CLICK_ACTION) {
-            onClick(intent.getIntExtra(ARGS_WIDGET_ID, 0))
+            launchAsync {
+                onClick(intent.getIntExtra(ARGS_WIDGET_ID, 0))
+            }
         }
     }
 
@@ -51,55 +67,68 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?,
     ) {
-        appWidgetIds?.forEach { widgetId ->
-            updateAppWidget(context, appWidgetManager, widgetId)
+        launchAsync {
+            appWidgetIds?.forEach { widgetId ->
+                updateAppWidget(context, appWidgetManager, widgetId)
+            }
         }
     }
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        allowDiskRead { MainScope() }.launch {
+        launchAsync {
             appWidgetIds?.forEach { prefsInteractor.removeQuickSettingsWidget(it) }
         }
     }
 
-    private fun updateAppWidget(
+    private suspend fun updateAppWidget(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
         appWidgetId: Int,
     ) {
         if (context == null || appWidgetManager == null) return
 
-        allowDiskRead { MainScope() }.launch {
-            val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
-            val name: String
-            val isChecked: Boolean
-            when (prefsInteractor.getQuickSettingsWidget(appWidgetId)) {
-                is QuickSettingsWidgetType.AllowMultitasking -> {
-                    name = resourceRepo.getString(R.string.settings_allow_multitasking)
-                    isChecked = prefsInteractor.getAllowMultitasking()
-                }
-                is QuickSettingsWidgetType.ShowRecordTagSelection -> {
-                    name = resourceRepo.getString(R.string.settings_show_record_tag_selection)
-                    isChecked = prefsInteractor.getShowRecordTagSelection()
-                }
+        val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
+        val name: String
+        val isChecked: Boolean
+        val type = prefsInteractor.getQuickSettingsWidget(appWidgetId)
+        when (type) {
+            is QuickSettingsWidgetType.AllowMultitasking -> {
+                name = resourceRepo.getString(R.string.settings_allow_multitasking)
+                isChecked = prefsInteractor.getAllowMultitasking()
             }
-
-            val view = prepareView(
-                context = context,
-                name = name,
-                isChecked = isChecked,
-                backgroundTransparency = backgroundTransparency,
-            )
-            measureView(context, view)
-            val bitmap = view.getBitmapFromView()
-
-            val views = RemoteViews(context.packageName, R.layout.widget_layout)
-            views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
-            views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
-
-            runCatching {
-                appWidgetManager.updateAppWidget(appWidgetId, views)
+            is QuickSettingsWidgetType.ShowRecordTagSelection -> {
+                name = resourceRepo.getString(R.string.settings_show_record_tag_selection)
+                isChecked = prefsInteractor.getShowRecordTagSelection()
             }
+            is QuickSettingsWidgetType.ShowTimerNotifications -> {
+                name = resourceRepo.getString(R.string.settings_show_notifications)
+                isChecked = prefsInteractor.getShowNotifications()
+            }
+            is QuickSettingsWidgetType.RetroactiveTracking -> {
+                name = resourceRepo.getString(R.string.settings_retroactive_tracking_mode)
+                isChecked = prefsInteractor.getRetroactiveTrackingMode()
+            }
+            is QuickSettingsWidgetType.ShowCommentInput -> {
+                name = resourceRepo.getString(R.string.settings_show_comment_input)
+                isChecked = prefsInteractor.getShowCommentInput()
+            }
+        }
+
+        val view = prepareView(
+            context = context,
+            name = name,
+            isChecked = isChecked,
+            backgroundTransparency = backgroundTransparency,
+        )
+        measureView(context, view)
+        val bitmap = view.getBitmapFromView()
+
+        val views = RemoteViews(context.packageName, R.layout.widget_layout)
+        views.setImageViewBitmap(R.id.ivWidgetBackground, bitmap)
+        views.setOnClickPendingIntent(R.id.btnWidget, getPendingSelfIntent(context, appWidgetId))
+
+        runCatching {
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
     }
 
@@ -152,21 +181,52 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         view.measureExactly(width = width, height = height)
     }
 
-    private fun onClick(
-        widgetId: Int,
-    ) {
-        allowDiskRead { MainScope() }.launch {
-            when (prefsInteractor.getQuickSettingsWidget(widgetId)) {
-                is QuickSettingsWidgetType.AllowMultitasking -> {
-                    val newValue = !prefsInteractor.getAllowMultitasking()
-                    prefsInteractor.setAllowMultitasking(newValue)
-                }
-                is QuickSettingsWidgetType.ShowRecordTagSelection -> {
-                    val newValue = !prefsInteractor.getShowRecordTagSelection()
-                    prefsInteractor.setShowRecordTagSelection(newValue)
+    private suspend fun onClick(widgetId: Int) {
+        // TODO add same settings to shortcuts, same order
+        when (prefsInteractor.getQuickSettingsWidget(widgetId)) {
+            is QuickSettingsWidgetType.AllowMultitasking -> {
+                val newValue = !prefsInteractor.getAllowMultitasking()
+                prefsInteractor.setAllowMultitasking(newValue)
+                onSettingChangedInteractor.onAllowMultitaskingChange()
+            }
+            is QuickSettingsWidgetType.ShowRecordTagSelection -> {
+                val newValue = !prefsInteractor.getShowRecordTagSelection()
+                prefsInteractor.setShowRecordTagSelection(newValue)
+                externalViewsInteractor.onShowRecordTagSelectionChange()
+            }
+            is QuickSettingsWidgetType.ShowTimerNotifications -> {
+                val enable = !prefsInteractor.getShowNotifications()
+                val permissionGranted = permissionRepo.areNotificationsEnabled()
+                prefsInteractor.setShowNotifications(enable && permissionGranted)
+                externalViewsInteractor.onShowTimerNotificationsChange()
+                if (enable && !permissionGranted) {
+                    val params = ToastParams(resourceRepo.getString(R.string.post_notifications))
+                    router.show(params)
                 }
             }
-            widgetInteractor.updateQuickSettingsWidget(widgetId)
+            is QuickSettingsWidgetType.RetroactiveTracking -> {
+                val newValue = !prefsInteractor.getRetroactiveTrackingMode()
+                prefsInteractor.setRetroactiveTrackingMode(newValue)
+                onSettingChangedInteractor.onRetroactiveTrackingModeChange()
+            }
+            is QuickSettingsWidgetType.ShowCommentInput -> {
+                val newValue = !prefsInteractor.getShowCommentInput()
+                prefsInteractor.setShowCommentInput(newValue)
+                externalViewsInteractor.onShowCommentInputChange()
+            }
+        }
+    }
+
+    private fun launchAsync(block: suspend () -> Unit) {
+        val pendingResult = goAsync()
+        allowDiskRead { MainScope() }.launch {
+            try {
+                block()
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                pendingResult.finish()
+            }
         }
     }
 

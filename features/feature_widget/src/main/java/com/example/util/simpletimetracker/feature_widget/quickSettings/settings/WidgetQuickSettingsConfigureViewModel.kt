@@ -23,21 +23,30 @@ class WidgetQuickSettingsConfigureViewModel @Inject constructor(
     val handled: LiveData<Int> = MutableLiveData()
 
     fun onAllowMultitaskingClicked() {
-        viewModelScope.launch {
-            prefsInteractor.setQuickSettingsWidget(
-                widgetId = extra.widgetId,
-                data = QuickSettingsWidgetType.AllowMultitasking,
-            )
-            widgetInteractor.updateQuickSettingsWidget(extra.widgetId)
-            handled.set(extra.widgetId)
-        }
+        configure(QuickSettingsWidgetType.AllowMultitasking)
     }
 
     fun onShowRecordTagSelectionClicked() {
+        configure(QuickSettingsWidgetType.ShowRecordTagSelection)
+    }
+
+    fun onShowTimerNotificationsClicked() {
+        configure(QuickSettingsWidgetType.ShowTimerNotifications)
+    }
+
+    fun onRetroactiveTrackingClicked() {
+        configure(QuickSettingsWidgetType.RetroactiveTracking)
+    }
+
+    fun onShowCommentInputClicked() {
+        configure(QuickSettingsWidgetType.ShowCommentInput)
+    }
+
+    private fun configure(type: QuickSettingsWidgetType) {
         viewModelScope.launch {
             prefsInteractor.setQuickSettingsWidget(
                 widgetId = extra.widgetId,
-                data = QuickSettingsWidgetType.ShowRecordTagSelection,
+                data = type,
             )
             widgetInteractor.updateQuickSettingsWidget(extra.widgetId)
             handled.set(extra.widgetId)

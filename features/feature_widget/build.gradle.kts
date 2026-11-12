@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":feature_dialogs:api"))
     implementation(project(":feature_views"))
     implementation(project(":feature_running_records:api"))
+    implementation(project(":feature_settings:api"))
 
     implementation(libs.ktx.navigationFragment)
     implementation(libs.ktx.navigationUi)

@@ -38,6 +38,9 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity<Binding>() {
     override fun initUx() = with(binding) {
         layoutWidgetQuickSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
         layoutWidgetQuickSettingsShowTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
+        layoutWidgetQuickSettingsShowNotifications.setOnClick(viewModel::onShowTimerNotificationsClicked)
+        layoutWidgetQuickSettingsRetroactiveTracking.setOnClick(viewModel::onRetroactiveTrackingClicked)
+        layoutWidgetQuickSettingsShowCommentInput.setOnClick(viewModel::onShowCommentInputClicked)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {

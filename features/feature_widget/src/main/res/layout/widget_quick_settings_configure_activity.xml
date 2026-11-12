@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--  TODO move to recycler  -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,6 +69,99 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_show_record_tag_selection_hint" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutWidgetQuickSettingsShowCommentInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_show_comment_input" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_show_comment_input_hint" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutWidgetQuickSettingsShowNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_show_notifications" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_show_notifications_hint" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/SettingsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutWidgetQuickSettingsRetroactiveTracking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/settings_retroactive_tracking_mode" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SettingsSecondaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_retroactive_tracking_mode_hint" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

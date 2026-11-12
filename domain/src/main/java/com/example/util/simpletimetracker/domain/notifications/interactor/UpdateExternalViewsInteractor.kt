@@ -416,6 +416,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
         runUpdates(
             Update.NotificationTypes,
             Update.NotificationWithControls,
+            Update.WidgetQuickSettings,
         )
     }
 
@@ -447,6 +448,7 @@ class UpdateExternalViewsInteractor @Inject constructor(
 
     suspend fun onRetroactiveTrackingModeChange() {
         runUpdates(
+            Update.WidgetQuickSettings,
             Update.WidgetSingleTypes,
             Update.WidgetUniversal,
             Update.WidgetGrid,
@@ -480,6 +482,12 @@ class UpdateExternalViewsInteractor @Inject constructor(
     }
 
     suspend fun onAllowMultitaskingChange() {
+        runUpdates(
+            Update.WidgetQuickSettings,
+        )
+    }
+
+    suspend fun onShowCommentInputChange() {
         runUpdates(
             Update.WidgetQuickSettings,
         )

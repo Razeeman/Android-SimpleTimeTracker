@@ -635,6 +635,9 @@ class PrefsRepoImpl @Inject constructor(
         val type = when (data) {
             is QuickSettingsWidgetType.AllowMultitasking -> 0L
             is QuickSettingsWidgetType.ShowRecordTagSelection -> 1L
+            is QuickSettingsWidgetType.ShowTimerNotifications -> 2L
+            is QuickSettingsWidgetType.RetroactiveTracking -> 3L
+            is QuickSettingsWidgetType.ShowCommentInput -> 4L
         }
         prefs.edit { putLong(key, type) }
     }
@@ -645,6 +648,9 @@ class PrefsRepoImpl @Inject constructor(
         return when (prefs.getLong(key, 0)) {
             0L -> QuickSettingsWidgetType.AllowMultitasking
             1L -> QuickSettingsWidgetType.ShowRecordTagSelection
+            2L -> QuickSettingsWidgetType.ShowTimerNotifications
+            3L -> QuickSettingsWidgetType.RetroactiveTracking
+            4L -> QuickSettingsWidgetType.ShowCommentInput
             else -> QuickSettingsWidgetType.AllowMultitasking
         }
     }
