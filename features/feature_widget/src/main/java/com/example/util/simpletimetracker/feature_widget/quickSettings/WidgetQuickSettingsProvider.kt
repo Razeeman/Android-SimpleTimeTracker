@@ -12,20 +12,17 @@ import android.widget.FrameLayout
 import android.widget.RemoteViews
 import com.example.util.simpletimetracker.core.extension.allowDiskRead
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
-import com.example.util.simpletimetracker.core.repo.PermissionRepo
+import com.example.util.simpletimetracker.core.mapper.QuickSettingViewDataMapper
 import com.example.util.simpletimetracker.core.repo.ResourceRepo
 import com.example.util.simpletimetracker.core.utils.PendingIntents
-import com.example.util.simpletimetracker.domain.notifications.interactor.UpdateExternalViewsInteractor
+import com.example.util.simpletimetracker.domain.prefs.interactor.IsQuickSettingEnabledInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
-import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
-import com.example.util.simpletimetracker.feature_settings.api.OnSettingChangedInteractor
+import com.example.util.simpletimetracker.feature_settings.api.OnQuickSettingClickInteractor
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.quickSettings.customView.WidgetQuickSettingsView
-import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -36,16 +33,13 @@ import javax.inject.Inject
 class WidgetQuickSettingsProvider : AppWidgetProvider() {
 
     @Inject
-    lateinit var externalViewsInteractor: UpdateExternalViewsInteractor
+    lateinit var onQuickSettingClickInteractor: OnQuickSettingClickInteractor
 
     @Inject
-    lateinit var onSettingChangedInteractor: OnSettingChangedInteractor
+    lateinit var isQuickSettingEnabledInteractor: IsQuickSettingEnabledInteractor
 
     @Inject
-    lateinit var permissionRepo: PermissionRepo
-
-    @Inject
-    lateinit var router: Router
+    lateinit var quickSettingViewDataMapper: QuickSettingViewDataMapper
 
     @Inject
     lateinit var resourceRepo: ResourceRepo
@@ -88,31 +82,9 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         if (context == null || appWidgetManager == null) return
 
         val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
-        val name: String
-        val isChecked: Boolean
         val type = prefsInteractor.getQuickSettingsWidget(appWidgetId)
-        when (type) {
-            is QuickSettingsWidgetType.AllowMultitasking -> {
-                name = resourceRepo.getString(R.string.settings_allow_multitasking)
-                isChecked = prefsInteractor.getAllowMultitasking()
-            }
-            is QuickSettingsWidgetType.ShowRecordTagSelection -> {
-                name = resourceRepo.getString(R.string.settings_show_record_tag_selection)
-                isChecked = prefsInteractor.getShowRecordTagSelection()
-            }
-            is QuickSettingsWidgetType.ShowTimerNotifications -> {
-                name = resourceRepo.getString(R.string.settings_show_notifications)
-                isChecked = prefsInteractor.getShowNotifications()
-            }
-            is QuickSettingsWidgetType.RetroactiveTracking -> {
-                name = resourceRepo.getString(R.string.settings_retroactive_tracking_mode)
-                isChecked = prefsInteractor.getRetroactiveTrackingMode()
-            }
-            is QuickSettingsWidgetType.ShowCommentInput -> {
-                name = resourceRepo.getString(R.string.settings_show_comment_input)
-                isChecked = prefsInteractor.getShowCommentInput()
-            }
-        }
+        val name = quickSettingViewDataMapper.mapTitle(type)
+        val isChecked = isQuickSettingEnabledInteractor.execute(type)
 
         val view = prepareView(
             context = context,
@@ -182,39 +154,8 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     }
 
     private suspend fun onClick(widgetId: Int) {
-        // TODO add same settings to shortcuts, same order
-        when (prefsInteractor.getQuickSettingsWidget(widgetId)) {
-            is QuickSettingsWidgetType.AllowMultitasking -> {
-                val newValue = !prefsInteractor.getAllowMultitasking()
-                prefsInteractor.setAllowMultitasking(newValue)
-                onSettingChangedInteractor.onAllowMultitaskingChange()
-            }
-            is QuickSettingsWidgetType.ShowRecordTagSelection -> {
-                val newValue = !prefsInteractor.getShowRecordTagSelection()
-                prefsInteractor.setShowRecordTagSelection(newValue)
-                externalViewsInteractor.onShowRecordTagSelectionChange()
-            }
-            is QuickSettingsWidgetType.ShowTimerNotifications -> {
-                val enable = !prefsInteractor.getShowNotifications()
-                val permissionGranted = permissionRepo.areNotificationsEnabled()
-                prefsInteractor.setShowNotifications(enable && permissionGranted)
-                externalViewsInteractor.onShowTimerNotificationsChange()
-                if (enable && !permissionGranted) {
-                    val params = ToastParams(resourceRepo.getString(R.string.post_notifications))
-                    router.show(params)
-                }
-            }
-            is QuickSettingsWidgetType.RetroactiveTracking -> {
-                val newValue = !prefsInteractor.getRetroactiveTrackingMode()
-                prefsInteractor.setRetroactiveTrackingMode(newValue)
-                onSettingChangedInteractor.onRetroactiveTrackingModeChange()
-            }
-            is QuickSettingsWidgetType.ShowCommentInput -> {
-                val newValue = !prefsInteractor.getShowCommentInput()
-                prefsInteractor.setShowCommentInput(newValue)
-                externalViewsInteractor.onShowCommentInputChange()
-            }
-        }
+        val type = prefsInteractor.getQuickSettingsWidget(widgetId)
+        onQuickSettingClickInteractor.execute(type)
     }
 
     private fun launchAsync(block: suspend () -> Unit) {

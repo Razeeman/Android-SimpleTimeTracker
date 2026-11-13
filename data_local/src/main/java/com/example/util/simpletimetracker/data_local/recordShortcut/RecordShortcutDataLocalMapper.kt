@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.data_local.recordShortcut
 
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.data_local.recordTag.RecordShortcutToRecordTagDBO
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
@@ -55,22 +56,30 @@ class RecordShortcutDataLocalMapper @Inject constructor() {
 
     fun mapSettingAction(dbo: Long?): RecordShortcut.SettingAction {
         return when (dbo) {
-            0L -> RecordShortcut.SettingAction.Multitasking
-            1L -> RecordShortcut.SettingAction.RetroactiveMode
+            0L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking)
+            1L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking)
             2L -> RecordShortcut.SettingAction.Categories
             3L -> RecordShortcut.SettingAction.Archive
             4L -> RecordShortcut.SettingAction.DataEdit
             5L -> RecordShortcut.SettingAction.SortActivities
             6L -> RecordShortcut.SettingAction.Shortcuts
             7L -> RecordShortcut.SettingAction.Reminders
-            else -> RecordShortcut.SettingAction.Multitasking
+            8L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowRecordTagSelection)
+            9L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowTimerNotifications)
+            10L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowCommentInput)
+            else -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking)
         }
     }
 
     fun mapSettingAction(domain: RecordShortcut.SettingAction): Long {
         return when (domain) {
-            RecordShortcut.SettingAction.Multitasking -> 0L
-            RecordShortcut.SettingAction.RetroactiveMode -> 1L
+            is RecordShortcut.SettingAction.Toggle -> when (domain.type) {
+                QuickSettingsWidgetType.AllowMultitasking -> 0L
+                QuickSettingsWidgetType.RetroactiveTracking -> 1L
+                QuickSettingsWidgetType.ShowRecordTagSelection -> 8L
+                QuickSettingsWidgetType.ShowTimerNotifications -> 9L
+                QuickSettingsWidgetType.ShowCommentInput -> 10L
+            }
             RecordShortcut.SettingAction.Categories -> 2L
             RecordShortcut.SettingAction.Archive -> 3L
             RecordShortcut.SettingAction.DataEdit -> 4L

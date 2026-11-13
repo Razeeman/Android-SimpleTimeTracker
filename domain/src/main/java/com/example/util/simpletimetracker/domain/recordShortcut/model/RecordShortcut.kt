@@ -1,6 +1,7 @@
 package com.example.util.simpletimetracker.domain.recordShortcut.model
 
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 
 data class RecordShortcut(
     val id: Long = 0,
@@ -30,14 +31,13 @@ data class RecordShortcut(
         Setting,
     }
 
-    enum class SettingAction {
-        Multitasking,
-        RetroactiveMode,
-        Categories,
-        Archive,
-        DataEdit,
-        SortActivities,
-        Shortcuts,
-        Reminders,
+    sealed interface SettingAction {
+        data class Toggle(val type: QuickSettingsWidgetType) : SettingAction
+        object Categories : SettingAction
+        object Archive : SettingAction
+        object DataEdit : SettingAction
+        object SortActivities : SettingAction
+        object Shortcuts : SettingAction
+        object Reminders : SettingAction
     }
 }

@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.domain.recordShortcut.interactor
 
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
@@ -48,9 +49,13 @@ class RecordShortcutInteractor @Inject constructor(
     }
 
     fun getSettingsOrder(): List<RecordShortcut.SettingAction> {
+        // TODO SETTINGS get same order as in quick settings widget
         return listOf(
-            RecordShortcut.SettingAction.Multitasking,
-            RecordShortcut.SettingAction.RetroactiveMode,
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowRecordTagSelection),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowCommentInput),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowTimerNotifications),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking),
             RecordShortcut.SettingAction.SortActivities,
             RecordShortcut.SettingAction.Shortcuts,
             RecordShortcut.SettingAction.Categories,
