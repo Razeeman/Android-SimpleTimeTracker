@@ -22,6 +22,7 @@ import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromV
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
+import com.example.util.simpletimetracker.feature_widget.common.WidgetErrorActivity
 import com.example.util.simpletimetracker.feature_widget.quickSettings.customView.WidgetQuickSettingsView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
@@ -51,7 +52,7 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         if (intent?.action == ON_CLICK_ACTION) {
             launchAsync {
-                onClick(intent.getIntExtra(ARGS_WIDGET_ID, 0))
+                onClick(context, intent.getIntExtra(ARGS_WIDGET_ID, 0))
             }
         }
     }
@@ -153,9 +154,16 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         view.measureExactly(width = width, height = height)
     }
 
-    private suspend fun onClick(widgetId: Int) {
+    private suspend fun onClick(context: Context?, widgetId: Int) {
+        if (context == null) return
+
         val type = prefsInteractor.getQuickSettingsWidget(widgetId)
-        onQuickSettingClickInteractor.execute(type)
+        onQuickSettingClickInteractor.execute(
+            type = type,
+            onError = { message ->
+                context.startActivity(WidgetErrorActivity.getStartIntent(context, message))
+            },
+        )
     }
 
     private fun launchAsync(block: suspend () -> Unit) {

@@ -9,7 +9,7 @@ import com.example.util.simpletimetracker.feature_settings.R
 import com.example.util.simpletimetracker.feature_settings.api.OnQuickSettingClickInteractor
 import com.example.util.simpletimetracker.feature_settings.api.OnSettingChangedInteractor
 import com.example.util.simpletimetracker.navigation.Router
-import com.example.util.simpletimetracker.navigation.params.notification.ToastParams
+import com.example.util.simpletimetracker.navigation.params.notification.SnackBarParams
 import javax.inject.Inject
 
 class OnQuickSettingClickInteractorImpl @Inject constructor(
@@ -21,7 +21,10 @@ class OnQuickSettingClickInteractorImpl @Inject constructor(
     private val router: Router,
 ) : OnQuickSettingClickInteractor {
 
-    override suspend fun execute(type: QuickSettingsWidgetType) {
+    override suspend fun execute(
+        type: QuickSettingsWidgetType,
+        onError: ((String) -> Unit)?,
+    ) {
         when (type) {
             QuickSettingsWidgetType.AllowMultitasking -> {
                 val newValue = !prefsInteractor.getAllowMultitasking()
@@ -39,9 +42,12 @@ class OnQuickSettingClickInteractorImpl @Inject constructor(
                 prefsInteractor.setShowNotifications(enable && permissionGranted)
                 externalViewsInteractor.onShowTimerNotificationsChange()
                 if (enable && !permissionGranted) {
-                    // TODO SETTINGS show snack for shortcuts
-                    val params = ToastParams(resourceRepo.getString(R.string.post_notifications))
-                    router.show(params)
+                    val message = resourceRepo.getString(R.string.post_notifications)
+                    if (onError != null) {
+                        onError(message)
+                    } else {
+                        router.show(SnackBarParams(message = message))
+                    }
                 }
             }
             QuickSettingsWidgetType.RetroactiveTracking -> {

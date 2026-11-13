@@ -169,6 +169,8 @@ class WidgetUniversalViewModel @Inject constructor(
     fun onShortcutClick(item: RecordShortcutViewData) = viewModelScope.launch {
         onShortcutClickInteractor.execute(item)
         updateRecordTypesViewData()
+        // TODO SETTINGS keep notification permission errors visible after the timer notifications shortcut is tapped.
+        // Block close in this case?
         exit.set(Unit)
     }
 
