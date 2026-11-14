@@ -27,19 +27,20 @@ class GetRunningRecordViewDataMediator @Inject constructor(
         useMilitaryTime: Boolean,
         durationFormat: DurationFormat,
         showSeconds: Boolean,
+        dailyCurrent: GetCurrentRecordsDurationInteractor.Result? = null,
     ): RunningRecordViewData {
-        val dailyCurrent = if (
+        val current = if (
             (goals.getDaily().isNotEmpty() && goalsVisible) ||
             totalDurationVisible
         ) {
-            getCurrentRecordsDurationInteractor.getDailyCurrent(typeId = record.id, runningRecord = record)
+            dailyCurrent ?: getCurrentRecordsDurationInteractor.getDailyCurrent(typeId = record.id, runningRecord = record)
         } else {
             null
         }
 
         return runningRecordViewDataMapper.map(
             runningRecord = record,
-            dailyCurrent = dailyCurrent,
+            dailyCurrent = current,
             recordType = type,
             recordTags = tags,
             goals = goals,

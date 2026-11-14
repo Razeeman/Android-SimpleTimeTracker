@@ -75,13 +75,20 @@ class RunningRecordsViewDataInteractor @Inject constructor(
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getAllTypeGoals())
             .groupBy { it.idData.value }
-        val allDailyCurrents = if (goals.isNotEmpty()) {
+        val dailyCurrentTypeIds = if (goals.isNotEmpty()) {
+            // Have goals - load all data.
+            recordTypesMap.keys
+        } else {
+            // No goals - load only for timers.
+            recordTypesRunning.toSet().intersect(recordTypesMap.keys)
+        }
+        val allDailyCurrents = if (dailyCurrentTypeIds.isNotEmpty()) {
             getCurrentRecordsDurationInteractor.getAllDailyCurrents(
-                typeIds = recordTypesMap.keys,
+                typeIds = dailyCurrentTypeIds,
                 runningRecords = runningRecords,
             )
         } else {
-            // No goals - no need to calculate durations.
+            // No goals or running records - no need to calculate durations.
             emptyMap()
         }
         val actualSearchText = if (enableSearchOnMain) searchText else ""
@@ -126,6 +133,7 @@ class RunningRecordsViewDataInteractor @Inject constructor(
                             useMilitaryTime = useMilitaryTime,
                             durationFormat = durationFormat,
                             showSeconds = showSeconds,
+                            dailyCurrent = allDailyCurrents[runningRecord.id],
                         )
                     }
                     .plus(
