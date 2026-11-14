@@ -5,9 +5,12 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.domain.activityFilter.model.ActivityFilter
+import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.feature_widget.universal.view.WidgetUniversalActivity
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.Widget
@@ -208,6 +211,33 @@ class WidgetUniversal : BaseUiTest() {
         checkViewIsDisplayed(withText(name1))
         checkViewIsDisplayed(withText(name2))
         checkViewIsDisplayed(allOf(withCardColor(viewsR.color.colorInactive), hasDescendant(withText(filter))))
+    }
+
+    @Test
+    fun navigationShortcutsAreHidden() {
+        val name = "TypeName"
+        val comment = "ShortcutComment"
+        val hiddenShortcuts = listOf(
+            RecordShortcut.SettingAction.Navigation.Categories to coreR.string.categories_title,
+            RecordShortcut.SettingAction.Navigation.Archive to coreR.string.settings_archive,
+            RecordShortcut.SettingAction.Navigation.DataEdit to coreR.string.settings_data_edit,
+            RecordShortcut.SettingAction.Navigation.Shortcuts to coreR.string.change_record_shortcut,
+            RecordShortcut.SettingAction.Navigation.Reminders to coreR.string.settings_reminders_title,
+        )
+
+        // Add navigation shortcuts and supported shortcuts.
+        testUtils.addActivity(name)
+        testUtils.addShortcut(typeName = name, comment = comment)
+        hiddenShortcuts.forEach { (action, _) -> testUtils.addSettingShortcut(action) }
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking))
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.SortActivities)
+        scenarioRule = ActivityScenario.launch(WidgetUniversalActivity::class.java)
+
+        // Only supported shortcuts are shown in the widget.
+        tryAction { checkViewIsDisplayed(withText("$name - $comment")) }
+        checkViewIsDisplayed(withText(coreR.string.settings_allow_multitasking))
+        checkViewIsDisplayed(withSubstring(getString(coreR.string.settings_sort_activity)))
+        hiddenShortcuts.forEach { (_, title) -> checkViewDoesNotExist(withText(title)) }
     }
 
     @Test

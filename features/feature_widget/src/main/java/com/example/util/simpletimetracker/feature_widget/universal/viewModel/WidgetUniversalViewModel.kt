@@ -24,6 +24,7 @@ import com.example.util.simpletimetracker.domain.record.interactor.RunningRecord
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.record.model.RecordDataSelectionDialogResult
 import com.example.util.simpletimetracker.domain.record.model.RunningRecord
+import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordTag.interactor.RecordTagInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
@@ -316,7 +317,12 @@ class WidgetUniversalViewModel @Inject constructor(
             runningRecords = runningRecords,
             searchText = "",
             isDarkTheme = isDarkTheme,
-        )
+        ).filter { shortcut ->
+            when (val target = shortcut.target) {
+                is RecordShortcut.Target.Record -> true
+                is RecordShortcut.Target.Setting -> target.action !is RecordShortcut.SettingAction.Navigation
+            }
+        }
 
         val openInAppButtonViewData = widgetUniversalViewDataMapper.mapOpenInAppButton(
             isDarkTheme = isDarkTheme,

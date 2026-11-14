@@ -77,15 +77,15 @@ class OnShortcutClickInteractorImpl @Inject constructor(
                 onQuickSettingClickInteractor.execute(action.type)
                 OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
-            RecordShortcut.SettingAction.Categories -> {
+            RecordShortcut.SettingAction.Navigation.Categories -> {
                 router.navigate(CategoriesParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
-            RecordShortcut.SettingAction.Archive -> {
+            RecordShortcut.SettingAction.Navigation.Archive -> {
                 router.navigate(ArchiveParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
-            RecordShortcut.SettingAction.DataEdit -> {
+            RecordShortcut.SettingAction.Navigation.DataEdit -> {
                 router.navigate(DataEditParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
@@ -93,11 +93,11 @@ class OnShortcutClickInteractorImpl @Inject constructor(
                 // Not used, click on spinner should work instead.
                 OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
-            RecordShortcut.SettingAction.Shortcuts -> {
+            RecordShortcut.SettingAction.Navigation.Shortcuts -> {
                 router.navigate(ShortcutsParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
-            RecordShortcut.SettingAction.Reminders -> {
+            RecordShortcut.SettingAction.Navigation.Reminders -> {
                 router.navigate(RemindersParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }

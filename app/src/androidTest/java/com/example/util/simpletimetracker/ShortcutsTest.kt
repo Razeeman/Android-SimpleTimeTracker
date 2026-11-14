@@ -176,11 +176,11 @@ class ShortcutsTest : BaseUiTest() {
         testUtils.addActivity(name)
         testUtils.addSettingShortcut(RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking))
         testUtils.addSettingShortcut(RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking))
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Categories)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Archive)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.DataEdit)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Shortcuts)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Reminders)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Categories)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Archive)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.DataEdit)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Shortcuts)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Reminders)
         Thread.sleep(1000)
 
         // Check shortcuts

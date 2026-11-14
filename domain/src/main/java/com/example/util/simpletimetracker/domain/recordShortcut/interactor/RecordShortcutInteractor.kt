@@ -57,11 +57,11 @@ class RecordShortcutInteractor @Inject constructor(
             RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowTimerNotifications),
             RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking),
             RecordShortcut.SettingAction.SortActivities,
-            RecordShortcut.SettingAction.Shortcuts,
-            RecordShortcut.SettingAction.Categories,
-            RecordShortcut.SettingAction.Archive,
-            RecordShortcut.SettingAction.DataEdit,
-            RecordShortcut.SettingAction.Reminders,
+            RecordShortcut.SettingAction.Navigation.Shortcuts,
+            RecordShortcut.SettingAction.Navigation.Categories,
+            RecordShortcut.SettingAction.Navigation.Archive,
+            RecordShortcut.SettingAction.Navigation.DataEdit,
+            RecordShortcut.SettingAction.Navigation.Reminders,
         )
     }
 

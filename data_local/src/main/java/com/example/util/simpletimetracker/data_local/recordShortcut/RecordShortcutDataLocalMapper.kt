@@ -58,12 +58,12 @@ class RecordShortcutDataLocalMapper @Inject constructor() {
         return when (dbo) {
             0L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking)
             1L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking)
-            2L -> RecordShortcut.SettingAction.Categories
-            3L -> RecordShortcut.SettingAction.Archive
-            4L -> RecordShortcut.SettingAction.DataEdit
+            2L -> RecordShortcut.SettingAction.Navigation.Categories
+            3L -> RecordShortcut.SettingAction.Navigation.Archive
+            4L -> RecordShortcut.SettingAction.Navigation.DataEdit
             5L -> RecordShortcut.SettingAction.SortActivities
-            6L -> RecordShortcut.SettingAction.Shortcuts
-            7L -> RecordShortcut.SettingAction.Reminders
+            6L -> RecordShortcut.SettingAction.Navigation.Shortcuts
+            7L -> RecordShortcut.SettingAction.Navigation.Reminders
             8L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowRecordTagSelection)
             9L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowTimerNotifications)
             10L -> RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowCommentInput)
@@ -80,12 +80,12 @@ class RecordShortcutDataLocalMapper @Inject constructor() {
                 QuickSettingsWidgetType.ShowTimerNotifications -> 9L
                 QuickSettingsWidgetType.ShowCommentInput -> 10L
             }
-            RecordShortcut.SettingAction.Categories -> 2L
-            RecordShortcut.SettingAction.Archive -> 3L
-            RecordShortcut.SettingAction.DataEdit -> 4L
+            RecordShortcut.SettingAction.Navigation.Categories -> 2L
+            RecordShortcut.SettingAction.Navigation.Archive -> 3L
+            RecordShortcut.SettingAction.Navigation.DataEdit -> 4L
             RecordShortcut.SettingAction.SortActivities -> 5L
-            RecordShortcut.SettingAction.Shortcuts -> 6L
-            RecordShortcut.SettingAction.Reminders -> 7L
+            RecordShortcut.SettingAction.Navigation.Shortcuts -> 6L
+            RecordShortcut.SettingAction.Navigation.Reminders -> 7L
         }
     }
 }

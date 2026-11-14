@@ -12,15 +12,10 @@ class IsSettingShortcutEnabledInteractor @Inject constructor(
         shortcut: RecordShortcut.Target.Setting,
     ): Boolean {
         return when (val action = shortcut.action) {
-            is RecordShortcut.SettingAction.Toggle -> {
-                isQuickSettingEnabledInteractor.execute(action.type)
-            }
-            RecordShortcut.SettingAction.Categories,
-            RecordShortcut.SettingAction.Archive,
-            RecordShortcut.SettingAction.DataEdit,
-            RecordShortcut.SettingAction.SortActivities,
-            RecordShortcut.SettingAction.Shortcuts,
-            RecordShortcut.SettingAction.Reminders,
+            is RecordShortcut.SettingAction.Toggle,
+            -> isQuickSettingEnabledInteractor.execute(action.type)
+            is RecordShortcut.SettingAction.Navigation,
+            is RecordShortcut.SettingAction.SortActivities,
             -> false
         }
     }

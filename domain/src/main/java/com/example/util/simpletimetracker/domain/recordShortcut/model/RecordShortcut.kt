@@ -33,11 +33,13 @@ data class RecordShortcut(
 
     sealed interface SettingAction {
         data class Toggle(val type: QuickSettingsWidgetType) : SettingAction
-        object Categories : SettingAction
-        object Archive : SettingAction
-        object DataEdit : SettingAction
         object SortActivities : SettingAction
-        object Shortcuts : SettingAction
-        object Reminders : SettingAction
+        sealed interface Navigation : SettingAction {
+            object Categories : Navigation
+            object Archive : Navigation
+            object DataEdit : Navigation
+            object Shortcuts : Navigation
+            object Reminders : Navigation
+        }
     }
 }
