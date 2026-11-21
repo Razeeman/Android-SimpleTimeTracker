@@ -6,6 +6,7 @@ import com.example.util.simpletimetracker.domain.recordShortcut.interactor.Recor
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordTag.model.RecordTag
 import com.example.util.simpletimetracker.domain.recordType.model.RecordType
+import com.example.util.simpletimetracker.feature_notification.R
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import javax.inject.Inject
 
@@ -40,6 +41,10 @@ class GetNotificationShortcutsInteractor @Inject constructor(
                     id = viewData.id,
                     text = viewData.data.name,
                     color = viewData.data.color,
+                    iconResId = when (shortcut.target) {
+                        is RecordShortcut.Target.Record -> R.drawable.ic_running_record_now
+                        is RecordShortcut.Target.Setting -> R.drawable.ic_settings
+                    },
                 )
             }
     }

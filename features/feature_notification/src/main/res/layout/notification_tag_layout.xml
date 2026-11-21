@@ -31,6 +31,23 @@
         android:textStyle="bold"
         tools:text="Some really long tag name" />
 
+    <!-- RemoteViews uses a framework ImageView, so its tint must use the android namespace. -->
+    <ImageView
+        android:id="@+id/ivNotificationShortcutIcon"
+        android:layout_width="@dimen/notification_icon_half_size"
+        android:layout_height="@dimen/notification_icon_half_size"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/bg_rounded_corners"
+        android:backgroundTint="@color/white"
+        android:importantForAccessibility="no"
+        android:padding="2dp"
+        android:tint="@color/textHint"
+        android:visibility="visible"
+        tools:ignore="UseAppTint"
+        tools:src="@drawable/ic_settings"
+        tools:visibility="visible" />
+
     <ImageView
         android:id="@+id/ivNotificationTagSelectionCheck"
         android:layout_width="@dimen/notification_icon_half_size"

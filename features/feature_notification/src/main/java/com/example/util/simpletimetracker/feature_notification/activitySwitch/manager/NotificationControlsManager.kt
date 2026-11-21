@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.RemoteViews
+import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
@@ -320,6 +321,7 @@ class NotificationControlsManager @Inject constructor(
             getTagControlView(
                 text = shortcut.text,
                 color = shortcut.color,
+                iconResId = shortcut.iconResId,
                 intent = getShortcutIntent(
                     action = ACTION_NOTIFICATION_CONTROLS_SHORTCUT_CLICK,
                     shift = index,
@@ -656,6 +658,7 @@ class NotificationControlsManager @Inject constructor(
         color: Int?,
         intent: PendingIntent?,
         isSelected: Boolean = false,
+        @DrawableRes iconResId: Int? = null,
     ): RemoteViews {
         val checkBitmap by lazy {
             synchronized(checkView) {
@@ -668,6 +671,12 @@ class NotificationControlsManager @Inject constructor(
         return RemoteViews(context.packageName, R.layout.notification_tag_layout)
             .apply {
                 setTextViewText(R.id.tvNotificationTag, text)
+                if (iconResId != null) {
+                    setViewVisibility(R.id.ivNotificationShortcutIcon, View.VISIBLE)
+                    setImageViewResource(R.id.ivNotificationShortcutIcon, iconResId)
+                } else {
+                    setViewVisibility(R.id.ivNotificationShortcutIcon, View.GONE)
+                }
                 if (color != null) {
                     setViewVisibility(R.id.containerNotificationTag, View.VISIBLE)
                     setInt(R.id.ivNotificationTag, "setColorFilter", color)
