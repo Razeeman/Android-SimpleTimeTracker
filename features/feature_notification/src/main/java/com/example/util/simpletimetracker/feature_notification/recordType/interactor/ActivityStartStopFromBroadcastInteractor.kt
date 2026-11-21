@@ -11,11 +11,15 @@ import com.example.util.simpletimetracker.domain.record.interactor.AddRunningRec
 import com.example.util.simpletimetracker.domain.record.interactor.RemoveRunningRecordMediator
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
+import com.example.util.simpletimetracker.domain.recordAction.interactor.RecordActionRepeatMediator
+import com.example.util.simpletimetracker.domain.recordShortcut.interactor.RecordShortcutInteractor
+import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordTag.interactor.NeedTagValueSelectionInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_DECIMAL_DELIMITER
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_MINUS_SIGN
+import com.example.util.simpletimetracker.feature_settings.api.OnQuickSettingClickInteractor
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -31,6 +35,9 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private val needTagValueSelectionInteractor: NeedTagValueSelectionInteractor,
     private val prefsInteractor: PrefsInteractor,
     private val isMultipleTagChoiceAvailableInteractor: IsMultipleTagChoiceAvailableInteractor,
+    private val recordShortcutInteractor: RecordShortcutInteractor,
+    private val recordActionRepeatMediator: RecordActionRepeatMediator,
+    private val onQuickSettingClickInteractor: OnQuickSettingClickInteractor,
 ) {
 
     suspend fun onActionActivityStop(
@@ -69,6 +76,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                 from = from,
                 typesShift = typesShift,
                 tagsShift = 0,
+                shortcutsShift = null,
                 selectedTypeId = selectedTypeId,
                 isMultipleTagAvailable = isMultipleTagAvailable,
                 selectedTags = preselectedTags,
@@ -124,6 +132,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                 from = from,
                 typesShift = typesShift,
                 tagsShift = tagsShift,
+                shortcutsShift = null,
                 selectedTypeId = selectedTypeId,
                 isMultipleTagAvailable = true,
                 selectedTags = emptyList(), // Reset tags.
@@ -163,6 +172,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                 from = from,
                 typesShift = typesShift,
                 tagsShift = tagsShift,
+                shortcutsShift = null,
                 selectedTypeId = selectedTypeId,
                 isMultipleTagAvailable = isMultipleTagAvailable,
                 selectedTags = updatedTags,
@@ -182,6 +192,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                 from = from,
                 typesShift = typesShift,
                 tagsShift = tagsShift,
+                shortcutsShift = null,
                 selectedTypeId = selectedTypeId,
                 isMultipleTagAvailable = isMultipleTagAvailable,
                 selectedTags = selectedTags,
@@ -235,6 +246,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                 from = from,
                 typesShift = typesShift,
                 tagsShift = tagsShift,
+                shortcutsShift = null,
                 selectedTypeId = selectedTypeId,
                 selectedTags = updatedTags,
                 editingTagId = nextRequiredTagId,
@@ -257,11 +269,55 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         }
     }
 
+    suspend fun onActionShortcutsToggle(
+        from: NotificationControlsManager.From,
+        typesShift: Int,
+        shortcutsShift: Int?,
+    ) {
+        update(
+            from = from,
+            typesShift = typesShift,
+            shortcutsShift = if (shortcutsShift == null) 0 else null,
+        )
+    }
+
+    suspend fun onActionShortcutClick(
+        from: NotificationControlsManager.From,
+        typesShift: Int,
+        shortcutsShift: Int?,
+        shortcutId: Long,
+    ) {
+        val target = recordShortcutInteractor.get(shortcutId)?.target
+        if (target == null) {
+            update(from, typesShift, shortcutsShift)
+            return
+        }
+
+        when (target) {
+            is RecordShortcut.Target.Record -> {
+                update(from, typesShift)
+                recordActionRepeatMediator.execute(
+                    typeId = target.typeId,
+                    comment = target.comment,
+                    tags = target.tags,
+                )
+            }
+            is RecordShortcut.Target.Setting -> {
+                val action = target.action as? RecordShortcut.SettingAction.Toggle ?: return
+                onQuickSettingClickInteractor.execute(action.type)
+                // TODO SETTINGS Refresh other visible timer notifications after setting toggles, retaining this picker's page.
+                // Setting side effects may rebuild notifications with closed selection first.
+                update(from, typesShift, shortcutsShift)
+            }
+        }
+    }
+
     suspend fun onRequestUpdate(
         from: NotificationControlsManager.From,
         selectedTypeId: Long,
         typesShift: Int,
         tagsShift: Int,
+        shortcutsShift: Int?,
         selectedTags: List<RecordBase.Tag>,
         editingTagId: Long?,
         editingTagValueInput: String?,
@@ -272,6 +328,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             from = from,
             typesShift = typesShift,
             tagsShift = tagsShift,
+            shortcutsShift = shortcutsShift,
             selectedTypeId = selectedTypeId,
             isMultipleTagAvailable = isMultipleTagAvailable,
             selectedTags = selectedTags,
@@ -325,6 +382,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
             from = from,
             typesShift = typesShift,
             tagsShift = tagsShift,
+            shortcutsShift = null,
             selectedTypeId = selectedTypeId,
             selectedTags = selectedTags,
             editingTagId = editingTagId,
@@ -337,11 +395,13 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
     private suspend fun update(
         from: NotificationControlsManager.From,
         typesShift: Int,
+        shortcutsShift: Int? = null,
     ) {
         update(
             from = from,
             typesShift = typesShift,
             tagsShift = 0,
+            shortcutsShift = shortcutsShift,
             selectedTypeId = 0L,
             isMultipleTagAvailable = false,
             selectedTags = emptyList(),
@@ -355,6 +415,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
         from: NotificationControlsManager.From,
         typesShift: Int,
         tagsShift: Int,
+        shortcutsShift: Int?,
         selectedTypeId: Long,
         isMultipleTagAvailable: Boolean,
         selectedTags: List<RecordBase.Tag>,
@@ -370,6 +431,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                     typeId = from.recordTypeId,
                     typesShift = typesShift,
                     tagsShift = tagsShift,
+                    shortcutsShift = shortcutsShift,
                     selectedTypeId = selectedTypeId,
                     selectedTags = selectedTags,
                     editingTagId = editingTagId,
@@ -382,6 +444,7 @@ class ActivityStartStopFromBroadcastInteractor @Inject constructor(
                 notificationActivitySwitchInteractor.updateNotification(
                     typesShift = typesShift,
                     tagsShift = tagsShift,
+                    shortcutsShift = shortcutsShift,
                     selectedTypeId = selectedTypeId,
                     selectedTags = selectedTags,
                     editingTagId = editingTagId,

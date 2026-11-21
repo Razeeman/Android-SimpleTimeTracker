@@ -8,6 +8,7 @@ interface NotificationTypeInteractor {
         typeId: Long,
         typesShift: Int = 0,
         tagsShift: Int = 0,
+        shortcutsShift: Int? = null,
         selectedTypeId: Long = 0,
         selectedTags: List<RecordBase.Tag> = emptyList(),
         editingTagId: Long? = null,

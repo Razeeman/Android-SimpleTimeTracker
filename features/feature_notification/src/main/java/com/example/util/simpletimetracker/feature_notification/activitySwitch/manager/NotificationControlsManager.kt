@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.RemoteViews
+import androidx.core.net.toUri
 import com.example.util.simpletimetracker.core.extension.allowVmViolations
 import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.extension.ifNull
@@ -62,14 +63,24 @@ class NotificationControlsManager @Inject constructor(
 
             when (controls.viewState) {
                 is NotificationControlsParams.ViewState.TypeSelection -> {
-                    val tagsControlsVisible: Boolean = controls.viewState.tags.isNotEmpty()
+                    val shortcutsControlsVisible: Boolean = controls.viewState.shortcuts.isNotEmpty() &&
+                        controls.shortcutsShift != null
+                    val tagsControlsVisible: Boolean = controls.viewState.tags.isNotEmpty() &&
+                        !shortcutsControlsVisible
 
                     addTypeControls(from, controls, controls.viewState)
-                    if (tagsControlsVisible) addTagControls(from, controls, controls.viewState)
+                    when {
+                        shortcutsControlsVisible -> addShortcutControls(from, controls, controls.viewState)
+                        tagsControlsVisible -> addTagControls(from, controls, controls.viewState)
+                    }
 
                     setViewVisibility(R.id.containerNotificationTypesPrev, View.VISIBLE)
                     setViewVisibility(R.id.containerNotificationTypesNext, View.VISIBLE)
-                    val tagsControlsVisibility = if (tagsControlsVisible) View.VISIBLE else View.GONE
+                    val tagsControlsVisibility = if (tagsControlsVisible || shortcutsControlsVisible) {
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
                     setViewVisibility(R.id.containerNotificationTags, tagsControlsVisibility)
                     setViewVisibility(R.id.containerNotificationTagsPrev, tagsControlsVisibility)
                     setViewVisibility(R.id.containerNotificationTagsNext, tagsControlsVisibility)
@@ -126,6 +137,7 @@ class NotificationControlsManager @Inject constructor(
                     .ifNull { viewState.types.size - TYPES_LIST_SIZE }
                     .coerceAtLeast(0),
                 recordTagsShift = params.tagsShift,
+                shortcutsShift = params.shortcutsShift,
                 isMultipleTagAvailable = params.isMultipleTagAvailable,
                 requiredValueSelectionTagIds = params.requiredValueSelectionTagIds,
             ),
@@ -139,6 +151,9 @@ class NotificationControlsManager @Inject constructor(
             val action = when (data.action) {
                 is NotificationControlsParams.Type.Action.Repeat -> {
                     ACTION_NOTIFICATION_CONTROLS_REPEAT
+                }
+                is NotificationControlsParams.Type.Action.Shortcuts -> {
+                    ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_TOGGLE
                 }
                 is NotificationControlsParams.Type.Action.Select -> {
                     when (from) {
@@ -156,7 +171,11 @@ class NotificationControlsManager @Inject constructor(
                 }
             }
             val selectedTypeId = (data.action as? NotificationControlsParams.Type.Action.Select)?.typeId
-            val color = if (recordTypeId == selectedTypeId) {
+            val isShortcuts = data.action is NotificationControlsParams.Type.Action.Shortcuts
+            val color = if (
+                data.action is NotificationControlsParams.Type.Action.Select &&
+                recordTypeId == selectedTypeId
+            ) {
                 ColorStyle.Solid(viewState.filteredTypeColor)
             } else {
                 data.color
@@ -175,20 +194,28 @@ class NotificationControlsManager @Inject constructor(
                             is NotificationControlsParams.Type.Action.Repeat -> {
                                 RequestCode.AdditionalInfo.Repeat
                             }
+                            is NotificationControlsParams.Type.Action.Shortcuts -> {
+                                RequestCode.AdditionalInfo.Shortcuts
+                            }
                             is NotificationControlsParams.Type.Action.Select -> {
                                 RequestCode.AdditionalInfo.TypeId(data.action.typeId)
                             }
                         },
                     ),
                     from = from,
-                    selectedTags = params.selectedTags,
-                    editingTagId = params.editingTagId,
-                    editingTagValueInput = params.editingTagValueInput,
+                    selectedTags = if (isShortcuts) emptyList() else params.selectedTags,
+                    editingTagId = if (isShortcuts) null else params.editingTagId,
+                    editingTagValueInput = if (isShortcuts) null else params.editingTagValueInput,
                     recordTypesShift = params.typesShift,
-                    recordTagsShift = params.tagsShift,
-                    selectedTypeId = selectedTypeId,
-                    isMultipleTagAvailable = params.isMultipleTagAvailable,
-                    requiredValueSelectionTagIds = params.requiredValueSelectionTagIds,
+                    recordTagsShift = if (isShortcuts) 0 else params.tagsShift,
+                    shortcutsShift = if (isShortcuts) params.shortcutsShift else null,
+                    selectedTypeId = if (isShortcuts) 0L else selectedTypeId,
+                    isMultipleTagAvailable = !isShortcuts && params.isMultipleTagAvailable,
+                    requiredValueSelectionTagIds = if (isShortcuts) {
+                        emptyList()
+                    } else {
+                        params.requiredValueSelectionTagIds
+                    },
                 ),
             ).let {
                 addView(R.id.containerNotificationTypes, it)
@@ -234,8 +261,84 @@ class NotificationControlsManager @Inject constructor(
                     .takeUnless { it >= viewState.types.size }
                     .orZero(),
                 recordTagsShift = params.tagsShift,
+                shortcutsShift = params.shortcutsShift,
                 isMultipleTagAvailable = params.isMultipleTagAvailable,
                 requiredValueSelectionTagIds = params.requiredValueSelectionTagIds,
+            ),
+        )
+    }
+
+    private fun RemoteViews.addShortcutControls(
+        from: From,
+        params: NotificationControlsParams.Enabled,
+        viewState: NotificationControlsParams.ViewState.TypeSelection,
+    ) {
+        val index = params.shortcutsShift ?: return
+        val count = viewState.shortcuts.size
+        val shortcut = viewState.shortcuts.getOrNull(index) ?: return
+
+        fun getShortcutIntent(
+            action: String,
+            shift: Int,
+            shortcutId: Long? = null,
+        ): PendingIntent {
+            return getPendingSelfIntent(
+                context = context,
+                action = action,
+                requestCode = getRequestCode(
+                    from = from,
+                    additionalInfo = shortcutId
+                        ?.let { RequestCode.AdditionalInfo.ShortcutId(it) }
+                        ?: RequestCode.AdditionalInfo.Shortcuts,
+                ),
+                from = from,
+                selectedTypeId = 0L,
+                recordTypesShift = params.typesShift,
+                recordTagsShift = 0,
+                shortcutsShift = shift,
+                shortcutId = shortcutId,
+                isMultipleTagAvailable = false,
+            )
+        }
+
+        // Prev button
+        setImageViewBitmap(
+            R.id.ivNotificationTagsPrev,
+            getIconBitmap(viewState.controlIconPrev, params.controlIconColor),
+        )
+        setOnClickPendingIntent(
+            R.id.btnNotificationTagsPrev,
+            getShortcutIntent(
+                action = ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_PREV,
+                shift = (index - 1 + count) % count,
+            ),
+        )
+
+        // Shortcut button
+        addView(
+            R.id.containerNotificationTags,
+            getTagControlView(
+                text = shortcut.text,
+                color = shortcut.color,
+                intent = getShortcutIntent(
+                    action = ACTION_NOTIFICATION_CONTROLS_SHORTCUT_CLICK,
+                    shift = index,
+                    shortcutId = shortcut.id,
+                ),
+                isSelected = false,
+            ),
+        )
+
+        // Next button
+        setImageViewBitmap(
+            R.id.ivNotificationTagsNext,
+            getIconBitmap(viewState.controlIconNext, params.controlIconColor),
+        )
+        setOnClickPendingIntent(
+            R.id.btnNotificationTagsNext,
+            getShortcutIntent(
+                action = ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_NEXT,
+                shift = (index + 1) % count,
             ),
         )
     }
@@ -594,12 +697,22 @@ class NotificationControlsManager @Inject constructor(
         editingTagValueInput: String? = null,
         recordTypesShift: Int? = null,
         recordTagsShift: Int? = null,
+        shortcutsShift: Int? = null,
+        shortcutId: Long? = null,
         tagId: Long? = null,
         isMultipleTagAvailable: Boolean,
         requiredValueSelectionTagIds: List<Long> = emptyList(),
     ): PendingIntent {
         val intent = Intent(context, NotificationReceiver::class.java)
         intent.action = action
+        shortcutId?.let {
+            val source = when (from) {
+                is From.ActivityNotification -> "activity-notification/${from.recordTypeId}"
+                is From.ActivitySwitch -> "activity-switch"
+            }
+            // Keep shortcut identities distinct even when request code hashes collide.
+            intent.data = "simpletimetracker://notification-shortcut/$source/$it".toUri()
+        }
         notificationControlsMapper.mapFromToExtra(from).let { intent.putExtra(ARGS_CONTROLS_FROM, it) }
         (from as? From.ActivityNotification)?.recordTypeId?.let { intent.putExtra(ARGS_TYPE_ID, it) }
         selectedTypeId?.let { intent.putExtra(ARGS_SELECTED_TYPE_ID, it) }
@@ -609,6 +722,8 @@ class NotificationControlsManager @Inject constructor(
         tagId?.let { intent.putExtra(ARGS_CLICKED_TAG_ID, it) }
         recordTypesShift.let { intent.putExtra(ARGS_TYPES_SHIFT, it) }
         recordTagsShift?.let { intent.putExtra(ARGS_TAGS_SHIFT, it) }
+        shortcutsShift?.let { intent.putExtra(ARGS_SHORTCUTS_SHIFT, it) }
+        shortcutId?.let { intent.putExtra(ARGS_CLICKED_SHORTCUT_ID, it) }
         intent.putExtra(ARGS_REQUIRED_VALUE_SELECTION_TAGS, requiredValueSelectionTagIds.toLongArray())
         intent.putExtra(ARGS_MULTIPLE_TAG_AVAILABLE, isMultipleTagAvailable)
         return PendingIntent.getBroadcast(
@@ -652,6 +767,7 @@ class NotificationControlsManager @Inject constructor(
         }.getBitmapFromView()
     }
 
+    // TODO Use collision-free Intent.data identities for the remaining controls, including source and target.
     // additionalInfo is to make code unique.
     private fun getRequestCode(
         from: From,
@@ -676,8 +792,10 @@ class NotificationControlsManager @Inject constructor(
         sealed interface AdditionalInfo {
             data class TypeId(val id: Long) : AdditionalInfo
             data class TagId(val id: Long) : AdditionalInfo
+            data class ShortcutId(val id: Long) : AdditionalInfo
             data class TagValueControls(val id: Long) : AdditionalInfo
             data object Repeat : AdditionalInfo
+            data object Shortcuts : AdditionalInfo
             data object ApplyTags : AdditionalInfo
             data object ClearTags : AdditionalInfo
             data object Nothing : AdditionalInfo
@@ -691,6 +809,14 @@ class NotificationControlsManager @Inject constructor(
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onTypeClick"
         const val ACTION_NOTIFICATION_CONTROLS_REPEAT =
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onRepeat"
+        const val ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_TOGGLE =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onShortcutsToggle"
+        const val ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_PREV =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onShortcutsPrevClick"
+        const val ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_NEXT =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onShortcutsNextClick"
+        const val ACTION_NOTIFICATION_CONTROLS_SHORTCUT_CLICK =
+            "com.example.util.simpletimetracker.feature_notification.activitySwitch.onShortcutClick"
         const val ACTION_NOTIFICATION_CONTROLS_TAG_CLICK =
             "com.example.util.simpletimetracker.feature_notification.activitySwitch.onTagClick"
         const val ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS =
@@ -725,6 +851,8 @@ class NotificationControlsManager @Inject constructor(
         const val ARGS_CLICKED_TAG_ID = "clickedTagId"
         const val ARGS_TYPES_SHIFT = "typesShift"
         const val ARGS_TAGS_SHIFT = "tagsShift"
+        const val ARGS_SHORTCUTS_SHIFT = "shortcutsShift"
+        const val ARGS_CLICKED_SHORTCUT_ID = "clickedShortcutId"
         const val ARGS_MULTIPLE_TAG_AVAILABLE = "multipleTagAvailable"
 
         const val TYPES_LIST_SIZE = 6

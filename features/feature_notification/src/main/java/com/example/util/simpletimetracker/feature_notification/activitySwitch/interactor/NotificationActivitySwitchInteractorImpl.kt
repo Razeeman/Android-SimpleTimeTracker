@@ -48,6 +48,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
     override suspend fun updateNotification(
         typesShift: Int,
         tagsShift: Int,
+        shortcutsShift: Int?,
         selectedTypeId: Long,
         selectedTags: List<RecordBase.Tag>,
         editingTagId: Long?,
@@ -63,6 +64,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
             show(
                 typesShift = typesShift,
                 tagsShift = tagsShift,
+                shortcutsShift = shortcutsShift,
                 selectedTypeId = selectedTypeId,
                 selectedTags = selectedTags,
                 editingTagId = editingTagId,
@@ -78,6 +80,7 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
     private suspend fun show(
         typesShift: Int,
         tagsShift: Int,
+        shortcutsShift: Int?,
         selectedTypeId: Long,
         selectedTags: List<RecordBase.Tag>,
         editingTagId: Long?,
@@ -180,11 +183,13 @@ class NotificationActivitySwitchInteractorImpl @Inject constructor(
             hint = hint,
             isDarkTheme = isDarkTheme,
             types = recordTypes.values.toList(),
+            recordTags = recordTags,
             suggestions = suggestions,
             showRepeatButton = showRepeatButton,
             isMultipleTagAvailable = isMultipleTagAvailable,
             typesShift = typesShift,
             tagsShift = tagsShift,
+            shortcutsShift = shortcutsShift,
             selectedTypeId = selectedTypeId,
             selectedTags = selectedTags,
             editingTagId = editingTagId,
