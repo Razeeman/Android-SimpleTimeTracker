@@ -24,6 +24,7 @@ interface PrefsRepo {
     var cardOrderManual: Set<String>
     var categoryOrderManual: Set<String>
     var tagOrderManual: Set<String>
+    var shortcutOrderManual: Set<String>
 
     var statisticsRange: Int
     var statisticsRangeCustomStart: Long

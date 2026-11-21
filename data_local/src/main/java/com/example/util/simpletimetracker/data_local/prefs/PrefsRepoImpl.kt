@@ -84,6 +84,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_TAG_ORDER_MANUAL, emptySet(),
     )
 
+    override var shortcutOrderManual: Set<String> by prefs.delegate(
+        KEY_SHORTCUT_ORDER_MANUAL, emptySet(),
+    )
+
     override var statisticsDetailTagValueSettings: Set<String> by prefs.delegate(
         KEY_STATISTICS_DETAIL_TAG_VALUE_SETTINGS, emptySet(),
     )
@@ -873,6 +877,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
         const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"
         const val KEY_TAG_ORDER_MANUAL = "tagOrderManual"
+        const val KEY_SHORTCUT_ORDER_MANUAL = "shortcutOrderManual"
         const val KEY_HIDDEN_CONTAINER_OPTIONS = "hiddenContainerOptions"
 
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"

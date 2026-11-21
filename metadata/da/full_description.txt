@@ -1,0 +1,13 @@
+Simple Time Tracker hjælper dig med at holde styr på, hvor meget tid du bruger på forskellige aktiviteter i løbet af dagen. Start nye aktiviteter med ét tryk. Se tidligere registreringer og statistik over tid. Appen er gratis og har åben kildekode. Den tilbyder også widgets, sikkerhedskopier, notifikationer og et mørkt tema. Den understøtter også ure med Wear OS og har komplikationer til urskiven.
+
+• <b>Enkel brugerflade</b>
+Appen har en minimalistisk brugerflade, som er meget nem at bruge.
+
+• <b>Widgets</b>
+Registrer dine aktiviteter direkte fra din startskærm.
+
+• <b>Virker offline og respekterer dit privatliv</b>
+Appen kræver hverken internetforbindelse eller oprettelse af en konto. Dine data forlader aldrig din telefon. Hverken udviklerne eller tredjeparter har adgang til dem.
+
+• <b>Gratis og med åben kildekode</b>
+Der er ingen reklamer, køb i appen eller påtrængende tilladelser. Hele kildekoden er også tilgængelig.

@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.example.util.simpletimetracker.core.utils.ITEM_ALPHA_DEFAULT
+import com.example.util.simpletimetracker.core.utils.ITEM_ALPHA_SELECTED
+import com.example.util.simpletimetracker.core.utils.ITEM_SCALE_DEFAULT
+import com.example.util.simpletimetracker.core.utils.ITEM_SCALE_SELECTED
 import com.example.util.simpletimetracker.domain.extension.orZero
 import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_base_adapter.ViewHolderType
@@ -287,4 +291,16 @@ fun RecyclerView.onItemSwiped(
     }
 
     (ItemTouchHelper(helper)).attachToRecyclerView(this)
+}
+
+fun RecyclerView.ViewHolder?.setItemSelected() = this?.run {
+    itemView.alpha = ITEM_ALPHA_SELECTED
+    itemView.scaleX = ITEM_SCALE_SELECTED
+    itemView.scaleY = ITEM_SCALE_SELECTED
+}
+
+fun RecyclerView.ViewHolder.setItemUnselected() = run {
+    itemView.alpha = ITEM_ALPHA_DEFAULT
+    itemView.scaleX = ITEM_SCALE_DEFAULT
+    itemView.scaleY = ITEM_SCALE_DEFAULT
 }

@@ -21,11 +21,15 @@ class ShortcutsViewDataInteractor @Inject constructor(
 
     suspend fun getViewData(
         navBarHeightDp: Int,
+        shortcutOrder: List<Long>?,
     ): List<ViewHolderType> {
         val isDarkTheme = prefsInteractor.getDarkMode()
         val recordTypesMap = recordTypeInteractor.getAll().associateBy { it.id }
         val recordTags = recordTagInteractor.getAll()
+        val order = shortcutOrder
+            ?.withIndex()?.associate { it.value to it.index }.orEmpty()
         val shortcuts = recordShortcutInteractor.getAll()
+            .sortedBy { order[it.id] ?: Int.MAX_VALUE }
 
         val addItem = listOf(shortcutsViewDataMapper.mapAddItem(isDarkTheme))
 
@@ -40,12 +44,18 @@ class ShortcutsViewDataInteractor @Inject constructor(
             )
         }
 
+        val reorderHint = if (shortcuts.size > 1) {
+            listOf(shortcutsViewDataMapper.mapReorderHint())
+        } else {
+            emptyList()
+        }
+
         val bottomSpace = EmptySpaceViewData(
             id = "shortcuts_nav_bar_space".hashCode().toLong(),
             height = EmptySpaceViewData.ViewDimension.ExactSizeDp(navBarHeightDp),
             wrapBefore = true,
         )
 
-        return addItem + content + bottomSpace
+        return addItem + content + reorderHint + bottomSpace
     }
 }

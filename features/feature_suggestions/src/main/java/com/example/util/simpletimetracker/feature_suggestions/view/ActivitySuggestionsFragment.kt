@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.util.simpletimetracker.core.base.BaseFragment
 import com.example.util.simpletimetracker.feature_dialogs.api.TypesSelectionDialogListener
 import com.example.util.simpletimetracker.core.extension.onItemMoved
-import com.example.util.simpletimetracker.core.utils.ITEM_ALPHA_DEFAULT
-import com.example.util.simpletimetracker.core.utils.ITEM_ALPHA_SELECTED
-import com.example.util.simpletimetracker.core.utils.ITEM_SCALE_DEFAULT
-import com.example.util.simpletimetracker.core.utils.ITEM_SCALE_SELECTED
+import com.example.util.simpletimetracker.core.extension.setItemSelected
+import com.example.util.simpletimetracker.core.extension.setItemUnselected
 import com.example.util.simpletimetracker.core.utils.InsetConfiguration
 import com.example.util.simpletimetracker.domain.extension.orFalse
 import com.example.util.simpletimetracker.domain.extension.orZero
@@ -122,8 +120,8 @@ class ActivitySuggestionsFragment :
                 }
                 from to to
             },
-            onSelected = ::setItemSelected,
-            onClear = ::setItemUnselected,
+            onSelected = RecyclerView.ViewHolder?::setItemSelected,
+            onClear = RecyclerView.ViewHolder::setItemUnselected,
             onMoved = { list, _, to ->
                 viewModel.onItemMoved(
                     items = list,
@@ -131,17 +129,5 @@ class ActivitySuggestionsFragment :
                 )
             },
         )
-    }
-
-    private fun setItemSelected(viewHolder: RecyclerView.ViewHolder?) = viewHolder?.run {
-        itemView.alpha = ITEM_ALPHA_SELECTED
-        itemView.scaleX = ITEM_SCALE_SELECTED
-        itemView.scaleY = ITEM_SCALE_SELECTED
-    } ?: Unit
-
-    private fun setItemUnselected(viewHolder: RecyclerView.ViewHolder) = viewHolder.run {
-        itemView.alpha = ITEM_ALPHA_DEFAULT
-        itemView.scaleX = ITEM_SCALE_DEFAULT
-        itemView.scaleY = ITEM_SCALE_DEFAULT
     }
 }
