@@ -18,9 +18,9 @@ import com.example.util.simpletimetracker.core.utils.PendingIntents
 import com.example.util.simpletimetracker.domain.prefs.interactor.IsQuickSettingEnabledInteractor
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.feature_settings.api.OnQuickSettingClickInteractor
+import com.example.util.simpletimetracker.feature_views.ColorUtils
 import com.example.util.simpletimetracker.feature_views.extension.getBitmapFromView
 import com.example.util.simpletimetracker.feature_views.extension.measureExactly
-import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.feature_widget.R
 import com.example.util.simpletimetracker.feature_widget.common.WidgetErrorActivity
 import com.example.util.simpletimetracker.feature_widget.quickSettings.customView.WidgetQuickSettingsView
@@ -85,12 +85,14 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
         val backgroundTransparency = prefsInteractor.getWidgetBackgroundTransparencyPercent()
         val type = prefsInteractor.getQuickSettingsWidget(appWidgetId)
         val name = quickSettingViewDataMapper.mapTitle(type)
-        val isChecked = isQuickSettingEnabledInteractor.execute(type)
+        val isEnabled = isQuickSettingEnabledInteractor.execute(type)
+        val isDarkTheme = prefsInteractor.getDarkMode()
 
         val view = prepareView(
             context = context,
             name = name,
-            isChecked = isChecked,
+            isEnabled = isEnabled,
+            isDarkTheme = isDarkTheme,
             backgroundTransparency = backgroundTransparency,
         )
         measureView(context, view)
@@ -108,17 +110,21 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
     private fun prepareView(
         context: Context,
         name: String,
-        isChecked: Boolean,
+        isEnabled: Boolean,
+        isDarkTheme: Boolean,
         backgroundTransparency: Long,
     ): View {
-        val icon = if (isChecked) {
-            RecordTypeIcon.Image(R.drawable.checkbox_checked)
+        val color = if (isEnabled) {
+            resourceRepo.getThemedAttr(R.attr.colorAccent, isDarkTheme)
         } else {
-            RecordTypeIcon.Image(R.drawable.checkbox_unchecked)
+            ColorUtils.changeAlpha(
+                color = resourceRepo.getColor(R.color.widget_universal_background_color),
+                alpha = 1f - backgroundTransparency / 100f,
+            )
         }
 
-        val iconColor = if (isChecked) {
-            resourceRepo.getThemedAttr(R.attr.colorSecondary, false)
+        val textColor = if (isEnabled) {
+            resourceRepo.getColor(R.color.colorIcon)
         } else {
             resourceRepo.getColor(R.color.widget_universal_empty_color)
         }
@@ -131,10 +137,9 @@ class WidgetQuickSettingsProvider : AppWidgetProvider() {
             WidgetQuickSettingsView(ContextThemeWrapper(context, R.style.AppTheme))
         }.apply {
             cardElevation = 0f
-            itemIcon = icon
-            itemIconColor = iconColor
             itemName = name
-            itemBackgroundAlpha = 1f - backgroundTransparency / 100f
+            itemColor = color
+            itemTextColor = textColor
         }.let(container::addView)
 
         return container
