@@ -5,8 +5,11 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -395,14 +398,28 @@ class ChangeRecordTypeFragment :
         inputChangeRecordTypeNote.isVisible = isAdditionalVisible && isClosed
         dividerChangeRecordTypeBottom.isInvisible = isClosed
 
-        // Chooser size
-        val sizeDefault = resources.getDimensionPixelSize(R.dimen.input_field_height)
-        val sizeBig = resources.getDimensionPixelSize(R.dimen.input_field_height_big)
-        val colorSize = if (state.current is Color) sizeDefault else sizeBig
-        fieldChangeRecordTypeColor.updateLayoutParams { height = colorSize }
-        val iconSize = if (state.current is Icon) sizeDefault else sizeBig
-        fieldChangeRecordTypeIcon.updateLayoutParams { height = iconSize }
-        val iconPreviewPadding = if (state.current is Icon) 4 else 8
+        // Keep the selected chooser compact and full width while its options are open.
+        val sizeCompact = resources.getDimensionPixelSize(R.dimen.input_field_height)
+        val sizeBig = resources.getDimensionPixelSize(R.dimen.input_field_height_with_preview)
+        val colorOpened = state.current is Color
+        fieldChangeRecordTypeColor.updateLayoutParams { height = if (colorOpened) sizeCompact else sizeBig }
+        updateMainFieldLayout(
+            container = containerChangeRecordTypeColorField,
+            label = tvChangeRecordTypeColorLabel,
+            preview = layoutChangeRecordTypeColorPreview,
+            arrow = arrowChangeRecordTypeColor,
+            opened = colorOpened,
+        )
+        val iconOpened = state.current is Icon
+        fieldChangeRecordTypeIcon.updateLayoutParams { height = if (iconOpened) sizeCompact else sizeBig }
+        updateMainFieldLayout(
+            container = containerChangeRecordTypeIconField,
+            label = tvChangeRecordTypeIconLabel,
+            preview = layoutChangeRecordTypeIconPreview,
+            arrow = arrowChangeRecordTypeIcon,
+            opened = iconOpened,
+        )
+        val iconPreviewPadding = if (iconOpened) 4 else 8
         iconChangeRecordTypeIconPreview.setPadding(iconPreviewPadding.dpToPx())
 
         // More button
@@ -412,6 +429,39 @@ class ChangeRecordTypeFragment :
             R.string.change_record_type_more_fields
         }
         tvChangeRecordTypeMoreFieldsText.setText(moreButtonText)
+    }
+
+    private fun updateMainFieldLayout(
+        container: ConstraintLayout,
+        label: View,
+        preview: View,
+        arrow: View,
+        opened: Boolean,
+    ) {
+        ConstraintSet().apply {
+            clone(container)
+            val previewSize = (if (opened) 38 else 48).dpToPx()
+            constrainWidth(preview.id, previewSize)
+            constrainHeight(preview.id, previewSize)
+            clear(preview.id, ConstraintSet.START)
+            clear(preview.id, ConstraintSet.END)
+            clear(label.id, ConstraintSet.BOTTOM)
+            if (opened) {
+                connect(preview.id, ConstraintSet.END, arrow.id, ConstraintSet.START, 8.dpToPx())
+                connect(preview.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                connect(preview.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+                connect(label.id, ConstraintSet.END, preview.id, ConstraintSet.START, 8.dpToPx())
+                connect(label.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                connect(label.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+            } else {
+                clear(preview.id, ConstraintSet.TOP)
+                connect(preview.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 12.dpToPx())
+                connect(preview.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 12.dpToPx())
+                connect(label.id, ConstraintSet.END, arrow.id, ConstraintSet.START, 12.dpToPx())
+                connect(label.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 12.dpToPx())
+            }
+            applyTo(container)
+        }
     }
 
     private fun updateGoalsState(state: ChangeRecordTypeGoalsViewData) = with(binding) {
