@@ -49,7 +49,7 @@ class GetGoalCompletionEstimateInteractorTest {
             resourceRepo = mock(ResourceRepo::class.java),
             currentTimestampProvider = clock,
             calendarTypeProvider = MutableCalendarTypeProvider(),
-            timeZoneProvider = TimeZoneProvider()
+            timeZoneProvider = TimeZoneProvider(),
         )
     }
 

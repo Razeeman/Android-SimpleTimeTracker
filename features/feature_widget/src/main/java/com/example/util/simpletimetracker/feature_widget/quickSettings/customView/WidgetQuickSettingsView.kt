@@ -43,7 +43,6 @@ class WidgetQuickSettingsView @JvmOverloads constructor(
                 if (hasValue(R.styleable.WidgetQuickSettingsView_itemTextColor)) {
                     itemTextColor = getColor(R.styleable.WidgetQuickSettingsView_itemTextColor, Color.WHITE)
                 }
-
             }
     }
 

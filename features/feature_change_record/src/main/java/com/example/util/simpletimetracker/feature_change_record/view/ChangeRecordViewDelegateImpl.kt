@@ -1,11 +1,14 @@
 package com.example.util.simpletimetracker.feature_change_record.view
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -53,12 +56,14 @@ import com.example.util.simpletimetracker.feature_views.extension.postDelayed
 import com.example.util.simpletimetracker.feature_views.extension.rotateDown
 import com.example.util.simpletimetracker.feature_views.extension.rotateUp
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_views.extension.updateMainFieldLayout
 import com.example.util.simpletimetracker.feature_views.extension.visible
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import android.graphics.Color as AndroidColor
 
 class ChangeRecordViewDelegateImpl(
     private val viewModel: ChangeRecordEditorDelegate,
@@ -117,6 +122,8 @@ class ChangeRecordViewDelegateImpl(
     private val commentsDelegate by lazy {
         commentDelegateProvider.provide(viewModel)
     }
+    private val activityPreviewGradient = GradientDrawable()
+        .apply { orientation = GradientDrawable.Orientation.LEFT_RIGHT }
 
     override fun initUi(
         binding: ChangeRecordCoreLayoutBinding,
@@ -192,6 +199,8 @@ class ChangeRecordViewDelegateImpl(
         iconId: RecordTypeIcon,
     ) {
         with(binding) {
+            activityPreviewGradient.colors = intArrayOf(AndroidColor.TRANSPARENT, color)
+            viewChangeRecordTypePreviewLong.background = activityPreviewGradient
             layoutChangeRecordTypePreview.setCardBackgroundColor(color)
             iconChangeRecordTypePreview.itemIcon = iconId
             layoutChangeRecordTagsPreview.setCardBackgroundColor(color)
@@ -263,6 +272,28 @@ class ChangeRecordViewDelegateImpl(
         fieldChangeRecordCategory.isVisible = isClosed || state.current is Tag
         fieldChangeRecordComment.isVisible = isClosed || state.current is Comment
         fieldChangeRecordAction.isVisible = isClosed || state.current is Action
+
+        // Keep the selected chooser compact and full width while its options are open.
+        val sizeCompact = root.resources.getDimensionPixelSize(R.dimen.input_field_height)
+        val sizeBig = root.resources.getDimensionPixelSize(R.dimen.input_field_height_with_preview)
+        val activityOpened = state.current is Activity
+        fieldChangeRecordType.updateLayoutParams { height = if (activityOpened) sizeCompact else sizeBig }
+        containerChangeRecordTypeField.updateMainFieldLayout(
+            label = tvChangeRecordTypeLabel,
+            preview = layoutChangeRecordTypePreview,
+            arrow = arrowChangeRecordType,
+            opened = activityOpened,
+        )
+        val tagOpened = state.current is Tag
+        fieldChangeRecordCategory.updateLayoutParams { height = if (tagOpened) sizeCompact else sizeBig }
+        containerChangeRecordCategoryField.updateMainFieldLayout(
+            label = tvChangeRecordCategoryLabel,
+            preview = layoutChangeRecordTagsPreview,
+            arrow = arrowChangeRecordCategory,
+            opened = tagOpened,
+        )
+        val iconPreviewPadding = if (activityOpened) 4 else 8
+        iconChangeRecordTypePreview.setPadding(iconPreviewPadding.dpToPx())
     }
 
     private fun enableModifyingButtons(

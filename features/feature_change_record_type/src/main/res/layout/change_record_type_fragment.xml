@@ -142,8 +142,8 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/layoutChangeRecordTypeColorPreview"
                         style="@style/EditScreenPreview"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/input_field_preview_size"
+                        android:layout_height="@dimen/input_field_preview_size"
                         android:layout_margin="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -217,8 +217,8 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/layoutChangeRecordTypeIconPreview"
                         style="@style/EditScreenPreview"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/input_field_preview_size"
+                        android:layout_height="@dimen/input_field_preview_size"
                         android:layout_margin="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

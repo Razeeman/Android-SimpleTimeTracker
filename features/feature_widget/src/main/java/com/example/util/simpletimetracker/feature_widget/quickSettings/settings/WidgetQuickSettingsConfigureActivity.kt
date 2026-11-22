@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_widget.quickSettings.settings
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
