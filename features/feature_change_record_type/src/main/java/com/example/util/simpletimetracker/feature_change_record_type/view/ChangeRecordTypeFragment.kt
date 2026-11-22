@@ -63,6 +63,7 @@ import com.example.util.simpletimetracker.feature_views.drawable.HorizontalFadeD
 import com.example.util.simpletimetracker.feature_views.extension.dpToPx
 import com.example.util.simpletimetracker.feature_views.extension.setOnClick
 import com.example.util.simpletimetracker.feature_views.extension.toData
+import com.example.util.simpletimetracker.feature_views.extension.updateMainFieldLayout
 import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import com.example.util.simpletimetracker.navigation.params.screen.ARGS_PARAMS
@@ -395,14 +396,26 @@ class ChangeRecordTypeFragment :
         inputChangeRecordTypeNote.isVisible = isAdditionalVisible && isClosed
         dividerChangeRecordTypeBottom.isInvisible = isClosed
 
-        // Chooser size
-        val sizeDefault = resources.getDimensionPixelSize(R.dimen.input_field_height)
-        val sizeBig = resources.getDimensionPixelSize(R.dimen.input_field_height_big)
-        val colorSize = if (state.current is Color) sizeDefault else sizeBig
-        fieldChangeRecordTypeColor.updateLayoutParams { height = colorSize }
-        val iconSize = if (state.current is Icon) sizeDefault else sizeBig
-        fieldChangeRecordTypeIcon.updateLayoutParams { height = iconSize }
-        val iconPreviewPadding = if (state.current is Icon) 4 else 8
+        // Keep the selected chooser compact and full width while its options are open.
+        val sizeCompact = resources.getDimensionPixelSize(R.dimen.input_field_height)
+        val sizeBig = resources.getDimensionPixelSize(R.dimen.input_field_height_with_preview)
+        val colorOpened = state.current is Color
+        fieldChangeRecordTypeColor.updateLayoutParams { height = if (colorOpened) sizeCompact else sizeBig }
+        containerChangeRecordTypeColorField.updateMainFieldLayout(
+            label = tvChangeRecordTypeColorLabel,
+            preview = layoutChangeRecordTypeColorPreview,
+            arrow = arrowChangeRecordTypeColor,
+            opened = colorOpened,
+        )
+        val iconOpened = state.current is Icon
+        fieldChangeRecordTypeIcon.updateLayoutParams { height = if (iconOpened) sizeCompact else sizeBig }
+        containerChangeRecordTypeIconField.updateMainFieldLayout(
+            label = tvChangeRecordTypeIconLabel,
+            preview = layoutChangeRecordTypeIconPreview,
+            arrow = arrowChangeRecordTypeIcon,
+            opened = iconOpened,
+        )
+        val iconPreviewPadding = if (iconOpened) 4 else 8
         iconChangeRecordTypeIconPreview.setPadding(iconPreviewPadding.dpToPx())
 
         // More button

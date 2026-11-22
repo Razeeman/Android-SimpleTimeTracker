@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Alle doelen zijn voltooid</string>
     <string name="hide_finished_goals">Voltooide doelen verbergen</string>
     <string name="goal_add_hint">Bewerk activiteit of categorie om een doel toe te wijzen</string>
+    <string name="goal_estimate">Schatting</string>
+    <string name="goal_estimate_not_reached">Zal niet worden bereikt</string>
 
     <!--  Categories  -->
     <string name="categories_title">Categorieën en tags</string>

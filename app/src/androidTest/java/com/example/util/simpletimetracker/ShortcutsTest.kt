@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker
 
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -173,13 +174,13 @@ class ShortcutsTest : BaseUiTest() {
             prefsInteractor.setRetroactiveMultitaskingHintWasHidden(true)
         }
         testUtils.addActivity(name)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Multitasking)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.RetroactiveMode)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Categories)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Archive)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.DataEdit)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Shortcuts)
-        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Reminders)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking))
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking))
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Categories)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Archive)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.DataEdit)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Shortcuts)
+        testUtils.addSettingShortcut(RecordShortcut.SettingAction.Navigation.Reminders)
         Thread.sleep(1000)
 
         // Check shortcuts

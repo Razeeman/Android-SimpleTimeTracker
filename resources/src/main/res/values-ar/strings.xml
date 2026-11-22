@@ -99,6 +99,8 @@
     <string name="all_goals_finished">اكتملت جميع الأهداف</string>
     <string name="hide_finished_goals">إخفاء الأهداف المكتملة</string>
     <string name="goal_add_hint">قم بتحرير النشاط أو الفئة لتعيين هدف له</string>
+    <string name="goal_estimate">التقدير</string>
+    <string name="goal_estimate_not_reached">لن يتحقق</string>
 
     <!--  Categories  -->
     <string name="categories_title">التصنيفات والوسوم</string>

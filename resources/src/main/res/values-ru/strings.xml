@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Все цели завершены</string>
     <string name="hide_finished_goals">Скрыть завершённые цели</string>
     <string name="goal_add_hint">Отредактируйте активность или категорию, чтобы назначить цель</string>
+    <string name="goal_estimate">Прогноз</string>
+    <string name="goal_estimate_not_reached">Не будет достигнуто</string>
 
     <!--  Categories  -->
     <string name="categories_title">Категории и теги</string>

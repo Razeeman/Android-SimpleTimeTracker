@@ -14,6 +14,7 @@ import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Compani
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_AUTOSTART_POMODORO_ACTIVITIES
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CARD_ORDER
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CARD_ORDER_MANUAL
+import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_SHORTCUT_ORDER_MANUAL
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CATEGORIES_TYPES_FILTERED_ON_CHART
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CATEGORIES_TYPES_FILTERED_ON_LIST
 import com.example.util.simpletimetracker.data_local.prefs.PrefsRepoImpl.Companion.KEY_CATEGORY_ADDITIONAL_FIELDS_SHOWN
@@ -175,6 +176,7 @@ class BackupPrefsRepo @Inject constructor(
             PrefsProcessor(KEY_CARD_ORDER_MANUAL, ::cardOrderManual),
             PrefsProcessor(KEY_CATEGORY_ORDER_MANUAL, ::categoryOrderManual),
             PrefsProcessor(KEY_TAG_ORDER_MANUAL, ::tagOrderManual),
+            PrefsProcessor(KEY_SHORTCUT_ORDER_MANUAL, ::shortcutOrderManual),
             PrefsProcessor(KEY_STATISTICS_RANGE, ::statisticsRange),
             PrefsProcessor(KEY_STATISTICS_RANGE_CUSTOM_START, ::statisticsRangeCustomStart),
             PrefsProcessor(KEY_STATISTICS_RANGE_CUSTOM_END, ::statisticsRangeCustomEnd),

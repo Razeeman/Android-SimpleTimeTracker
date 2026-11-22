@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_statistics.interactor
 
+import com.example.util.simpletimetracker.core.interactor.GetGoalCompletionEstimateInteractor
 import com.example.util.simpletimetracker.core.interactor.FilterGoalsByDayOfWeekInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsChartViewDataInteractor
 import com.example.util.simpletimetracker.core.interactor.StatisticsMediator
@@ -11,6 +12,7 @@ import com.example.util.simpletimetracker.domain.base.UNTRACKED_ITEM_ID
 import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RecordInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.statistics.model.ChartFilterType
@@ -30,6 +32,7 @@ import com.example.util.simpletimetracker.core.mapper.StatisticsViewDataMapper a
 class StatisticsViewDataInteractor @Inject constructor(
     private val recordTypeInteractor: RecordTypeInteractor,
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
     private val statisticsMediator: StatisticsMediator,
     private val statisticsChartViewDataInteractor: StatisticsChartViewDataInteractor,
     private val prefsInteractor: PrefsInteractor,
@@ -42,6 +45,7 @@ class StatisticsViewDataInteractor @Inject constructor(
     private val recordInteractor: RecordInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val filterGoalsByDayOfWeekInteractor: FilterGoalsByDayOfWeekInteractor,
+    private val getGoalCompletionEstimateInteractor: GetGoalCompletionEstimateInteractor,
 ) {
 
     suspend fun getViewData(
@@ -124,7 +128,7 @@ class StatisticsViewDataInteractor @Inject constructor(
             emptyList()
         } else {
             val goals = filterGoalsByDayOfWeekInteractor.execute(
-                goals = recordTypeGoalInteractor.getAll(),
+                goals = filterActiveGoalsInteractor.execute(recordTypeGoalInteractor.getAll()),
                 range = range,
                 startOfDayShift = startOfDayShift,
             )
@@ -140,6 +144,14 @@ class StatisticsViewDataInteractor @Inject constructor(
                 isDarkTheme = isDarkTheme,
                 durationFormat = durationFormat,
                 showSeconds = showSeconds,
+                estimates = getGoalCompletionEstimateInteractor.get(
+                    goals = goals,
+                    statistics = statistics,
+                    filterType = filterType,
+                    rangeLength = rangeLength,
+                    range = range,
+                ),
+                useMilitaryTime = prefsInteractor.getUseMilitaryTimeFormat(),
             )
         }
         val totalTracked: ViewHolderType = statisticsMediator.getStatisticsTotalTracked(

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SettingsCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutItemWidgetQuickSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvItemWidgetQuickSettingsTitle"
+            style="@style/SettingsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
+            tools:text="@string/settings_allow_multitasking" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvItemWidgetQuickSettingsSubtitle"
+            style="@style/SettingsSecondaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/settings_allow_multitasking_hint" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

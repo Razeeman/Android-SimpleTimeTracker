@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_notification.activitySwitch.manager
 
+import androidx.annotation.DrawableRes
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.feature_views.GoalCheckmarkView
 import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
@@ -11,6 +12,7 @@ sealed interface NotificationControlsParams {
     data class Enabled(
         val typesShift: Int,
         val tagsShift: Int,
+        val shortcutsShift: Int?,
         val controlIconColor: Int,
         val isMultipleTagAvailable: Boolean,
         val selectedTypeId: Long?,
@@ -28,6 +30,7 @@ sealed interface NotificationControlsParams {
             override val hint: String,
             val types: List<Type>,
             val tags: List<Tag>,
+            val shortcuts: List<Shortcut>,
             val controlIconPrev: RecordTypeIcon,
             val controlIconNext: RecordTypeIcon,
             val filteredTypeColor: Int,
@@ -58,8 +61,16 @@ sealed interface NotificationControlsParams {
         sealed interface Action {
             data class Select(val typeId: Long) : Action
             data object Repeat : Action
+            data object Shortcuts : Action
         }
     }
+
+    data class Shortcut(
+        val id: Long,
+        val text: String,
+        val color: Int,
+        @DrawableRes val iconResId: Int,
+    )
 
     sealed interface Tag {
         data class Present(

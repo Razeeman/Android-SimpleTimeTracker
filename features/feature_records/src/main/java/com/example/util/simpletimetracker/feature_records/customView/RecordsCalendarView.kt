@@ -565,7 +565,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                 (nameTextView.measuredWidth < availableWidth || nameIsEllipsized)
             ) {
                 textLeft = recordBounds.left + iconMaxSize + 2 * recordHorizontalPadding
-                textTop = recordBounds.top + recordVerticalPadding
+                textTop = recordBounds.top + recordVerticalPadding +
+                    (iconMaxSize - nameTextView.measuredHeight) / 2f
 
                 canvas.withTranslation(textLeft, textTop) {
                     nameTextView.draw(this)
@@ -590,7 +591,8 @@ class RecordsCalendarView @JvmOverloads constructor(
                 durationTextView.measuredWidth < availableWidth
             ) {
                 textLeft = recordBounds.right - recordHorizontalPadding - durationTextView.measuredWidth
-                textTop = recordBounds.top + recordVerticalPadding
+                textTop = recordBounds.top + recordVerticalPadding +
+                    (iconMaxSize - durationTextView.measuredHeight) / 2f
 
                 canvas.withTranslation(textLeft, textTop) {
                     durationTextView.draw(this)

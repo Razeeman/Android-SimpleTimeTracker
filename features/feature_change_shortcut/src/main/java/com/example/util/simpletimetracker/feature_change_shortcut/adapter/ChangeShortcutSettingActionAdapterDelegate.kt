@@ -25,7 +25,7 @@ data class ChangeShortcutSettingActionViewData(
     val text: String,
 ) : ViewHolderType {
 
-    override fun getUniqueId(): Long = action.ordinal.toLong()
+    override fun getUniqueId(): Long = action.hashCode().toLong()
 
     override fun isValidType(other: ViewHolderType): Boolean = other is ViewData
 }

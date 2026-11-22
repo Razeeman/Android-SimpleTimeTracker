@@ -246,6 +246,7 @@ class SettingsAdditionalViewModelDelegate @Inject constructor(
             val newValue = !prefsInteractor.getShowCommentInput()
             prefsInteractor.setShowCommentInput(newValue)
             parent?.updateContent()
+            externalViewsInteractor.onShowCommentInputChange()
         }
     }
 

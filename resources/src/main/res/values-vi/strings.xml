@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Tất cả mục tiêu đã hoàn thành</string>
     <string name="hide_finished_goals">Ẩn các mục tiêu đã hoàn thành</string>
     <string name="goal_add_hint">Chỉnh sửa hoạt động hoặc danh mục để gán mục tiêu</string>
+    <string name="goal_estimate">Ước tính</string>
+    <string name="goal_estimate_not_reached">Sẽ không đạt được</string>
 
     <!--  Categories  -->
     <string name="categories_title">Danh mục và thẻ</string>

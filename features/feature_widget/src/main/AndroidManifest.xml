@@ -46,6 +46,12 @@
             android:excludeFromRecents="true"
             android:noHistory="true" />
 
+        <activity
+            android:name=".common.WidgetErrorActivity"
+            android:documentLaunchMode="intoExisting"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
+
         <receiver
             android:name=".single.WidgetSingleProvider"
             android:exported="false"

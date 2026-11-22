@@ -17,6 +17,7 @@ class RecordShortcutViewDataMapper @Inject constructor(
     private val iconMapper: IconMapper,
     private val colorMapper: ColorMapper,
     private val recordTagFullNameMapper: RecordTagFullNameMapper,
+    private val quickSettingViewDataMapper: QuickSettingViewDataMapper,
 ) {
 
     fun map(
@@ -54,14 +55,13 @@ class RecordShortcutViewDataMapper @Inject constructor(
 
     fun mapActionTitle(action: RecordShortcut.SettingAction): String {
         return when (action) {
-            RecordShortcut.SettingAction.Multitasking -> R.string.settings_allow_multitasking
-            RecordShortcut.SettingAction.RetroactiveMode -> R.string.settings_retroactive_tracking_mode
-            RecordShortcut.SettingAction.Categories -> R.string.categories_title
-            RecordShortcut.SettingAction.Archive -> R.string.settings_archive
-            RecordShortcut.SettingAction.DataEdit -> R.string.settings_data_edit
-            RecordShortcut.SettingAction.SortActivities -> R.string.settings_sort_activity
-            RecordShortcut.SettingAction.Shortcuts -> R.string.change_record_shortcut
-            RecordShortcut.SettingAction.Reminders -> R.string.settings_reminders_title
+            is RecordShortcut.SettingAction.Toggle -> return quickSettingViewDataMapper.mapTitle(action.type)
+            is RecordShortcut.SettingAction.Navigation.Categories -> R.string.categories_title
+            is RecordShortcut.SettingAction.Navigation.Archive -> R.string.settings_archive
+            is RecordShortcut.SettingAction.Navigation.DataEdit -> R.string.settings_data_edit
+            is RecordShortcut.SettingAction.SortActivities -> R.string.settings_sort_activity
+            is RecordShortcut.SettingAction.Navigation.Shortcuts -> R.string.change_record_shortcut
+            is RecordShortcut.SettingAction.Navigation.Reminders -> R.string.settings_reminders_title
         }.let(resourceRepo::getString)
     }
 
@@ -112,6 +112,7 @@ class RecordShortcutViewDataMapper @Inject constructor(
 
         return RecordShortcutViewData(
             id = id,
+            target = shortcut,
             hint = resourceRepo.getQuantityString(
                 stringResId = R.plurals.statistics_detail_times_tracked,
                 quantity = 1,
@@ -154,6 +155,7 @@ class RecordShortcutViewDataMapper @Inject constructor(
 
         return RecordShortcutViewData(
             id = id,
+            target = shortcut,
             hint = resourceRepo.getString(R.string.shortcut_navigation_settings),
             data = data,
             spinnerData = spinnerData,

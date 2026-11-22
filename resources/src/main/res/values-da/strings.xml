@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Alle mål er nået</string>
     <string name="hide_finished_goals">Skjul opnåede mål</string>
     <string name="goal_add_hint">Rediger en aktivitet eller kategori for at tildele den et mål</string>
+    <string name="goal_estimate">Estimat</string>
+    <string name="goal_estimate_not_reached">Vil ikke blive nået</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategorier og mærker</string>

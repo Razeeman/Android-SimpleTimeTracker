@@ -1,13 +1,12 @@
 package com.example.util.simpletimetracker.feature_running_records.interactor
 
-import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.recordAction.interactor.RecordActionRepeatMediator
 import com.example.util.simpletimetracker.domain.recordShortcut.interactor.RecordShortcutInteractor
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordType.model.CardOrder
 import com.example.util.simpletimetracker.feature_base_adapter.recordShortcut.RecordShortcutViewData
 import com.example.util.simpletimetracker.feature_running_records.api.OnShortcutClickInteractor
-import com.example.util.simpletimetracker.feature_settings.api.OnSettingChangedInteractor
+import com.example.util.simpletimetracker.feature_settings.api.OnQuickSettingClickInteractor
 import com.example.util.simpletimetracker.feature_settings.api.SettingsBlock
 import com.example.util.simpletimetracker.feature_settings.api.SettingsCardOrderMapper
 import com.example.util.simpletimetracker.feature_settings.api.SettingsOrderChangeInteractor
@@ -22,10 +21,9 @@ import javax.inject.Inject
 
 class OnShortcutClickInteractorImpl @Inject constructor(
     private val router: Router,
-    private val prefsInteractor: PrefsInteractor,
     private val recordActionRepeatMediator: RecordActionRepeatMediator,
     private val recordShortcutInteractor: RecordShortcutInteractor,
-    private val onSettingChangedInteractor: OnSettingChangedInteractor,
+    private val onQuickSettingClickInteractor: OnQuickSettingClickInteractor,
     private val settingsCardOrderMapper: SettingsCardOrderMapper,
     private val settingsOrderChangeInteractor: SettingsOrderChangeInteractor,
 ) : OnShortcutClickInteractor {
@@ -75,27 +73,19 @@ class OnShortcutClickInteractorImpl @Inject constructor(
     ): OnShortcutClickInteractor.ExecuteResult {
         val action = target.action
         return when (action) {
-            RecordShortcut.SettingAction.Multitasking -> {
-                val newValue = !prefsInteractor.getAllowMultitasking()
-                prefsInteractor.setAllowMultitasking(newValue)
-                onSettingChangedInteractor.onAllowMultitaskingChange()
+            is RecordShortcut.SettingAction.Toggle -> {
+                onQuickSettingClickInteractor.execute(action.type)
                 OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
-            RecordShortcut.SettingAction.RetroactiveMode -> {
-                val newValue = !prefsInteractor.getRetroactiveTrackingMode()
-                prefsInteractor.setRetroactiveTrackingMode(newValue)
-                onSettingChangedInteractor.onRetroactiveTrackingModeChange()
-                OnShortcutClickInteractor.ExecuteResult.DataChanged
-            }
-            RecordShortcut.SettingAction.Categories -> {
+            RecordShortcut.SettingAction.Navigation.Categories -> {
                 router.navigate(CategoriesParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
-            RecordShortcut.SettingAction.Archive -> {
+            RecordShortcut.SettingAction.Navigation.Archive -> {
                 router.navigate(ArchiveParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
-            RecordShortcut.SettingAction.DataEdit -> {
+            RecordShortcut.SettingAction.Navigation.DataEdit -> {
                 router.navigate(DataEditParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
@@ -103,11 +93,11 @@ class OnShortcutClickInteractorImpl @Inject constructor(
                 // Not used, click on spinner should work instead.
                 OnShortcutClickInteractor.ExecuteResult.DataChanged
             }
-            RecordShortcut.SettingAction.Shortcuts -> {
+            RecordShortcut.SettingAction.Navigation.Shortcuts -> {
                 router.navigate(ShortcutsParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }
-            RecordShortcut.SettingAction.Reminders -> {
+            RecordShortcut.SettingAction.Navigation.Reminders -> {
                 router.navigate(RemindersParams)
                 OnShortcutClickInteractor.ExecuteResult.Navigation
             }

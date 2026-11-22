@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.util.simpletimetracker.core.extension.setToStartOfDay
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
+import com.example.util.simpletimetracker.domain.statistics.model.RangeLength
 import com.example.util.simpletimetracker.feature_statistics_detail.adapter.StatisticsDetailBlock
 import com.example.util.simpletimetracker.utils.BaseUiTest
 import com.example.util.simpletimetracker.utils.NavUtils
@@ -28,6 +29,7 @@ import com.example.util.simpletimetracker.utils.withCardColor
 import com.example.util.simpletimetracker.utils.withPluralText
 import com.example.util.simpletimetracker.utils.withTag
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,6 +45,70 @@ import com.example.util.simpletimetracker.feature_views.R as viewsR
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class StatisticsDetailTest : BaseUiTest() {
+
+    @Test
+    fun statisticsDetailKeepsPreviousRangeByDefault() {
+        val name = "Test"
+        val previousComment = "Previous period"
+        val currentComment = "Current period"
+        val previousRange = runBlocking {
+            timeMapper.getRangeStartAndEnd(
+                rangeLength = RangeLength.Week,
+                shift = -1,
+                firstDayOfWeek = prefsInteractor.getFirstDayOfWeek(),
+                startOfDayShift = prefsInteractor.getStartOfDayShift(),
+            )
+        }
+        val previousStart = previousRange.timeStarted + TimeUnit.HOURS.toMillis(12)
+        val currentStart = Calendar.getInstance().apply {
+            setToStartOfDay()
+            add(Calendar.HOUR_OF_DAY, 12)
+        }.timeInMillis
+        testUtils.addActivity(name)
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = previousStart,
+            timeEnded = previousStart + TimeUnit.HOURS.toMillis(1),
+            comment = previousComment,
+        )
+        testUtils.addRecord(
+            typeName = name,
+            timeStarted = currentStart,
+            timeEnded = currentStart + TimeUnit.HOURS.toMillis(2),
+            comment = currentComment,
+        )
+
+        NavUtils.openStatisticsScreen()
+        clickOnCurrentSelectedDate()
+        clickOnViewWithText(coreR.string.range_week)
+        clickOnCurrentDate(-1)
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewStatisticsItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withText("1$hourString 0$minuteString")),
+                isCompletelyDisplayed(),
+            ),
+        )
+        clickOnView(allOf(withText(name), isCompletelyDisplayed()))
+        checkViewIsDisplayed(
+            allOf(dateSelectorMatcher(-1), withId(R.id.containerDateSelectorRange)),
+        )
+        scrollStatDetailRecyclerToTag(StatisticsDetailBlock.Total)
+        checkCard(coreR.string.statistics_detail_total_duration, "1$hourString 0$minuteString")
+        checkRecordsCard(1)
+
+        clickOnStatDetailRecycler(withPluralText(coreR.plurals.statistics_detail_times_tracked, 1))
+        checkViewIsDisplayed(
+            allOf(
+                withId(baseR.id.viewRecordItem),
+                hasDescendant(withText(name)),
+                hasDescendant(withText(previousComment)),
+                isCompletelyDisplayed(),
+            ),
+        )
+        checkViewDoesNotExist(withText(currentComment))
+    }
 
     @Test
     fun statisticsDetailCustomRange() {

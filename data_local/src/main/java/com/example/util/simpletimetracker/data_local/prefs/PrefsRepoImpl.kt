@@ -84,6 +84,10 @@ class PrefsRepoImpl @Inject constructor(
         KEY_TAG_ORDER_MANUAL, emptySet(),
     )
 
+    override var shortcutOrderManual: Set<String> by prefs.delegate(
+        KEY_SHORTCUT_ORDER_MANUAL, emptySet(),
+    )
+
     override var statisticsDetailTagValueSettings: Set<String> by prefs.delegate(
         KEY_STATISTICS_DETAIL_TAG_VALUE_SETTINGS, emptySet(),
     )
@@ -149,7 +153,7 @@ class PrefsRepoImpl @Inject constructor(
     )
 
     override var keepStatisticsRange: Boolean by prefs.delegate(
-        KEY_KEEP_STATISTICS_RANGE, false,
+        KEY_KEEP_STATISTICS_RANGE, true,
     )
 
     override var retroactiveTrackingMode: Boolean by prefs.delegate(
@@ -635,6 +639,9 @@ class PrefsRepoImpl @Inject constructor(
         val type = when (data) {
             is QuickSettingsWidgetType.AllowMultitasking -> 0L
             is QuickSettingsWidgetType.ShowRecordTagSelection -> 1L
+            is QuickSettingsWidgetType.ShowTimerNotifications -> 2L
+            is QuickSettingsWidgetType.RetroactiveTracking -> 3L
+            is QuickSettingsWidgetType.ShowCommentInput -> 4L
         }
         prefs.edit { putLong(key, type) }
     }
@@ -645,6 +652,9 @@ class PrefsRepoImpl @Inject constructor(
         return when (prefs.getLong(key, 0)) {
             0L -> QuickSettingsWidgetType.AllowMultitasking
             1L -> QuickSettingsWidgetType.ShowRecordTagSelection
+            2L -> QuickSettingsWidgetType.ShowTimerNotifications
+            3L -> QuickSettingsWidgetType.RetroactiveTracking
+            4L -> QuickSettingsWidgetType.ShowCommentInput
             else -> QuickSettingsWidgetType.AllowMultitasking
         }
     }
@@ -867,6 +877,7 @@ class PrefsRepoImpl @Inject constructor(
         const val KEY_CARD_ORDER_MANUAL = "cardOrderManual"
         const val KEY_CATEGORY_ORDER_MANUAL = "categoryOrderManual"
         const val KEY_TAG_ORDER_MANUAL = "tagOrderManual"
+        const val KEY_SHORTCUT_ORDER_MANUAL = "shortcutOrderManual"
         const val KEY_HIDDEN_CONTAINER_OPTIONS = "hiddenContainerOptions"
 
         private const val KEY_AUTOMATIC_BACKUP_URI = "automaticBackupUri"

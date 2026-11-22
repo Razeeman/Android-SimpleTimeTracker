@@ -8,9 +8,8 @@
     </declare-styleable>
 
     <declare-styleable name="WidgetQuickSettingsView">
-        <attr name="itemIcon" />
-        <attr name="itemIconColor" />
         <attr name="itemName" />
-        <attr name="itemBackgroundAlpha" format="fraction"/>
+        <attr name="itemColor" />
+        <attr name="itemTextColor" format="color" />
     </declare-styleable>
 </resources>

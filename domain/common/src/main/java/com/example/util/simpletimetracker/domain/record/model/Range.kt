@@ -12,4 +12,8 @@ data class Range(
     fun isOverlappingWith(other: Range): Boolean {
         return timeStarted < other.timeEnded && timeEnded > other.timeStarted
     }
+
+    fun contains(timestamp: Long): Boolean {
+        return isUndefined || timestamp in timeStarted..<timeEnded
+    }
 }

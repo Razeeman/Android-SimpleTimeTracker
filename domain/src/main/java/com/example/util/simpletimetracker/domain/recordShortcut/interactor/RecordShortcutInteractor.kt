@@ -1,6 +1,8 @@
 package com.example.util.simpletimetracker.domain.recordShortcut.interactor
 
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.domain.extension.orZero
+import com.example.util.simpletimetracker.domain.prefs.interactor.PrefsInteractor
 import com.example.util.simpletimetracker.domain.record.model.RecordBase
 import com.example.util.simpletimetracker.domain.recordShortcut.model.RecordShortcut
 import com.example.util.simpletimetracker.domain.recordShortcut.repo.RecordShortcutRepo
@@ -13,13 +15,15 @@ class RecordShortcutInteractor @Inject constructor(
     private val repo: RecordShortcutRepo,
     private val recordShortcutToRecordTagRepo: RecordShortcutToRecordTagRepo,
     private val recordTypeInteractor: RecordTypeInteractor,
+    private val prefsInteractor: PrefsInteractor,
 ) {
 
     suspend fun getAll(): List<RecordShortcut> {
+        val manualOrder = prefsInteractor.getShortcutOrderManual()
         return sort(
             data = repo.getAll(),
             order = recordTypeInteractor.getAll(),
-        )
+        ).sortedBy { manualOrder[it.id] ?: Long.MAX_VALUE }
     }
 
     suspend fun get(id: Long): RecordShortcut? {
@@ -48,15 +52,19 @@ class RecordShortcutInteractor @Inject constructor(
     }
 
     fun getSettingsOrder(): List<RecordShortcut.SettingAction> {
+        // TODO SETTINGS get same order as in quick settings widget
         return listOf(
-            RecordShortcut.SettingAction.Multitasking,
-            RecordShortcut.SettingAction.RetroactiveMode,
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowRecordTagSelection),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowCommentInput),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.ShowTimerNotifications),
+            RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.RetroactiveTracking),
             RecordShortcut.SettingAction.SortActivities,
-            RecordShortcut.SettingAction.Shortcuts,
-            RecordShortcut.SettingAction.Categories,
-            RecordShortcut.SettingAction.Archive,
-            RecordShortcut.SettingAction.DataEdit,
-            RecordShortcut.SettingAction.Reminders,
+            RecordShortcut.SettingAction.Navigation.Shortcuts,
+            RecordShortcut.SettingAction.Navigation.Categories,
+            RecordShortcut.SettingAction.Navigation.Archive,
+            RecordShortcut.SettingAction.Navigation.DataEdit,
+            RecordShortcut.SettingAction.Navigation.Reminders,
         )
     }
 

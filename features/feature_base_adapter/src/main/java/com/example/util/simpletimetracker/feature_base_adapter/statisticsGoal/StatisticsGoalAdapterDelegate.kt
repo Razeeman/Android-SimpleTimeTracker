@@ -16,6 +16,7 @@ fun createStatisticsGoalAdapterDelegate(
 
         itemColor = item.color
         itemName = item.name
+        itemEstimate = item.goal.estimate
         itemGoalCurrent = item.goal.goalCurrent
         itemGoal = item.goal.goal
         itemGoalPercent = item.goal.goalPercent

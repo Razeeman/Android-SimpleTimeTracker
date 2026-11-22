@@ -19,6 +19,7 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.TYPES_LIST_SIZE
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsParams
 import com.example.util.simpletimetracker.feature_notification.core.TAG_VALUE_DECIMAL_DELIMITER
+import com.example.util.simpletimetracker.feature_views.viewData.ColorStyle
 import com.example.util.simpletimetracker.feature_views.viewData.RecordTypeIcon
 import javax.inject.Inject
 
@@ -32,17 +33,20 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
     private val completeTypesStateInteractor: CompleteTypesStateInteractor,
     private val getSelectableTagsInteractor: GetSelectableTagsInteractor,
     private val recordTagInteractor: RecordTagInteractor,
+    private val getNotificationShortcutsInteractor: GetNotificationShortcutsInteractor,
 ) {
 
     suspend fun getControls(
         hint: String,
         isDarkTheme: Boolean,
         types: List<RecordType>,
+        recordTags: List<RecordTag>,
         suggestions: List<RecordType>,
         showRepeatButton: Boolean,
         isMultipleTagAvailable: Boolean,
         typesShift: Int,
         tagsShift: Int,
+        shortcutsShift: Int?,
         selectedTypeId: Long?,
         selectedTags: List<RecordBase.Tag>,
         editingTagId: Long?,
@@ -51,7 +55,21 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
     ): NotificationControlsParams {
-        val viewState = if (editingTagId != null) {
+        // TODO SETTINGS Refresh running and idle notification controls when shortcuts are added, edited, or removed.
+        val shortcuts = getNotificationShortcutsInteractor.execute(
+            typesMap = types.associateBy { it.id },
+            tags = recordTags,
+            isDarkTheme = isDarkTheme,
+        )
+        val normalizedShortcutsShift = when {
+            shortcuts.isEmpty() || shortcutsShift == null -> null
+            else -> shortcutsShift.coerceIn(0, shortcuts.lastIndex)
+        }
+        val isShortcutsOpen = normalizedShortcutsShift != null
+        val currentSelectedTypeId = if (isShortcutsOpen) 0L else selectedTypeId
+        val currentSelectedTags = if (isShortcutsOpen) emptyList() else selectedTags
+        val currentIsMultipleTagAvailable = !isShortcutsOpen && isMultipleTagAvailable
+        val viewState = if (editingTagId != null && !isShortcutsOpen) {
             mapTagSelectionViewState(
                 isDarkTheme = isDarkTheme,
                 currentValueString = editingTagValueInput,
@@ -64,25 +82,28 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
                 types = types,
                 suggestions = suggestions,
                 showRepeatButton = showRepeatButton,
-                isMultipleTagAvailable = isMultipleTagAvailable,
+                isMultipleTagAvailable = currentIsMultipleTagAvailable,
                 typesShift = typesShift,
-                selectedTypeId = selectedTypeId,
-                selectedTags = selectedTags,
+                selectedTypeId = currentSelectedTypeId,
+                selectedTags = currentSelectedTags,
+                shortcuts = shortcuts,
                 goals = goals,
                 allDailyCurrents = allDailyCurrents,
             )
         }
 
         return NotificationControlsParams.Enabled(
+            // TODO Clamp typesShift when the activity list shrinks to avoid an empty page and an invalid page hint
             typesShift = typesShift,
-            tagsShift = tagsShift,
+            tagsShift = if (isShortcutsOpen) 0 else tagsShift,
+            shortcutsShift = normalizedShortcutsShift,
             controlIconColor = colorMapper.toInactiveColor(isDarkTheme),
-            isMultipleTagAvailable = isMultipleTagAvailable,
-            selectedTypeId = selectedTypeId,
-            selectedTags = selectedTags,
-            requiredValueSelectionTagIds = requiredValueSelectionTagIds,
-            editingTagId = editingTagId,
-            editingTagValueInput = editingTagValueInput,
+            isMultipleTagAvailable = currentIsMultipleTagAvailable,
+            selectedTypeId = currentSelectedTypeId,
+            selectedTags = currentSelectedTags,
+            requiredValueSelectionTagIds = if (isShortcutsOpen) emptyList() else requiredValueSelectionTagIds,
+            editingTagId = if (isShortcutsOpen) null else editingTagId,
+            editingTagValueInput = if (isShortcutsOpen) null else editingTagValueInput,
             viewState = viewState,
         )
     }
@@ -97,9 +118,10 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         typesShift: Int,
         selectedTypeId: Long?,
         selectedTags: List<RecordBase.Tag>,
+        shortcuts: List<NotificationControlsParams.Shortcut>,
         goals: Map<Long, List<RecordTypeGoal>>,
         allDailyCurrents: Map<Long, GetCurrentRecordsDurationInteractor.Result>,
-    ): NotificationControlsParams.ViewState {
+    ): NotificationControlsParams.ViewState.TypeSelection {
         val showTagSaveButton = isMultipleTagAvailable || selectedTags.isNotEmpty()
         val typesMap = types.associateBy { it.id }
         val selectedTagsMap = selectedTags.associateBy { it.tagId }
@@ -166,8 +188,14 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
             }
             .orEmpty()
 
+        val shortcutViewData = if (shortcuts.isNotEmpty()) {
+            listOf(mapShortcuts(isDarkTheme))
+        } else {
+            emptyList()
+        }
+
         val allTypesViewData = populateWithEmpty(
-            data = suggestionsViewData + repeatButtonViewData + typesViewData,
+            data = suggestionsViewData + repeatButtonViewData + typesViewData + shortcutViewData,
             pageSize = TYPES_LIST_SIZE,
             emptyValueProducer = { NotificationControlsParams.Type.Empty },
         )
@@ -175,16 +203,9 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
         val total = allTypesViewData.size
         val totalPages = total / TYPES_LIST_SIZE
         val currentPage = (typesShift / TYPES_LIST_SIZE) + 1
-        val pagesHint = if (total != 0 && totalPages > 1) {
-            "($currentPage/$totalPages)"
-        } else {
-            ""
-        }
-        val fullHint = if (hint.isNotEmpty()) {
-            "$hint $pagesHint"
-        } else {
-            pagesHint
-        }
+        val pagesHint = if (totalPages > 1) "($currentPage/$totalPages)" else ""
+        val fullHint = if (hint.isNotEmpty()) "$hint $pagesHint" else pagesHint
+
         return NotificationControlsParams.ViewState.TypeSelection(
             hint = fullHint,
             types = allTypesViewData,
@@ -193,6 +214,7 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
                 pageSize = TAGS_LIST_SIZE,
                 emptyValueProducer = { NotificationControlsParams.Tag.Empty },
             ),
+            shortcuts = shortcuts,
             controlIconPrev = RecordTypeIcon.Image(R.drawable.arrow_left),
             controlIconNext = RecordTypeIcon.Image(R.drawable.arrow_right),
             filteredTypeColor = colorMapper.toInactiveColor(isDarkTheme),
@@ -292,6 +314,18 @@ class GetNotificationActivitySwitchControlsInteractor @Inject constructor(
             checkStates = emptyList(),
             isComplete = false,
         ).let(::listOf)
+    }
+
+    private fun mapShortcuts(
+        isDarkTheme: Boolean,
+    ): NotificationControlsParams.Type.Present {
+        return NotificationControlsParams.Type.Present(
+            action = NotificationControlsParams.Type.Action.Shortcuts,
+            icon = RecordTypeIcon.Image(R.drawable.favorite_border),
+            color = ColorStyle.Solid(colorMapper.toInactiveColor(isDarkTheme)),
+            checkStates = emptyList(),
+            isComplete = false,
+        )
     }
 
     private fun mapTag(

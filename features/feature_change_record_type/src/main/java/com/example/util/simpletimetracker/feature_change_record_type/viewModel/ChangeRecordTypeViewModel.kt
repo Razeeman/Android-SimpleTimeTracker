@@ -221,7 +221,7 @@ class ChangeRecordTypeViewModel @Inject constructor(
                 runningRecordInteractor.get(recordTypeId)?.let { runningRecord ->
                     removeRunningRecordMediator.removeWithRecordAdd(runningRecord)
                 }
-                externalViewsInteractor.onTypeArchive()
+                externalViewsInteractor.onTypeArchive(recordTypeId)
                 showArchivedMessage(R.string.change_record_type_archived)
                 keyboardVisibility.set(false)
                 router.back()

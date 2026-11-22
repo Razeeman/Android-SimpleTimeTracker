@@ -292,6 +292,19 @@ class TimeMapper @Inject constructor(
         return formatCalendarField(time, pattern)
     }
 
+    // Time only for today.
+    // Add the date for other days and the year for other years.
+    // Dates are compared using the selected calendar and time zone.
+    fun formatCompletionTime(time: Long, currentTimestamp: Long, useMilitaryTime: Boolean): String {
+        val today = toCalendarDate(currentTimestamp)
+        val completionDate = toCalendarDate(time)
+        return when {
+            completionDate == today -> formatTime(time, useMilitaryTime, showSeconds = false)
+            completionDate.year == today.year -> formatDateTime(time, useMilitaryTime, showSeconds = false)
+            else -> formatDateTimeYear(time, useMilitaryTime)
+        }
+    }
+
     // Mar 12 2021
     fun formatDateYear(time: Long): String {
         return formatCalendarField(time, dateYearFormat)

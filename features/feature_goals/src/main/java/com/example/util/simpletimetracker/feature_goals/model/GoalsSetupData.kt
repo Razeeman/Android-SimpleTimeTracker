@@ -9,6 +9,7 @@ data class GoalsSetupData(
     val isDarkTheme: Boolean,
     val durationFormat: DurationFormat,
     val showSeconds: Boolean,
+    val useMilitaryTime: Boolean,
     val firstDayOfWeek: DayOfWeek,
     val startOfDayShift: Long,
     val hideFinishedGoals: Boolean,

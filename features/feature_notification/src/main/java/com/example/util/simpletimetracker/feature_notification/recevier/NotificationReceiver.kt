@@ -14,6 +14,10 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_CLEAR_TAGS
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_REPEAT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_NEXT
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_PREV
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_TOGGLE
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_SHORTCUT_CLICK
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_STOP
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_NEXT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TAGS_PREV
@@ -26,6 +30,7 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPES_PREV
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ACTION_NOTIFICATION_CONTROLS_TYPE_CLICK
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CLICKED_TAG_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CLICKED_SHORTCUT_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_CONTROLS_FROM
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_EDITING_TAG_ID
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_EDITING_TAG_VALUE_INPUT
@@ -33,6 +38,7 @@ import com.example.util.simpletimetracker.feature_notification.activitySwitch.ma
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_REQUIRED_VALUE_SELECTION_TAGS
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TAGS
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SELECTED_TYPE_ID
+import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_SHORTCUTS_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TAGS_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPES_SHIFT
 import com.example.util.simpletimetracker.feature_notification.activitySwitch.manager.NotificationControlsManager.Companion.ARGS_TYPE_ID
@@ -166,6 +172,23 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_NOTIFICATION_CONTROLS_REPEAT -> {
                 typeController.onActionRepeat()
             }
+            ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_TOGGLE -> {
+                typeController.onActionShortcutsToggle(
+                    from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0),
+                    typeId = intent.getLongExtra(ARGS_TYPE_ID, 0),
+                    typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0),
+                    shortcutsShift = intent.getShortcutsShift(),
+                )
+            }
+            ACTION_NOTIFICATION_CONTROLS_SHORTCUT_CLICK -> {
+                typeController.onActionShortcutClick(
+                    from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0),
+                    typeId = intent.getLongExtra(ARGS_TYPE_ID, 0),
+                    typesShift = intent.getIntExtra(ARGS_TYPES_SHIFT, 0),
+                    shortcutsShift = intent.getShortcutsShift(),
+                    shortcutId = intent.getLongExtra(ARGS_CLICKED_SHORTCUT_ID, 0),
+                )
+            }
             ACTION_NOTIFICATION_CONTROLS_APPLY_TAGS -> {
                 val from = intent.getIntExtra(ARGS_CONTROLS_FROM, 0)
                 val typeId = intent.getLongExtra(ARGS_TYPE_ID, 0)
@@ -202,6 +225,8 @@ class NotificationReceiver : BroadcastReceiver() {
             ACTION_NOTIFICATION_CONTROLS_TYPES_NEXT,
             ACTION_NOTIFICATION_CONTROLS_TAGS_PREV,
             ACTION_NOTIFICATION_CONTROLS_TAGS_NEXT,
+            ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_PREV,
+            ACTION_NOTIFICATION_CONTROLS_SHORTCUTS_NEXT,
             ACTION_NOTIFICATION_CONTROLS_TAG_VALUE_BACK,
             ACTION_NOTIFICATION_CONTROLS_TAG_VALUE_UPDATE,
             ACTION_NOTIFICATION_CONTROLS_TAG_VALUE_REMOVE,
@@ -225,6 +250,7 @@ class NotificationReceiver : BroadcastReceiver() {
                     editingTagValueInput = editingTagValueInput,
                     typesShift = typesShift,
                     tagsShift = tagsShift,
+                    shortcutsShift = intent.getShortcutsShift(),
                     isMultipleTagAvailable = isMultipleTagAvailable,
                     requiredValueSelectionTagIds = requiredValueSelectionTagIds,
                 )
@@ -318,6 +344,11 @@ class NotificationReceiver : BroadcastReceiver() {
                 launch { statisticsUpdateInteractor.sendDateTimeChanged() }
             }
         }
+    }
+
+    private fun Intent.getShortcutsShift(): Int? {
+        if (!hasExtra(ARGS_SHORTCUTS_SHIFT)) return null
+        return getIntExtra(ARGS_SHORTCUTS_SHIFT, 0)
     }
 
     private fun Intent.getSelectedTags(): List<RecordBase.Tag> {

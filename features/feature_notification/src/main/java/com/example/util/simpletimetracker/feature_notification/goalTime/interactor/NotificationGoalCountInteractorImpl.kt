@@ -7,6 +7,7 @@ import com.example.util.simpletimetracker.domain.recordType.extension.value
 import com.example.util.simpletimetracker.domain.notifications.interactor.NotificationGoalCountInteractor
 import com.example.util.simpletimetracker.domain.category.interactor.RecordTypeCategoryInteractor
 import com.example.util.simpletimetracker.domain.recordType.interactor.RecordTypeGoalInteractor
+import com.example.util.simpletimetracker.domain.recordType.interactor.FilterActiveGoalsInteractor
 import com.example.util.simpletimetracker.domain.record.interactor.RunningRecordInteractor
 import com.example.util.simpletimetracker.domain.category.model.RecordTypeCategory
 import com.example.util.simpletimetracker.domain.notifications.interactor.ActivityStartedStoppedBroadcastInteractor
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 class NotificationGoalCountInteractorImpl @Inject constructor(
     private val recordTypeGoalInteractor: RecordTypeGoalInteractor,
+    private val filterActiveGoalsInteractor: FilterActiveGoalsInteractor,
     private val runningRecordInteractor: RunningRecordInteractor,
     private val getCurrentRecordsDurationInteractor: GetCurrentRecordsDurationInteractor,
     private val manager: NotificationGoalTimeManager,
@@ -37,6 +39,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
     }
 
     private suspend fun checkAndShowType(typeId: Long) {
+        if (!filterActiveGoalsInteractor.isActive(RecordTypeGoal.IdData.Type(typeId))) return
         val runningRecord = runningRecordInteractor.get(typeId) ?: return
         val goals = filterGoalsByDayOfWeekInteractor
             .execute(recordTypeGoalInteractor.getByType(typeId))
@@ -95,7 +98,7 @@ class NotificationGoalCountInteractorImpl @Inject constructor(
         val runningRecord = runningRecordInteractor.get(typeId) ?: return
         // Find all tag goals.
         val goals = filterGoalsByDayOfWeekInteractor
-            .execute(recordTypeGoalInteractor.getAllTagGoals())
+            .execute(filterActiveGoalsInteractor.execute(recordTypeGoalInteractor.getAllTagGoals()))
             .filter { it.type is Type.Count }
 
         // No count goals - exit.

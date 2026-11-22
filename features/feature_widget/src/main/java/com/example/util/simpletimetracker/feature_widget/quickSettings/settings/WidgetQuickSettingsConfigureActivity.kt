@@ -1,6 +1,5 @@
 package com.example.util.simpletimetracker.feature_widget.quickSettings.settings
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +8,7 @@ import androidx.activity.viewModels
 import com.example.util.simpletimetracker.core.base.BaseActivity
 import com.example.util.simpletimetracker.core.manager.ThemeManager
 import com.example.util.simpletimetracker.core.provider.ContextProvider
-import com.example.util.simpletimetracker.feature_views.extension.setOnClick
+import com.example.util.simpletimetracker.feature_base_adapter.BaseRecyclerAdapter
 import com.example.util.simpletimetracker.feature_widget.utils.getAppWidgetIdOrInvalid
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,6 +27,12 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity<Binding>() {
 
     private val viewModel: WidgetQuickSettingsConfigureViewModel by viewModels()
 
+    private val contentAdapter: BaseRecyclerAdapter by lazy {
+        BaseRecyclerAdapter(
+            createWidgetQuickSettingsAdapterDelegate(viewModel::onItemClick),
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Set the result to CANCELED.  This will cause the widget host to cancel
@@ -35,9 +40,9 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity<Binding>() {
         setResult(RESULT_CANCELED)
     }
 
-    override fun initUx() = with(binding) {
-        layoutWidgetQuickSettingsAllowMultitasking.setOnClick(viewModel::onAllowMultitaskingClicked)
-        layoutWidgetQuickSettingsShowTagSelection.setOnClick(viewModel::onShowRecordTagSelectionClicked)
+    override fun initUi() = with(binding) {
+        rvWidgetQuickSettingsContent.adapter = contentAdapter
+        contentAdapter.replace(viewModel.content)
     }
 
     override fun initViewModel(): Unit = with(viewModel) {
@@ -51,7 +56,7 @@ class WidgetQuickSettingsConfigureActivity : BaseActivity<Binding>() {
         val resultValue = Intent().apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         }
-        setResult(Activity.RESULT_OK, resultValue)
+        setResult(RESULT_OK, resultValue)
         finish()
     }
 }

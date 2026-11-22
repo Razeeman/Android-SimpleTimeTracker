@@ -99,6 +99,8 @@
     <string name="all_goals_finished">Alle Ziele sind abgeschlossen</string>
     <string name="hide_finished_goals">Abgeschlossene Ziele ausblenden</string>
     <string name="goal_add_hint">Bearbeiten Sie die Aktivität oder Kategorie, um ihr ein Ziel zuzuweisen</string>
+    <string name="goal_estimate">Prognose</string>
+    <string name="goal_estimate_not_reached">Wird nicht erreicht</string>
 
     <!--  Categories  -->
     <string name="categories_title">Kategorien und Tags</string>

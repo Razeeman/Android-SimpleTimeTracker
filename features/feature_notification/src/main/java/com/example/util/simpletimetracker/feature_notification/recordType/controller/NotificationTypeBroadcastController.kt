@@ -16,6 +16,41 @@ class NotificationTypeBroadcastController @Inject constructor(
     private val notificationControlsMapper: NotificationControlsMapper,
 ) {
 
+    suspend fun onActionShortcutsToggle(
+        from: Int,
+        typeId: Long,
+        typesShift: Int,
+        shortcutsShift: Int?,
+    ) {
+        activityStartStopFromBroadcastInteractor.onActionShortcutsToggle(
+            from = notificationControlsMapper.mapExtraToFrom(
+                extra = from,
+                recordTypeId = typeId,
+            ) ?: return,
+            typesShift = typesShift,
+            shortcutsShift = shortcutsShift,
+        )
+    }
+
+    suspend fun onActionShortcutClick(
+        from: Int,
+        typeId: Long,
+        typesShift: Int,
+        shortcutsShift: Int?,
+        shortcutId: Long,
+    ) {
+        if (shortcutId <= 0L) return
+        activityStartStopFromBroadcastInteractor.onActionShortcutClick(
+            from = notificationControlsMapper.mapExtraToFrom(
+                extra = from,
+                recordTypeId = typeId,
+            ) ?: return,
+            typesShift = typesShift,
+            shortcutsShift = shortcutsShift,
+            shortcutId = shortcutId,
+        )
+    }
+
     suspend fun onActionActivityStop(
         typeId: Long,
     ) {
@@ -150,6 +185,7 @@ class NotificationTypeBroadcastController @Inject constructor(
         editingTagValueInput: String?,
         typesShift: Int,
         tagsShift: Int,
+        shortcutsShift: Int?,
         isMultipleTagAvailable: Boolean,
         requiredValueSelectionTagIds: List<Long>,
     ) {
@@ -164,6 +200,7 @@ class NotificationTypeBroadcastController @Inject constructor(
             editingTagValueInput = editingTagValueInput,
             typesShift = typesShift,
             tagsShift = tagsShift,
+            shortcutsShift = shortcutsShift,
             isMultipleTagAvailable = isMultipleTagAvailable,
             requiredValueSelectionTagIds = requiredValueSelectionTagIds,
         )

@@ -954,6 +954,14 @@ class PrefsInteractor @Inject constructor(
         mapOrderManual(prefsRepo.tagOrderManual)
     }
 
+    suspend fun setShortcutOrderManual(shortcutsOrder: Map<Long, Long>) = withContext(Dispatchers.IO) {
+        prefsRepo.shortcutOrderManual = mapOrderManual(shortcutsOrder)
+    }
+
+    suspend fun getShortcutOrderManual(): Map<Long, Long> = withContext(Dispatchers.IO) {
+        mapOrderManual(prefsRepo.shortcutOrderManual)
+    }
+
     suspend fun setAutomaticBackupUri(uri: String) = withContext(Dispatchers.IO) {
         prefsRepo.automaticBackupUri = uri
     }

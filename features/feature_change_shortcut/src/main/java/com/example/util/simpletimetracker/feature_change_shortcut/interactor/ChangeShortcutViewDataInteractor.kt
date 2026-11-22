@@ -1,5 +1,6 @@
 package com.example.util.simpletimetracker.feature_change_shortcut.interactor
 
+import com.example.util.simpletimetracker.domain.widget.model.QuickSettingsWidgetType
 import com.example.util.simpletimetracker.core.R
 import com.example.util.simpletimetracker.core.mapper.ColorMapper
 import com.example.util.simpletimetracker.core.mapper.IconMapper
@@ -91,7 +92,8 @@ class ChangeShortcutViewDataInteractor @Inject constructor(
             RecordShortcut.TargetMode.Setting -> {
                 noSettingAction = params.settingAction == null
                 RecordShortcut.Target.Setting(
-                    action = params.settingAction ?: RecordShortcut.SettingAction.Multitasking,
+                    action = params.settingAction
+                        ?: RecordShortcut.SettingAction.Toggle(QuickSettingsWidgetType.AllowMultitasking),
                 )
             }
         }
