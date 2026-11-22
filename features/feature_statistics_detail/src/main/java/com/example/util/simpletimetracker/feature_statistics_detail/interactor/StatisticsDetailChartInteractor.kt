@@ -80,6 +80,7 @@ class StatisticsDetailChartInteractor @Inject constructor(
         return statisticsDetailViewDataMapper.mapToEmptyChartViewData(
             ranges = ranges,
             availableChartGroupings = compositeData.availableChartGroupings,
+            appliedChartGrouping = compositeData.appliedChartGrouping,
             availableChartLengths = compositeData.availableChartLengths,
         )
     }

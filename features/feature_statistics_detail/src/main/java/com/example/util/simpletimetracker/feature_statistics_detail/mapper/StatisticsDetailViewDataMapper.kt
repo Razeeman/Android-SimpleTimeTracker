@@ -402,6 +402,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
     fun mapToEmptyChartViewData(
         ranges: List<ChartBarDataRange>,
         availableChartGroupings: List<ChartGrouping>,
+        appliedChartGrouping: ChartGrouping,
         availableChartLengths: List<ChartLength>,
     ): StatisticsDetailChartCompositeViewData {
         val emptyChart = StatisticsDetailChartViewData(
@@ -438,7 +439,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         }.takeIf {
             it.isNotEmpty()
         }?.let {
-            mapRangeAveragesBlock(" ", it)
+            mapRangeAveragesBlock(mapRangeAveragesTitle(appliedChartGrouping), it)
         }
         val viewDataItems = listOfNotNull(
             emptyChart?.mapItem(forComparison = false),
@@ -449,7 +450,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
 
         return StatisticsDetailChartCompositeViewData(
             data = StatisticsDetailChartViewModelDelegate.mapToViewData(viewDataItems),
-            appliedChartGrouping = ChartGrouping.DAILY,
+            appliedChartGrouping = appliedChartGrouping,
             appliedChartLength = ChartLength.TEN,
         )
     }
@@ -656,10 +657,7 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         val prevNonEmptyData = filterNonEmptyData(prevData)
         val prevAverageByNonEmpty = getAverage(prevNonEmptyData)
 
-        val title = resourceRepo.getString(
-            R.string.statistics_detail_range_averages_title,
-            mapToGroupingName(chartGrouping),
-        )
+        val title = mapRangeAveragesTitle(chartGrouping)
 
         val rangeAverages = listOf(
             StatisticsDetailCardInternalViewData(
@@ -697,6 +695,13 @@ class StatisticsDetailViewDataMapper @Inject constructor(
         )
 
         return title to rangeAverages
+    }
+
+    private fun mapRangeAveragesTitle(chartGrouping: ChartGrouping): String {
+        return resourceRepo.getString(
+            R.string.statistics_detail_range_averages_title,
+            mapToGroupingName(chartGrouping),
+        )
     }
 
     private fun mapToEmptyRangeAverages(): List<StatisticsDetailCardInternalViewData> {
