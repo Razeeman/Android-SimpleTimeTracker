@@ -5,7 +5,7 @@ object Base {
     const val namespace = "com.example.util.simpletimetracker"
 
     // Raise by 2 to account for wear version code.
-    const val versionCode = 153
+    const val versionCode = 155
     const val versionName = "1.61"
     const val minSDK = 24
     const val currentSDK = 36

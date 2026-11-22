@@ -1122,6 +1122,8 @@ class StatisticsDetailTest : BaseUiTest() {
     fun rangeSaving() {
         val name = "Test"
 
+        runBlocking { prefsInteractor.setKeepStatisticsRange(false) }
+
         // Add activity
         testUtils.addActivity(name = name)
         testUtils.addRecord(name)
@@ -1370,6 +1372,8 @@ class StatisticsDetailTest : BaseUiTest() {
         // Check several records
         pressBack()
         clickOnView(withText(R.string.statistics_total_tracked))
+        clickOnCurrentSelectedDate()
+        clickOnViewWithText(coreR.string.range_overall)
         tryAction { clickOnView(withText(R.string.statistics_detail_chart_split)) }
         clickOnView(withText(R.string.settings_sort_activity))
         clickOnView(withText(R.string.records_all_sort_duration))

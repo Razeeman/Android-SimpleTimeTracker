@@ -616,9 +616,6 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
-        NavUtils.fixToCurrentDate()
-        clickOnCurrentDate()
-        clickOnViewWithText(coreR.string.range_overall)
         checkRecordsCard(28)
 
         NavUtils.openFilter()
@@ -796,9 +793,6 @@ class StatisticsDetailFilterTest : BaseUiTest() {
         clickOnCurrentDate()
         clickOnViewWithText(coreR.string.range_overall)
         tryAction { clickOnView(allOf(withText(name1), isCompletelyDisplayed())) }
-        NavUtils.fixToCurrentDate()
-        clickOnCurrentDate()
-        clickOnViewWithText(coreR.string.range_overall)
         checkRecordsCard(10)
 
         // 0h - 1h

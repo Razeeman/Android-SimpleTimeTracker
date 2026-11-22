@@ -50,6 +50,7 @@ import com.example.util.simpletimetracker.utils.clickOnVisibleView
 import com.example.util.simpletimetracker.utils.dateSelectorMatcher
 import com.example.util.simpletimetracker.utils.getMillis
 import com.example.util.simpletimetracker.utils.longClickOnCurrentDate
+import com.example.util.simpletimetracker.utils.longClickOnCurrentSelectedDate
 import com.example.util.simpletimetracker.utils.longClickOnView
 import com.example.util.simpletimetracker.utils.longClickOnViewWithId
 import com.example.util.simpletimetracker.utils.longClickOnVisibleView
@@ -1503,8 +1504,8 @@ class SettingsTest : BaseUiTest() {
         )
 
         // Check detailed statistics
-        tryAction { clickOnCurrentDate() }
-        clickOnViewWithText(coreR.string.range_week)
+        // Detailed statistics keeps the previous week selected; return to the current week.
+        longClickOnCurrentDate()
         checkViewIsDisplayed(
             allOf(
                 withPluralText(coreR.plurals.statistics_detail_times_tracked, 0),
@@ -1581,9 +1582,9 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        NavUtils.fixToCurrentDate()
-        clickOnCurrentDate()
+        clickOnCurrentSelectedDate()
         clickOnViewWithText(coreR.string.range_day)
+        longClickOnCurrentSelectedDate() // Selecting the same range preserves the selected date.
         checkStatisticsDetailRecords(0)
         clickOnCurrentDate(-1)
         checkStatisticsDetailRecords(1)
@@ -1651,6 +1652,7 @@ class SettingsTest : BaseUiTest() {
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
         clickOnCurrentSelectedDate()
         clickOnViewWithText(coreR.string.range_day)
+        longClickOnCurrentSelectedDate()
         checkStatisticsDetailRecords(0)
         clickOnCurrentDate(-1)
         checkStatisticsDetailRecords(1)
@@ -1702,9 +1704,9 @@ class SettingsTest : BaseUiTest() {
 
         // Check detailed statistics
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        NavUtils.fixToCurrentDate()
-        clickOnCurrentDate()
+        clickOnCurrentSelectedDate()
         clickOnViewWithText(coreR.string.range_day)
+        longClickOnCurrentSelectedDate()
         checkStatisticsDetailRecords(0)
         clickOnCurrentDate(-1)
         checkStatisticsDetailRecords(1)
@@ -1762,8 +1764,9 @@ class SettingsTest : BaseUiTest() {
         // Check detailed statistics
         clickOnCurrentDate(-2)
         clickOnView(allOf(withText(name), isCompletelyDisplayed()))
-        tryAction { clickOnCurrentDate() }
+        clickOnCurrentSelectedDate()
         clickOnViewWithText(coreR.string.range_day)
+        longClickOnCurrentSelectedDate()
         checkStatisticsDetailRecords(0)
         clickOnCurrentDate(-1)
         checkStatisticsDetailRecords(0)
