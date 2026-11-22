@@ -96,8 +96,8 @@
 
     <!--  Goals  -->
     <string name="no_goals_exist">Les objectifs s\'afficheront ici</string>
-    <string name="all_goals_finished">Tous les objectifs sont terminés</string>
-    <string name="hide_finished_goals">Masquer les objectifs terminés</string>
+    <string name="all_goals_finished">Tous les objectifs sont atteints</string>
+    <string name="hide_finished_goals">Masquer les objectifs atteints</string>
     <string name="goal_add_hint">Modifiez une activité ou une catégorie pour définir un objectif</string>
     <string name="goal_estimate">Estimation</string>
     <string name="goal_estimate_not_reached">Ne sera pas atteint</string>
@@ -527,14 +527,14 @@ Exemple :<br/>
     <string name="message_save_error">Erreur lors de la sauvegarde</string>
     <string name="message_restore_error">Erreur lors de la restauration</string>
     <string name="message_app_not_found">Application non trouvée</string>
-    <string name="message_export_complete">Exportation terminée</string>
-    <string name="message_export_error">Erreur d\'exportation</string>
-    <string name="message_import_complete">Importation terminée</string>
+    <string name="message_export_complete">Export terminé</string>
+    <string name="message_export_error">Erreur d\'export</string>
+    <string name="message_import_complete">Import terminé</string>
     <string name="message_import_complete_hint">Enregistrements ajoutés : %s</string>
-    <string name="message_import_error">Erreur d\'importation</string>
+    <string name="message_import_error">Erreur d\'import</string>
     <string name="message_action_share">Partager</string>
     <string name="message_automatic_backup_error">Une erreur s\'est produite lors de la sauvegarde automatique.</string>
-    <string name="message_automatic_export_error">Une erreur s\'est produite lors de l\'exportation automatique.</string>
+    <string name="message_automatic_export_error">Une erreur s\'est produite lors de l\'export automatique.</string>
     <string name="message_automatic_error_hint">Essayez de sélectionner un emplacement différent</string>
 
     <!--  Backup options  -->
@@ -546,7 +546,7 @@ Exemple :<br/>
     <string name="backup_options_partial_restore">Importer des données à partir d\'une sauvegarde</string>
     <string name="backup_options_partial_restore_hint">Permet de choisir les données à importer. Les données actuelles ne seront pas perdues.</string>
     <string name="backup_options_trigger_auto_backup">Lancer la sauvegarde automatique maintenant</string>
-    <string name="backup_options_trigger_auto_export">Lancer l\'exportation automatique maintenant</string>
+    <string name="backup_options_trigger_auto_export">Lancer l\'export automatique maintenant</string>
 
     <!--  Partial restore  -->
     <string name="partial_restore_filter_hint">Sélectionnez les données qui seront importées du fichier.</string>
